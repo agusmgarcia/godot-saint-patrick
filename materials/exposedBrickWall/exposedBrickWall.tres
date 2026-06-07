@@ -1,0 +1,21 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://23g6ykhhppge"]
+
+[ext_resource type="Texture2D" uid="uid://cbsdbebyhpqx4" path="res://materials/exposedBrickWall/exposedBrickWall.ambientOcclusion.jpg" id="AmbientOcclusion"]
+[ext_resource type="Texture2D" uid="uid://wsd2bip0e0mr" path="res://materials/exposedBrickWall/exposedBrickWall.color.jpg" id="Color"]
+[ext_resource type="Texture2D" uid="uid://cm2h3jujq7efq" path="res://materials/exposedBrickWall/exposedBrickWall.displacement.jpg" id="Displacement"]
+[ext_resource type="Texture2D" uid="uid://brqrtagmnd2p8" path="res://materials/exposedBrickWall/exposedBrickWall.normalGL.jpg" id="NormalGL"]
+[ext_resource type="Texture2D" uid="uid://bfe5y1re3dif6" path="res://materials/exposedBrickWall/exposedBrickWall.roughness.jpg" id="Roughness"]
+
+[resource]
+albedo_texture = ExtResource("Color")
+roughness_texture = ExtResource("Roughness")
+roughness_texture_channel = 4
+normal_enabled = true
+normal_texture = ExtResource("NormalGL")
+ao_enabled = true
+ao_texture = ExtResource("AmbientOcclusion")
+ao_texture_channel = 4
+heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("Displacement")
+uv1_triplanar = true
