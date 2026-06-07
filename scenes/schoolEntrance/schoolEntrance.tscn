@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://b5k7x2qr8dnme"]
+
+[ext_resource type="PackedScene" uid="uid://bmljoluxik5wr" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.tscn" id="7_5jtxm"]
+[ext_resource type="PackedScene" path="res://scenes/schoolEntrance/bridge/bridge.tscn" id="8_bridge"]
+[ext_resource type="PackedScene" uid="uid://dkh0siy1yckv0" path="res://scenes/schoolEntrance/parkingLot/parkingLot.tscn" id="9_parking"]
+[ext_resource type="PackedScene" path="res://scenes/schoolEntrance/streetBlock/streetBlock.tscn" id="10_streetblock"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_night"]
+sky_top_color = Color(0.078766845, 0.0787035, 0.16751745, 1)
+sky_horizon_color = Color(0.050980393, 0.050980393, 0.11764706, 1)
+sky_curve = 0.1
+ground_bottom_color = Color(0.01, 0.01, 0.02, 1)
+ground_horizon_color = Color(0.04, 0.04, 0.08, 1)
+ground_curve = 0.1
+
+[sub_resource type="Sky" id="Sky_night"]
+sky_material = SubResource("ProceduralSkyMaterial_night")
+
+[sub_resource type="Environment" id="Environment_night"]
+background_mode = 2
+sky = SubResource("Sky_night")
+ambient_light_source = 2
+ambient_light_color = Color(0.05, 0.05, 0.1, 1)
+ambient_light_energy = 0.3
+
+[node name="SchoolEntrance" type="Node3D" unique_id=517855459]
+
+[node name="Environment" type="WorldEnvironment" parent="." unique_id=175692185]
+environment = SubResource("Environment_night")
+
+[node name="Moon" type="DirectionalLight3D" parent="." unique_id=1999757063]
+transform = Transform3D(0.8660254, 0, 0.5, -0.35355338, 0.7071067, 0.6123724, -0.35355335, -0.70710677, 0.6123724, 0, 0, 0)
+light_color = Color(0.7529412, 0.8156863, 1, 1)
+light_energy = 0.3
+shadow_enabled = true
+
+[node name="Bridge" parent="." unique_id=986381520 instance=ExtResource("8_bridge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20.171587)
+
+[node name="ParkingLot" parent="." unique_id=2104304287 instance=ExtResource("9_parking")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 21.960794)
+
+[node name="SchoolBuilding" parent="." unique_id=1032568515 instance=ExtResource("7_5jtxm")]
+
+[node name="StreetBlock" parent="." unique_id=1230306427 instance=ExtResource("10_streetblock")]
