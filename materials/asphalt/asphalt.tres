@@ -1,0 +1,21 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://asphalt_road012a"]
+
+[ext_resource type="Texture2D" path="res://materials/asphalt/asphalt.ambientOcclusion.jpg" id="AmbientOcclusion"]
+[ext_resource type="Texture2D" path="res://materials/asphalt/asphalt.color.jpg" id="Color"]
+[ext_resource type="Texture2D" path="res://materials/asphalt/asphalt.displacement.jpg" id="Displacement"]
+[ext_resource type="Texture2D" path="res://materials/asphalt/asphalt.normalGL.jpg" id="NormalGL"]
+[ext_resource type="Texture2D" path="res://materials/asphalt/asphalt.roughness.jpg" id="Roughness"]
+
+[resource]
+albedo_texture = ExtResource("Color")
+roughness_texture = ExtResource("Roughness")
+roughness_texture_channel = 4
+normal_enabled = true
+normal_texture = ExtResource("NormalGL")
+ao_enabled = true
+ao_texture = ExtResource("AmbientOcclusion")
+ao_texture_channel = 4
+heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("Displacement")
+uv1_triplanar = true
