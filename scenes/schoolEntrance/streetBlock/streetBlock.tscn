@@ -1,0 +1,135 @@
+[gd_scene format=3 uid="uid://streetblock_scene_001"]
+
+[ext_resource type="Script" path="res://scenes/schoolEntrance/streetBlock/streetBlock.gd" id="1_script"]
+[ext_resource type="Material" uid="uid://tactilepaving002" path="res://materials/tactilePaving/tactilePaving.tres" id="1_paving"]
+[ext_resource type="Material" path="res://materials/asphalt/asphalt.tres" id="2_asphalt"]
+[ext_resource type="PackedScene" uid="uid://streetlight_001" path="res://components/streetLight/streetLight.tscn" id="3_streetlight"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_sidewalk_front"]
+size = Vector3(47, 0.3, 2.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sidewalk_front"]
+size = Vector3(47, 0.3, 2.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sidewalk_right_back"]
+size = Vector3(2.5, 0.3, 19.62)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sidewalk_right_back"]
+size = Vector3(2.5, 0.3, 19.62)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sidewalk_right_front"]
+size = Vector3(2.5, 0.3, 17.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sidewalk_right_front"]
+size = Vector3(2.5, 0.3, 17.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_entrance"]
+size = Vector3(2.5, 0.05, 5.38)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_entrance"]
+size = Vector3(2.5, 0.05, 5.38)
+
+[sub_resource type="BoxMesh" id="BoxMesh_street_front"]
+size = Vector3(55, 0.05, 8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_street_front"]
+size = Vector3(55, 0.05, 8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_street_right"]
+size = Vector3(8, 0.05, 45)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_street_right"]
+size = Vector3(8, 0.05, 45)
+
+[node name="StreetBlock" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="SideWalk" type="Node3D" parent="."]
+
+[node name="Front" type="Node3D" parent="SideWalk"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0, 36.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="SideWalk/Front"]
+mesh = SubResource("BoxMesh_sidewalk_front")
+surface_material_override/0 = ExtResource("1_paving")
+
+[node name="Collider" type="StaticBody3D" parent="SideWalk/Front"]
+
+[node name="Shape" type="CollisionShape3D" parent="SideWalk/Front/Collider"]
+shape = SubResource("BoxShape3D_sidewalk_front")
+
+[node name="RightBack" type="Node3D" parent="SideWalk"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.5, 0, 2.56)
+
+[node name="Mesh" type="MeshInstance3D" parent="SideWalk/RightBack"]
+mesh = SubResource("BoxMesh_sidewalk_right_back")
+surface_material_override/0 = ExtResource("1_paving")
+
+[node name="Collider" type="StaticBody3D" parent="SideWalk/RightBack"]
+
+[node name="Shape" type="CollisionShape3D" parent="SideWalk/RightBack/Collider"]
+shape = SubResource("BoxShape3D_sidewalk_right_back")
+
+[node name="RightFront" type="Node3D" parent="SideWalk"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.5, 0, 26.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="SideWalk/RightFront"]
+mesh = SubResource("BoxMesh_sidewalk_right_front")
+surface_material_override/0 = ExtResource("1_paving")
+
+[node name="Collider" type="StaticBody3D" parent="SideWalk/RightFront"]
+
+[node name="Shape" type="CollisionShape3D" parent="SideWalk/RightFront/Collider"]
+shape = SubResource("BoxShape3D_sidewalk_right_front")
+
+[node name="Street" type="Node3D" parent="."]
+
+[node name="Entrance" type="Node3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.5, 0, 15.06)
+
+[node name="Mesh" type="MeshInstance3D" parent="Street/Entrance"]
+mesh = SubResource("BoxMesh_entrance")
+surface_material_override/0 = ExtResource("2_asphalt")
+
+[node name="Collider" type="StaticBody3D" parent="Street/Entrance"]
+
+[node name="Shape" type="CollisionShape3D" parent="Street/Entrance/Collider"]
+shape = SubResource("BoxShape3D_entrance")
+
+[node name="Front" type="Node3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25, 0, 41.75)
+
+[node name="Mesh" type="MeshInstance3D" parent="Street/Front"]
+mesh = SubResource("BoxMesh_street_front")
+surface_material_override/0 = ExtResource("2_asphalt")
+
+[node name="Collider" type="StaticBody3D" parent="Street/Front"]
+
+[node name="Shape" type="CollisionShape3D" parent="Street/Front/Collider"]
+shape = SubResource("BoxShape3D_street_front")
+
+[node name="Right" type="Node3D" parent="Street"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.75, 0, 15.25)
+
+[node name="Mesh" type="MeshInstance3D" parent="Street/Right"]
+mesh = SubResource("BoxMesh_street_right")
+surface_material_override/0 = ExtResource("2_asphalt")
+
+[node name="Collider" type="StaticBody3D" parent="Street/Right"]
+
+[node name="Shape" type="CollisionShape3D" parent="Street/Right/Collider"]
+shape = SubResource("BoxShape3D_street_right")
+
+[node name="StreetLights" type="Node3D" parent="."]
+
+[node name="FrontLeft" parent="StreetLights" instance=ExtResource("3_streetlight")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.375, 0.15, 36.5)
+
+[node name="FrontRight" parent="StreetLights" instance=ExtResource("3_streetlight")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.625, 0.15, 36.5)
+
+[node name="RightBack" parent="StreetLights" instance=ExtResource("3_streetlight")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 23.5, 0.15, -3)
+
+[node name="RightFront" parent="StreetLights" instance=ExtResource("3_streetlight")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 23.5, 0.15, 28)
