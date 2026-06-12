@@ -1,0 +1,215 @@
+[gd_scene format=3 uid="uid://dkh0siy1yckv0"]
+
+[ext_resource type="Material" path="res://materials/asphalt/asphalt.tres" id="1_asphalt"]
+[ext_resource type="PackedScene" uid="uid://bejs11onrggkx" path="res://scenes/schoolEntrance/parkingLot/securityBooth/securityBooth.tscn" id="2_booth"]
+[ext_resource type="Material" uid="uid://c41cve7mjk8u7" path="res://materials/metalFence/metalFence.tres" id="3_fence"]
+[ext_resource type="Material" uid="uid://736uqe3wyhdw" path="res://materials/yellowPaint/yellowPaint.tres" id="4_yellow"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_parking_surface"]
+size = Vector3(25, 0.05, 26.42)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_parking_surface"]
+size = Vector3(25, 0.05, 26.42)
+
+[sub_resource type="BoxMesh" id="BoxMesh_line_back_5"]
+size = Vector3(13.5, 0.02, 0.12)
+
+[sub_resource type="BoxMesh" id="BoxMesh_line_side"]
+size = Vector3(0.12, 0.02, 5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_front"]
+size = Vector3(15.55, 2.5, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_front"]
+size = Vector3(15.55, 2.5, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_near"]
+size = Vector3(25, 2.5, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_near"]
+size = Vector3(25, 2.5, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_right"]
+size = Vector3(0.1, 2.5, 17.47)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_right"]
+size = Vector3(0.1, 2.5, 17.47)
+
+[node name="ParkingLot" type="Node3D" unique_id=1345276622]
+
+[node name="Surface" type="Node3D" parent="." unique_id=26615924]
+transform = Transform3D(0.8, 0, 0, 0, 1, 0, 0, 0, 1, -1.7, 0.01, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Surface" unique_id=1289905512]
+mesh = SubResource("BoxMesh_parking_surface")
+surface_material_override/0 = ExtResource("1_asphalt")
+
+[node name="Collider" type="StaticBody3D" parent="Surface" unique_id=1049078303]
+
+[node name="Shape" type="CollisionShape3D" parent="Surface/Collider" unique_id=1200394006]
+shape = SubResource("BoxShape3D_parking_surface")
+
+[node name="ParkingLines" type="Node3D" parent="Surface" unique_id=1369063102]
+transform = Transform3D(1.25, 0, 0, 0, 1, 0, 0, 0, 1, 2.125, 0.04, 0)
+
+[node name="Row1" type="Node3D" parent="Surface/ParkingLines" unique_id=966313908]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.65, 0, 10)
+metadata/_edit_group_ = true
+
+[node name="BackLine" type="MeshInstance3D" parent="Surface/ParkingLines/Row1" unique_id=1906296952]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+mesh = SubResource("BoxMesh_line_back_5")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side1" type="MeshInstance3D" parent="Surface/ParkingLines/Row1" unique_id=1307507166]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.75, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side2" type="MeshInstance3D" parent="Surface/ParkingLines/Row1" unique_id=1951592948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.05, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side3" type="MeshInstance3D" parent="Surface/ParkingLines/Row1" unique_id=1637851412]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side4" type="MeshInstance3D" parent="Surface/ParkingLines/Row1" unique_id=1621715217]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side5" type="MeshInstance3D" parent="Surface/ParkingLines/Row1" unique_id=1095117559]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side6" type="MeshInstance3D" parent="Surface/ParkingLines/Row1" unique_id=2126509550]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.75, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Row2" type="Node3D" parent="Surface/ParkingLines" unique_id=989180787]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, -4.05, 0, 0)
+metadata/_edit_group_ = true
+
+[node name="BackLine" type="MeshInstance3D" parent="Surface/ParkingLines/Row2" unique_id=1628069349]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+mesh = SubResource("BoxMesh_line_back_5")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side1" type="MeshInstance3D" parent="Surface/ParkingLines/Row2" unique_id=1778482456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.75, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side2" type="MeshInstance3D" parent="Surface/ParkingLines/Row2" unique_id=1585127843]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.05, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side3" type="MeshInstance3D" parent="Surface/ParkingLines/Row2" unique_id=1928590332]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side4" type="MeshInstance3D" parent="Surface/ParkingLines/Row2" unique_id=1942494952]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side5" type="MeshInstance3D" parent="Surface/ParkingLines/Row2" unique_id=2064989065]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side6" type="MeshInstance3D" parent="Surface/ParkingLines/Row2" unique_id=1896857708]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.75, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Row3" type="Node3D" parent="Surface/ParkingLines" unique_id=1805533036]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.05, 0, -10)
+metadata/_edit_group_ = true
+
+[node name="BackLine" type="MeshInstance3D" parent="Surface/ParkingLines/Row3" unique_id=1044144114]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+mesh = SubResource("BoxMesh_line_back_5")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side1" type="MeshInstance3D" parent="Surface/ParkingLines/Row3" unique_id=58396379]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.75, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side2" type="MeshInstance3D" parent="Surface/ParkingLines/Row3" unique_id=726912743]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.05, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side3" type="MeshInstance3D" parent="Surface/ParkingLines/Row3" unique_id=202469136]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side4" type="MeshInstance3D" parent="Surface/ParkingLines/Row3" unique_id=1729032647]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.35, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side5" type="MeshInstance3D" parent="Surface/ParkingLines/Row3" unique_id=1733365436]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.05, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="Side6" type="MeshInstance3D" parent="Surface/ParkingLines/Row3" unique_id=268775579]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.75, 0, 0)
+mesh = SubResource("BoxMesh_line_side")
+surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="SecurityBooth1" parent="." unique_id=1975679340 instance=ExtResource("2_booth")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -0.1, 11.46)
+
+[node name="SecurityBooth2" parent="." unique_id=17175971 instance=ExtResource("2_booth")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 6.55, -0.1, -11.46)
+
+[node name="Walls" type="Node3D" parent="." unique_id=962464054]
+
+[node name="Front" type="Node3D" parent="Walls" unique_id=1543853810]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.525, 1.25, 13.21)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/Front" unique_id=1348392499]
+mesh = SubResource("BoxMesh_wall_front")
+surface_material_override/0 = ExtResource("3_fence")
+
+[node name="Collider" type="StaticBody3D" parent="Walls/Front" unique_id=1902919737]
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/Front/Collider" unique_id=386020827]
+shape = SubResource("BoxShape3D_wall_front")
+
+[node name="Near" type="Node3D" parent="Walls" unique_id=281693824]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -13.21)
+visible = false
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/Near" unique_id=908912297]
+mesh = SubResource("BoxMesh_wall_near")
+surface_material_override/0 = ExtResource("3_fence")
+
+[node name="Collider" type="StaticBody3D" parent="Walls/Near" unique_id=241517136]
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/Near/Collider" unique_id=1159569624]
+shape = SubResource("BoxShape3D_wall_near")
+
+[node name="Right" type="Node3D" parent="Walls" unique_id=131471657]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.3, 1.25, 4.475)
+
+[node name="Mesh" type="MeshInstance3D" parent="Walls/Right" unique_id=314601573]
+mesh = SubResource("BoxMesh_wall_right")
+surface_material_override/0 = ExtResource("3_fence")
+
+[node name="Collider" type="StaticBody3D" parent="Walls/Right" unique_id=339800795]
+
+[node name="Shape" type="CollisionShape3D" parent="Walls/Right/Collider" unique_id=1035780391]
+shape = SubResource("BoxShape3D_wall_right")
