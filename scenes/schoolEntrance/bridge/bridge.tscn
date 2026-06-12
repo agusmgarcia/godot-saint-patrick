@@ -1,0 +1,188 @@
+[gd_scene format=3 uid="uid://bridge_scene_001"]
+
+[ext_resource type="Material" uid="uid://concretedeck034" path="res://materials/concreteDeck/concreteDeck.tres" id="1_deck"]
+[ext_resource type="Material" uid="uid://b46vhefj8hsh4" path="res://materials/concrete/concrete.tres" id="2_0fh7j"]
+[ext_resource type="Material" uid="uid://blackmetal027" path="res://materials/blackMetal/blackMetal.tres" id="3_3jgjv"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bridge_deck"]
+size = Vector3(6, 0.2, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bridge_deck"]
+size = Vector3(6, 0.2, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bridge_support"]
+size = Vector3(0.8, 4, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bridge_support"]
+size = Vector3(0.8, 4, 3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_railing_panel"]
+size = Vector3(0.08, 1, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_railing_top"]
+size = Vector3(0.06, 0.06, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_railing_panel"]
+size = Vector3(0.08, 1, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_railing_right_panel"]
+size = Vector3(0.08, 1, 24.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_railing_right_top"]
+size = Vector3(0.06, 0.06, 24.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_railing_right_panel"]
+size = Vector3(0.08, 1, 24.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_railing_post"]
+size = Vector3(0.1, 1.1, 0.1)
+
+[node name="Bridge" type="Node3D"]
+
+[node name="Deck" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Deck"]
+mesh = SubResource("BoxMesh_bridge_deck")
+surface_material_override/0 = ExtResource("1_deck")
+
+[node name="Collider" type="StaticBody3D" parent="Deck"]
+
+[node name="Shape" type="CollisionShape3D" parent="Deck/Collider"]
+shape = SubResource("BoxShape3D_bridge_deck")
+
+[node name="SupportNear" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.95, -5)
+
+[node name="Left" type="Node3D" parent="SupportNear"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="SupportNear/Left"]
+mesh = SubResource("BoxMesh_bridge_support")
+surface_material_override/0 = ExtResource("2_0fh7j")
+
+[node name="Collider" type="StaticBody3D" parent="SupportNear/Left"]
+
+[node name="Shape" type="CollisionShape3D" parent="SupportNear/Left/Collider"]
+shape = SubResource("BoxShape3D_bridge_support")
+
+[node name="Right" type="Node3D" parent="SupportNear"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="SupportNear/Right"]
+mesh = SubResource("BoxMesh_bridge_support")
+surface_material_override/0 = ExtResource("2_0fh7j")
+
+[node name="Collider" type="StaticBody3D" parent="SupportNear/Right"]
+
+[node name="Shape" type="CollisionShape3D" parent="SupportNear/Right/Collider"]
+shape = SubResource("BoxShape3D_bridge_support")
+
+[node name="SupportFar" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.95, 5)
+
+[node name="Left" type="Node3D" parent="SupportFar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="SupportFar/Left"]
+mesh = SubResource("BoxMesh_bridge_support")
+surface_material_override/0 = ExtResource("2_0fh7j")
+
+[node name="Collider" type="StaticBody3D" parent="SupportFar/Left"]
+
+[node name="Shape" type="CollisionShape3D" parent="SupportFar/Left/Collider"]
+shape = SubResource("BoxShape3D_bridge_support")
+
+[node name="Right" type="Node3D" parent="SupportFar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="SupportFar/Right"]
+mesh = SubResource("BoxMesh_bridge_support")
+surface_material_override/0 = ExtResource("2_0fh7j")
+
+[node name="Collider" type="StaticBody3D" parent="SupportFar/Right"]
+
+[node name="Shape" type="CollisionShape3D" parent="SupportFar/Right/Collider"]
+shape = SubResource("BoxShape3D_bridge_support")
+
+[node name="RailingLeft" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.9, 0.65, 0)
+
+[node name="Panel" type="MeshInstance3D" parent="RailingLeft"]
+mesh = SubResource("BoxMesh_railing_panel")
+surface_material_override/0 = ExtResource("3_3jgjv")
+
+[node name="Top" type="MeshInstance3D" parent="RailingLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("BoxMesh_railing_top")
+surface_material_override/0 = ExtResource("3_3jgjv")
+
+[node name="Collider" type="StaticBody3D" parent="RailingLeft"]
+
+[node name="Shape" type="CollisionShape3D" parent="RailingLeft/Collider"]
+shape = SubResource("BoxShape3D_railing_panel")
+
+[node name="Post1" type="MeshInstance3D" parent="RailingLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+mesh = SubResource("BoxMesh_railing_post")
+surface_material_override/0 = ExtResource("3_3jgjv")
+
+[node name="Post2" type="MeshInstance3D" parent="RailingLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+mesh = SubResource("BoxMesh_railing_post")
+surface_material_override/0 = ExtResource("3_3jgjv")
+
+[node name="Post3" type="MeshInstance3D" parent="RailingLeft"]
+mesh = SubResource("BoxMesh_railing_post")
+surface_material_override/0 = ExtResource("3_3jgjv")
+
+[node name="Post4" type="MeshInstance3D" parent="RailingLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+mesh = SubResource("BoxMesh_railing_post")
+surface_material_override/0 = ExtResource("3_3jgjv")
+
+[node name="Post5" type="MeshInstance3D" parent="RailingLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+mesh = SubResource("BoxMesh_railing_post")
+surface_material_override/0 = ExtResource("3_3jgjv")
+
+[node name="RailingRight" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9, 0.65, -2.8)
+
+[node name="Panel" type="MeshInstance3D" parent="RailingRight"]
+mesh = SubResource("BoxMesh_railing_right_panel")
+surface_material_override/0 = ExtResource("3_3jgjv")
+
+[node name="Top" type="MeshInstance3D" parent="RailingRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+mesh = SubResource("BoxMesh_railing_right_top")
+surface_material_override/0 = ExtResource("3_3jgjv")
+
+[node name="Collider" type="StaticBody3D" parent="RailingRight"]
+
+[node name="Shape" type="CollisionShape3D" parent="RailingRight/Collider"]
+shape = SubResource("BoxShape3D_railing_right_panel")
+
+[node name="Post1" type="MeshInstance3D" parent="RailingRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12.2)
+mesh = SubResource("BoxMesh_railing_post")
+surface_material_override/0 = ExtResource("3_3jgjv")
+
+[node name="Post2" type="MeshInstance3D" parent="RailingRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6.1)
+mesh = SubResource("BoxMesh_railing_post")
+surface_material_override/0 = ExtResource("3_3jgjv")
+
+[node name="Post3" type="MeshInstance3D" parent="RailingRight"]
+mesh = SubResource("BoxMesh_railing_post")
+surface_material_override/0 = ExtResource("3_3jgjv")
+
+[node name="Post4" type="MeshInstance3D" parent="RailingRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.1)
+mesh = SubResource("BoxMesh_railing_post")
+surface_material_override/0 = ExtResource("3_3jgjv")
+
+[node name="Post5" type="MeshInstance3D" parent="RailingRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12.2)
+mesh = SubResource("BoxMesh_railing_post")
+surface_material_override/0 = ExtResource("3_3jgjv")
