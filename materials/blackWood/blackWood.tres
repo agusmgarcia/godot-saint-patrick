@@ -1,0 +1,17 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dof5oebi0dvxr"]
+
+[ext_resource type="Texture2D" uid="uid://d0j584ihl1p14" path="res://materials/blackWood/blackWood.color.jpg" id="Color"]
+[ext_resource type="Texture2D" uid="uid://kn4ptfmvooj7" path="res://materials/blackWood/blackWood.displacement.jpg" id="Displacement"]
+[ext_resource type="Texture2D" uid="uid://cga3mcpq36tvi" path="res://materials/blackWood/blackWood.normalGL.jpg" id="NormalGL"]
+[ext_resource type="Texture2D" uid="uid://c2tyj5e4dvwhu" path="res://materials/blackWood/blackWood.roughness.jpg" id="Roughness"]
+
+[resource]
+albedo_texture = ExtResource("Color")
+roughness_texture = ExtResource("Roughness")
+roughness_texture_channel = 4
+normal_enabled = true
+normal_texture = ExtResource("NormalGL")
+heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("Displacement")
+uv1_triplanar = true
