@@ -1,0 +1,17 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c4fbqiu0f6dhh"]
+
+[ext_resource type="Texture2D" uid="uid://bxvfov1gju8x5" path="res://materials/concreteDeck/concreteDeck.color.jpg" id="Color"]
+[ext_resource type="Texture2D" uid="uid://dipi07fn7ysqa" path="res://materials/concreteDeck/concreteDeck.displacement.jpg" id="Displacement"]
+[ext_resource type="Texture2D" uid="uid://b5civxnpgg2nt" path="res://materials/concreteDeck/concreteDeck.normalGL.jpg" id="NormalGL"]
+[ext_resource type="Texture2D" uid="uid://g4n0dm5ltiyx" path="res://materials/concreteDeck/concreteDeck.roughness.jpg" id="Roughness"]
+
+[resource]
+albedo_texture = ExtResource("Color")
+roughness_texture = ExtResource("Roughness")
+roughness_texture_channel = 4
+normal_enabled = true
+normal_texture = ExtResource("NormalGL")
+heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("Displacement")
+uv1_triplanar = true
