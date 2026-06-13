@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://brhypxf5ji4i3"]
+
+[ext_resource type="Script" uid="uid://cavkucw0hiu2q" path="res://scenes/graduationGym/stringLights/stringLights.gd" id="1_script"]
+
+[sub_resource type="CylinderMesh" id="WireSegment"]
+top_radius = 0.005
+bottom_radius = 0.005
+height = 1.5
+
+[sub_resource type="StandardMaterial3D" id="WireMat"]
+albedo_color = Color(0.1, 0.1, 0.1, 1)
+roughness = 0.6
+
+[sub_resource type="SphereMesh" id="Bulb"]
+radius = 0.03
+height = 0.06
+
+[sub_resource type="StandardMaterial3D" id="BulbMat"]
+albedo_color = Color(1, 0.95, 0.7, 1)
+emission_enabled = true
+emission = Color(1, 0.9, 0.6, 1)
+emission_energy_multiplier = 2.0
+
+[node name="StringLights" type="Node3D" unique_id=465016433]
+script = ExtResource("1_script")
+
+[node name="Wire1" type="MeshInstance3D" parent="." unique_id=1404605233]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0.75)
+mesh = SubResource("WireSegment")
+surface_material_override/0 = SubResource("WireMat")
+
+[node name="Wire2" type="MeshInstance3D" parent="." unique_id=861444194]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 2.25)
+mesh = SubResource("WireSegment")
+surface_material_override/0 = SubResource("WireMat")
+
+[node name="Wire3" type="MeshInstance3D" parent="." unique_id=1404086698]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 3.75)
+mesh = SubResource("WireSegment")
+surface_material_override/0 = SubResource("WireMat")
+
+[node name="Wire4" type="MeshInstance3D" parent="." unique_id=328919343]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 5.25)
+mesh = SubResource("WireSegment")
+surface_material_override/0 = SubResource("WireMat")
+
+[node name="Wire5" type="MeshInstance3D" parent="." unique_id=1401615427]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 6.75)
+mesh = SubResource("WireSegment")
+surface_material_override/0 = SubResource("WireMat")
+
+[node name="Wire6" type="MeshInstance3D" parent="." unique_id=1978611886]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 8.25)
+mesh = SubResource("WireSegment")
+surface_material_override/0 = SubResource("WireMat")
+
+[node name="Wire7" type="MeshInstance3D" parent="." unique_id=2080794352]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 9.75)
+mesh = SubResource("WireSegment")
+surface_material_override/0 = SubResource("WireMat")
+
+[node name="Bulb1" type="MeshInstance3D" parent="." unique_id=1110401271]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 1)
+mesh = SubResource("Bulb")
+surface_material_override/0 = SubResource("BulbMat")
+
+[node name="Bulb2" type="MeshInstance3D" parent="." unique_id=1022659336]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 2)
+mesh = SubResource("Bulb")
+surface_material_override/0 = SubResource("BulbMat")
+
+[node name="Bulb3" type="MeshInstance3D" parent="." unique_id=350139681]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 3)
+mesh = SubResource("Bulb")
+surface_material_override/0 = SubResource("BulbMat")
+
+[node name="Bulb4" type="MeshInstance3D" parent="." unique_id=127223560]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 4)
+mesh = SubResource("Bulb")
+surface_material_override/0 = SubResource("BulbMat")
+
+[node name="Bulb5" type="MeshInstance3D" parent="." unique_id=1823528308]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 5)
+mesh = SubResource("Bulb")
+surface_material_override/0 = SubResource("BulbMat")
+
+[node name="Bulb6" type="MeshInstance3D" parent="." unique_id=1630293250]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 6)
+mesh = SubResource("Bulb")
+surface_material_override/0 = SubResource("BulbMat")
+
+[node name="Bulb7" type="MeshInstance3D" parent="." unique_id=1943819582]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 7)
+mesh = SubResource("Bulb")
+surface_material_override/0 = SubResource("BulbMat")
+
+[node name="Bulb8" type="MeshInstance3D" parent="." unique_id=769030923]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 8)
+mesh = SubResource("Bulb")
+surface_material_override/0 = SubResource("BulbMat")
+
+[node name="Bulb9" type="MeshInstance3D" parent="." unique_id=1349366283]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 9)
+mesh = SubResource("Bulb")
+surface_material_override/0 = SubResource("BulbMat")
+
+[node name="Bulb10" type="MeshInstance3D" parent="." unique_id=1992767387]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 10)
+mesh = SubResource("Bulb")
+surface_material_override/0 = SubResource("BulbMat")
+
+[node name="Light1" type="OmniLight3D" parent="." unique_id=83900197]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 2.5)
+light_color = Color(1, 0.9, 0.6, 1)
+light_energy = 0.3
+omni_range = 2.0
+omni_attenuation = 1.5
+
+[node name="Light2" type="OmniLight3D" parent="." unique_id=1693107302]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 5.5)
+light_color = Color(1, 0.9, 0.6, 1)
+light_energy = 0.3
+omni_range = 2.0
+omni_attenuation = 1.5
+
+[node name="Light3" type="OmniLight3D" parent="." unique_id=1141448581]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 8.5)
+light_color = Color(1, 0.9, 0.6, 1)
+light_energy = 0.3
+omni_range = 2.0
+omni_attenuation = 1.5

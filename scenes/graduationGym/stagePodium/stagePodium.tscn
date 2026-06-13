@@ -1,0 +1,139 @@
+[gd_scene format=3 uid="uid://baxjkhjgsodie"]
+
+[ext_resource type="Material" uid="uid://blackmetal027" path="res://materials/blackMetal/blackMetal.tres" id="2_blackmetal"]
+
+[sub_resource type="BoxMesh" id="Platform"]
+size = Vector3(6, 0.5, 3)
+
+[sub_resource type="StandardMaterial3D" id="PlatformMat"]
+albedo_color = Color(0.2, 0.2, 0.22, 1)
+roughness = 0.7
+
+[sub_resource type="BoxShape3D" id="PlatformCollision"]
+size = Vector3(6, 0.5, 3)
+
+[sub_resource type="BoxMesh" id="PodiumBody"]
+size = Vector3(0.6, 1.1, 0.45)
+
+[sub_resource type="StandardMaterial3D" id="WoodMat"]
+albedo_color = Color(0.55, 0.35, 0.18, 1)
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="PodiumTop"]
+size = Vector3(0.65, 0.03, 0.5)
+
+[sub_resource type="BoxShape3D" id="PodiumCollision"]
+size = Vector3(0.65, 1.15, 0.5)
+
+[sub_resource type="BoxMesh" id="Backdrop"]
+size = Vector3(6, 3.5, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="BlackCurtain"]
+albedo_color = Color(0.05, 0.05, 0.05, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="CurtainSide"]
+size = Vector3(0.8, 3.5, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="GreenCurtain"]
+albedo_color = Color(0.1, 0.5, 0.2, 1)
+roughness = 0.85
+
+[sub_resource type="StandardMaterial3D" id="WhiteCurtain"]
+albedo_color = Color(0.95, 0.95, 0.95, 1)
+roughness = 0.7
+
+[sub_resource type="CylinderMesh" id="MicStand"]
+top_radius = 0.012
+bottom_radius = 0.015
+height = 1.4
+
+[sub_resource type="CylinderMesh" id="MicBase"]
+top_radius = 0.12
+bottom_radius = 0.12
+height = 0.02
+
+[node name="StagePodium" type="Node3D" unique_id=906944656]
+
+[node name="Platform" type="Node3D" parent="." unique_id=927227767]
+
+[node name="PlatformMesh" type="MeshInstance3D" parent="Platform" unique_id=1523140028]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+mesh = SubResource("Platform")
+surface_material_override/0 = SubResource("PlatformMat")
+
+[node name="PlatformCollider" type="StaticBody3D" parent="Platform" unique_id=1163825198]
+
+[node name="Shape" type="CollisionShape3D" parent="Platform/PlatformCollider" unique_id=178444834]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("PlatformCollision")
+
+[node name="Podium" type="Node3D" parent="." unique_id=264317439]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Body" type="MeshInstance3D" parent="Podium" unique_id=465872037]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+mesh = SubResource("PodiumBody")
+surface_material_override/0 = SubResource("WoodMat")
+
+[node name="Top" type="MeshInstance3D" parent="Podium" unique_id=1763849105]
+transform = Transform3D(1, 0, 0, 0, 0.966, 0.259, 0, -0.259, 0.966, 0, 1.1, 0.05)
+mesh = SubResource("PodiumTop")
+surface_material_override/0 = SubResource("WoodMat")
+
+[node name="PodiumCollider" type="StaticBody3D" parent="Podium" unique_id=2037764742]
+
+[node name="Shape" type="CollisionShape3D" parent="Podium/PodiumCollider" unique_id=2099534614]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.575, 0)
+shape = SubResource("PodiumCollision")
+
+[node name="Backdrop" type="Node3D" parent="." unique_id=1110790277]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -1.45)
+
+[node name="MainCurtain" type="MeshInstance3D" parent="Backdrop" unique_id=2146901040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0)
+mesh = SubResource("Backdrop")
+surface_material_override/0 = SubResource("BlackCurtain")
+
+[node name="CurtainLeft" type="MeshInstance3D" parent="Backdrop" unique_id=808195053]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 1.75, 0.03)
+mesh = SubResource("CurtainSide")
+surface_material_override/0 = SubResource("GreenCurtain")
+
+[node name="CurtainRight" type="MeshInstance3D" parent="Backdrop" unique_id=1409259019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 1.75, 0.03)
+mesh = SubResource("CurtainSide")
+surface_material_override/0 = SubResource("GreenCurtain")
+
+[node name="SwagLeft" type="MeshInstance3D" parent="Backdrop" unique_id=828507835]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.1, 1.75, 0.06)
+mesh = SubResource("CurtainSide")
+surface_material_override/0 = SubResource("WhiteCurtain")
+
+[node name="SwagRight" type="MeshInstance3D" parent="Backdrop" unique_id=1977902151]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1, 1.75, 0.06)
+mesh = SubResource("CurtainSide")
+surface_material_override/0 = SubResource("WhiteCurtain")
+
+[node name="MicStands" type="Node3D" parent="." unique_id=479510871]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="MicStand1" type="MeshInstance3D" parent="MicStands" unique_id=1781308044]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.7, 0.8)
+mesh = SubResource("MicStand")
+surface_material_override/0 = ExtResource("2_blackmetal")
+
+[node name="MicBase1" type="MeshInstance3D" parent="MicStands" unique_id=451174835]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.01, 0.8)
+mesh = SubResource("MicBase")
+surface_material_override/0 = ExtResource("2_blackmetal")
+
+[node name="MicStand2" type="MeshInstance3D" parent="MicStands" unique_id=196358257]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.7, 0.8)
+mesh = SubResource("MicStand")
+surface_material_override/0 = ExtResource("2_blackmetal")
+
+[node name="MicBase2" type="MeshInstance3D" parent="MicStands" unique_id=850251353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.01, 0.8)
+mesh = SubResource("MicBase")
+surface_material_override/0 = ExtResource("2_blackmetal")

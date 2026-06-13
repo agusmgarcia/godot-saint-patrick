@@ -1,0 +1,175 @@
+[gd_scene format=3 uid="uid://docpx6wqsu0xw"]
+
+[sub_resource type="SphereMesh" id="BalloonLarge"]
+radius = 0.15
+height = 0.3
+
+[sub_resource type="StandardMaterial3D" id="GreenBalloon"]
+albedo_color = Color(0.1, 0.6, 0.2, 1)
+metallic_specular = 0.6
+roughness = 0.3
+
+[sub_resource type="SphereMesh" id="BalloonMedium"]
+radius = 0.12
+height = 0.24
+
+[sub_resource type="StandardMaterial3D" id="WhiteBalloon"]
+albedo_color = Color(0.95, 0.95, 0.95, 1)
+metallic_specular = 0.6
+roughness = 0.25
+
+[node name="BalloonArch" type="Node3D" unique_id=869375435]
+
+[node name="LeftColumn" type="Node3D" parent="." unique_id=1945279651]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0, 0)
+
+[node name="B1" type="MeshInstance3D" parent="LeftColumn" unique_id=147171472]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="B2" type="MeshInstance3D" parent="LeftColumn" unique_id=1525401529]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.15, 0.1)
+mesh = SubResource("BalloonMedium")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="B3" type="MeshInstance3D" parent="LeftColumn" unique_id=1485967278]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.35, 0.05)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="B4" type="MeshInstance3D" parent="LeftColumn" unique_id=592828903]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 0.55, -0.05)
+mesh = SubResource("BalloonMedium")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="B5" type="MeshInstance3D" parent="LeftColumn" unique_id=1713132887]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, 0.75, 0.08)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="B6" type="MeshInstance3D" parent="LeftColumn" unique_id=433373017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.95, 0)
+mesh = SubResource("BalloonMedium")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="B7" type="MeshInstance3D" parent="LeftColumn" unique_id=717389766]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 1.15, -0.05)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="B8" type="MeshInstance3D" parent="LeftColumn" unique_id=1172035511]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, 1.35, 0.06)
+mesh = SubResource("BalloonMedium")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="B9" type="MeshInstance3D" parent="LeftColumn" unique_id=2133488828]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, 0)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="B10" type="MeshInstance3D" parent="LeftColumn" unique_id=1115338055]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 1.75, -0.05)
+mesh = SubResource("BalloonMedium")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="B11" type="MeshInstance3D" parent="LeftColumn" unique_id=292658805]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 1.95, 0.05)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="TopArc" type="Node3D" parent="." unique_id=1257775922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+
+[node name="B1" type="MeshInstance3D" parent="TopArc" unique_id=1968721181]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.1, 0)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="B2" type="MeshInstance3D" parent="TopArc" unique_id=1198417769]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.25, 0.05)
+mesh = SubResource("BalloonMedium")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="B3" type="MeshInstance3D" parent="TopArc" unique_id=677162350]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.35, -0.05)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="B4" type="MeshInstance3D" parent="TopArc" unique_id=1733436576]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="B5" type="MeshInstance3D" parent="TopArc" unique_id=1824358909]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.35, 0.05)
+mesh = SubResource("BalloonMedium")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="B6" type="MeshInstance3D" parent="TopArc" unique_id=360239659]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.25, -0.05)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="B7" type="MeshInstance3D" parent="TopArc" unique_id=1649108987]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0.1, 0)
+mesh = SubResource("BalloonMedium")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="RightColumn" type="Node3D" parent="." unique_id=834113662]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0, 0)
+
+[node name="B1" type="MeshInstance3D" parent="RightColumn" unique_id=133263802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="B2" type="MeshInstance3D" parent="RightColumn" unique_id=1529393260]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0.15, 0.1)
+mesh = SubResource("BalloonMedium")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="B3" type="MeshInstance3D" parent="RightColumn" unique_id=1829950127]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.35, 0.05)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="B4" type="MeshInstance3D" parent="RightColumn" unique_id=1941219984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 0.55, -0.05)
+mesh = SubResource("BalloonMedium")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="B5" type="MeshInstance3D" parent="RightColumn" unique_id=1498691652]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, 0.75, 0.08)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="B6" type="MeshInstance3D" parent="RightColumn" unique_id=189845810]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 0.95, 0)
+mesh = SubResource("BalloonMedium")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="B7" type="MeshInstance3D" parent="RightColumn" unique_id=1740651307]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 1.15, -0.05)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="B8" type="MeshInstance3D" parent="RightColumn" unique_id=1657743254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, 1.35, 0.06)
+mesh = SubResource("BalloonMedium")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="B9" type="MeshInstance3D" parent="RightColumn" unique_id=1438250971]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, 0)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
+
+[node name="B10" type="MeshInstance3D" parent="RightColumn" unique_id=140589982]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 1.75, -0.05)
+mesh = SubResource("BalloonMedium")
+surface_material_override/0 = SubResource("WhiteBalloon")
+
+[node name="B11" type="MeshInstance3D" parent="RightColumn" unique_id=1377341696]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05, 1.95, 0.05)
+mesh = SubResource("BalloonLarge")
+surface_material_override/0 = SubResource("GreenBalloon")
