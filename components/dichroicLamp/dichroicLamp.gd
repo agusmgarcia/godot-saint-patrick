@@ -6,15 +6,12 @@ class_name DichroicLamp
 
 var _light: SpotLight3D
 
-
 func _ready() -> void:
 	_light = $Light
-
 
 ## Turns the lamp on.
 func turn_on() -> void:
 	_light.visible = true
-
 
 ## Turns the lamp off.
 func turn_off() -> void:

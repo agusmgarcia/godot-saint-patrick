@@ -17,14 +17,12 @@ const OPEN_ANGLE: float = -50.0
 ## The speed (in degrees per second) at which the barrier arm moves when opening.
 const OPEN_SPEED: float = 100.0
 
-
 ## Represents the possible states of the barrier arm.
 enum BarrierState {CLOSED, OPEN, OPENING, CLOSING}
 
 ## Emitted when the barrier state changes. The [param state] parameter contains
 ## the new [enum BarrierState] value.
 signal barrier_state_changed(state: BarrierState)
-
 
 ## The current state of the barrier.
 var state: BarrierState:
@@ -37,7 +35,6 @@ var _dichroic_lamp: DichroicLamp
 var _target_angle: float
 var _state: BarrierState
 
-
 func _ready() -> void:
 	_arm = $Barrier/Arm
 	_barrier_collider_shape = $Barrier/Collider/Shape
@@ -45,7 +42,6 @@ func _ready() -> void:
 	_barrier_collider_shape.disabled = false
 	_target_angle = CLOSED_ANGLE
 	_state = BarrierState.CLOSED
-
 
 func _process(delta: float) -> void:
 	if _state != BarrierState.OPENING and _state != BarrierState.CLOSING:
@@ -71,7 +67,6 @@ func _process(delta: float) -> void:
 		_state = BarrierState.CLOSED
 		barrier_state_changed.emit(_state)
 
-
 ## Smoothly opens the barrier arm. Does nothing if the barrier is already
 ## open or in the process of opening.
 func open() -> void:
@@ -82,7 +77,6 @@ func open() -> void:
 	_state = BarrierState.OPENING
 	_target_angle = OPEN_ANGLE
 	barrier_state_changed.emit(_state)
-
 
 ## Smoothly closes the barrier arm. Does nothing if the barrier is already
 ## closed or in the process of closing.
@@ -95,11 +89,9 @@ func close() -> void:
 	_target_angle = CLOSED_ANGLE
 	barrier_state_changed.emit(_state)
 
-
 ## Turns on the interior dichroic lamp.
 func turn_on_light() -> void:
 	_dichroic_lamp.turn_on()
-
 
 ## Turns off the interior dichroic lamp.
 func turn_off_light() -> void:
