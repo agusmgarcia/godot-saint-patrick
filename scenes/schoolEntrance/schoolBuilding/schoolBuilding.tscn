@@ -7,7 +7,7 @@
 [ext_resource type="Material" uid="uid://blackmetal027" path="res://materials/blackMetal/blackMetal.tres" id="5_bm3tl"]
 [ext_resource type="Material" uid="uid://grass004" path="res://materials/grass/grass.tres" id="7_grass"]
 [ext_resource type="Material" uid="uid://dof5oebi0dvxr" path="res://materials/blackWood/blackWood.tres" id="8_wfence"]
-[ext_resource type="PackedScene" uid="uid://bfjfpjdb8d5pc" path="res://scenes/schoolEntrance/schoolBuilding/schoolWindow/schoolWindow.tscn" id="9_window"]
+[ext_resource type="PackedScene" uid="uid://bfjfpjdb8d5pc" path="res://components/schoolWindow/schoolWindow.tscn" id="9_window"]
 [ext_resource type="PackedScene" uid="uid://cut7cdoofyiyy" path="res://scenes/schoolEntrance/schoolBuilding/schoolDoor/schoolDoor.tscn" id="10_door"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_foundation_side"]
