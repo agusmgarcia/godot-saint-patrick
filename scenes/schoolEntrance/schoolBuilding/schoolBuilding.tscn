@@ -4,7 +4,6 @@
 [ext_resource type="Material" uid="uid://23g6ykhhppge" path="res://materials/exposedBrickWall/exposedBrickWall.tres" id="2_3mdvi"]
 [ext_resource type="Material" uid="uid://c0we0xji7avp5" path="res://materials/corrugatedSteel/corrugatedSteel.tres" id="3_3yibw"]
 [ext_resource type="Material" uid="uid://blackmetal027" path="res://materials/blackMetal/blackMetal.tres" id="5_bm3tl"]
-[ext_resource type="PackedScene" uid="uid://walllight001" path="res://components/wallLight/wallLight.tscn" id="6_wlight"]
 [ext_resource type="Material" uid="uid://grass004" path="res://materials/grass/grass.tres" id="7_grass"]
 [ext_resource type="Material" uid="uid://dof5oebi0dvxr" path="res://materials/blackWood/blackWood.tres" id="8_wfence"]
 [ext_resource type="PackedScene" uid="uid://bfjfpjdb8d5pc" path="res://scenes/schoolEntrance/schoolBuilding/schoolWindow/schoolWindow.tscn" id="9_window"]
@@ -190,32 +189,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, 0)
 [node name="Mesh" type="MeshInstance3D" parent="FirstFloor/EntranceGate/Beam" unique_id=1319868070]
 mesh = SubResource("BoxMesh_3yibw")
 surface_material_override/0 = ExtResource("5_bm3tl")
-
-[node name="Lights" type="Node3D" parent="FirstFloor" unique_id=1806099958]
-
-[node name="Light1" parent="FirstFloor/Lights" unique_id=1300349831 instance=ExtResource("6_wlight")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, 5.07)
-
-[node name="Light2" parent="FirstFloor/Lights" unique_id=53335354 instance=ExtResource("6_wlight")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 5.07)
-
-[node name="Light3" parent="FirstFloor/Lights" unique_id=541832386 instance=ExtResource("6_wlight")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 5.07)
-
-[node name="Light4" parent="FirstFloor/Lights" unique_id=411147968 instance=ExtResource("6_wlight")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 5.07)
-
-[node name="Light5" parent="FirstFloor/Lights" unique_id=1610182873 instance=ExtResource("6_wlight")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5.07)
-
-[node name="Light6" parent="FirstFloor/Lights" unique_id=737429443 instance=ExtResource("6_wlight")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 5.07)
-
-[node name="Light7" parent="FirstFloor/Lights" unique_id=1189389510 instance=ExtResource("6_wlight")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 5.07)
-
-[node name="Light8" parent="FirstFloor/Lights" unique_id=86921698 instance=ExtResource("6_wlight")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 5.07)
 
 [node name="SecondFloor" type="Node3D" parent="." unique_id=406255426]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.5, 0)
