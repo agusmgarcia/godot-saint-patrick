@@ -1,9 +1,8 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://tactilepaving002"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ckedblrebvrkb"]
 
-[ext_resource type="Texture2D" path="res://materials/tactilePaving/tactilePaving.color.jpg" id="Color"]
-[ext_resource type="Texture2D" path="res://materials/tactilePaving/tactilePaving.displacement.jpg" id="Displacement"]
-[ext_resource type="Texture2D" path="res://materials/tactilePaving/tactilePaving.normalGL.jpg" id="NormalGL"]
-[ext_resource type="Texture2D" path="res://materials/tactilePaving/tactilePaving.roughness.jpg" id="Roughness"]
+[ext_resource type="Texture2D" uid="uid://tfe2w714wma3" path="res://materials/tactilePaving/tactilePaving.color.jpg" id="Color"]
+[ext_resource type="Texture2D" uid="uid://lm8aceguidvk" path="res://materials/tactilePaving/tactilePaving.normalGL.jpg" id="NormalGL"]
+[ext_resource type="Texture2D" uid="uid://b550kturo8ju7" path="res://materials/tactilePaving/tactilePaving.roughness.jpg" id="Roughness"]
 
 [resource]
 albedo_texture = ExtResource("Color")
@@ -11,7 +10,4 @@ roughness_texture = ExtResource("Roughness")
 roughness_texture_channel = 4
 normal_enabled = true
 normal_texture = ExtResource("NormalGL")
-heightmap_enabled = true
-heightmap_scale = 1.0
-heightmap_texture = ExtResource("Displacement")
 uv1_triplanar = true

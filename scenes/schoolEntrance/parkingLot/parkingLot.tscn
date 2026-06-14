@@ -8,10 +8,10 @@
 [ext_resource type="PackedScene" uid="uid://8akymopiasey" path="res://components/reflectorPost/reflectorPost.tscn" id="5_reflector"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_parking_surface"]
-size = Vector3(25, 0.05, 26.42)
+size = Vector3(20, 0.05, 26.42)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_parking_surface"]
-size = Vector3(25, 0.05, 26.42)
+size = Vector3(20, 0.05, 26.42)
 
 [sub_resource type="BoxMesh" id="BoxMesh_line_back_5"]
 size = Vector3(13.5, 0.02, 0.12)
@@ -35,7 +35,7 @@ size = Vector3(0.1, 2.5, 17.47)
 script = ExtResource("1_script")
 
 [node name="Surface" type="Node3D" parent="." unique_id=26615924]
-transform = Transform3D(0.8, 0, 0, 0, 1, 0, 0, 0, 1, -1.7, 0.01, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7, 0.01, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="Surface" unique_id=1289905512]
 mesh = SubResource("BoxMesh_parking_surface")
@@ -47,7 +47,7 @@ surface_material_override/0 = ExtResource("1_asphalt")
 shape = SubResource("BoxShape3D_parking_surface")
 
 [node name="ParkingLines" type="Node3D" parent="Surface" unique_id=1369063102]
-transform = Transform3D(1.25, 0, 0, 0, 1, 0, 0, 0, 1, 2.125, 0.04, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7, 0.04, 0)
 
 [node name="Row1" type="Node3D" parent="Surface/ParkingLines" unique_id=966313908]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0.65, 0, 10)
@@ -169,13 +169,13 @@ surface_material_override/0 = ExtResource("4_yellow")
 [node name="ReflectorPosts" type="Node3D" parent="Surface" unique_id=1516909686]
 
 [node name="ReflectorPost1" parent="Surface/ReflectorPosts" unique_id=313678576 instance=ExtResource("5_reflector")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.375, 0.025, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.1, 0.025, -5)
 
 [node name="ReflectorPost2" parent="Surface/ReflectorPosts" unique_id=903342151 instance=ExtResource("5_reflector")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.375, 0.025, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.1, 0.025, 5)
 
 [node name="ReflectorPost3" parent="Surface/ReflectorPosts" unique_id=1922340162 instance=ExtResource("5_reflector")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.375001, 0.025, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.1, 0.025, 5)
 
 [node name="SecurityBooth1" parent="." unique_id=1975679340 instance=ExtResource("2_booth")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -0.1, 11.46)

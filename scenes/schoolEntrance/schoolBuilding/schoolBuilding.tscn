@@ -1,7 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bmljoluxik5wr"]
+[gd_scene format=3 uid="uid://bmljoluxik5wr"]
 
-[ext_resource type="Script" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.gd" id="1_script"]
 [ext_resource type="Material" uid="uid://b46vhefj8hsh4" path="res://materials/concrete/concrete.tres" id="1_86m0b"]
+[ext_resource type="Script" uid="uid://bpflsikx31ydg" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.gd" id="1_script"]
 [ext_resource type="Material" uid="uid://23g6ykhhppge" path="res://materials/exposedBrickWall/exposedBrickWall.tres" id="2_3mdvi"]
 [ext_resource type="Material" uid="uid://c0we0xji7avp5" path="res://materials/corrugatedSteel/corrugatedSteel.tres" id="3_3yibw"]
 [ext_resource type="Material" uid="uid://blackmetal027" path="res://materials/blackMetal/blackMetal.tres" id="5_bm3tl"]

@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://b11bugp2nms1b" path="res://materials/grass/grass.ambientOcclusion.jpg" id="AmbientOcclusion"]
 [ext_resource type="Texture2D" uid="uid://da8ngragcep08" path="res://materials/grass/grass.color.jpg" id="Color"]
-[ext_resource type="Texture2D" uid="uid://cvbrita0aw4vh" path="res://materials/grass/grass.displacement.jpg" id="Displacement"]
 [ext_resource type="Texture2D" uid="uid://bnc62iptjb7bw" path="res://materials/grass/grass.normalGL.jpg" id="NormalGL"]
 [ext_resource type="Texture2D" uid="uid://bvf1inwhy1b3d" path="res://materials/grass/grass.roughness.jpg" id="Roughness"]
 
@@ -15,7 +14,4 @@ normal_texture = ExtResource("NormalGL")
 ao_enabled = true
 ao_texture = ExtResource("AmbientOcclusion")
 ao_texture_channel = 4
-heightmap_enabled = true
-heightmap_scale = 1.0
-heightmap_texture = ExtResource("Displacement")
 uv1_triplanar = true

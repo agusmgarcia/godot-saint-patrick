@@ -2,7 +2,6 @@
 
 [ext_resource type="Texture2D" uid="uid://dha5wxbb0wolv" path="res://materials/concrete/concrete.ambientOcclusion.jpg" id="AmbientOcclusion"]
 [ext_resource type="Texture2D" uid="uid://wpfjbk2bbgp4" path="res://materials/concrete/concrete.color.jpg" id="Color"]
-[ext_resource type="Texture2D" uid="uid://cc5ajnjmg63dt" path="res://materials/concrete/concrete.displacement.jpg" id="Displacement"]
 [ext_resource type="Texture2D" uid="uid://crlx3as8xxcij" path="res://materials/concrete/concrete.metalness.jpg" id="Metalness"]
 [ext_resource type="Texture2D" uid="uid://dkvsgvdnvak6b" path="res://materials/concrete/concrete.normalGL.jpg" id="NormalGL"]
 [ext_resource type="Texture2D" uid="uid://bqvnuqqvxqhju" path="res://materials/concrete/concrete.roughness.jpg" id="Roughness"]
@@ -19,7 +18,4 @@ normal_texture = ExtResource("NormalGL")
 ao_enabled = true
 ao_texture = ExtResource("AmbientOcclusion")
 ao_texture_channel = 4
-heightmap_enabled = true
-heightmap_scale = 1.0
-heightmap_texture = ExtResource("Displacement")
 uv1_triplanar = true

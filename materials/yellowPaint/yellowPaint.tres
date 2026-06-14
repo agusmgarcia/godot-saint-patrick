@@ -1,6 +1,5 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://yellowpaint001"]
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://736uqe3wyhdw"]
 
 [resource]
-albedo_color = Color(1.0, 0.85, 0.0, 1.0)
+albedo_color = Color(1, 0.85, 0, 1)
 roughness = 0.7
-metallic = 0.0

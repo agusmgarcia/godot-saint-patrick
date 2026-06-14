@@ -1,7 +1,6 @@
 [gd_resource type="StandardMaterial3D" format=3 uid="uid://c41cve7mjk8u7"]
 
 [ext_resource type="Texture2D" uid="uid://du4ydbfm0h1sn" path="res://materials/metalFence/metalFence.color.jpg" id="Color"]
-[ext_resource type="Texture2D" uid="uid://da1u10kofrqo6" path="res://materials/metalFence/metalFence.displacement.jpg" id="Displacement"]
 [ext_resource type="Texture2D" uid="uid://b2k3hghjfnwpu" path="res://materials/metalFence/metalFence.metalness.jpg" id="Metalness"]
 [ext_resource type="Texture2D" uid="uid://b6h6wnvw084k" path="res://materials/metalFence/metalFence.normalGL.jpg" id="NormalGL"]
 [ext_resource type="Texture2D" uid="uid://dl7bg2a4k07q8" path="res://materials/metalFence/metalFence.roughness.jpg" id="Roughness"]
@@ -18,7 +17,4 @@ roughness_texture = ExtResource("Roughness")
 roughness_texture_channel = 4
 normal_enabled = true
 normal_texture = ExtResource("NormalGL")
-heightmap_enabled = true
-heightmap_scale = 1.0
-heightmap_texture = ExtResource("Displacement")
 uv1_triplanar = true

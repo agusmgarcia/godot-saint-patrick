@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b5k7x2qr8dnme"]
 
 [ext_resource type="PackedScene" uid="uid://bmljoluxik5wr" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.tscn" id="7_5jtxm"]
-[ext_resource type="PackedScene" path="res://scenes/schoolEntrance/bridge/bridge.tscn" id="8_bridge"]
+[ext_resource type="PackedScene" uid="uid://kf1kuq4u5fid" path="res://scenes/schoolEntrance/bridge/bridge.tscn" id="8_bridge"]
 [ext_resource type="PackedScene" uid="uid://dkh0siy1yckv0" path="res://scenes/schoolEntrance/parkingLot/parkingLot.tscn" id="9_parking"]
 [ext_resource type="PackedScene" path="res://scenes/schoolEntrance/streetBlock/streetBlock.tscn" id="10_streetblock"]
 

@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://c3ilcm6imfur6"]
 
 [ext_resource type="Material" uid="uid://ckedblrebvrkb" path="res://materials/tactilePaving/tactilePaving.tres" id="1_paving"]
-[ext_resource type="Script" uid="uid://ckw8i7dwpdnn3" path="res://scenes/schoolEntrance/streetBlock/streetBlock.gd" id="1_script"]
 [ext_resource type="Material" path="res://materials/asphalt/asphalt.tres" id="2_asphalt"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_sidewalk_front"]
@@ -41,7 +40,6 @@ size = Vector3(8, 0.05, 45)
 size = Vector3(8, 0.05, 45)
 
 [node name="StreetBlock" type="Node3D" unique_id=570387799]
-script = ExtResource("1_script")
 
 [node name="SideWalk" type="Node3D" parent="." unique_id=1135204376]
 

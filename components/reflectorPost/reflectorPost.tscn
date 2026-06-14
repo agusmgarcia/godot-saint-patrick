@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://reflectorpost01"]
+[gd_scene format=3 uid="uid://8akymopiasey"]
 
-[ext_resource type="Script" path="res://components/reflectorPost/reflectorPost.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://077jcrnuex0q" path="res://components/reflectorPost/reflectorPost.gd" id="1_script"]
 [ext_resource type="Material" uid="uid://blackmetal027" path="res://materials/blackMetal/blackMetal.tres" id="2_metal"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_pole"]
@@ -18,36 +18,36 @@ size = Vector3(0.06, 0.06, 0.6)
 [sub_resource type="BoxMesh" id="BoxMesh_lamp_head"]
 size = Vector3(0.8, 0.2, 0.4)
 
-[node name="ReflectorPost" type="Node3D"]
+[node name="ReflectorPost" type="Node3D" unique_id=1170849179]
 script = ExtResource("1_script")
 
-[node name="Pole" type="Node3D" parent="."]
+[node name="Pole" type="Node3D" parent="." unique_id=246755267]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
 
-[node name="Mesh" type="MeshInstance3D" parent="Pole"]
+[node name="Mesh" type="MeshInstance3D" parent="Pole" unique_id=1128047713]
 mesh = SubResource("CylinderMesh_pole")
 surface_material_override/0 = ExtResource("2_metal")
 
-[node name="Collider" type="StaticBody3D" parent="Pole"]
+[node name="Collider" type="StaticBody3D" parent="Pole" unique_id=1952544971]
 
-[node name="Shape" type="CollisionShape3D" parent="Pole/Collider"]
+[node name="Shape" type="CollisionShape3D" parent="Pole/Collider" unique_id=1847444985]
 shape = SubResource("CylinderShape3D_pole")
 
-[node name="Arm" type="Node3D" parent="."]
+[node name="Arm" type="Node3D" parent="." unique_id=163789674]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.97, 0.3)
 
-[node name="Mesh" type="MeshInstance3D" parent="Arm"]
+[node name="Mesh" type="MeshInstance3D" parent="Arm" unique_id=883442775]
 mesh = SubResource("BoxMesh_arm")
 surface_material_override/0 = ExtResource("2_metal")
 
-[node name="LampHead" type="Node3D" parent="."]
+[node name="LampHead" type="Node3D" parent="." unique_id=1273562695]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.85, 0.6)
 
-[node name="Mesh" type="MeshInstance3D" parent="LampHead"]
+[node name="Mesh" type="MeshInstance3D" parent="LampHead" unique_id=1525567272]
 mesh = SubResource("BoxMesh_lamp_head")
 surface_material_override/0 = ExtResource("2_metal")
 
-[node name="Light" type="SpotLight3D" parent="LampHead"]
+[node name="Light" type="SpotLight3D" parent="LampHead" unique_id=1312337602]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -0.12, 0)
 light_energy = 15.0
 spot_range = 18.0
