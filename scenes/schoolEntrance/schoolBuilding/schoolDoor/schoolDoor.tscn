@@ -30,9 +30,6 @@ size = Vector3(1.86, 0.3, 0.07)
 [sub_resource type="BoxMesh" id="BoxMesh_handle_left"]
 size = Vector3(0.04, 0.3, 0.08)
 
-[sub_resource type="BoxMesh" id="BoxMesh_rail_left"]
-size = Vector3(1.86, 0.06, 0.08)
-
 [sub_resource type="BoxMesh" id="BoxMesh_door_panel_right"]
 size = Vector3(1.86, 2, 0.06)
 
@@ -44,9 +41,6 @@ size = Vector3(1.86, 0.3, 0.07)
 
 [sub_resource type="BoxMesh" id="BoxMesh_handle_right"]
 size = Vector3(0.04, 0.3, 0.08)
-
-[sub_resource type="BoxMesh" id="BoxMesh_rail_right"]
-size = Vector3(1.86, 0.06, 0.08)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_collider"]
 size = Vector3(4, 3, 0.12)
@@ -102,12 +96,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.1, 0.07)
 mesh = SubResource("BoxMesh_handle_left")
 surface_material_override/0 = ExtResource("3_rail")
 
-[node name="HorizontalRail" type="MeshInstance3D" parent="LeftDoor" unique_id=503259711]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.03)
-visible = false
-mesh = SubResource("BoxMesh_rail_left")
-surface_material_override/0 = ExtResource("3_rail")
-
 [node name="RightDoor" type="Node3D" parent="." unique_id=1682270042]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.97, 0, 0)
 
@@ -129,12 +117,6 @@ surface_material_override/0 = ExtResource("3_rail")
 [node name="Handle" type="MeshInstance3D" parent="RightDoor" unique_id=1428954446]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.1, 0.07)
 mesh = SubResource("BoxMesh_handle_right")
-surface_material_override/0 = ExtResource("3_rail")
-
-[node name="HorizontalRail" type="MeshInstance3D" parent="RightDoor" unique_id=1213364835]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.03)
-visible = false
-mesh = SubResource("BoxMesh_rail_right")
 surface_material_override/0 = ExtResource("3_rail")
 
 [node name="Collider" type="StaticBody3D" parent="." unique_id=363088666]
