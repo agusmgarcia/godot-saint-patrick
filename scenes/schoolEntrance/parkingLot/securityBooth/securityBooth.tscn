@@ -33,8 +33,14 @@ size = Vector3(0.1, 2, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_left_back"]
 size = Vector3(0.1, 2, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_left_full"]
-size = Vector3(0.1, 2.35, 3.5)
+[sub_resource type="BoxShape3D" id="BoxShape3D_left_front"]
+size = Vector3(0.1, 2.0, 1.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_left_back"]
+size = Vector3(0.1, 2.0, 1.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_left_top"]
+size = Vector3(0.1, 0.35, 3.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_back"]
 size = Vector3(3.5, 2.35, 0.1)
@@ -49,9 +55,6 @@ size = Vector3(0.1, 2.35, 3.5)
 size = Vector3(0.1, 2.35, 3.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_roof"]
-size = Vector3(4.5, 0.2, 4.5)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_roof"]
 size = Vector3(4.5, 0.2, 4.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_floor"]
@@ -151,8 +154,17 @@ surface_material_override/0 = ExtResource("1_brick_mat")
 
 [node name="Collider" type="StaticBody3D" parent="Walls/Left" unique_id=204870417]
 
-[node name="Shape" type="CollisionShape3D" parent="Walls/Left/Collider" unique_id=1262001197]
-shape = SubResource("BoxShape3D_left_full")
+[node name="ShapeFront" type="CollisionShape3D" parent="Walls/Left/Collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.175, 1.25)
+shape = SubResource("BoxShape3D_left_front")
+
+[node name="ShapeBack" type="CollisionShape3D" parent="Walls/Left/Collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.175, -1.25)
+shape = SubResource("BoxShape3D_left_back")
+
+[node name="ShapeTop" type="CollisionShape3D" parent="Walls/Left/Collider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+shape = SubResource("BoxShape3D_left_top")
 
 [node name="Back" type="Node3D" parent="Walls" unique_id=422697922]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.75)
@@ -184,11 +196,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.65, 0)
 [node name="Mesh" type="MeshInstance3D" parent="Roof" unique_id=1719964412]
 mesh = SubResource("BoxMesh_roof")
 surface_material_override/0 = ExtResource("3_corrugated")
-
-[node name="Collider" type="StaticBody3D" parent="Roof" unique_id=1085663729]
-
-[node name="Shape" type="CollisionShape3D" parent="Roof/Collider" unique_id=1425426207]
-shape = SubResource("BoxShape3D_roof")
 
 [node name="DichroicLamp" parent="Roof" unique_id=1813213706 instance=ExtResource("7_dichroic")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
