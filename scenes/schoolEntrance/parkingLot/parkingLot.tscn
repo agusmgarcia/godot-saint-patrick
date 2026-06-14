@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://dkh0siy1yckv0"]
 
 [ext_resource type="Material" path="res://materials/asphalt/asphalt.tres" id="1_asphalt"]
+[ext_resource type="Script" uid="uid://cgjs146dkfd6n" path="res://scenes/schoolEntrance/parkingLot/parkingLot.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://bejs11onrggkx" path="res://scenes/schoolEntrance/parkingLot/securityBooth/securityBooth.tscn" id="2_booth"]
 [ext_resource type="Material" uid="uid://c41cve7mjk8u7" path="res://materials/metalFence/metalFence.tres" id="3_fence"]
 [ext_resource type="Material" uid="uid://736uqe3wyhdw" path="res://materials/yellowPaint/yellowPaint.tres" id="4_yellow"]
+[ext_resource type="PackedScene" uid="uid://8akymopiasey" path="res://components/reflectorPost/reflectorPost.tscn" id="5_reflector"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_parking_surface"]
 size = Vector3(25, 0.05, 26.42)
@@ -30,6 +32,7 @@ size = Vector3(0.1, 2.5, 17.47)
 size = Vector3(0.1, 2.5, 17.47)
 
 [node name="ParkingLot" type="Node3D" unique_id=1345276622]
+script = ExtResource("1_script")
 
 [node name="Surface" type="Node3D" parent="." unique_id=26615924]
 transform = Transform3D(0.8, 0, 0, 0, 1, 0, 0, 0, 1, -1.7, 0.01, 0)
@@ -162,6 +165,17 @@ surface_material_override/0 = ExtResource("4_yellow")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.75, 0, 0)
 mesh = SubResource("BoxMesh_line_side")
 surface_material_override/0 = ExtResource("4_yellow")
+
+[node name="ReflectorPosts" type="Node3D" parent="Surface" unique_id=1516909686]
+
+[node name="ReflectorPost1" parent="Surface/ReflectorPosts" unique_id=313678576 instance=ExtResource("5_reflector")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.375, 0.025, -5)
+
+[node name="ReflectorPost2" parent="Surface/ReflectorPosts" unique_id=903342151 instance=ExtResource("5_reflector")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.375, 0.025, 5)
+
+[node name="ReflectorPost3" parent="Surface/ReflectorPosts" unique_id=1922340162 instance=ExtResource("5_reflector")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.375001, 0.025, 5)
 
 [node name="SecurityBooth1" parent="." unique_id=1975679340 instance=ExtResource("2_booth")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -0.1, 11.46)
