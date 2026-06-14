@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://8akymopiasey"]
 
-[ext_resource type="Script" uid="uid://077jcrnuex0q" path="res://components/reflectorPost/reflectorPost.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://077jcrnuex0q" path="res://scenes/schoolEntrance/parkingLot/reflectorPost/reflectorPost.gd" id="1_script"]
 [ext_resource type="Material" uid="uid://blackmetal027" path="res://materials/blackMetal/blackMetal.tres" id="2_metal"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_pole"]

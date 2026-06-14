@@ -7,7 +7,7 @@
 [ext_resource type="Material" uid="uid://csxiwa5ak2y36" path="res://materials/paintedMetal/paintedMetal.tres" id="4_painted"]
 [ext_resource type="Material" uid="uid://plastic018b" path="res://materials/plastic/plastic.tres" id="5_plastic"]
 [ext_resource type="Material" uid="uid://dof5oebi0dvxr" path="res://materials/blackWood/blackWood.tres" id="6_blackwood"]
-[ext_resource type="PackedScene" uid="uid://b32e5wljgx7sm" path="res://components/dichroicLamp/dichroicLamp.tscn" id="7_dichroic"]
+[ext_resource type="PackedScene" uid="uid://b32e5wljgx7sm" path="res://scenes/schoolEntrance/parkingLot/securityBooth/dichroicLamp/dichroicLamp.tscn" id="7_dichroic"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_front_top"]
 size = Vector3(3.5, 0.675, 0.1)

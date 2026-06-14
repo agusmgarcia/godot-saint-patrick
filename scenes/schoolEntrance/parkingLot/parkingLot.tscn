@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://dkh0siy1yckv0"]
 
-[ext_resource type="Material" path="res://materials/asphalt/asphalt.tres" id="1_asphalt"]
+[ext_resource type="Material" uid="uid://gyc6kejeuaut" path="res://materials/asphalt/asphalt.tres" id="1_asphalt"]
 [ext_resource type="Script" uid="uid://cgjs146dkfd6n" path="res://scenes/schoolEntrance/parkingLot/parkingLot.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://bejs11onrggkx" path="res://scenes/schoolEntrance/parkingLot/securityBooth/securityBooth.tscn" id="2_booth"]
 [ext_resource type="Material" uid="uid://c41cve7mjk8u7" path="res://materials/metalFence/metalFence.tres" id="3_fence"]
 [ext_resource type="Material" uid="uid://736uqe3wyhdw" path="res://materials/yellowPaint/yellowPaint.tres" id="4_yellow"]
-[ext_resource type="PackedScene" uid="uid://8akymopiasey" path="res://components/reflectorPost/reflectorPost.tscn" id="5_reflector"]
+[ext_resource type="PackedScene" uid="uid://8akymopiasey" path="res://scenes/schoolEntrance/parkingLot/reflectorPost/reflectorPost.tscn" id="5_reflector"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_parking_surface"]
 size = Vector3(20, 0.05, 26.42)

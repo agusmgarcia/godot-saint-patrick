@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bmljoluxik5wr" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.tscn" id="7_5jtxm"]
 [ext_resource type="PackedScene" uid="uid://kf1kuq4u5fid" path="res://scenes/schoolEntrance/bridge/bridge.tscn" id="8_bridge"]
 [ext_resource type="PackedScene" uid="uid://dkh0siy1yckv0" path="res://scenes/schoolEntrance/parkingLot/parkingLot.tscn" id="9_parking"]
-[ext_resource type="PackedScene" path="res://scenes/schoolEntrance/streetBlock/streetBlock.tscn" id="10_streetblock"]
+[ext_resource type="PackedScene" uid="uid://c3ilcm6imfur6" path="res://scenes/schoolEntrance/streetBlock/streetBlock.tscn" id="10_streetblock"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_night"]
 sky_top_color = Color(0.078766845, 0.0787035, 0.16751745, 1)
@@ -25,11 +25,13 @@ ambient_light_energy = 0.3
 
 [node name="SchoolEntrance" type="Node3D" unique_id=517855459]
 
-[node name="Environment" type="WorldEnvironment" parent="." unique_id=175692185]
+[node name="Environment" type="Node3D" parent="." unique_id=198896989]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=175692185]
 environment = SubResource("Environment_night")
 
-[node name="Moon" type="DirectionalLight3D" parent="." unique_id=1999757063]
-transform = Transform3D(0.8660254, 0, 0.5, -0.35355338, 0.7071067, 0.6123724, -0.35355335, -0.70710677, 0.6123724, 0, 0, 0)
+[node name="DirectionalLight" type="DirectionalLight3D" parent="Environment" unique_id=1999757063]
+transform = Transform3D(0.8660254, 0, 0.50000006, -0.35355338, 0.70710677, 0.61237246, -0.35355335, -0.7071068, 0.61237246, 0, 0, 0)
 light_color = Color(0.7529412, 0.8156863, 1, 1)
 light_energy = 0.3
 shadow_enabled = true
