@@ -12,7 +12,7 @@ _Stephanie y Cinthia están juntas cerca de una de las mesas. Stephanie mira su 
 
 **HELENA:** No, todavía no llegó.
 
-**STEPHANIE:** _(con un tono ambiguo)_ Raro. Ella siempre es puntual. Bueno, era puntual. Últimamente está medio perdida, ¿no?
+**STEPHANIE:** _(con un tono ambiguo)_ Raro. Aunque tampoco me sorprende. Desde que cortó con Christian está cada vez peor.
 
 ---
 
@@ -26,15 +26,17 @@ _Stephanie y Cinthia están juntas cerca de una de las mesas. Stephanie mira su 
 
 **[Si elige A — Verdad]**
 
-**STEPHANIE:** _(se encoge de hombros)_ No sé. Hace un tiempo que la veo distinta. Más flaca, más ojerosa. _(pausa)_ Mirá, yo no soy quién para opinar porque hace años que no somos amigas, pero... a mí me parece que anda en algo raro. Cinthia también la vio el otro día medio desubicada en los pasillos después de hora.
+**STEPHANIE:** _(se encoge de hombros)_ No lo superó. Es obvio. _(pausa)_ Hace unos días los vi juntos en el patio después de hora, a ella y a Christian. Ella le estaba gritando, una escena horrible. Todo el mundo los miraba. _(pausa)_ Típico de Sarah. Cuando no consigue lo que quiere arma un escándalo.
 
-_Cinthia asiente levemente._
+**HELENA:** ¿Sabés por qué pelearon?
 
-**STEPHANIE:** _(baja la voz)_ No me sorprendería que estuviera metiéndose algo. _(pausa)_ Y no lo digo con maldad. Lo digo porque la conozco. Cuando ella se siente sola, hace cualquier cosa.
+**STEPHANIE:** _(con desdén)_ Estaba con Thomas. Seguro para darle celos. Es lo único que se le ocurre. _(baja la voz)_ Sarah sabe perfectamente que Christian se preocupa por ella, que no la puede ver mal. Y lo usa. Lo manipula para que vuelva a mirarla. _(pausa)_ Es una enferma, Helena. Lo tiene obsesionado y él no se da cuenta.
 
-> 🔍 **RECUERDO DISPONIBLE: "Stephanie sospecha de Sarah"**
+_Cinthia asiente levemente sin decir nada._
+
+> 🔍 **RECUERDO DISPONIBLE: "Los celos de Sarah según Stephanie"**
 >
-> _Stephanie cree que Sarah está consumiendo algo. No tiene pruebas concretas pero la observó deteriorada físicamente en las últimas semanas. En el momento suena como chisme de una ex-amiga resentida. En el capítulo 2 es una de las voces que sostiene la narrativa de que Sarah tenía problemas graves previos a su muerte._
+> _Stephanie cree que Sarah usa a Thomas deliberadamente para manipular a Christian. No sabe qué estaban haciendo realmente en el patio ni lo que Christian le dijo. En el momento parece el relato sesgado de una chica resentida. En el capítulo 2 es una de las voces que construye la narrativa de que Sarah era inestable y manipuladora._
 
 ---
 

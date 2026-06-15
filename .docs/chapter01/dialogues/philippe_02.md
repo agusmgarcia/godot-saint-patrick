@@ -34,10 +34,10 @@ _Vahid asiente. La conversación se cierra sin más._
 
 **[Si elige B — Mentira]**
 
-**PHILIPPE:** _(baja la voz, divertido)_ Sí, aunque no por mucho tiempo. En algún momento de la noche nos vamos a escabullir. A la zona verde que hay entre el estacionamiento y el edificio, de noche no hay nadie. _(pausa)_ Ni una palabra, ¿sí?
+**PHILIPPE:** _(baja la voz, divertido)_ Sí, aunque no por mucho tiempo. En algún momento de la noche nos vamos a escabullir al estacionamiento. De noche no hay nadie. _(pausa)_ Ni una palabra, ¿sí?
 
 _Vahid lo mira con una mezcla de complicidad y nerviosismo._
 
 > 🔍 **RECUERDO DISPONIBLE: "El plan de Vahid y Philippe"** _(si Helena no lo obtuvo en el puente)_
 >
-> _Vahid y Philippe tienen pensado escaparse a la zona verde en algún momento de la noche. En el momento parece solo una aventura romántica. En el capítulo 2 los ubica cerca de la garita de Abraham en el momento del abuso y explica la existencia de las fotos._
+> _Vahid y Philippe tienen pensado escaparse al estacionamiento en algún momento de la noche. En el momento parece solo una aventura romántica. En el capítulo 2 los ubica cerca de la garita de Abraham en el momento del abuso y explica la existencia de las fotos._

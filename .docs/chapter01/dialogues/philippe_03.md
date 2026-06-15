@@ -28,13 +28,13 @@ _Philippe y Vahid están juntos en un rincón del salón, alejados del tumulto. 
 
 **HELENA:** ¿Eso es bueno?
 
-**PHILIPPE:** _(sonríe apenas)_ Para nosotros, sí. _(pausa)_ Mientras todos hablan de Christian y Thomas, nadie se fija en nosotros. _(pausa)_ De hecho, creo que es un buen momento para nuestra escapadita.
+**PHILIPPE:** _(sonríe apenas)_ Para nosotros, sí. _(pausa)_ Mientras todos hablan de Christian y Thomas, nadie se fija en nosotros. _(pausa)_ De hecho, creo que es un buen momento para escaparnos al estacionamiento.
 
 _Vahid le lanza una mirada de advertencia, pero Philippe ya lo dijo._
 
 > 🔍 **RECUERDO DISPONIBLE: "La ventana de Philippe"**
 >
-> _Philippe admite que la pelea les da cobertura a él y a Vahid para escaparse sin ser notados. En el momento parece un comentario oportunista e inocente. En el capítulo 2 confirma que aprovecharon el caos post-pelea para ir a la zona verde, lo cual los ubica cerca de la garita de Abraham en el horario del abuso._
+> _Philippe admite que la pelea les da cobertura a él y a Vahid para escaparse sin ser notados. En el momento parece un comentario oportunista e inocente. En el capítulo 2 confirma que aprovecharon el caos post-pelea para ir al estacionamiento, lo cual los ubica cerca de la garita de Abraham en el horario del abuso._
 
 ---
 

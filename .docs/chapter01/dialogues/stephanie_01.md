@@ -1,4 +1,4 @@
-# Escena 2 — El puente / Stephanie
+# Escena 2 — El puente / Stephanie y Cinthia
 
 _Helena se acerca a Stephanie y Cinthia. Stephanie está mirando hacia la entrada, claramente pendiente de que alguien llegue. Cinthia la acompaña en silencio._
 
@@ -18,7 +18,7 @@ _Helena se acerca a Stephanie y Cinthia. Stephanie está mirando hacia la entrad
 
 > 🎮 **DECISIÓN**
 >
-> - **A) "¿Están saliendo?"** _(verdad — a Helena le sorprende dado que Christian había cortado hace poco con Sarah)_
+> - **A) "¿Hace mucho que son amigos?"** _(verdad — Helena muestra interés genuino)_
 > - **B) "Sí, van a hacer muy linda pareja."** _(mentira — a Helena no le parece para nada)_
 > - **C)** _(irse)_
 
@@ -26,25 +26,15 @@ _Helena se acerca a Stephanie y Cinthia. Stephanie está mirando hacia la entrad
 
 **[Si elige A — Verdad]**
 
-**STEPHANIE:** _(molesta)_ No. Somos amigos. Christian es libre, por si no sabías. Sarah y él cortaron hace meses.
+**STEPHANIE:** Desde primer año. _(pausa, con calidez genuina)_ Es de esas personas que te hacen sentir especial sin esfuerzo. Siempre sabe qué decir, siempre está cuando lo necesitás. _(pausa)_ La gente no lo conoce de verdad. Lo ven como el chico lindo y popular y no ven todo lo que hay detrás.
 
-**HELENA:** Lo sé. Igual me sorprende.
+**HELENA:** ¿Como qué?
 
-**STEPHANIE:** _(fría)_ ¿Por qué, porque es el ex de tu amiga? Madura. Ellos cortaron, la vida sigue. _(pausa)_ Aunque Sarah todavía no se enteró de eso. Hace unos días tuvieron una discusión horrible acá en el patio del colegio. Ella gritándole, él, pobrecito, sin saber qué hacer. Todo el mundo lo vio.
+**STEPHANIE:** _(la mira, evalúa cuánto decir)_ Es muy protector. Muy leal. Cuando alguien que quiere está mal, él lo nota antes que nadie. _(pausa)_ Eso no es tan común, Helena.
 
-**HELENA:** ¿Sabés por qué pelearon?
-
-**STEPHANIE:** Por Thomas, obvio. Sarah le quiere dar celos con él. Y Christian, pobre, la protege. No quiere que ese chico esté cerca de ella. Es una mala influencia para ella.
-
-_Cinthia asiente levemente sin decir nada._
-
-**HELENA:** ¿Por qué decis eso?
-
-**STEPHANIE:** Está todo el tiempo fumando o alcoholizado. Creo que también se droga. El problema es que Sarah quedó tan desequilibrada mentalmente, desde que cortó con Christian, que no ve el peligro. Con tal de darle celos, hace cualquier cosa...
-
-> 🔍 **RECUERDO DISPONIBLE: "El desequilibrio de Sarah"**
+> 🔍 **RECUERDO DISPONIBLE: "La imagen de Christian según Stephanie"**
 >
-> _Stephanie cree que Sarah no está bien mentalmente y usa a Thomas para darle celos a Christian. No sabe el motivo real de la pelea de días atrás._
+> _Stephanie describe a Christian como una persona excepcionalmente leal y protectora. Está completamente enamorada y no ve ningún defecto en él. En el momento parece la opinión sesgada de una chica enamorada. En el capítulo 2 esa ceguera explica por qué Stephanie sería capaz de cualquier cosa para estar con él._
 
 ---
 
@@ -52,6 +42,6 @@ _Cinthia asiente levemente sin decir nada._
 
 **STEPHANIE:** _(se le ilumina la cara)_ ¿Verdad? Yo creo lo mismo. _(mira hacia la entrada)_ Ojalá llegue pronto.
 
-_La conversación se cierra. No hay información disponible._
+_La conversación se cierra._
 
 > ❌ **Ningún recuerdo disponible por este camino.**

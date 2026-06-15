@@ -1,6 +1,6 @@
 # Escena 3 — El salón / Walsh
 
-_Walsh está de pie cerca de la barra, tine un vaso en la mano. Observa a los alumnos con esa mirada atenta que tienen los profesores que llevan años leyendo a sus estudiantes. Cuando ve a Helena se acerca con una sonrisa tranquila._
+_Walsh está de pie cerca de la barra, tiene un vaso en la mano. Observa a los alumnos con esa mirada atenta que tienen los profesores que llevan años leyendo a sus estudiantes. Cuando ve a Helena se acerca con una sonrisa tranquila._
 
 ---
 
@@ -8,11 +8,11 @@ _Walsh está de pie cerca de la barra, tine un vaso en la mano. Observa a los al
 
 **HELENA:** Bien, gracias. ¿Y usted?
 
-**WALSH:** Contenta de que haya llegado esta noche. _(pausa)_ ¿Has venido sola?
+**WALSH:** Contenta de que haya llegado esta noche. _(pausa, mira hacia la entrada)_ ¿Sabés algo de Sarah? Esperaba verla ya por acá.
 
-**HELENA:** Estaba esperando a Sarah, pero aún no ha llegado.
+**HELENA:** Todavía no llegó.
 
-**WALSH:** Ahora que la mencionas, quería preguntarte si has notado algún comportamiento extraño en ella últimamente.
+**WALSH:** _(asiente, sin ocultar del todo la preocupación)_ Ahora que la mencionas, quería preguntarte si has notado algún comportamiento extraño en ella últimamente.
 
 ---
 

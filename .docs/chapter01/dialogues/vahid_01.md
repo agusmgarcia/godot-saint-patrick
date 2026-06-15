@@ -46,7 +46,7 @@ _La conversación se cierra._
 
 **[B — Mentira]**
 
-**VAHID:** _(se relaja un poco, baja aún más la voz)_ De hecho ya tenemos algo pensado. Escaparnos hacia la zona verde entre el estacionamiento y el edificio. Está prohibida para los alumnos. En general siempre está Herrera trabajando ahí. Pero hoy toda la atención va a estar enfocada en el salón. En algún momento de la noche nos escabullimos ahí.
+**VAHID:** _(se relaja un poco, baja aún más la voz)_ De hecho ya tenemos algo pensado. Escaparnos al estacionamiento. Está prohibido para los alumnos pero hoy toda la atención va a estar enfocada en el salón. En algún momento de la noche nos escabullimos ahí.
 
 **HELENA:** ¿Y las cámaras?
 
@@ -54,7 +54,7 @@ _La conversación se cierra._
 
 > 🔍 **RECUERDO DISPONIBLE: "El plan de Vahid y Philippe"**
 >
-> _Vahid y Philippe tienen pensado escaparse a la zona verde en algún momento de la noche. En el momento parece solo una aventura romántica._
+> _Vahid y Philippe tienen pensado escaparse al estacionamiento en algún momento de la noche. En el momento parece solo una aventura romántica._
 
 ---
 

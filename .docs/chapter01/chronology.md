@@ -98,11 +98,11 @@ Abraham interviene desde su garita y expulsa a Christian definitivamente del col
 
 ## ~22:50
 
-Vahid sale del salón en dirección a la zona verde según lo planeado con Philippe.
+Vahid sale del salón en dirección al estacionamiento según lo planeado con Philippe.
 
 ## ~22:55
 
-Philippe sale del salón en dirección a la zona verde según lo planeado con Vahid.
+Philippe sale del salón en dirección al estacionamiento según lo planeado con Vahid.
 
 ## ~23:00
 
@@ -144,7 +144,7 @@ Hudson se sube al auto de Elijah. Elijah le cuenta todo lo que ocurrió: la esce
 
 ## ~23:45
 
-Hudson ingresa nuevamente al salón y desde su teléfono desactiva las cámaras de seguridad. Podría haberle pedido a Abraham que lo hiciera. Era una persona leal que jamás lo cuestionaría. Sin embargo en la vorágine del momento ni siquiera notó que Abraham había abandonado su puesto.
+Hudson ingresa nuevamente al salón y desde su teléfono accede al sistema de cámaras de seguridad. Borra el contenido grabado esa noche por la cámara del puente y la desactiva. El resto de las cámaras las deja funcionando para no levantar sospechas. Podría haberle pedido a Abraham que lo hiciera. Era una persona leal que jamás lo cuestionaría. Sin embargo en la vorágine del momento ni siquiera notó que Abraham había abandonado su puesto. En el capítulo 2 Hudson alegará que esa cámara nunca funcionó correctamente.
 
 ## ~00:00
 
