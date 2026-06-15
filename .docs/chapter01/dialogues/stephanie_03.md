@@ -15,33 +15,61 @@ _Stephanie está sentada con los brazos cruzados. Tiene los ojos húmedos. Cinth
 > 🎮 **DECISIÓN**
 >
 > - **A) "Christian fue el que armó la escena, no Sarah."** _(verdad — Helena señala lo que realmente pasó)_
-> - **B) "Sí, Sarah se fue de tema."** _(mentira — Helena no cree eso pero le da la razón a Stephanie)_
+> - **B) "Sí, tenés razón. Sarah siempre en el medio de todo."** _(mentira — Helena le da la razón para que baje la guardia)_
 > - **C)** _(irse)_
 
 ---
 
 **[Si elige A — Verdad]**
 
-**STEPHANIE:** _(la mira con furia)_ ¿Él? Christian la estaba protegiendo. ¿No lo ves? _(pausa)_ Él la vio drogándose con Thomas y quiso frenarla. ¿Y qué hizo ella? Lo humilló delante de todos. Le gritó. Lo hizo quedar como un loco celoso. _(pausa)_ Y Thomas se le tiró encima. ¿Quién es el violento acá?
+**STEPHANIE:** _(la mira con furia)_ ¿Él? Christian la estaba protegiendo. ¿No lo ves? Él la vio drogándose con Thomas y quiso frenarla. ¿Y qué hizo ella? Lo humilló delante de todos. Lo hizo quedar como un loco celoso. _(pausa)_ Y Thomas se le tiró encima. ¿Quién es el violento acá?
 
-**HELENA:** Christian tampoco se quedó quieto.
+_La conversación se cierra. Stephanie aparta la vista._
 
-**STEPHANIE:** _(más agitada)_ Porque lo provocaron. _(pausa, baja la voz, con amargura)_ Sarah lo destruye todo. Destruyó la relación que tenía con él, destruyó la fiesta, y ahora lo echaron por culpa de ella. _(pausa)_ Ella es el problema, Helena. Siempre fue el problema. Si no existiera, nada de esto pasaría.
-
-_Cinthia la mira de reojo, incómoda, pero no dice nada._
-
-> 🔍 **RECUERDO DISPONIBLE: "El resentimiento de Stephanie"**
->
-> _Stephanie culpa a Sarah de todo lo ocurrido y defiende a Christian sin fisuras. Dijo que si Sarah no existiera, nada de esto pasaría. En el momento parece el despecho de una chica enamorada que no es correspondida. En el capítulo 2 esa frase la posiciona como alguien que tenía motivos emocionales para querer que Sarah desapareciera de su vida._
+> ❌ **Ningún recuerdo disponible por este camino.**
 
 ---
 
 **[Si elige B — Mentira]**
 
-**STEPHANIE:** _(aliviada de tener a alguien de su lado)_ ¿Viste? Christian solo quiso ayudarla. Él la conoce mejor que nadie. Sabe que se está haciendo daño. _(pausa)_ Pero ella no quiere que la salven. Prefiere hundirse y llevarse a todos con ella. _(pausa, con convicción)_ Christian es un tipo increíble. Es bueno, es leal. Lo que pasa es que Sarah lo volvió loco.
+**STEPHANIE:** _(se relaja levemente, aliviada de tener a alguien de su lado)_ Exacto. Él solo quiso ayudarla y mirá cómo le fue. _(pausa, con amargura)_ Christian es demasiado bueno. Eso es su problema. Se preocupa por todo el mundo y nadie se preocupa por él.
 
-_Cinthia no dice nada._
+---
+
+> 🎮 **DECISIÓN**
+>
+> - **A) "¿Y vos te preocupás por él?"** _(verdad — Helena pregunta con genuina curiosidad)_
+> - **B) "Sí, la gente buena siempre la termina pagando."** _(mentira — Helena sigue validándola)_
+> - **C)** _(irse)_
+
+---
+
+**[Si elige B — Mentira]**
+
+**STEPHANIE:** _(asiente, pero la conversación se aplana)_ Sí, exacto. _(pausa, mira hacia la puerta)_ Ojalá pueda hablar con él después.
 
 _La conversación se cierra._
 
 > ❌ **Ningún recuerdo disponible por este camino.**
+
+---
+
+**[Si elige A — Verdad]**
+
+**STEPHANIE:** _(la mira, baja la guardia un segundo)_ Sí. _(pausa, casi sin querer)_ Más de lo que él sabe.
+
+_Silencio breve. Cinthia mira hacia otro lado._
+
+_Stephanie hace ademán de levantarse. Cinthia le pone una mano en el brazo, despacio. Stephanie la mira un segundo y vuelve a sentarse._
+
+**HELENA:** ¿Querés que te traiga algo de tomar?
+
+_Stephanie se toca el vientre, apenas un segundo._
+
+**STEPHANIE:** No puedo... _(se corrige rápido, casi sin pausa)_ Estoy bien. No tengo ganas.
+
+_Cinthia la mira un instante. Aparta la vista enseguida._
+
+> 🔍 **RECUERDO DISPONIBLE: "El gesto de Stephanie"**
+>
+> _Stephanie rechazó el trago tocándose el vientre antes de corregirse. En el momento parece el gesto nervioso de una chica alterada por lo que acaba de pasar. En el capítulo 2, junto con el test de embarazo, adquiere un significado completamente distinto._
