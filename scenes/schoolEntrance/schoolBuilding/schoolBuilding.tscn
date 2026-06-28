@@ -9,6 +9,7 @@
 [ext_resource type="Material" uid="uid://dof5oebi0dvxr" path="res://materials/blackWood/blackWood.tres" id="8_wfence"]
 [ext_resource type="PackedScene" uid="uid://bfjfpjdb8d5pc" path="res://components/schoolWindow/schoolWindow.tscn" id="9_window"]
 [ext_resource type="PackedScene" uid="uid://cut7cdoofyiyy" path="res://scenes/schoolEntrance/schoolBuilding/schoolDoor/schoolDoor.tscn" id="10_door"]
+[ext_resource type="PackedScene" uid="uid://creflector001" path="res://scenes/schoolEntrance/schoolBuilding/reflectorGround/reflectorGround.tscn" id="11_reflector"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_foundation_side"]
 size = Vector3(17.25, 1.26, 10.5)
@@ -298,6 +299,12 @@ surface_material_override/0 = ExtResource("8_wfence")
 [node name="Shape" type="CollisionShape3D" parent="GrassSection/RightFront/Fence/Collider" unique_id=474351465]
 shape = SubResource("BoxShape3D_wooden_fence")
 
+[node name="Reflector1" parent="GrassSection/RightFront" unique_id=2084718588 instance=ExtResource("11_reflector")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.33, 0.025, -1.75)
+
+[node name="Reflector2" parent="GrassSection/RightFront" unique_id=1134644171 instance=ExtResource("11_reflector")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.33, 0.025, -1.75)
+
 [node name="LeftFront" type="Node3D" parent="GrassSection" unique_id=95296433]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.3, 0, 7)
 
@@ -321,6 +328,12 @@ surface_material_override/0 = ExtResource("8_wfence")
 
 [node name="Shape" type="CollisionShape3D" parent="GrassSection/LeftFront/Fence/Collider" unique_id=1572463338]
 shape = SubResource("BoxShape3D_wooden_fence")
+
+[node name="Reflector1" parent="GrassSection/LeftFront" unique_id=817539303 instance=ExtResource("11_reflector")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.33, 0.025, -1.75)
+
+[node name="Reflector2" parent="GrassSection/LeftFront" unique_id=1884421366 instance=ExtResource("11_reflector")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.33, 0.025, -1.75)
 
 [node name="Left" type="Node3D" parent="GrassSection" unique_id=1928516079]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.15, 0, 0.125)
