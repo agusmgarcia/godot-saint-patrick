@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bfjfpjdb8d5pc" path="res://components/schoolWindow/schoolWindow.tscn" id="9_window"]
 [ext_resource type="PackedScene" uid="uid://cut7cdoofyiyy" path="res://scenes/schoolEntrance/schoolBuilding/schoolDoor/schoolDoor.tscn" id="10_door"]
 [ext_resource type="PackedScene" uid="uid://creflector001" path="res://scenes/schoolEntrance/schoolBuilding/reflectorGround/reflectorGround.tscn" id="11_reflector"]
+[ext_resource type="Material" uid="uid://rock063cliff" path="res://materials/rock/rock.tres" id="12_rock"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_foundation_side"]
 size = Vector3(17.25, 1.26, 10.5)
@@ -85,6 +86,12 @@ size = Vector3(0.2, 3, 13.75)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wall_side"]
 size = Vector3(0.2, 3, 13.75)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cliff"]
+size = Vector3(44.6, 3.32, 14)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cliff"]
+size = Vector3(44.6, 3.32, 14)
 
 [node name="SchoolBuilding" type="Node3D" unique_id=1579062165]
 script = ExtResource("1_script")
@@ -408,3 +415,15 @@ surface_material_override/0 = ExtResource("2_3mdvi")
 
 [node name="Shape" type="CollisionShape3D" parent="Walls/RightSide/Collider" unique_id=1979727455]
 shape = SubResource("BoxShape3D_wall_side")
+
+[node name="Cliff" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.29, 1.75)
+
+[node name="Mesh" type="MeshInstance3D" parent="Cliff"]
+mesh = SubResource("BoxMesh_cliff")
+surface_material_override/0 = ExtResource("12_rock")
+
+[node name="Collider" type="StaticBody3D" parent="Cliff"]
+
+[node name="Shape" type="CollisionShape3D" parent="Cliff/Collider"]
+shape = SubResource("BoxShape3D_cliff")

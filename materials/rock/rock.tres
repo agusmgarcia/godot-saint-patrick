@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://rock063cliff"]
+
+[ext_resource type="Texture2D" path="res://materials/rock/rock.ambientOcclusion.jpg" id="AmbientOcclusion"]
+[ext_resource type="Texture2D" path="res://materials/rock/rock.color.jpg" id="Color"]
+[ext_resource type="Texture2D" path="res://materials/rock/rock.displacement.jpg" id="Displacement"]
+[ext_resource type="Texture2D" path="res://materials/rock/rock.normalGL.jpg" id="NormalGL"]
+[ext_resource type="Texture2D" path="res://materials/rock/rock.roughness.jpg" id="Roughness"]
+
+[resource]
+albedo_texture = ExtResource("Color")
+roughness_texture = ExtResource("Roughness")
+roughness_texture_channel = 4
+normal_enabled = true
+normal_texture = ExtResource("NormalGL")
+ao_enabled = true
+ao_texture = ExtResource("AmbientOcclusion")
+ao_texture_channel = 4
+heightmap_enabled = true
+heightmap_texture = ExtResource("Displacement")
+uv1_triplanar = true
