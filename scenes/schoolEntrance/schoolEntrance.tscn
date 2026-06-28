@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://kf1kuq4u5fid" path="res://scenes/schoolEntrance/bridge/bridge.tscn" id="8_bridge"]
 [ext_resource type="PackedScene" uid="uid://dkh0siy1yckv0" path="res://scenes/schoolEntrance/parkingLot/parkingLot.tscn" id="9_parking"]
 [ext_resource type="PackedScene" uid="uid://c3ilcm6imfur6" path="res://scenes/schoolEntrance/streetBlock/streetBlock.tscn" id="10_streetblock"]
+[ext_resource type="PackedScene" uid="uid://b18wfsc1jivmc" path="res://scenes/schoolEntrance/river/river.tscn" id="11_river"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_night"]
 sky_top_color = Color(0.078766845, 0.0787035, 0.16751745, 1)
@@ -45,3 +46,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 21.960794)
 [node name="SchoolBuilding" parent="." unique_id=1032568515 instance=ExtResource("7_5jtxm")]
 
 [node name="StreetBlock" parent="." unique_id=1230306427 instance=ExtResource("10_streetblock")]
+
+[node name="River" parent="." unique_id=382900447 instance=ExtResource("11_river")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.95, 27)
