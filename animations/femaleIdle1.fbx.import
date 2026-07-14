@@ -4,12 +4,12 @@ importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
 uid="uid://b0pueu60y8snb"
-path="res://.godot/imported/idle.fbx-1ea80bb326526819f6a1056096232755.res"
+path="res://.godot/imported/femaleIdle1.fbx-d11320a6b0cf18e07eb1b1ede4430b0a.res"
 
 [deps]
 
-source_file="res://animations/idle.fbx"
-dest_files=["res://.godot/imported/idle.fbx-1ea80bb326526819f6a1056096232755.res"]
+source_file="res://animations/femaleIdle1.fbx"
+dest_files=["res://.godot/imported/femaleIdle1.fbx-d11320a6b0cf18e07eb1b1ede4430b0a.res"]
 
 [params]
 
@@ -44,7 +44,7 @@ _subresources={
 "save_to_file/fallback_path": "",
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "",
-"settings/loop_mode": 1,
+"settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",

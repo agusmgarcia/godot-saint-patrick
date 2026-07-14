@@ -2,12 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://8mqqy0e3bst0" path="res://characters/helena/helena.fbx" id="1_scg1b"]
 [ext_resource type="Script" uid="uid://dne7jacq1cbbp" path="res://characters/helena/helena.gd" id="2_eyap1"]
-[ext_resource type="AnimationLibrary" uid="uid://b0pueu60y8snb" path="res://animations/idle.fbx" id="3_kkehm"]
+[ext_resource type="AnimationLibrary" uid="uid://b0pueu60y8snb" path="res://animations/femaleIdle1.fbx" id="3_kkehm"]
 
 [node name="Helena" unique_id=255764739 instance=ExtResource("1_scg1b")]
 script = ExtResource("2_eyap1")
 
-[node name="Skeleton3D" parent="." index="0" unique_id=2072641771]
+[node name="Skeleton3D" parent="." index="0" unique_id=330374511]
 bones/0/position = Vector3(0.0015523331, 1.0580646, 0.0012740027)
 bones/0/rotation = Quaternion(-0.03172215, -0.024850694, -0.0822835, 0.99579394)
 bones/1/rotation = Quaternion(-0.06513304, -0.010569787, 0.08420416, 0.9942614)
@@ -31,4 +31,4 @@ bones/22/rotation = Quaternion(0.5354021, 0.0060840035, -0.033519216, 0.84391004
 bones/23/rotation = Quaternion(0.32574183, 0.08840287, -0.029847777, 0.9408434)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1" unique_id=2114298810]
-libraries/idle = ExtResource("3_kkehm")
+libraries/femaleIdle1 = ExtResource("3_kkehm")

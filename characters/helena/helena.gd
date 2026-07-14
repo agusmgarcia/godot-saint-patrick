@@ -4,4 +4,4 @@ extends Node3D # Or CharacterBody3D if you changed the root type
 
 func _ready() -> void:
 	# Replace "idle" with the exact name of your animation track
-	animation_player.play("idle/mixamo_com")
+	animation_player.play("femaleIdle1/mixamo_com")
