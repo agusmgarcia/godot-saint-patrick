@@ -416,14 +416,14 @@ surface_material_override/0 = ExtResource("2_3mdvi")
 [node name="Shape" type="CollisionShape3D" parent="Walls/RightSide/Collider" unique_id=1979727455]
 shape = SubResource("BoxShape3D_wall_side")
 
-[node name="Cliff" type="Node3D" parent="."]
+[node name="Cliff" type="Node3D" parent="." unique_id=447125556]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.29, 1.75)
 
-[node name="Mesh" type="MeshInstance3D" parent="Cliff"]
+[node name="Mesh" type="MeshInstance3D" parent="Cliff" unique_id=190051588]
 mesh = SubResource("BoxMesh_cliff")
 surface_material_override/0 = ExtResource("12_rock")
 
-[node name="Collider" type="StaticBody3D" parent="Cliff"]
+[node name="Collider" type="StaticBody3D" parent="Cliff" unique_id=94905343]
 
-[node name="Shape" type="CollisionShape3D" parent="Cliff/Collider"]
+[node name="Shape" type="CollisionShape3D" parent="Cliff/Collider" unique_id=1977122171]
 shape = SubResource("BoxShape3D_cliff")
