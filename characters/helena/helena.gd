@@ -1,7 +1,4 @@
-extends Node3D # Or CharacterBody3D if you changed the root type
+extends Character
 
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
-
-func _ready() -> void:
-	# Replace "idle" with the exact name of your animation track
-	animation_player.play("femaleIdle1/mixamo_com")
+## Helena character.
+class_name Helena
