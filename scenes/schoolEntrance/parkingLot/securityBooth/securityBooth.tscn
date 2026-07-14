@@ -13,7 +13,7 @@
 size = Vector3(3.5, 0.675, 0.1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_front_bottom"]
-size = Vector3(3.5, 0.675, 0.1)
+size = Vector3(3.5, 1.075, 0.1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_front_left"]
 size = Vector3(1, 1, 0.1)
@@ -22,37 +22,37 @@ size = Vector3(1, 1, 0.1)
 size = Vector3(1, 1, 0.1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_front_full"]
-size = Vector3(3.5, 2.35, 0.1)
+size = Vector3(3.5, 2.75, 0.1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_left_top"]
 size = Vector3(0.1, 0.35, 3.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_left_front"]
-size = Vector3(0.1, 2, 1)
+size = Vector3(0.1, 2.4, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_left_back"]
-size = Vector3(0.1, 2, 1)
+size = Vector3(0.1, 2.4, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_left_front"]
-size = Vector3(0.1, 2, 1)
+size = Vector3(0.1, 2.4, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_left_back"]
-size = Vector3(0.1, 2, 1)
+size = Vector3(0.1, 2.4, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_left_top"]
 size = Vector3(0.1, 0.35, 3.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_back"]
-size = Vector3(3.5, 2.35, 0.1)
+size = Vector3(3.5, 2.75, 0.1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_back_full"]
-size = Vector3(3.5, 2.35, 0.1)
+size = Vector3(3.5, 2.75, 0.1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_right"]
-size = Vector3(0.1, 2.35, 3.5)
+size = Vector3(0.1, 2.75, 3.5)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_right_full"]
-size = Vector3(0.1, 2.35, 3.5)
+size = Vector3(0.1, 2.75, 3.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_roof"]
 size = Vector3(4.5, 0.2, 4.5)
@@ -97,18 +97,18 @@ size = Vector3(5.38, 1.2, 0.2)
 script = ExtResource("1_script")
 
 [node name="Walls" type="Node3D" parent="." unique_id=1322576009]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.375, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.575, 0)
 
 [node name="Front" type="Node3D" parent="Walls" unique_id=445660981]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.75)
 
 [node name="Top" type="MeshInstance3D" parent="Walls/Front" unique_id=943028639]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8375, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0375, 0)
 mesh = SubResource("BoxMesh_front_top")
 surface_material_override/0 = ExtResource("1_brick_mat")
 
 [node name="SecurityLabel" type="Label3D" parent="Walls/Front" unique_id=1960821077]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8375, 0.051)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0375, 0.051)
 pixel_size = 0.01
 text = "Security"
 font_size = 35
@@ -120,12 +120,12 @@ mesh = SubResource("BoxMesh_front_bottom")
 surface_material_override/0 = ExtResource("1_brick_mat")
 
 [node name="Left" type="MeshInstance3D" parent="Walls/Front" unique_id=1465497159]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.25, 0.2, 0)
 mesh = SubResource("BoxMesh_front_left")
 surface_material_override/0 = ExtResource("1_brick_mat")
 
 [node name="Right" type="MeshInstance3D" parent="Walls/Front" unique_id=885912021]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.25, 0.2, 0)
 mesh = SubResource("BoxMesh_front_right")
 surface_material_override/0 = ExtResource("1_brick_mat")
 
@@ -138,7 +138,7 @@ shape = SubResource("BoxShape3D_front_full")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.75, 0, 0)
 
 [node name="Top" type="MeshInstance3D" parent="Walls/Left" unique_id=565410163]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 mesh = SubResource("BoxMesh_left_top")
 surface_material_override/0 = ExtResource("1_brick_mat")
 
@@ -163,7 +163,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.175, -1.25)
 shape = SubResource("BoxShape3D_left_back")
 
 [node name="ShapeTop" type="CollisionShape3D" parent="Walls/Left/Collider" unique_id=1321672617]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 shape = SubResource("BoxShape3D_left_top")
 
 [node name="Back" type="Node3D" parent="Walls" unique_id=422697922]
@@ -191,7 +191,7 @@ surface_material_override/0 = ExtResource("1_brick_mat")
 shape = SubResource("BoxShape3D_right_full")
 
 [node name="Roof" type="Node3D" parent="." unique_id=274829158]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.65, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.05, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="Roof" unique_id=1719964412]
 mesh = SubResource("BoxMesh_roof")
