@@ -105,6 +105,54 @@ If a suitable material already exists in `materials/`, reuse it instead of downl
 
 ---
 
+## Characters
+
+Characters live under `characters/` and each has its own folder (e.g., `characters/helena/`).
+
+### Base Script
+
+A shared base script exists at `characters/character/character.gd` with `class_name Character`. It provides:
+
+- A state machine (currently with `IDLE` state).
+- A `Gender` enum (`FEMALE`, `MALE`) exposed as an `@export` property to determine which animation set to use.
+- Random animation selection within each state (e.g., picks one of 3 idle animations randomly, looping indefinitely).
+- A public `idle()` method to command the character from outside.
+
+All character scripts must `extends Character`.
+
+### Character Scene Structure
+
+Each character scene (`.tscn`) is **self-contained** — it does NOT inherit from a base scene. The structure is:
+
+```bash
+<CharacterName> (instance of <characterName>.fbx)
+  ├── Skeleton3D (comes from FBX)
+  └── AnimationPlayer
+        └── libraries:
+              femaleIdle1 = res://animations/femaleIdle1.fbx
+              femaleIdle2 = res://animations/femaleIdle2.fbx
+              femaleIdle3 = res://animations/femaleIdle3.fbx
+              (+ all other shared animations)
+```
+
+### Animation Rules
+
+- **Every character must have an `AnimationPlayer` node with ALL shared animations loaded as libraries.** When a new animation is added to the project, it must be added to every character's `AnimationPlayer`.
+- Animation libraries are stored in `animations/` and follow the naming pattern: `<gender><ActionName><number>.fbx` (e.g., `femaleIdle1.fbx`, `maleIdle2.fbx`).
+- Animation track names follow Mixamo convention: `<libraryName>/mixamo_com` (e.g., `femaleIdle1/mixamo_com`).
+- The `AnimationPlayer` must be a direct child of the character root node so the base script can resolve it via `$AnimationPlayer`.
+
+### Adding a New Character
+
+1. Create a folder under `characters/<characterName>/`.
+2. Place the character's FBX model as `<characterName>.fbx`.
+3. Create a `.tscn` scene that instances the FBX as the root node.
+4. Add an `AnimationPlayer` as a child with **all** shared animation libraries loaded (copy from an existing character).
+5. Create a `.gd` script that `extends Character` with `class_name <CharacterName>`.
+6. Set the `gender` export in the scene's inspector to match the character.
+
+---
+
 ## Key Principles
 
 1. **Components are origin-anchored** — build everything around `(0, 0, 0)` and let the consumer place it in the world.
