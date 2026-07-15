@@ -6,33 +6,43 @@
 [ext_resource type="AnimationLibrary" uid="uid://ctb670d2287eu" path="res://animations/femaleIdle2.fbx" id="4_idle2"]
 [ext_resource type="AnimationLibrary" uid="uid://bbmcf4ps6nwue" path="res://animations/femaleIdle3.fbx" id="5_idle3"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+radius = 0.3
+height = 1.7
+
 [node name="Helena" unique_id=678800787 instance=ExtResource("1_scg1b")]
 script = ExtResource("2_eyap1")
 
 [node name="Skeleton3D" parent="." index="0" unique_id=940484347]
-bones/0/position = Vector3(0.055504233, 1.0772493, -0.0071988404)
-bones/0/rotation = Quaternion(-0.0058620106, -0.0407455, -0.02276596, 0.99889296)
-bones/1/rotation = Quaternion(-0.02172063, 0.0056489655, 0.012782594, 0.99966645)
-bones/2/rotation = Quaternion(0.021232404, 0.010734142, 0.026485613, 0.99936604)
-bones/3/rotation = Quaternion(0.021232396, 0.010734147, 0.026485622, 0.99936604)
-bones/4/rotation = Quaternion(-0.058083124, 0.0017700971, -0.0030715854, 0.9983055)
-bones/5/rotation = Quaternion(0.03736168, 0.006383733, -0.040171154, 0.99847364)
-bones/7/rotation = Quaternion(-0.6188245, -0.37463653, 0.5561314, -0.40917182)
-bones/8/rotation = Quaternion(0.47278923, 0.20964597, 0.11842178, 0.847641)
-bones/9/rotation = Quaternion(-0.0038992986, -0.0050832178, 0.074088745, 0.9972311)
-bones/11/rotation = Quaternion(0.58514035, -0.40738684, 0.5694675, 0.4090888)
-bones/12/rotation = Quaternion(0.46993908, -0.26308593, -0.094205804, 0.8372983)
-bones/13/rotation = Quaternion(0.0020838277, 0.0066753747, -0.087073825, 0.9961774)
-bones/15/rotation = Quaternion(0.022248369, 0.12316047, 0.9906797, -0.053763233)
-bones/16/rotation = Quaternion(-0.14875366, -0.0006402073, 0.02804645, 0.9884763)
-bones/17/rotation = Quaternion(0.43914038, -0.17916612, 0.07725965, 0.8769757)
-bones/18/rotation = Quaternion(0.30914098, -0.11512402, 0.051543083, 0.9426143)
-bones/20/rotation = Quaternion(-0.05844122, 0.007467541, 0.9956915, -0.0716061)
-bones/21/rotation = Quaternion(-0.077278525, 0.00023774093, -0.030875515, 0.9965313)
-bones/22/rotation = Quaternion(0.49563134, 0.11686444, -0.10718854, 0.85393375)
-bones/23/rotation = Quaternion(0.34524652, 0.08335854, -0.02255726, 0.9345307)
+bones/0/position = Vector3(0.0015522062, 1.0580635, 0.0012737345)
+bones/0/rotation = Quaternion(-0.03172529, -0.024816075, -0.08228081, 0.99579495)
+bones/1/rotation = Quaternion(-0.065200694, -0.0104369335, 0.08424815, 0.9942546)
+bones/2/rotation = Quaternion(0.013737441, -0.0027355158, 0.022726763, 0.9996437)
+bones/3/rotation = Quaternion(0.014040246, -0.004561255, 0.022079969, 0.9996472)
+bones/4/rotation = Quaternion(0.077433705, 0.0008458891, -0.053933036, 0.99553734)
+bones/5/rotation = Quaternion(-0.08819896, -0.010694675, 0.004673527, 0.9960345)
+bones/7/rotation = Quaternion(-0.61746234, -0.3765942, 0.55515987, -0.41074893)
+bones/8/rotation = Quaternion(0.5528738, 0.032338552, -0.08911176, 0.827855)
+bones/9/rotation = Quaternion(-0.010941526, 0.0005011136, 0.18782234, 0.982142)
+bones/11/rotation = Quaternion(0.59868956, -0.38786736, 0.5812895, 0.39144883)
+bones/12/rotation = Quaternion(0.43904915, -0.101844676, 0.052260168, 0.8911411)
+bones/13/rotation = Quaternion(0.0036686268, -0.0019418196, -0.24096933, 0.9705239)
+bones/15/rotation = Quaternion(0.058691487, 0.114390254, 0.9880677, -0.08480884)
+bones/16/rotation = Quaternion(-0.30627885, -0.06530561, 0.041733935, 0.9487818)
+bones/17/rotation = Quaternion(0.5966863, -0.04750012, 0.013918736, 0.8009467)
+bones/18/rotation = Quaternion(0.31112713, -0.089303665, 0.030146485, 0.9456829)
+bones/20/rotation = Quaternion(-0.067821234, 0.0059208814, 0.9923241, -0.10323805)
+bones/21/rotation = Quaternion(-0.14040782, 0.049510285, -0.029472765, 0.9884158)
+bones/22/rotation = Quaternion(0.53539854, 0.0061160196, -0.033471446, 0.8439139)
+bones/23/rotation = Quaternion(0.32572842, 0.08840107, -0.02984843, 0.9408482)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1" unique_id=1037575452]
 libraries/femaleIdle1 = ExtResource("3_idle1")
 libraries/femaleIdle2 = ExtResource("4_idle2")
 libraries/femaleIdle3 = ExtResource("5_idle3")
+
+[node name="Collider" type="StaticBody3D" parent="." index="2" unique_id=1374297551]
+
+[node name="Shape" type="CollisionShape3D" parent="Collider" index="0" unique_id=114733128]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("CapsuleShape3D_1")
