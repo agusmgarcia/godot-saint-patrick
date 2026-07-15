@@ -22,33 +22,60 @@ func idle() -> void:
 
 enum Gender {FEMALE, MALE}
 
-enum State {IDLE}
+enum State {IDLE, FLY_REMOVAL}
 
 
 # <================================ PRIVATE =================================> #
 
 var _state: State
 var _animation_player: AnimationPlayer
+var _timer: Timer
 
 func _ready() -> void:
 	_animation_player = _create_animation_player(gender)
 	_animation_player.animation_finished.connect(_on_animation_finished)
 	add_child(_animation_player)
 
+	_timer = Timer.new()
+	_timer.one_shot = true
+	_timer.timeout.connect(_on_timer_timeout)
+	add_child(_timer)
+
 	idle()
 
 
 func _set_state(new_state: State) -> void:
 	_state = new_state
+
 	match _state:
 		State.IDLE:
+			_timer.start(10.0)
 			_play_random_animation(_animation_player, _ANIMATIONS[State.IDLE][gender], 2)
+
+		State.FLY_REMOVAL:
+			_timer.stop()
+			_play_random_animation(_animation_player, _ANIMATIONS[State.FLY_REMOVAL][gender], 0.5)
 
 
 func _on_animation_finished(_animation_name: StringName) -> void:
 	match _state:
 		State.IDLE:
 			_play_random_animation(_animation_player, _ANIMATIONS[State.IDLE][gender], 2)
+
+		State.FLY_REMOVAL:
+			idle()
+
+
+func _on_timer_timeout() -> void:
+	match _state:
+		State.IDLE:
+			if randf() < 0.15:
+				_set_state(State.FLY_REMOVAL)
+			else:
+				_timer.start(10.0)
+
+		State.FLY_REMOVAL:
+			pass
 
 
 # <================================ STATIC =================================> #
@@ -75,14 +102,15 @@ static func _create_animation_player(p_gender: Gender) -> AnimationPlayer:
 	return animation_player
 
 
-## Holds animation libraries in a dictionary, so the animations directory
-## is scanned once per gender.
+## Holds animation libraries in a dictionary, so they are loaded
+## once per gender.
 static var _animation_libraries_cache: Dictionary = {}
 
 
 ## Loads and caches animation libraries for the given gender.
-## On the first call the animations directory is scanned; subsequent
-## calls return the cached result instantly.
+## Uses the _ANIMATIONS dictionary to determine exactly which
+## libraries to load. On the first call the libraries are loaded
+## from disk; subsequent calls return the cached result instantly.
 static func _get_animation_libraries(p_gender: Gender) -> Dictionary:
 	if _animation_libraries_cache.has(p_gender):
 		return _animation_libraries_cache[p_gender]
@@ -90,26 +118,14 @@ static func _get_animation_libraries(p_gender: Gender) -> Dictionary:
 	const ANIMATIONS_DIR := "res://animations/"
 	var libraries: Dictionary = {}
 
-	var animation_directory := DirAccess.open(ANIMATIONS_DIR)
-	if not animation_directory:
-		_animation_libraries_cache[p_gender] = libraries
-		return libraries
-
-	animation_directory.list_dir_begin()
-
-	var gender_prefix: String = "female" if p_gender == Gender.FEMALE else "male"
-	var file_name := animation_directory.get_next()
-
-	while file_name != "":
-		if not animation_directory.current_is_dir() and file_name.begins_with(gender_prefix) and file_name.ends_with(".fbx"):
-			var library_name := file_name.get_basename()
-			var library := load(ANIMATIONS_DIR + file_name)
-			if library:
+	for state: State in _ANIMATIONS:
+		var animation_names: Array = _ANIMATIONS[state][p_gender]
+		for animation_name: String in animation_names:
+			var library_name := animation_name.split("/")[0]
+			if not libraries.has(library_name):
+				var library = load(ANIMATIONS_DIR + library_name + ".fbx")
+				assert(library != null, "Animation library '%s' not found at '%s'" % [library_name, ANIMATIONS_DIR + library_name + ".fbx"])
 				libraries[library_name] = library
-
-		file_name = animation_directory.get_next()
-
-	animation_directory.list_dir_end()
 
 	_animation_libraries_cache[p_gender] = libraries
 	return libraries
@@ -123,10 +139,12 @@ const _ANIMATIONS: Dictionary = {
 			"femaleIdle2/mixamo_com",
 			"femaleIdle3/mixamo_com",
 		],
-		Gender.MALE: [
-			"maleIdle1/mixamo_com",
-			"maleIdle2/mixamo_com",
-			"maleIdle3/mixamo_com",
+		Gender.MALE: [],
+	},
+	State.FLY_REMOVAL: {
+		Gender.FEMALE: [
+			"femaleFlyRemoval1/mixamo_com"
 		],
+		Gender.MALE: []
 	}
 }
