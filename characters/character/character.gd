@@ -1,4 +1,4 @@
-extends Node3D
+extends CharacterBody3D
 
 ## Base class for all characters. Provides a state machine
 ## with animation integration.

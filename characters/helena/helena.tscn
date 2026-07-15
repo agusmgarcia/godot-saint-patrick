@@ -5,44 +5,24 @@
 [ext_resource type="AnimationLibrary" uid="uid://b0pueu60y8snb" path="res://animations/femaleIdle1.fbx" id="3_idle1"]
 [ext_resource type="AnimationLibrary" uid="uid://ctb670d2287eu" path="res://animations/femaleIdle2.fbx" id="4_idle2"]
 [ext_resource type="AnimationLibrary" uid="uid://bbmcf4ps6nwue" path="res://animations/femaleIdle3.fbx" id="5_idle3"]
+[ext_resource type="AnimationLibrary" uid="uid://cs6bn3rv5fh8t" path="res://animations/femaleWalk1.fbx" id="6_w75sm"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
 radius = 0.3
 height = 1.7
 
-[node name="Helena" unique_id=678800787 instance=ExtResource("1_scg1b")]
+[node name="Helena" type="CharacterBody3D" unique_id=1273941643]
 script = ExtResource("2_eyap1")
 
-[node name="Skeleton3D" parent="." index="0" unique_id=940484347]
-bones/0/position = Vector3(0.0015522062, 1.0580635, 0.0012737345)
-bones/0/rotation = Quaternion(-0.03172529, -0.024816075, -0.08228081, 0.99579495)
-bones/1/rotation = Quaternion(-0.065200694, -0.0104369335, 0.08424815, 0.9942546)
-bones/2/rotation = Quaternion(0.013737441, -0.0027355158, 0.022726763, 0.9996437)
-bones/3/rotation = Quaternion(0.014040246, -0.004561255, 0.022079969, 0.9996472)
-bones/4/rotation = Quaternion(0.077433705, 0.0008458891, -0.053933036, 0.99553734)
-bones/5/rotation = Quaternion(-0.08819896, -0.010694675, 0.004673527, 0.9960345)
-bones/7/rotation = Quaternion(-0.61746234, -0.3765942, 0.55515987, -0.41074893)
-bones/8/rotation = Quaternion(0.5528738, 0.032338552, -0.08911176, 0.827855)
-bones/9/rotation = Quaternion(-0.010941526, 0.0005011136, 0.18782234, 0.982142)
-bones/11/rotation = Quaternion(0.59868956, -0.38786736, 0.5812895, 0.39144883)
-bones/12/rotation = Quaternion(0.43904915, -0.101844676, 0.052260168, 0.8911411)
-bones/13/rotation = Quaternion(0.0036686268, -0.0019418196, -0.24096933, 0.9705239)
-bones/15/rotation = Quaternion(0.058691487, 0.114390254, 0.9880677, -0.08480884)
-bones/16/rotation = Quaternion(-0.30627885, -0.06530561, 0.041733935, 0.9487818)
-bones/17/rotation = Quaternion(0.5966863, -0.04750012, 0.013918736, 0.8009467)
-bones/18/rotation = Quaternion(0.31112713, -0.089303665, 0.030146485, 0.9456829)
-bones/20/rotation = Quaternion(-0.067821234, 0.0059208814, 0.9923241, -0.10323805)
-bones/21/rotation = Quaternion(-0.14040782, 0.049510285, -0.029472765, 0.9884158)
-bones/22/rotation = Quaternion(0.53539854, 0.0061160196, -0.033471446, 0.8439139)
-bones/23/rotation = Quaternion(0.32572842, 0.08840107, -0.02984843, 0.9408482)
+[node name="Model" parent="." unique_id=2044607134 instance=ExtResource("1_scg1b")]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="1" unique_id=1037575452]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1251189965]
+root_node = NodePath("../Model")
 libraries/femaleIdle1 = ExtResource("3_idle1")
 libraries/femaleIdle2 = ExtResource("4_idle2")
 libraries/femaleIdle3 = ExtResource("5_idle3")
+libraries/femaleWalk1 = ExtResource("6_w75sm")
 
-[node name="Collider" type="StaticBody3D" parent="." index="2" unique_id=1374297551]
-
-[node name="Shape" type="CollisionShape3D" parent="Collider" index="0" unique_id=114733128]
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=1373863617]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
 shape = SubResource("CapsuleShape3D_1")
