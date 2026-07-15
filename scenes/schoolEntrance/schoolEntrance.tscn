@@ -7,6 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://c3ilcm6imfur6" path="res://scenes/schoolEntrance/streetBlock/streetBlock.tscn" id="10_streetblock"]
 [ext_resource type="PackedScene" uid="uid://b18wfsc1jivmc" path="res://scenes/schoolEntrance/river/river.tscn" id="11_river"]
 
+[sub_resource type="NavigationMesh" id="NavigationMesh_21yb8"]
+vertices = PackedVector3Array(23.1, 0.5500002, 35.5, 22.6, 0.5500002, 35.75, 22.6, 0.5500002, 36, 32.35, 0.3000002, 36, 22.6, 0.5500002, -6.7500005, 22.6, 0.5500002, -5.5000005, 23.1, 0.5500002, -5.2500005, 32.35, 0.3000002, -6.7500005, 23.1, 0.3000002, 12.75, 22.6, 0.3000002, 13, 22.6, 0.3000002, 17, 23.1, 0.3000002, 17.25, -19.65, 4.3, -4.5000005, -19.65, 4.3, 4.7499995, 19.6, 4.3, 4.7499995, 19.6, 4.3, -4.5000005, -20.65, 0.3000002, 5.9999995, -20.9, 0.3000002, -4.2500005, -21.65, 0.3000002, -4.2500005, -21.65, 0.3000002, 7.9999995, -3.6499996, 0.3000002, 7.9999995, -3.8999996, 0.3000002, 5.9999995, -19.4, 1.0500002, -4.2500005, -19.4, 1.0500002, 4.4999995, 19.35, 1.0500002, 4.4999995, 19.35, 1.0500002, -4.2500005, 21.6, 0.3000002, -4.2500005, 20.85, 0.3000002, -4.2500005, 20.6, 0.3000002, 5.9999995, 21.6, 0.3000002, 7.9999995, 3.6000004, 0.3000002, 7.9999995, 3.6000004, 0.3000002, 6.2499995, 5.6000004, 0.3000002, 33.25, 6.1000004, 0.3000002, 33.75, 6.1000004, 0.3000002, 32.25, 2.6000004, 0.5500002, 31.25, 3.3500004, 0.3000002, 31, 3.3500004, 0.3000002, 30.25, 2.3500004, 0.5500002, 30, 2.6000004, 0.5500002, 33, 2.8500004, 0.5500002, 33.5, 4.1000004, 0.3000002, 33.75, 4.3500004, 0.3000002, 33.25, 3.6000004, 0.3000002, 33.25, 3.8500004, 0.3000002, 32.25, 2.3500004, 0.5500002, 5.7499995, -2.1499996, 0.5500002, 5.7499995, -2.1499996, 0.5500002, 34, 2.6000004, 0.5500002, 34, 20.35, 0.3000002, 10, 21.1, 0.3000002, 9.5, 19.6, 0.3000002, 9.5, 20.35, 0.3000002, 11, 19.6, 0.3000002, 11.5, 20.6, 0.3000002, 26.5, 21.6, 0.3000002, 26.25, 21.1, 0.3000002, 18, 18.35, 0.3000002, 13, 20.35, 0.3000002, 11.75, 21.1, 0.3000002, 11.25, 18.1, 0.3000002, 9.5, 3.6000004, 0.3000002, 9.5, 20.6, 0.3000002, 12.75, 20.35, 0.3000002, 12.75, 21.6, 0.3000002, 18.25, 21.1, 0.3000002, 13, 21.6, 0.3000002, 34.5, 21.6, 0.3000002, 27.75, 20.6, 0.3000002, 27.5, 7.1000004, 0.3000002, 31, 7.3500004, 0.3000002, 34.5, 3.8500004, 0.3000002, 27.5, 2.8500004, 0.5500002, 35.75, 2.6000004, 0.5500002, 35.25, -2.1499996, 0.5500002, 35.25, -2.3999996, 0.5500002, 35.75, 22.6, 0.3000002, 45.25, -21.9, 0.3000002, 45.25, -21.9, 0.5500002, 35.75, 32.35, 0.3000002, 45.25)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(9, 8, 10), PackedInt32Array(10, 8, 11), PackedInt32Array(11, 8, 3), PackedInt32Array(3, 8, 7), PackedInt32Array(3, 0, 11), PackedInt32Array(8, 6, 7), PackedInt32Array(15, 14, 12), PackedInt32Array(12, 14, 13), PackedInt32Array(17, 16, 18), PackedInt32Array(18, 16, 19), PackedInt32Array(21, 20, 16), PackedInt32Array(16, 20, 19), PackedInt32Array(25, 24, 22), PackedInt32Array(22, 24, 23), PackedInt32Array(27, 26, 28), PackedInt32Array(28, 26, 29), PackedInt32Array(31, 28, 30), PackedInt32Array(30, 28, 29), PackedInt32Array(34, 33, 32), PackedInt32Array(36, 35, 37), PackedInt32Array(37, 35, 38), PackedInt32Array(38, 35, 39), PackedInt32Array(42, 41, 43), PackedInt32Array(43, 41, 40), PackedInt32Array(42, 44, 32), PackedInt32Array(32, 44, 34), PackedInt32Array(45, 38, 46), PackedInt32Array(46, 38, 47), PackedInt32Array(43, 44, 42), PackedInt32Array(39, 48, 38), PackedInt32Array(38, 48, 47), PackedInt32Array(43, 40, 39), PackedInt32Array(39, 40, 48), PackedInt32Array(51, 50, 49), PackedInt32Array(52, 53, 49), PackedInt32Array(49, 53, 51), PackedInt32Array(55, 54, 56), PackedInt32Array(56, 54, 57), PackedInt32Array(59, 58, 52), PackedInt32Array(52, 58, 53), PackedInt32Array(60, 57, 61), PackedInt32Array(63, 58, 62), PackedInt32Array(62, 58, 59), PackedInt32Array(56, 64, 55), PackedInt32Array(62, 65, 63), PackedInt32Array(63, 65, 57), PackedInt32Array(57, 65, 56), PackedInt32Array(67, 66, 68), PackedInt32Array(68, 66, 69), PackedInt32Array(69, 66, 70), PackedInt32Array(37, 71, 36), PackedInt32Array(36, 71, 69), PackedInt32Array(68, 69, 54), PackedInt32Array(54, 69, 71), PackedInt32Array(54, 71, 57), PackedInt32Array(57, 71, 61), PackedInt32Array(73, 72, 74), PackedInt32Array(74, 72, 75), PackedInt32Array(72, 2, 75), PackedInt32Array(75, 2, 76), PackedInt32Array(75, 76, 77), PackedInt32Array(72, 1, 2), PackedInt32Array(77, 78, 75), PackedInt32Array(2, 3, 76), PackedInt32Array(76, 3, 79)]
+geometry_parsed_geometry_type = 1
+
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_night"]
 sky_top_color = Color(0.078766845, 0.0787035, 0.16751745, 1)
 sky_horizon_color = Color(0.050980393, 0.050980393, 0.11764706, 1)
@@ -32,6 +37,22 @@ fog_aerial_perspective = 0.5
 
 [node name="SchoolEntrance" type="Node3D" unique_id=517855459]
 
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1705020934]
+navigation_mesh = SubResource("NavigationMesh_21yb8")
+
+[node name="Bridge" parent="NavigationRegion3D" unique_id=986381520 instance=ExtResource("8_bridge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20.171587)
+
+[node name="ParkingLot" parent="NavigationRegion3D" unique_id=2104304287 instance=ExtResource("9_parking")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 21.960794)
+
+[node name="SchoolBuilding" parent="NavigationRegion3D" unique_id=1032568515 instance=ExtResource("7_5jtxm")]
+
+[node name="StreetBlock" parent="NavigationRegion3D" unique_id=1230306427 instance=ExtResource("10_streetblock")]
+
+[node name="River" parent="NavigationRegion3D" unique_id=382900447 instance=ExtResource("11_river")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.95, 27)
+
 [node name="Environment" type="Node3D" parent="." unique_id=198896989]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=175692185]
@@ -43,18 +64,15 @@ light_color = Color(0.7529412, 0.8156863, 1, 1)
 light_energy = 0.3
 shadow_enabled = true
 
-[node name="Bridge" parent="." unique_id=986381520 instance=ExtResource("8_bridge")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20.171587)
-
 [node name="Cameras" type="Node3D" parent="." unique_id=194482793]
 
 [node name="Entrance" type="Camera3D" parent="Cameras" unique_id=47935763]
 transform = Transform3D(0.926614, -0.114427015, 0.35818017, 7.1626025e-09, 0.9525712, 0.3043158, -0.37601405, -0.28198326, 0.8826658, 7.010169, 2.8091543, 39.693356)
+current = true
 fov = 60.0
 
 [node name="Bridge" type="Camera3D" parent="Cameras" unique_id=533416551]
 transform = Transform3D(0.948026, 0.14414844, -0.28366888, -0.044844966, 0.9431299, 0.32938585, 0.31501698, -0.2995452, 0.90057594, -1.7837934, 3.3499527, 36.291996)
-current = true
 fov = 60.0
 
 [node name="Access" type="Camera3D" parent="Cameras" unique_id=899676698]
@@ -64,20 +82,10 @@ fov = 60.0
 [node name="Characters" type="Node3D" parent="." unique_id=2104005020]
 
 [node name="Helena" parent="Characters" unique_id=255764739 instance=ExtResource("6_21yb8")]
-transform = Transform3D(-0.9541568, 0, -0.2993075, 0, 1, 0, 0.2993075, 0, -0.9541568, 5.4505043, 0.1593988, 35.814728)
+transform = Transform3D(-0.9541568, 0, -0.2993075, 0, 1, 0, 0.2993075, 0, -0.9541568, 5.4505043, 0.1593988, 36.396217)
 
 [node name="Helena2" parent="Characters" unique_id=525764048 instance=ExtResource("6_21yb8")]
-transform = Transform3D(0.6488905, 0, -0.76088184, 0, 1, 0, 0.76088184, 0, 0.6488905, 2.1160312, 0.20193724, 25.804424)
+transform = Transform3D(0.6488905, 0, -0.76088184, 0, 1, 0, 0.76088184, 0, 0.6488905, 2.1160312, 0.20193724, 22.497572)
 
 [node name="Helena3" parent="Characters" unique_id=1974297223 instance=ExtResource("6_21yb8")]
 transform = Transform3D(0.38418263, 0, 0.92325723, 0, 1, 0, -0.92325723, 0, 0.38418263, -2.218048, 0.20193653, 31.58735)
-
-[node name="ParkingLot" parent="." unique_id=2104304287 instance=ExtResource("9_parking")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 21.960794)
-
-[node name="SchoolBuilding" parent="." unique_id=1032568515 instance=ExtResource("7_5jtxm")]
-
-[node name="StreetBlock" parent="." unique_id=1230306427 instance=ExtResource("10_streetblock")]
-
-[node name="River" parent="." unique_id=382900447 instance=ExtResource("11_river")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.95, 27)
