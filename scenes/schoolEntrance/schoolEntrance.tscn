@@ -77,7 +77,7 @@ current = true
 fov = 60.0
 
 [node name="Access" type="Camera3D" parent="Cameras" unique_id=899676698]
-transform = Transform3D(-0.58805346, 0.624493, -0.5140056, 0, 0.635499, 0.77210176, 0.8088222, 0.45403704, -0.37370732, -6.6846776, 7.6921453, 8.756723)
+transform = Transform3D(-0.3334397, 0.38064966, -0.8625104, 0.06326706, 0.92183906, 0.38237444, 0.94064623, 0.072930366, -0.33146024, -7.8565583, 5.551695, 8.306373)
 fov = 60.0
 
 [node name="Characters" type="Node3D" parent="." unique_id=2104005020]
