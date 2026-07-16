@@ -12,38 +12,92 @@ class_name Character
 ## The gender of the character. Determines which animation set to use.
 @export var gender: Gender = Gender.FEMALE
 
-## Walking speed in meters per second.
-@export var walk_speed := 1.4
+## When enabled, idle and walk use drunk animations.
+@export var drunk := false
 
 
 ## Instructs the character to enter the idle state.
 func idle() -> void:
-	_state = State.IDLE
-	velocity = Vector3.ZERO
-	_timer.start(10.0)
-	_play_random_animation(_animation_player, _ANIMATIONS[State.IDLE][gender], 2)
+	if drunk:
+		_state = State.DRUNK_IDLE
+		velocity = Vector3.ZERO
+		_timer.start(10.0)
+		_play_random_animation(_animation_player, ANIMATIONS[State.DRUNK_IDLE][gender], 2)
+	else:
+		_state = State.IDLE
+		velocity = Vector3.ZERO
+		_timer.start(10.0)
+		_play_random_animation(_animation_player, ANIMATIONS[State.IDLE][gender], 2)
 
 
 func _flyRemoval() -> void:
 	_state = State.FLY_REMOVAL
 	velocity = Vector3.ZERO
 	_timer.stop()
-	_play_random_animation(_animation_player, _ANIMATIONS[State.FLY_REMOVAL][gender], 0.5)
+	_play_random_animation(_animation_player, ANIMATIONS[State.FLY_REMOVAL][gender], 0.5)
 		
 
 ## Instructs the character to walk to a random point on the navigation mesh.
 func walk(target_position: Vector3) -> void:
-	_state = State.WALK
-	_timer.stop()
-	_navigation_agent.target_position = target_position
-	_play_random_animation(_animation_player, _ANIMATIONS[State.WALK][gender], 0.5)
+	if drunk:
+		_state = State.DRUNK_WALK
+		_timer.stop()
+		_navigation_agent.target_position = target_position
+		_play_random_animation(_animation_player, ANIMATIONS[State.DRUNK_WALK][gender], 0.5)
+	else:
+		_state = State.WALK
+		_timer.stop()
+		_navigation_agent.target_position = target_position
+		_play_random_animation(_animation_player, ANIMATIONS[State.WALK][gender], 0.5)
 	
 
 # <================================= ENUMS ==================================> #
 
 enum Gender {FEMALE, MALE}
 
-enum State {IDLE, FLY_REMOVAL, WALK}
+enum State {IDLE, DRUNK_IDLE, FLY_REMOVAL, WALK, DRUNK_WALK}
+
+## Walking speed in meters per second.
+const WALK_SPEED := 1.4
+
+## Walking speed in meters per second.
+const DRUNK_WALK_SPEED := 0.9
+
+## A dictionary with all the animations, discriminated by state and gender.
+const ANIMATIONS: Dictionary = {
+	State.IDLE: {
+		Gender.FEMALE: [
+			"femaleIdle1/mixamo_com",
+			"femaleIdle2/mixamo_com",
+			"femaleIdle3/mixamo_com",
+		],
+		Gender.MALE: [],
+	},
+	State.DRUNK_IDLE: {
+		Gender.FEMALE: [
+			"femaleDrunkIdle1/mixamo_com",
+		],
+		Gender.MALE: [],
+	},
+	State.FLY_REMOVAL: {
+		Gender.FEMALE: [
+			"femaleFlyRemoval1/mixamo_com"
+		],
+		Gender.MALE: []
+	},
+	State.WALK: {
+		Gender.FEMALE: [
+			"femaleWalk1/mixamo_com"
+		],
+		Gender.MALE: []
+	},
+	State.DRUNK_WALK: {
+		Gender.FEMALE: [
+			"femaleDrunkWalk1/mixamo_com"
+		],
+		Gender.MALE: []
+	}
+}
 
 
 # <================================ PRIVATE =================================> #
@@ -75,10 +129,13 @@ func _physics_process(delta: float) -> void:
 		State.IDLE:
 			return
 
+		State.DRUNK_IDLE:
+			return
+
 		State.FLY_REMOVAL:
 			return
 
-		State.WALK:
+		State.WALK, State.DRUNK_WALK:
 			if _navigation_agent.is_navigation_finished():
 				idle()
 				return
@@ -88,7 +145,7 @@ func _physics_process(delta: float) -> void:
 				var target_rotation := atan2(direction.x, direction.z)
 				rotation.y = lerp_angle(rotation.y, target_rotation, delta * 8.0)
 
-			velocity = direction * walk_speed
+			velocity = direction * (WALK_SPEED if !drunk else DRUNK_WALK_SPEED)
 			move_and_slide()
 			return
 
@@ -96,7 +153,11 @@ func _physics_process(delta: float) -> void:
 func _on_animation_finished(_animation_name: StringName) -> void:
 	match _state:
 		State.IDLE:
-			_play_random_animation(_animation_player, _ANIMATIONS[State.IDLE][gender], 2)
+			_play_random_animation(_animation_player, ANIMATIONS[State.IDLE][gender], 2)
+			return
+
+		State.DRUNK_IDLE:
+			_play_random_animation(_animation_player, ANIMATIONS[State.DRUNK_IDLE][gender], 2)
 			return
 
 		State.FLY_REMOVAL:
@@ -104,7 +165,11 @@ func _on_animation_finished(_animation_name: StringName) -> void:
 			return
 
 		State.WALK:
-			_play_random_animation(_animation_player, _ANIMATIONS[State.WALK][gender], 0.5)
+			_play_random_animation(_animation_player, ANIMATIONS[State.WALK][gender], 0.5)
+			return
+
+		State.DRUNK_WALK:
+			_play_random_animation(_animation_player, ANIMATIONS[State.DRUNK_WALK][gender], 0.5)
 			return
 
 
@@ -117,10 +182,14 @@ func _on_timer_timeout() -> void:
 				_timer.start(10.0)
 			return
 
+		State.DRUNK_IDLE:
+			_timer.start(10.0)
+			return
+
 		State.FLY_REMOVAL:
 			return
 
-		State.WALK:
+		State.WALK, State.DRUNK_WALK:
 			return
 
 
@@ -154,7 +223,7 @@ static var _animation_libraries_cache: Dictionary = {}
 
 
 ## Loads and caches animation libraries for the given gender.
-## Uses the _ANIMATIONS dictionary to determine exactly which
+## Uses the ANIMATIONS dictionary to determine exactly which
 ## libraries to load. On the first call the libraries are loaded
 ## from disk; subsequent calls return the cached result instantly.
 static func _get_animation_libraries(p_gender: Gender) -> Dictionary:
@@ -164,8 +233,8 @@ static func _get_animation_libraries(p_gender: Gender) -> Dictionary:
 	const ANIMATIONS_DIR := "res://animations/"
 	var libraries: Dictionary = {}
 
-	for state: State in _ANIMATIONS:
-		var animation_names: Array = _ANIMATIONS[state][p_gender]
+	for state: State in ANIMATIONS:
+		var animation_names: Array = ANIMATIONS[state][p_gender]
 		for animation_name: String in animation_names:
 			var library_name := animation_name.split("/")[0]
 			if not libraries.has(library_name):
@@ -175,28 +244,3 @@ static func _get_animation_libraries(p_gender: Gender) -> Dictionary:
 
 	_animation_libraries_cache[p_gender] = libraries
 	return libraries
-
-
-## A dictionary with all the animations, discriminated by state and gender.
-const _ANIMATIONS: Dictionary = {
-	State.IDLE: {
-		Gender.FEMALE: [
-			"femaleIdle1/mixamo_com",
-			"femaleIdle2/mixamo_com",
-			"femaleIdle3/mixamo_com",
-		],
-		Gender.MALE: [],
-	},
-	State.FLY_REMOVAL: {
-		Gender.FEMALE: [
-			"femaleFlyRemoval1/mixamo_com"
-		],
-		Gender.MALE: []
-	},
-	State.WALK: {
-		Gender.FEMALE: [
-			"femaleWalk1/mixamo_com"
-		],
-		Gender.MALE: []
-	}
-}
