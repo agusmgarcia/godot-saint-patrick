@@ -12,17 +12,38 @@ class_name Character
 ## The gender of the character. Determines which animation set to use.
 @export var gender: Gender = Gender.FEMALE
 
+## Walking speed in meters per second.
+@export var walk_speed := 1.4
+
 
 ## Instructs the character to enter the idle state.
 func idle() -> void:
-	_set_state(State.IDLE)
+	_state = State.IDLE
+	velocity = Vector3.ZERO
+	_timer.start(10.0)
+	_play_random_animation(_animation_player, _ANIMATIONS[State.IDLE][gender], 2)
 
+
+func _flyRemoval() -> void:
+	_state = State.FLY_REMOVAL
+	velocity = Vector3.ZERO
+	_timer.stop()
+	_play_random_animation(_animation_player, _ANIMATIONS[State.FLY_REMOVAL][gender], 0.5)
+		
+
+## Instructs the character to walk to a random point on the navigation mesh.
+func walk(target_position: Vector3) -> void:
+	_state = State.WALK
+	_timer.stop()
+	_navigation_agent.target_position = target_position
+	_play_random_animation(_animation_player, _ANIMATIONS[State.WALK][gender], 0.5)
+	
 
 # <================================= ENUMS ==================================> #
 
 enum Gender {FEMALE, MALE}
 
-enum State {IDLE, FLY_REMOVAL}
+enum State {IDLE, FLY_REMOVAL, WALK}
 
 
 # <================================ PRIVATE =================================> #
@@ -30,6 +51,7 @@ enum State {IDLE, FLY_REMOVAL}
 var _state: State
 var _animation_player: AnimationPlayer
 var _timer: Timer
+var _navigation_agent: NavigationAgent3D
 
 func _ready() -> void:
 	_animation_player = _create_animation_player(gender)
@@ -41,41 +63,65 @@ func _ready() -> void:
 	_timer.timeout.connect(_on_timer_timeout)
 	add_child(_timer)
 
+	_navigation_agent = NavigationAgent3D.new()
+	_navigation_agent.avoidance_enabled = false
+	add_child(_navigation_agent)
+
 	idle()
 
 
-func _set_state(new_state: State) -> void:
-	_state = new_state
-
+func _physics_process(delta: float) -> void:
 	match _state:
 		State.IDLE:
-			_timer.start(10.0)
-			_play_random_animation(_animation_player, _ANIMATIONS[State.IDLE][gender], 2)
+			return
 
 		State.FLY_REMOVAL:
-			_timer.stop()
-			_play_random_animation(_animation_player, _ANIMATIONS[State.FLY_REMOVAL][gender], 0.5)
+			return
+
+		State.WALK:
+			if _navigation_agent.is_navigation_finished():
+				idle()
+				return
+
+			var direction := (_navigation_agent.get_next_path_position() - global_position).normalized()
+			if direction.length() > 0.01:
+				var target_rotation := atan2(direction.x, direction.z)
+				rotation.y = lerp_angle(rotation.y, target_rotation, delta * 8.0)
+
+			velocity = direction * walk_speed
+			move_and_slide()
+			return
 
 
 func _on_animation_finished(_animation_name: StringName) -> void:
 	match _state:
 		State.IDLE:
 			_play_random_animation(_animation_player, _ANIMATIONS[State.IDLE][gender], 2)
+			return
 
 		State.FLY_REMOVAL:
 			idle()
+			return
+
+		State.WALK:
+			_play_random_animation(_animation_player, _ANIMATIONS[State.WALK][gender], 0.5)
+			return
 
 
 func _on_timer_timeout() -> void:
 	match _state:
 		State.IDLE:
 			if randf() < 0.15:
-				_set_state(State.FLY_REMOVAL)
+				_flyRemoval()
 			else:
 				_timer.start(10.0)
+			return
 
 		State.FLY_REMOVAL:
-			pass
+			return
+
+		State.WALK:
+			return
 
 
 # <================================ STATIC =================================> #
@@ -144,6 +190,12 @@ const _ANIMATIONS: Dictionary = {
 	State.FLY_REMOVAL: {
 		Gender.FEMALE: [
 			"femaleFlyRemoval1/mixamo_com"
+		],
+		Gender.MALE: []
+	},
+	State.WALK: {
+		Gender.FEMALE: [
+			"femaleWalk1/mixamo_com"
 		],
 		Gender.MALE: []
 	}
