@@ -16,6 +16,15 @@ class_name Character
 @export var drunk := false
 
 
+## Instructs the character to enter the argue state. The character
+## will loop through random arguing animations indefinitely.
+func argue() -> void:
+	_state = State.ARGUE
+	velocity = Vector3.ZERO
+	_timer.stop()
+	_play_random_animation(_animation_player, ANIMATIONS[State.ARGUE][gender])
+
+
 ## Instructs the character to enter the idle state.
 func idle() -> void:
 	if drunk:
@@ -51,7 +60,7 @@ func walk(target_position: Vector3) -> void:
 		_timer.stop()
 		_navigation_agent.target_position = target_position
 		_play_random_animation(_animation_player, ANIMATIONS[State.WALK][gender])
-	
+
 
 # <================================= ENUMS ==================================> #
 
@@ -59,7 +68,7 @@ func walk(target_position: Vector3) -> void:
 enum Gender {FEMALE, MALE}
 
 ## All possible states in the character's state machine.
-enum State {IDLE, IDLE_DRUNK, FLY_REMOVAL, WALK, WALK_DRUNK, TALK}
+enum State {ARGUE, FLY_REMOVAL, IDLE, IDLE_DRUNK, TALK, WALK, WALK_DRUNK}
 
 ## Walking speed in meters per second.
 const WALK_SPEED := 1.4
@@ -69,6 +78,19 @@ const DRUNK_WALK_SPEED := 0.9
 
 ## A dictionary with all the animations, discriminated by state and gender.
 const ANIMATIONS: Dictionary = {
+	State.ARGUE: {
+		Gender.FEMALE: [
+			"femaleArgue1/mixamo_com",
+			"femaleArgue2/mixamo_com",
+		],
+		Gender.MALE: [],
+	},
+	State.FLY_REMOVAL: {
+		Gender.FEMALE: [
+			"femaleFlyRemoval1/mixamo_com",
+		],
+		Gender.MALE: [],
+	},
 	State.IDLE: {
 		Gender.FEMALE: [
 			"femaleIdle1/mixamo_com",
@@ -83,24 +105,6 @@ const ANIMATIONS: Dictionary = {
 		],
 		Gender.MALE: [],
 	},
-	State.FLY_REMOVAL: {
-		Gender.FEMALE: [
-			"femaleFlyRemoval1/mixamo_com"
-		],
-		Gender.MALE: []
-	},
-	State.WALK: {
-		Gender.FEMALE: [
-			"femaleWalk1/mixamo_com"
-		],
-		Gender.MALE: []
-	},
-	State.WALK_DRUNK: {
-		Gender.FEMALE: [
-			"femaleDrunkWalk1/mixamo_com"
-		],
-		Gender.MALE: []
-	},
 	State.TALK: {
 		Gender.FEMALE: [
 			"femaleTalking1/mixamo_com",
@@ -108,7 +112,19 @@ const ANIMATIONS: Dictionary = {
 			"femaleTalking3/mixamo_com",
 		],
 		Gender.MALE: [],
-	}
+	},
+	State.WALK: {
+		Gender.FEMALE: [
+			"femaleWalk1/mixamo_com",
+		],
+		Gender.MALE: [],
+	},
+	State.WALK_DRUNK: {
+		Gender.FEMALE: [
+			"femaleDrunkWalk1/mixamo_com",
+		],
+		Gender.MALE: [],
+	},
 }
 
 
@@ -142,19 +158,22 @@ func _ready() -> void:
 	_navigation_agent.avoidance_enabled = false
 	add_child(_navigation_agent)
 
-	talk()
+	idle()
 
 
 ## Handles per-frame movement logic based on the current state.
 func _physics_process(delta: float) -> void:
 	match _state:
+		State.ARGUE:
+			return
+
+		State.FLY_REMOVAL:
+			return
+
 		State.IDLE:
 			return
 
 		State.IDLE_DRUNK:
-			return
-
-		State.FLY_REMOVAL:
 			return
 
 		State.TALK:
@@ -179,6 +198,14 @@ func _physics_process(delta: float) -> void:
 ## animation based on the current state.
 func _on_animation_finished(_animation_name: StringName) -> void:
 	match _state:
+		State.ARGUE:
+			_play_random_animation(_animation_player, ANIMATIONS[State.ARGUE][gender])
+			return
+
+		State.FLY_REMOVAL:
+			idle()
+			return
+
 		State.IDLE:
 			_play_random_animation(_animation_player, ANIMATIONS[State.IDLE][gender], 2)
 			return
@@ -187,10 +214,6 @@ func _on_animation_finished(_animation_name: StringName) -> void:
 			_play_random_animation(_animation_player, ANIMATIONS[State.IDLE_DRUNK][gender], 2)
 			return
 
-		State.FLY_REMOVAL:
-			idle()
-			return
-		
 		State.TALK:
 			_play_random_animation(_animation_player, ANIMATIONS[State.TALK][gender])
 			return
@@ -202,12 +225,18 @@ func _on_animation_finished(_animation_name: StringName) -> void:
 		State.WALK_DRUNK:
 			_play_random_animation(_animation_player, ANIMATIONS[State.WALK_DRUNK][gender])
 			return
-		
+
 
 ## Called when the idle timer expires. May trigger a random
 ## behavior like fly removal.
 func _on_timer_timeout() -> void:
 	match _state:
+		State.ARGUE:
+			return
+
+		State.FLY_REMOVAL:
+			return
+
 		State.IDLE:
 			if randf() < 0.15:
 				_state = State.FLY_REMOVAL
@@ -221,12 +250,9 @@ func _on_timer_timeout() -> void:
 			_timer.start(10.0)
 			return
 
-		State.FLY_REMOVAL:
-			return
-
 		State.TALK:
 			return
-			
+
 		State.WALK:
 			return
 
