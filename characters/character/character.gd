@@ -19,48 +19,52 @@ class_name Character
 ## Instructs the character to enter the idle state.
 func idle() -> void:
 	if drunk:
-		_state = State.DRUNK_IDLE
+		_state = State.IDLE_DRUNK
 		velocity = Vector3.ZERO
 		_timer.start(10.0)
-		_play_random_animation(_animation_player, ANIMATIONS[State.DRUNK_IDLE][gender], 2)
+		_play_random_animation(_animation_player, ANIMATIONS[State.IDLE_DRUNK][gender])
 	else:
 		_state = State.IDLE
 		velocity = Vector3.ZERO
 		_timer.start(10.0)
-		_play_random_animation(_animation_player, ANIMATIONS[State.IDLE][gender], 2)
+		_play_random_animation(_animation_player, ANIMATIONS[State.IDLE][gender])
 
 
-func _flyRemoval() -> void:
-	_state = State.FLY_REMOVAL
+## Instructs the character to enter the talk state. The character
+## will loop through random talking animations indefinitely.
+func talk() -> void:
+	_state = State.TALK
 	velocity = Vector3.ZERO
 	_timer.stop()
-	_play_random_animation(_animation_player, ANIMATIONS[State.FLY_REMOVAL][gender], 0.5)
-		
+	_play_random_animation(_animation_player, ANIMATIONS[State.TALK][gender])
+
 
 ## Instructs the character to walk to a random point on the navigation mesh.
 func walk(target_position: Vector3) -> void:
 	if drunk:
-		_state = State.DRUNK_WALK
+		_state = State.WALK_DRUNK
 		_timer.stop()
 		_navigation_agent.target_position = target_position
-		_play_random_animation(_animation_player, ANIMATIONS[State.DRUNK_WALK][gender], 0.5)
+		_play_random_animation(_animation_player, ANIMATIONS[State.WALK_DRUNK][gender])
 	else:
 		_state = State.WALK
 		_timer.stop()
 		_navigation_agent.target_position = target_position
-		_play_random_animation(_animation_player, ANIMATIONS[State.WALK][gender], 0.5)
+		_play_random_animation(_animation_player, ANIMATIONS[State.WALK][gender])
 	
 
 # <================================= ENUMS ==================================> #
 
+## The character's gender, used to select the correct animation set.
 enum Gender {FEMALE, MALE}
 
-enum State {IDLE, DRUNK_IDLE, FLY_REMOVAL, WALK, DRUNK_WALK}
+## All possible states in the character's state machine.
+enum State {IDLE, IDLE_DRUNK, FLY_REMOVAL, WALK, WALK_DRUNK, TALK}
 
 ## Walking speed in meters per second.
 const WALK_SPEED := 1.4
 
-## Walking speed in meters per second.
+## Drunk walking speed in meters per second.
 const DRUNK_WALK_SPEED := 0.9
 
 ## A dictionary with all the animations, discriminated by state and gender.
@@ -73,7 +77,7 @@ const ANIMATIONS: Dictionary = {
 		],
 		Gender.MALE: [],
 	},
-	State.DRUNK_IDLE: {
+	State.IDLE_DRUNK: {
 		Gender.FEMALE: [
 			"femaleDrunkIdle1/mixamo_com",
 		],
@@ -91,22 +95,39 @@ const ANIMATIONS: Dictionary = {
 		],
 		Gender.MALE: []
 	},
-	State.DRUNK_WALK: {
+	State.WALK_DRUNK: {
 		Gender.FEMALE: [
 			"femaleDrunkWalk1/mixamo_com"
 		],
 		Gender.MALE: []
+	},
+	State.TALK: {
+		Gender.FEMALE: [
+			"femaleTalking1/mixamo_com",
+			"femaleTalking2/mixamo_com",
+			"femaleTalking3/mixamo_com",
+		],
+		Gender.MALE: [],
 	}
 }
 
 
 # <================================ PRIVATE =================================> #
 
+## The current state of the character's state machine.
 var _state: State
+
+## The AnimationPlayer instance created at runtime.
 var _animation_player: AnimationPlayer
+
+## One-shot timer used to trigger random behaviors (e.g., fly removal).
 var _timer: Timer
+
+## The navigation agent used for pathfinding during walk states.
 var _navigation_agent: NavigationAgent3D
 
+## Initializes the animation player, timer, navigation agent, and
+## enters the idle state.
 func _ready() -> void:
 	_animation_player = _create_animation_player(gender)
 	_animation_player.animation_finished.connect(_on_animation_finished)
@@ -121,21 +142,25 @@ func _ready() -> void:
 	_navigation_agent.avoidance_enabled = false
 	add_child(_navigation_agent)
 
-	idle()
+	talk()
 
 
+## Handles per-frame movement logic based on the current state.
 func _physics_process(delta: float) -> void:
 	match _state:
 		State.IDLE:
 			return
 
-		State.DRUNK_IDLE:
+		State.IDLE_DRUNK:
 			return
 
 		State.FLY_REMOVAL:
 			return
 
-		State.WALK, State.DRUNK_WALK:
+		State.TALK:
+			return
+
+		State.WALK, State.WALK_DRUNK:
 			if _navigation_agent.is_navigation_finished():
 				idle()
 				return
@@ -150,46 +175,62 @@ func _physics_process(delta: float) -> void:
 			return
 
 
+## Called when the current animation finishes. Picks the next
+## animation based on the current state.
 func _on_animation_finished(_animation_name: StringName) -> void:
 	match _state:
 		State.IDLE:
 			_play_random_animation(_animation_player, ANIMATIONS[State.IDLE][gender], 2)
 			return
 
-		State.DRUNK_IDLE:
-			_play_random_animation(_animation_player, ANIMATIONS[State.DRUNK_IDLE][gender], 2)
+		State.IDLE_DRUNK:
+			_play_random_animation(_animation_player, ANIMATIONS[State.IDLE_DRUNK][gender], 2)
 			return
 
 		State.FLY_REMOVAL:
 			idle()
 			return
+		
+		State.TALK:
+			_play_random_animation(_animation_player, ANIMATIONS[State.TALK][gender])
+			return
 
 		State.WALK:
-			_play_random_animation(_animation_player, ANIMATIONS[State.WALK][gender], 0.5)
+			_play_random_animation(_animation_player, ANIMATIONS[State.WALK][gender])
 			return
 
-		State.DRUNK_WALK:
-			_play_random_animation(_animation_player, ANIMATIONS[State.DRUNK_WALK][gender], 0.5)
+		State.WALK_DRUNK:
+			_play_random_animation(_animation_player, ANIMATIONS[State.WALK_DRUNK][gender])
 			return
+		
 
-
+## Called when the idle timer expires. May trigger a random
+## behavior like fly removal.
 func _on_timer_timeout() -> void:
 	match _state:
 		State.IDLE:
 			if randf() < 0.15:
-				_flyRemoval()
+				_state = State.FLY_REMOVAL
+				_timer.stop()
+				_play_random_animation(_animation_player, ANIMATIONS[State.FLY_REMOVAL][gender])
 			else:
 				_timer.start(10.0)
 			return
 
-		State.DRUNK_IDLE:
+		State.IDLE_DRUNK:
 			_timer.start(10.0)
 			return
 
 		State.FLY_REMOVAL:
 			return
 
-		State.WALK, State.DRUNK_WALK:
+		State.TALK:
+			return
+			
+		State.WALK:
+			return
+
+		State.WALK_DRUNK:
 			return
 
 
@@ -197,7 +238,7 @@ func _on_timer_timeout() -> void:
 
 ## Plays a random animation using the animation_player.
 ## Picks a random animation from the animations array.
-static func _play_random_animation(animation_player: AnimationPlayer, animations: Array, custom_blend: float = -1) -> void:
+static func _play_random_animation(animation_player: AnimationPlayer, animations: Array, custom_blend: float = 0.5) -> void:
 	var animation_name: String = animations.pick_random()
 	animation_player.play(animation_name, custom_blend)
 
