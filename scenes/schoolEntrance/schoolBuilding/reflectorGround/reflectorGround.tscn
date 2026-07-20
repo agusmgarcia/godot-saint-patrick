@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://creflector001"]
 
-[ext_resource type="Script" uid="uid://blr6ys2d2wpav" path="res://scenes/schoolEntrance/schoolBuilding/reflectorGround/reflectorGround.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dqtvkeebdgqbr" path="res://scenes/schoolEntrance/schoolBuilding/reflectorGround/reflectorGround.cs" id="1_fk58k"]
 [ext_resource type="Material" uid="uid://blackmetal027" path="res://materials/blackMetal/blackMetal.tres" id="2_metal"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_base"]
@@ -10,7 +10,7 @@ size = Vector3(0.18, 0.02, 0.12)
 size = Vector3(0.15, 0.08, 0.1)
 
 [node name="ReflectorGround" type="Node3D" unique_id=754579755]
-script = ExtResource("1_script")
+script = ExtResource("1_fk58k")
 
 [node name="Fixture" type="Node3D" parent="." unique_id=443091127]
 

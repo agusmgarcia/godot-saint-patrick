@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://bmljoluxik5wr"]
 
 [ext_resource type="Material" uid="uid://b46vhefj8hsh4" path="res://materials/concrete/concrete.tres" id="1_86m0b"]
-[ext_resource type="Script" uid="uid://bpflsikx31ydg" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.gd" id="1_script"]
 [ext_resource type="Material" uid="uid://23g6ykhhppge" path="res://materials/exposedBrickWall/exposedBrickWall.tres" id="2_3mdvi"]
 [ext_resource type="Material" uid="uid://c0we0xji7avp5" path="res://materials/corrugatedSteel/corrugatedSteel.tres" id="3_3yibw"]
 [ext_resource type="Material" uid="uid://blackmetal027" path="res://materials/blackMetal/blackMetal.tres" id="5_bm3tl"]
@@ -94,7 +93,6 @@ size = Vector3(44.6, 3.32, 14)
 size = Vector3(44.6, 3.32, 14)
 
 [node name="SchoolBuilding" type="Node3D" unique_id=1579062165]
-script = ExtResource("1_script")
 
 [node name="Foundation" type="Node3D" parent="." unique_id=2112974765]
 
