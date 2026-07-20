@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dkh0siy1yckv0"]
 
 [ext_resource type="Material" uid="uid://gyc6kejeuaut" path="res://materials/asphalt/asphalt.tres" id="1_asphalt"]
-[ext_resource type="Script" uid="uid://cgjs146dkfd6n" path="res://scenes/schoolEntrance/parkingLot/parkingLot.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://bejs11onrggkx" path="res://scenes/schoolEntrance/parkingLot/securityBooth/securityBooth.tscn" id="2_booth"]
 [ext_resource type="Material" uid="uid://c41cve7mjk8u7" path="res://materials/metalFence/metalFence.tres" id="3_fence"]
 [ext_resource type="Material" uid="uid://736uqe3wyhdw" path="res://materials/yellowPaint/yellowPaint.tres" id="4_yellow"]
@@ -32,7 +31,6 @@ size = Vector3(0.1, 2.5, 17.47)
 size = Vector3(0.1, 2.5, 17.47)
 
 [node name="ParkingLot" type="Node3D" unique_id=1345276622]
-script = ExtResource("1_script")
 
 [node name="Surface" type="Node3D" parent="." unique_id=26615924]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7, 0.01, 0)

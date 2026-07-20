@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://dqkrs6t6jrndy"]
 
+[ext_resource type="Script" uid="uid://cv7e6q5kd2opc" path="res://characters/helena/helena.cs" id="1_8c0tu"]
 [ext_resource type="PackedScene" uid="uid://8mqqy0e3bst0" path="res://characters/helena/helena.fbx" id="1_scg1b"]
-[ext_resource type="Script" uid="uid://dne7jacq1cbbp" path="res://characters/helena/helena.gd" id="2_eyap1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
 radius = 0.3
 height = 1.7
 
 [node name="Helena" type="CharacterBody3D" unique_id=1273941643]
-script = ExtResource("2_eyap1")
+script = ExtResource("1_8c0tu")
 
 [node name="Model" parent="." unique_id=2044607134 instance=ExtResource("1_scg1b")]
 
