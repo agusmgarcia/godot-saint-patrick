@@ -5,23 +5,30 @@ namespace SaintPatrick.utils.states;
 
 public static class StatesFactory
 {
-    private static readonly Dictionary<Type, List<State>> states = [];
+    private static readonly Dictionary<Type, List<object>> states = [];
 
-    public static TState GetOrCreate<TState>() where TState : State, new()
+    public static TState GetOrCreate<TState, TInitParams>(TInitParams initParams)
+        where TState : State<TInitParams>, new()
+        where TInitParams : unmanaged
     {
-        if (!StatesFactory.states.TryGetValue(typeof(TState), out var list))
-            return new TState();
+        TState state;
 
-        if (list.Count <= 0)
-            return new TState();
+        if (!StatesFactory.states.TryGetValue(typeof(TState), out var list) || list.Count <= 0)
+        {
+            state = new TState();
+        }
+        else
+        {
+            state = (TState)list[0];
+            list.RemoveAt(0);
+        }
 
-        var state = list[0];
-        list.RemoveAt(0);
-
-        return (TState)state;
+        state.OnInit(initParams);
+        return state;
     }
 
-    public static void Set(State state)
+    public static void Set<TInitParams>(State<TInitParams> state)
+        where TInitParams : unmanaged
     {
         var type = state.GetType();
 
