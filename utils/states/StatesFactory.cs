@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SaintPatrick.utils.states;
+namespace SaintPatrick;
 
 public static class StatesFactory
 {
@@ -9,7 +9,6 @@ public static class StatesFactory
 
     public static TState GetOrCreate<TState, TInitParams>(TInitParams initParams)
         where TState : State<TInitParams>, new()
-        where TInitParams : unmanaged
     {
         TState state;
 
@@ -28,7 +27,6 @@ public static class StatesFactory
     }
 
     public static void Set<TInitParams>(State<TInitParams> state)
-        where TInitParams : unmanaged
     {
         var type = state.GetType();
 

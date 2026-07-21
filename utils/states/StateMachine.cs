@@ -1,26 +1,24 @@
-namespace SaintPatrick.utils.states;
+namespace SaintPatrick;
 
-public sealed class StateMachine<TState, TInitParams>
-    where TState : State<TInitParams>, new()
-    where TInitParams : unmanaged
+public sealed class StateMachine<TState>
+    where TState : State<object>, new()
 {
-    private TState? currentState;
+    private TState currentState;
 
     public StateMachine(TState initialState)
     {
-        this.currentState = null;
-        this.CurrentState = initialState;
+        this.currentState = initialState;
     }
 
     public TState CurrentState
     {
         get
         {
-            return this.currentState!;
+            return this.currentState;
         }
         private set
         {
-            this.currentState?.Dispose();
+            this.currentState.Dispose();
             this.currentState = value;
         }
     }

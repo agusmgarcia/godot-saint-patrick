@@ -1,9 +1,8 @@
 using System;
 
-namespace SaintPatrick.utils.states;
+namespace SaintPatrick;
 
 public abstract class State<TInitParams> : IDisposable
-    where TInitParams : unmanaged
 {
     protected State() { }
 
