@@ -6,24 +6,19 @@ public readonly record struct CharacterOptions(Gender Gender);
 
 public abstract partial class Character : CharacterBody3D
 {
+	private readonly AnimationPlayer _animationPlayer;
 	private readonly StateMachine<ICharacterState> _stateMachine;
 
 	public Gender Gender { get; }
 
 	protected Character(in CharacterOptions options)
 	{
+		this._animationPlayer = new AnimationPlayer();
+		this._animationPlayer.AnimationFinished += this.OnAnimationFinished;
+
 		this._stateMachine = new(StatesFactory.GetOrCreate<IdleState, IdleStateInitParams>(new() { Character = this }));
+
 		this.Gender = options.Gender;
-	}
-
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
 	}
 
 	public void Idle()
@@ -35,13 +30,29 @@ public abstract partial class Character : CharacterBody3D
 	{
 		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<WalkState, WalkStateInitParams>(new() { Character = this, Destination = Destination });
 	}
+
+	public override void _Ready()
+	{
+		base.AddChild(this._animationPlayer);
+		this._stateMachine.Ready();
+	}
+
+	public override void _Process(double delta)
+	{
+		this._stateMachine.Process(delta);
+	}
+
+	private void OnAnimationFinished(StringName animationName)
+	{
+		this._stateMachine.AnimationFinished(animationName);
+	}
 }
 
 public abstract partial class Character : CharacterBody3D
 {
 	private interface ICharacterStateInitParams
 	{
-		public Character Character { get; }
+		Character Character { get; }
 	}
 
 	private interface ICharacterState : IStateMachineState

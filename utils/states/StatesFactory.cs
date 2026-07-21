@@ -25,6 +25,7 @@ public static class StatesFactory
         where TState : IStatesFactoryState<TInitParams>, new()
     {
         var state = StatesFactory.Pools<TState>.Items.ElementAtOrDefault(0);
+
         if (state != null)
             StatesFactory.Pools<TState>.Items.Remove(state);
         else

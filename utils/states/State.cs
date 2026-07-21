@@ -9,6 +9,8 @@ public abstract class State<TInitParams> : IStateMachineState, IStatesFactorySta
 
     public virtual void OnInit(in TInitParams initParams) { }
 
+    public virtual void OnReady() { }
+
     public virtual void OnProcess(double delta) { }
 
     protected virtual void OnDispose() { }
