@@ -1,7 +1,14 @@
+using System;
+
 namespace SaintPatrick;
 
+public interface IStateMachineState : IDisposable
+{
+    void OnProcess(double delta);
+}
+
 public sealed class StateMachine<TState>
-    where TState : State<object>, new()
+    where TState : IStateMachineState
 {
     private TState currentState;
     public TState CurrentState

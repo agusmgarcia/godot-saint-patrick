@@ -1,40 +1,42 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SaintPatrick;
 
+public interface IStatesFactoryState
+{
+}
+
+public interface IStatesFactoryState<TInitParams> : IStatesFactoryState
+    where TInitParams : struct
+{
+    void OnInit(in TInitParams initParams);
+}
+
 public static class StatesFactory
 {
-    private static readonly Dictionary<Type, HashSet<object>> _states = [];
-
-    public static TState GetOrCreate<TState, TInitParams>(TInitParams initParams)
-        where TState : State<TInitParams>, new()
+    private static class Pools<TState> where TState : IStatesFactoryState
     {
-        TState state;
+        public static readonly HashSet<TState> Items = [];
+    }
 
-        if (!StatesFactory._states.TryGetValue(typeof(TState), out var list) || list.Count <= 0)
-        {
-            state = new TState();
-        }
+    public static TState GetOrCreate<TState, TInitParams>(in TInitParams initParams)
+        where TInitParams : struct
+        where TState : IStatesFactoryState<TInitParams>, new()
+    {
+        var state = StatesFactory.Pools<TState>.Items.ElementAtOrDefault(0);
+        if (state != null)
+            StatesFactory.Pools<TState>.Items.Remove(state);
         else
-        {
-            state = (TState)list.ElementAt(0);
-            list.Remove(state);
-        }
+            state = new TState();
 
         state.OnInit(initParams);
         return state;
     }
 
-    public static void Set<TInitParams>(State<TInitParams> state)
+    public static void Set<TState>(TState state)
+        where TState : IStatesFactoryState
     {
-        var type = state.GetType();
-
-        if (!StatesFactory._states.TryGetValue(type, out var list))
-            list = [];
-
-        list.Add(state);
-        StatesFactory._states[type] = list;
+        StatesFactory.Pools<TState>.Items.Add(state);
     }
 }

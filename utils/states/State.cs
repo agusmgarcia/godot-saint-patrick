@@ -2,11 +2,12 @@ using System;
 
 namespace SaintPatrick;
 
-public abstract class State<TInitParams> : IDisposable
+public abstract class State<TInitParams> : IStateMachineState, IStatesFactoryState<TInitParams>
+    where TInitParams : struct
 {
     protected State() { }
 
-    public virtual void OnInit(TInitParams initParams) { }
+    public virtual void OnInit(in TInitParams initParams) { }
 
     public virtual void OnProcess(double delta) { }
 
