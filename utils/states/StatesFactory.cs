@@ -1,25 +1,26 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SaintPatrick;
 
 public static class StatesFactory
 {
-    private static readonly Dictionary<Type, List<object>> states = [];
+    private static readonly Dictionary<Type, HashSet<object>> _states = [];
 
     public static TState GetOrCreate<TState, TInitParams>(TInitParams initParams)
         where TState : State<TInitParams>, new()
     {
         TState state;
 
-        if (!StatesFactory.states.TryGetValue(typeof(TState), out var list) || list.Count <= 0)
+        if (!StatesFactory._states.TryGetValue(typeof(TState), out var list) || list.Count <= 0)
         {
             state = new TState();
         }
         else
         {
-            state = (TState)list[0];
-            list.RemoveAt(0);
+            state = (TState)list.ElementAt(0);
+            list.Remove(state);
         }
 
         state.OnInit(initParams);
@@ -30,10 +31,10 @@ public static class StatesFactory
     {
         var type = state.GetType();
 
-        if (!StatesFactory.states.TryGetValue(type, out var list))
+        if (!StatesFactory._states.TryGetValue(type, out var list))
             list = [];
 
         list.Add(state);
-        StatesFactory.states[type] = list;
+        StatesFactory._states[type] = list;
     }
 }
