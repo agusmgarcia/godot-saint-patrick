@@ -20,12 +20,28 @@ public abstract partial class Character : CharacterBody3D
 	}
 }
 
+// <================== CONSTRUCTOR ==================> //
+public abstract partial class Character : CharacterBody3D
+{
+	public readonly record struct ConstructorParameters
+	{
+		public required EGender Gender { get; init; }
+	}
+
+	protected Character(in ConstructorParameters parameters)
+	{
+		this._stateMachine = new(StatesFactory.GetOrCreate<IdleState, IdleStateInitParams>(new() { Character = this }));
+		this.Gender = parameters.Gender;
+		this.AnimationPlayer = (AnimationPlayer)Character.ANIMATION_PLAYER.Duplicate();
+	}
+}
+
 // <===================== GENDER =====================> //
 public abstract partial class Character : CharacterBody3D
 {
 	public enum EGender { Male, Female }
 
-	public required EGender Gender { get; init; }
+	public EGender Gender { get; }
 }
 
 // <================ ANIMATION PLAYER ================> //
@@ -59,8 +75,10 @@ public abstract partial class Character : CharacterBody3D
 			}
 		};
 
-	protected AnimationPlayer AnimationPlayer { get; } = AnimationPlayerFactory.Create(
+	private static readonly AnimationPlayer ANIMATION_PLAYER = AnimationPlayerFactory.Create(
 		Character.ANIMATIONS.SelectMany(x => x.Value.SelectMany(y => y.Value)).ToHashSet());
+
+	protected AnimationPlayer AnimationPlayer { get; }
 
 	private void OnAnimationFinished(StringName animationName)
 	{
@@ -68,41 +86,39 @@ public abstract partial class Character : CharacterBody3D
 	}
 }
 
-// <================ CHARACTER STATE =================> //
+// <=================== BASE STATE ====================> //
 public abstract partial class Character : CharacterBody3D
 {
 	public enum EState { Idle, Walk, FlyRemoval }
 
-	private readonly StateMachine<ICharacterState> _stateMachine =
-		new(StatesFactory.GetOrCreate<IdleState, IdleStateInitParams>(new() { Character = this }));
-
+	private readonly StateMachine<IBaseState> _stateMachine;
 	public EState State => this._stateMachine.CurrentState.State;
 
-	private interface ICharacterStateInitParams
+	private interface IBaseStateInitParams
 	{
 		Character Character { get; }
 	}
 
-	private interface ICharacterState : IStateMachineState
+	private interface IBaseState : IStateMachineState
 	{
 		EState State { get; }
 
 		void OnAnimationFinished(StringName animationName);
 	}
 
-	private abstract class CharacterState<TCharacterStateInitParams> : State<TCharacterStateInitParams>, ICharacterState
-		where TCharacterStateInitParams : struct, ICharacterStateInitParams
+	private abstract class BaseState<TBaseStateInitParams> : State<TBaseStateInitParams>, IBaseState
+		where TBaseStateInitParams : struct, IBaseStateInitParams
 	{
 		protected Character Character { get; private set; }
 		public EState State { get; }
 
-		protected CharacterState(EState state)
+		protected BaseState(EState state)
 		{
 			this.Character = null!;
 			this.State = state;
 		}
 
-		public override void OnInit(in TCharacterStateInitParams initParams)
+		public override void OnInit(in TBaseStateInitParams initParams)
 		{
 			base.OnInit(initParams);
 			this.Character = initParams.Character;
@@ -121,7 +137,7 @@ public abstract partial class Character : CharacterBody3D
 
 		protected override void OnDispose()
 		{
-			this.Character.AnimationPlayer.Stop();
+			this.Character.AnimationPlayer.Pause();
 
 			this.Character = null!;
 			base.OnDispose();
@@ -137,12 +153,12 @@ public abstract partial class Character : CharacterBody3D
 		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<IdleState, IdleStateInitParams>(new() { Character = this });
 	}
 
-	private readonly record struct IdleStateInitParams : ICharacterStateInitParams
+	private readonly record struct IdleStateInitParams : IBaseStateInitParams
 	{
 		public required Character Character { get; init; }
 	}
 
-	private sealed class IdleState : CharacterState<IdleStateInitParams>
+	private sealed class IdleState : BaseState<IdleStateInitParams>
 	{
 		private readonly Timer _timer;
 
@@ -164,8 +180,10 @@ public abstract partial class Character : CharacterBody3D
 
 		private void OnTimeout()
 		{
-			// TODO: add randomness before executing the state.
-			this.Character.FlyRemoval();
+			if (GD.Randf() < 0.15)
+				this.Character.FlyRemoval();
+			else
+				this._timer.Start(10);
 		}
 
 		public override void OnAnimationFinished(StringName animationName)
@@ -193,12 +211,12 @@ public abstract partial class Character : CharacterBody3D
 		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<FlyRemovalState, FlyRemovalStateInitParams>(new() { Character = this });
 	}
 
-	private readonly record struct FlyRemovalStateInitParams : ICharacterStateInitParams
+	private readonly record struct FlyRemovalStateInitParams : IBaseStateInitParams
 	{
 		public required Character Character { get; init; }
 	}
 
-	private sealed class FlyRemovalState : CharacterState<FlyRemovalStateInitParams>
+	private sealed class FlyRemovalState : BaseState<FlyRemovalStateInitParams>
 	{
 		public FlyRemovalState()
 			: base(EState.FlyRemoval)
@@ -221,19 +239,25 @@ public abstract partial class Character : CharacterBody3D
 		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<WalkState, WalkStateInitParams>(new() { Character = this, Destination = Destination });
 	}
 
-	private readonly record struct WalkStateInitParams : ICharacterStateInitParams
+	private readonly record struct WalkStateInitParams : IBaseStateInitParams
 	{
 		public required Character Character { get; init; }
 		public required Vector3 Destination { get; init; }
 	}
 
-	private sealed class WalkState : CharacterState<WalkStateInitParams>
+	private sealed class WalkState : BaseState<WalkStateInitParams>
 	{
+		private static readonly float WALK_SPEED = 1.4f;
+
+		private readonly NavigationAgent3D _navigationAgent;
+
 		public Vector3 Destination { get; private set; }
 
 		public WalkState()
 			: base(EState.Walk)
 		{
+			this._navigationAgent = new NavigationAgent3D();
+			this._navigationAgent.AvoidanceEnabled = false;
 		}
 
 		public override void OnInit(in WalkStateInitParams initParams)
@@ -245,18 +269,42 @@ public abstract partial class Character : CharacterBody3D
 		public override void OnReady()
 		{
 			base.OnReady();
-			// TODO: add navigation agent and set destination into it.
+
+			base.Character.AddChild(this._navigationAgent);
+			this._navigationAgent.TargetPosition = this.Destination;
 		}
 
 		public override void OnProcess(double delta)
 		{
 			base.OnProcess(delta);
-			// TODO: move it.
+
+			if (this._navigationAgent.IsNavigationFinished())
+			{
+				base.Character.Velocity = Vector3.Zero;
+				base.Character.Idle();
+				return;
+			}
+
+			var direction = (this._navigationAgent.GetNextPathPosition() - base.Character.GlobalPosition).Normalized();
+			if (direction.Length() > 0.01)
+			{
+				float targetRotation = Mathf.Atan2(direction.X, direction.Z);
+				base.Character.Rotation = new Vector3(
+					base.Character.Rotation.X,
+					Mathf.LerpAngle(base.Character.Rotation.Y, targetRotation, (float)delta * 8.0f),
+					base.Character.Rotation.Z
+				);
+			}
+
+			base.Character.Velocity = direction * WALK_SPEED;
+			base.Character.MoveAndSlide();
 		}
 
 		protected override void OnDispose()
 		{
-			// TODO: remove navigation agent from tree.
+			this._navigationAgent.TargetPosition = Vector3.Zero;
+			base.Character.RemoveChild(this._navigationAgent);
+
 			base.OnDispose();
 		}
 	}
