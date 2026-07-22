@@ -1,5 +1,4 @@
 using System;
-using Godot;
 
 namespace SaintPatrick;
 
@@ -7,7 +6,6 @@ public interface IStateMachineState : IDisposable
 {
     void OnReady();
     void OnProcess(double delta);
-    void OnAnimationFinished(StringName animationName);
 }
 
 public sealed class StateMachine<TState>
@@ -41,10 +39,5 @@ public sealed class StateMachine<TState>
     public void Process(double delta)
     {
         this.CurrentState.OnProcess(delta);
-    }
-
-    public void AnimationFinished(StringName animationName)
-    {
-        this.CurrentState.OnAnimationFinished(animationName);
     }
 }
