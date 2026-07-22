@@ -30,14 +30,4 @@ public sealed class StateMachine<TState>
     {
         this.currentState = initialState;
     }
-
-    public void Ready()
-    {
-        this.currentState.OnReady();
-    }
-
-    public void Process(double delta)
-    {
-        this.CurrentState.OnProcess(delta);
-    }
 }
