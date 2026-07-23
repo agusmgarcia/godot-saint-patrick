@@ -112,6 +112,13 @@ public abstract partial class Character : CharacterBody3D
 					"femaleDrunkIdle1/mixamo_com",
 				},
 			},
+			[EState.DrunkWalk] = new Dictionary<EGender, IReadOnlySet<string>>()
+			{
+				[EGender.Female] = new HashSet<string>()
+				{
+					"femaleDrunkWalk1/mixamo_com",
+				},
+			},
 		};
 
 	private static readonly AnimationPlayer ANIMATION_PLAYER = AnimationPlayerFactory.Create(
@@ -433,7 +440,7 @@ public abstract partial class Character : CharacterBody3D
 			if (this._navigationAgent.IsNavigationFinished())
 			{
 				base.Character.Velocity = Vector3.Zero;
-				base.Character.Idle();
+				base.Character.DrunkIdle();
 				return;
 			}
 
