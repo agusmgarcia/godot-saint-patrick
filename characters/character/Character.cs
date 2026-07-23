@@ -44,6 +44,38 @@ public abstract partial class Character : CharacterBody3D
 	public EGender Gender { get; }
 }
 
+// <===================== DRUNK =====================> //
+public abstract partial class Character : CharacterBody3D
+{
+	private bool _drunk;
+
+	public bool Drunk
+	{
+		get { return this._drunk; }
+		set
+		{
+			if (this._drunk == value)
+				return;
+
+			this._drunk = value;
+			if (this._drunk)
+			{
+				if (this._stateMachine.CurrentState is IdleState)
+					this.DrunkIdle();
+				else if (this._stateMachine.CurrentState is WalkState walkState)
+					this.DrunkWalk(walkState.Destination);
+			}
+			else
+			{
+				if (this._stateMachine.CurrentState is DrunkIdleState)
+					this.Idle();
+				else if (this._stateMachine.CurrentState is DrunkWalkState drunkWalkState)
+					this.Walk(drunkWalkState.Destination);
+			}
+		}
+	}
+}
+
 // <================ ANIMATION PLAYER ================> //
 public abstract partial class Character : CharacterBody3D
 {
@@ -99,7 +131,6 @@ public abstract partial class Character : CharacterBody3D
 	public enum EState { Idle, Walk, FlyRemoval, DrunkIdle, DrunkWalk }
 
 	private readonly StateMachine<IBaseState> _stateMachine;
-	public EState State => this._stateMachine.CurrentState.State;
 
 	private interface IBaseState : IStateMachineState
 	{
@@ -157,7 +188,10 @@ public abstract partial class Character : CharacterBody3D
 {
 	public void Idle()
 	{
-		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<IdleState, IdleState.InitParams>(new() { Character = this });
+		if (!this.Drunk)
+			this._stateMachine.CurrentState = StatesFactory.GetOrCreate<IdleState, IdleState.InitParams>(new() { Character = this });
+		else
+			this.DrunkIdle();
 	}
 
 	private sealed class IdleState : BaseState<IdleState.InitParams>
@@ -272,7 +306,10 @@ public abstract partial class Character : CharacterBody3D
 {
 	public void Walk(in Vector3 Destination)
 	{
-		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<WalkState, WalkState.InitParams>(new() { Character = this, Destination = Destination });
+		if (!this.Drunk)
+			this._stateMachine.CurrentState = StatesFactory.GetOrCreate<WalkState, WalkState.InitParams>(new() { Character = this, Destination = Destination });
+		else
+			this.DrunkWalk(Destination);
 	}
 
 	private sealed class WalkState : BaseState<WalkState.InitParams>
