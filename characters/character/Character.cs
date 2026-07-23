@@ -72,7 +72,14 @@ public abstract partial class Character : CharacterBody3D
 				{
 					"femaleWalk1/mixamo_com",
 				},
-			}
+			},
+			[EState.DrunkIdle] = new Dictionary<EGender, IReadOnlySet<string>>()
+			{
+				[EGender.Female] = new HashSet<string>()
+				{
+					"femaleDrunkIdle1/mixamo_com",
+				},
+			},
 		};
 
 	private static readonly AnimationPlayer ANIMATION_PLAYER = AnimationPlayerFactory.Create(
@@ -89,7 +96,7 @@ public abstract partial class Character : CharacterBody3D
 // <=================== BASE STATE ====================> //
 public abstract partial class Character : CharacterBody3D
 {
-	public enum EState { Idle, Walk, FlyRemoval }
+	public enum EState { Idle, Walk, FlyRemoval, DrunkIdle }
 
 	private readonly StateMachine<IBaseState> _stateMachine;
 	public EState State => this._stateMachine.CurrentState.State;
@@ -199,6 +206,34 @@ public abstract partial class Character : CharacterBody3D
 			base.Character.RemoveChild(this._timer);
 
 			base.OnDispose();
+		}
+	}
+}
+
+// <================ DRUNK IDLE STATE ================> //
+public abstract partial class Character : CharacterBody3D
+{
+	private void DrunkIdle()
+	{
+		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<DrunkIdleState, DrunkIdleState.InitParams>(new() { Character = this });
+	}
+
+	private sealed class DrunkIdleState : BaseState<DrunkIdleState.InitParams>
+	{
+		public readonly record struct InitParams : BaseState<DrunkIdleState.InitParams>.IInitParams
+		{
+			public required Character Character { get; init; }
+		}
+
+		public DrunkIdleState()
+			: base(EState.DrunkIdle)
+		{
+		}
+
+		public override void OnAnimationFinished(StringName animationName)
+		{
+			base.OnAnimationFinished(animationName);
+			base.Character.AnimationPlayer.PlayRandom(Character.ANIMATIONS[base.State][base.Character.Gender], 2);
 		}
 	}
 }
