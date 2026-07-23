@@ -96,7 +96,7 @@ public abstract partial class Character : CharacterBody3D
 // <=================== BASE STATE ====================> //
 public abstract partial class Character : CharacterBody3D
 {
-	public enum EState { Idle, Walk, FlyRemoval, DrunkIdle }
+	public enum EState { Idle, Walk, FlyRemoval, DrunkIdle, DrunkWalk }
 
 	private readonly StateMachine<IBaseState> _stateMachine;
 	public EState State => this._stateMachine.CurrentState.State;
@@ -297,6 +297,85 @@ public abstract partial class Character : CharacterBody3D
 		}
 
 		public override void OnInit(in WalkState.InitParams initParams)
+		{
+			base.OnInit(initParams);
+			this.Destination = initParams.Destination;
+		}
+
+		public override void OnReady()
+		{
+			base.OnReady();
+
+			base.Character.AddChild(this._navigationAgent);
+			this._navigationAgent.TargetPosition = this.Destination;
+		}
+
+		public override void OnProcess(double delta)
+		{
+			base.OnProcess(delta);
+
+			if (this._navigationAgent.IsNavigationFinished())
+			{
+				base.Character.Velocity = Vector3.Zero;
+				base.Character.Idle();
+				return;
+			}
+
+			var direction = (this._navigationAgent.GetNextPathPosition() - base.Character.GlobalPosition).Normalized();
+			if (direction.Length() > 0.01)
+			{
+				float targetRotation = Mathf.Atan2(direction.X, direction.Z);
+				base.Character.Rotation = new Vector3(
+					base.Character.Rotation.X,
+					Mathf.LerpAngle(base.Character.Rotation.Y, targetRotation, (float)delta * 8.0f),
+					base.Character.Rotation.Z
+				);
+			}
+
+			base.Character.Velocity = direction * WALK_SPEED;
+			base.Character.MoveAndSlide();
+		}
+
+		protected override void OnDispose()
+		{
+			this._navigationAgent.TargetPosition = Vector3.Zero;
+			base.Character.RemoveChild(this._navigationAgent);
+
+			base.OnDispose();
+		}
+	}
+}
+
+// <================ DRUNK WALK STATE ================> //
+public abstract partial class Character : CharacterBody3D
+{
+	private void DrunkWalk(in Vector3 Destination)
+	{
+		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<DrunkWalkState, DrunkWalkState.InitParams>(new() { Character = this, Destination = Destination });
+	}
+
+	private sealed class DrunkWalkState : BaseState<DrunkWalkState.InitParams>
+	{
+		public readonly record struct InitParams : BaseState<DrunkWalkState.InitParams>.IInitParams
+		{
+			public required Character Character { get; init; }
+			public required Vector3 Destination { get; init; }
+		}
+
+		private static readonly float WALK_SPEED = 0.9f;
+
+		private readonly NavigationAgent3D _navigationAgent;
+
+		public Vector3 Destination { get; private set; }
+
+		public DrunkWalkState()
+			: base(EState.DrunkWalk)
+		{
+			this._navigationAgent = new NavigationAgent3D();
+			this._navigationAgent.AvoidanceEnabled = false;
+		}
+
+		public override void OnInit(in DrunkWalkState.InitParams initParams)
 		{
 			base.OnInit(initParams);
 			this.Destination = initParams.Destination;
