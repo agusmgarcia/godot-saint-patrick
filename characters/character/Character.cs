@@ -30,7 +30,7 @@ public abstract partial class Character : CharacterBody3D
 
 	protected Character(in ConstructorParameters parameters)
 	{
-		this._stateMachine = new(StatesFactory.GetOrCreate<IdleState, IdleStateInitParams>(new() { Character = this }));
+		this._stateMachine = new(StatesFactory.GetOrCreate<IdleState, IdleState.InitParams>(new() { Character = this }));
 		this.Gender = parameters.Gender;
 		this.AnimationPlayer = (AnimationPlayer)Character.ANIMATION_PLAYER.Duplicate();
 	}
@@ -94,11 +94,6 @@ public abstract partial class Character : CharacterBody3D
 	private readonly StateMachine<IBaseState> _stateMachine;
 	public EState State => this._stateMachine.CurrentState.State;
 
-	private interface IBaseStateInitParams
-	{
-		Character Character { get; }
-	}
-
 	private interface IBaseState : IStateMachineState
 	{
 		EState State { get; }
@@ -107,8 +102,13 @@ public abstract partial class Character : CharacterBody3D
 	}
 
 	private abstract class BaseState<TBaseStateInitParams> : State<TBaseStateInitParams>, IBaseState
-		where TBaseStateInitParams : struct, IBaseStateInitParams
+		where TBaseStateInitParams : struct, BaseState<TBaseStateInitParams>.IInitParams
 	{
+		public interface IInitParams
+		{
+			Character Character { get; }
+		}
+
 		protected Character Character { get; private set; }
 		public EState State { get; }
 
@@ -150,16 +150,16 @@ public abstract partial class Character : CharacterBody3D
 {
 	public void Idle()
 	{
-		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<IdleState, IdleStateInitParams>(new() { Character = this });
+		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<IdleState, IdleState.InitParams>(new() { Character = this });
 	}
 
-	private readonly record struct IdleStateInitParams : IBaseStateInitParams
+	private sealed class IdleState : BaseState<IdleState.InitParams>
 	{
-		public required Character Character { get; init; }
-	}
+		public readonly record struct InitParams : BaseState<InitParams>.IInitParams
+		{
+			public required Character Character { get; init; }
+		}
 
-	private sealed class IdleState : BaseState<IdleStateInitParams>
-	{
 		private readonly Timer _timer;
 
 		public IdleState()
@@ -208,16 +208,17 @@ public abstract partial class Character : CharacterBody3D
 {
 	private void FlyRemoval()
 	{
-		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<FlyRemovalState, FlyRemovalStateInitParams>(new() { Character = this });
+		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<FlyRemovalState, FlyRemovalState.InitParams>(new() { Character = this });
 	}
 
-	private readonly record struct FlyRemovalStateInitParams : IBaseStateInitParams
-	{
-		public required Character Character { get; init; }
-	}
 
-	private sealed class FlyRemovalState : BaseState<FlyRemovalStateInitParams>
+	private sealed class FlyRemovalState : BaseState<FlyRemovalState.InitParams>
 	{
+		public readonly record struct InitParams : BaseState<FlyRemovalState.InitParams>.IInitParams
+		{
+			public required Character Character { get; init; }
+		}
+
 		public FlyRemovalState()
 			: base(EState.FlyRemoval)
 		{
@@ -236,17 +237,17 @@ public abstract partial class Character : CharacterBody3D
 {
 	public void Walk(in Vector3 Destination)
 	{
-		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<WalkState, WalkStateInitParams>(new() { Character = this, Destination = Destination });
+		this._stateMachine.CurrentState = StatesFactory.GetOrCreate<WalkState, WalkState.InitParams>(new() { Character = this, Destination = Destination });
 	}
 
-	private readonly record struct WalkStateInitParams : IBaseStateInitParams
+	private sealed class WalkState : BaseState<WalkState.InitParams>
 	{
-		public required Character Character { get; init; }
-		public required Vector3 Destination { get; init; }
-	}
+		public readonly record struct InitParams : BaseState<WalkState.InitParams>.IInitParams
+		{
+			public required Character Character { get; init; }
+			public required Vector3 Destination { get; init; }
+		}
 
-	private sealed class WalkState : BaseState<WalkStateInitParams>
-	{
 		private static readonly float WALK_SPEED = 1.4f;
 
 		private readonly NavigationAgent3D _navigationAgent;
@@ -260,7 +261,7 @@ public abstract partial class Character : CharacterBody3D
 			this._navigationAgent.AvoidanceEnabled = false;
 		}
 
-		public override void OnInit(in WalkStateInitParams initParams)
+		public override void OnInit(in WalkState.InitParams initParams)
 		{
 			base.OnInit(initParams);
 			this.Destination = initParams.Destination;
