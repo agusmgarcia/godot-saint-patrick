@@ -354,6 +354,9 @@ partial class Human
 
 		private readonly NavigationAgent3D _navigationAgent;
 
+		private Vector3 _cameraForward;
+		private Vector3 _cameraRight;
+
 		public Vector3 Destination { get; private set; }
 
 		public WalkState()
@@ -371,10 +374,16 @@ partial class Human
 		{
 			base._EnterTree();
 
+			var camera = base.GetViewport().GetCamera3D();
+			var forward = -camera.GlobalTransform.Basis.Z;
+			var right = camera.GlobalTransform.Basis.X;
+			this._cameraForward = new Vector3(forward.X, 0, forward.Z).Normalized();
+			this._cameraRight = new Vector3(right.X, 0, right.Z).Normalized();
+
 			base.AddChild(this._navigationAgent);
 			this._navigationAgent.TargetPosition = this.Destination;
 
-			base.Human._animationPlayer.PlayRandom(!base.Human.Drunk ? AnimationPlayer.EState.Walk : AnimationPlayer.EState.DrunkWalk, base.Human.Gender, 0.5);
+			base.Human._animationPlayer.PlayRandom(!base.Human.Drunk ? AnimationPlayer.EState.Walk : AnimationPlayer.EState.DrunkWalk, base.Human.Gender);
 		}
 
 		public override void _Process(double delta)
@@ -393,7 +402,7 @@ partial class Human
 					return;
 				}
 
-				direction = new Vector3(inputDirection.X, 0, inputDirection.Y).Normalized();
+				direction = (this._cameraRight * inputDirection.X + this._cameraForward * (-inputDirection.Y)).Normalized();
 			}
 			else
 			{
@@ -427,6 +436,9 @@ partial class Human
 
 			this._navigationAgent.TargetPosition = Vector3.Zero;
 			base.RemoveChild(this._navigationAgent);
+
+			this._cameraForward = new Vector3(0, 0, -1);
+			this._cameraRight = new Vector3(1, 0, 0);
 
 			base._ExitTree();
 		}
