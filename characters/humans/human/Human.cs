@@ -32,13 +32,23 @@ public sealed partial class Human : Character
 partial class Human
 {
 	/// <summary>
-	/// The gender of this human, which determines which animation set is used.
+	/// The given name of this human.
+	/// </summary>
+	[Export]
+	public new string Name
+	{
+		get => base.Name;
+		private set => base.Name = value;
+	}
+
+	/// <summary>
+	/// The gender of this human.
 	/// </summary>
 	[Export]
 	public Human.EGender Gender { get; private set; } = EGender.Male;
 
 	/// <summary>
-	/// Whether this human exhibits drunk behavior (different idle/walk animations and reduced speed).
+	/// Whether this human exhibits drunk behavior.
 	/// </summary>
 	[Export]
 	public bool Drunk { get; private set; } = false;
