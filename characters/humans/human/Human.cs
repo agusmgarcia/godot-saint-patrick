@@ -244,7 +244,7 @@ partial class Human
 
 			base.AddChild(this._timer);
 			this._timer.Timeout += this.OnTimeout;
-			this._timer.Start(Random.Shared.Next(60));
+			this._timer.Start(Random.Shared.Next(5, 60));
 
 			base.Human._animationPlayer.PlayRandom(!base.Human.Drunk ? AnimationPlayer.EState.Idle : AnimationPlayer.EState.DrunkIdle, base.Human.Gender, 0.5);
 		}
@@ -272,7 +272,7 @@ partial class Human
 			if (GD.Randf() < 0.15)
 				this.Human.FlyRemoval();
 			else
-				this._timer.Start(Random.Shared.Next(60));
+				this._timer.Start(Random.Shared.Next(5, 60));
 		}
 
 		protected override void OnAnimationFinished(StringName animationName)
