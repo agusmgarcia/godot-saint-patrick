@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://bejs11onrggkx"]
 
 [ext_resource type="Material" uid="uid://23g6ykhhppge" path="res://materials/exposedBrickWall/exposedBrickWall.tres" id="1_brick_mat"]
-[ext_resource type="Script" uid="uid://pygtxg1a7ixg" path="res://scenes/schoolEntrance/parkingLot/securityBooth/securityBooth.gd" id="1_script"]
 [ext_resource type="Material" uid="uid://b46vhefj8hsh4" path="res://materials/concrete/concrete.tres" id="2_ya484"]
 [ext_resource type="Material" uid="uid://c0we0xji7avp5" path="res://materials/corrugatedSteel/corrugatedSteel.tres" id="3_corrugated"]
 [ext_resource type="Material" uid="uid://csxiwa5ak2y36" path="res://materials/paintedMetal/paintedMetal.tres" id="4_painted"]
@@ -94,7 +93,6 @@ size = Vector3(5.28, 0.08, 0.08)
 size = Vector3(5.38, 1.2, 0.2)
 
 [node name="SecurityBooth" type="Node3D" unique_id=403007076]
-script = ExtResource("1_script")
 
 [node name="Walls" type="Node3D" parent="." unique_id=1322576009]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.575, 0)
