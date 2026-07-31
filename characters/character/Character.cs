@@ -9,7 +9,7 @@ namespace SaintPatrick;
 /// </summary>
 public abstract partial class Character : CharacterBody3D
 {
-    private static readonly Character.MainTracker MAIN_TRACKER = new();
+    private static readonly Character.MainController MAIN_CONTROLLER = new();
 
     /// <summary>
     /// Fired whenever a character becomes the main one.
@@ -17,14 +17,14 @@ public abstract partial class Character : CharacterBody3D
     /// </summary>
     public static event Action<Character?, Character?>? MAIN_CHANGED
     {
-        add => Character.MAIN_TRACKER.Changed += value;
-        remove => Character.MAIN_TRACKER.Changed -= value;
+        add => Character.MAIN_CONTROLLER.Changed += value;
+        remove => Character.MAIN_CONTROLLER.Changed -= value;
     }
 
     /// <summary>
     /// Holds a reference of the main character or null in case no-one has been selected.
     /// </summary>
-    public static Character? MAIN => Character.MAIN_TRACKER.Instance;
+    public static Character? MAIN => Character.MAIN_CONTROLLER.Instance;
 
     /// <summary>
     /// Whether this character is the player-controlled one (responds to input actions).
@@ -32,15 +32,15 @@ public abstract partial class Character : CharacterBody3D
     [Export]
     public bool Main
     {
-        get => Character.MAIN_TRACKER.Instance == this;
-        set => Character.MAIN_TRACKER.Instance = value
+        get => Character.MAIN_CONTROLLER.Instance == this;
+        set => Character.MAIN_CONTROLLER.Instance = value
             ? this
-            : Character.MAIN_TRACKER.Instance == this
+            : Character.MAIN_CONTROLLER.Instance == this
                 ? null
-                : Character.MAIN_TRACKER.Instance;
+                : Character.MAIN_CONTROLLER.Instance;
     }
 
-    private sealed class MainTracker
+    private sealed class MainController
     {
         public event Action<Character?, Character?>? Changed;
 
