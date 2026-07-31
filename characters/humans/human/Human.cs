@@ -397,6 +397,19 @@ partial class Human
 					return;
 				}
 			}
+			else
+			{
+				if (Character.MAIN is Human main && base.Human.TalkeableHumans.Contains(main))
+				{
+					var direction = (main.GlobalPosition - base.Human.GlobalPosition).Normalized();
+					float targetRotation = Mathf.Atan2(direction.X, direction.Z);
+					base.Human.Rotation = new Vector3(
+						base.Human.Rotation.X,
+						Mathf.LerpAngle(base.Human.Rotation.Y, targetRotation, (float)delta * 2.0f),
+						base.Human.Rotation.Z
+					);
+				}
+			}
 		}
 
 		private void OnTimeout()
