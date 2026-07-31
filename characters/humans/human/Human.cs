@@ -16,12 +16,14 @@ public sealed partial class Human : Character
 		base._EnterTree();
 
 		base.AddChild(this._animationPlayer);
+		base.AddChild(this._talkingAreaController);
 		base.AddChild(this._state);
 	}
 
 	public override void _ExitTree()
 	{
 		base.RemoveChild(this._state);
+		base.RemoveChild(this._talkingAreaController);
 		base.RemoveChild(this._animationPlayer);
 
 		base._ExitTree();
@@ -64,6 +66,16 @@ partial class Human
 	/// </summary>
 	[Export]
 	public float WalkSpeedDrunkFactor { get; private set; } = 0.64f;
+
+	/// <summary>
+	/// The radius of the talking area in meters.
+	/// </summary>
+	[Export]
+	public float TalkingAreaRadius
+	{
+		get => this._talkingAreaController.Radius;
+		private set => this._talkingAreaController.Radius = value;
+	}
 }
 
 // <===================== GENDER =====================> //
@@ -73,6 +85,119 @@ partial class Human
 	/// Gender of the human character, used to select the appropriate animation set.
 	/// </summary>
 	public enum EGender { Male, Female }
+}
+
+// <================== TALKING AREA ==================> //
+partial class Human
+{
+	private readonly TalkingAreaController _talkingAreaController = new();
+
+	/// <summary>
+	/// The set of nearby humans within the talking area that have an unobstructed line of sight to this human.
+	/// </summary>
+	public IReadOnlySet<Human> TalkeableHumans => this._talkingAreaController.TalkeableHumans;
+
+	private sealed partial class TalkingAreaController : Area3D
+	{
+		private readonly CollisionShape3D _collisionShape = new()
+		{
+			Name = "CollisionShape",
+			Shape = new SphereShape3D() { Radius = 1 }
+		};
+
+		private readonly Dictionary<Human, Action> _unsubscribes = [];
+
+		private readonly HashSet<Human> _allHumans = [];
+
+		private readonly HashSet<Human> _visibleHumans = [];
+		public IReadOnlySet<Human> TalkeableHumans => this._visibleHumans;
+
+		public float Radius
+		{
+			get => ((SphereShape3D)this._collisionShape.Shape).Radius;
+			set => ((SphereShape3D)this._collisionShape.Shape).Radius = value;
+		}
+
+		public override void _EnterTree()
+		{
+			base._EnterTree();
+
+			base.BodyEntered += this.OnBodyEntered;
+			base.BodyExited += this.OnBodyExited;
+
+			foreach (var (human, handler) in this._unsubscribes)
+				human.TreeExiting -= handler;
+
+			this._unsubscribes.Clear();
+			this._allHumans.Clear();
+			this._visibleHumans.Clear();
+
+			base.AddChild(this._collisionShape);
+		}
+
+		private void OnBodyEntered(Node3D node)
+		{
+			if (node is Human human && !this._allHumans.Contains(human))
+			{
+				if (human == base.GetParent<Human>())
+					return;
+
+				void handler() => this.OnBodyExited(human);
+
+				this._unsubscribes.Add(human, handler);
+				human.TreeExiting += handler;
+				this._allHumans.Add(human);
+			}
+		}
+
+		public override void _Process(double delta)
+		{
+			base._Process(delta);
+
+			var parent = base.GetParent<Human>();
+			var spaceState = base.GetWorld3D().DirectSpaceState;
+
+			this._visibleHumans.Clear();
+
+			foreach (var human in this._allHumans)
+			{
+				var raycast = PhysicsRayQueryParameters3D.Create(parent.GlobalPosition, human.GlobalPosition);
+				raycast.Exclude = [human.GetRid(), parent.GetRid()];
+
+				if (spaceState.IntersectRay(raycast).Count == 0)
+					this._visibleHumans.Add(human);
+			}
+		}
+
+		private void OnBodyExited(Node3D node)
+		{
+			if (node is Human human && this._allHumans.Contains(human))
+			{
+				var handler = this._unsubscribes[human];
+
+				this._allHumans.Remove(human);
+				human.TreeExiting -= handler;
+				this._unsubscribes.Remove(human);
+			}
+		}
+
+		public override void _ExitTree()
+		{
+			base.RemoveChild(this._collisionShape);
+
+			foreach (var (human, handler) in this._unsubscribes)
+				human.TreeExiting -= handler;
+
+			this._unsubscribes.Clear();
+			this._allHumans.Clear();
+			this._visibleHumans.Clear();
+
+			base.BodyEntered -= this.OnBodyEntered;
+			base.BodyExited -= this.OnBodyExited;
+
+			base._ExitTree();
+		}
+	}
 }
 
 // <================ ANIMATION PLAYER ================> //
