@@ -28,10 +28,20 @@ public abstract partial class Character : CharacterBody3D
 partial class Character
 {
     /// <summary>
-	/// The radius of the characters considered as near by.
-    /// It is expressed in meters.
+	/// The given name of this character.
 	/// </summary>
 	[Export]
+    public new string Name
+    {
+        get => base.Name;
+        private set => base.Name = value;
+    }
+
+    /// <summary>
+    /// The radius of the characters considered as near by.
+    /// It is expressed in meters.
+    /// </summary>
+    [Export]
     public float NearByCharactersRadius
     {
         get => this._nearByCharactersController.Radius;

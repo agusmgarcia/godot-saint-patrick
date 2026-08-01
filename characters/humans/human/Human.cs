@@ -32,16 +32,6 @@ public sealed partial class Human : Character
 partial class Human
 {
 	/// <summary>
-	/// The given name of this human.
-	/// </summary>
-	[Export]
-	public new string Name
-	{
-		get => base.Name;
-		private set => base.Name = value;
-	}
-
-	/// <summary>
 	/// The gender of this human.
 	/// </summary>
 	[Export]
