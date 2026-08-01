@@ -6,7 +6,10 @@ namespace SaintPatrick;
 // <==================== MAIN CONTROLLER ====================> //
 partial class Character
 {
-    private static readonly Character.MainController MAIN_CONTROLLER = new();
+    /// <summary>
+    /// Holds a reference of the main character or null in case no-one has been selected.
+    /// </summary>
+    public static Character? MAIN => Character.MAIN_CONTROLLER.Instance;
 
     /// <summary>
     /// Fired whenever a character becomes the main one.
@@ -19,12 +22,7 @@ partial class Character
     }
 
     /// <summary>
-    /// Holds a reference of the main character or null in case no-one has been selected.
-    /// </summary>
-    public static Character? MAIN => Character.MAIN_CONTROLLER.Instance;
-
-    /// <summary>
-    /// Whether this character is the player-controlled one (responds to input actions).
+    /// Whether this character is the main one.
     /// </summary>
     [Export]
     public bool Main
@@ -37,11 +35,11 @@ partial class Character
                 : Character.MAIN_CONTROLLER.Instance;
     }
 
+    private static readonly Character.MainController MAIN_CONTROLLER = new();
+
     private sealed class MainController
     {
         public event Action<Character?, Character?>? Changed;
-
-        private bool beingNotified = false;
 
         public Character? Instance
         {
@@ -66,6 +64,8 @@ partial class Character
                 this.beingNotified = false;
             }
         }
+
+        private bool beingNotified = false;
 
         private void OnTreeExited()
         {

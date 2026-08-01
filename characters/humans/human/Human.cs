@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Godot;
 
 namespace SaintPatrick;
@@ -11,6 +8,23 @@ namespace SaintPatrick;
 /// </summary>
 public sealed partial class Human : Character
 {
+	/// <summary>
+	/// Gender of the human character, used to select the appropriate animation set.
+	/// </summary>
+	public enum EGender { Male, Female }
+
+	/// <summary>
+	/// The gender of this human.
+	/// </summary>
+	[Export]
+	public Human.EGender Gender { get; private set; } = EGender.Male;
+
+	/// <summary>
+	/// Whether this human exhibits drunk behavior.
+	/// </summary>
+	[Export]
+	public bool Drunk { get; private set; } = false;
+
 	public override void _EnterTree()
 	{
 		base._EnterTree();
@@ -26,41 +40,4 @@ public sealed partial class Human : Character
 
 		base._ExitTree();
 	}
-}
-
-// <==================== PROPERTIES ====================> //
-partial class Human
-{
-	/// <summary>
-	/// The gender of this human.
-	/// </summary>
-	[Export]
-	public Human.EGender Gender { get; private set; } = EGender.Male;
-
-	/// <summary>
-	/// Whether this human exhibits drunk behavior.
-	/// </summary>
-	[Export]
-	public bool Drunk { get; private set; } = false;
-
-	/// <summary>
-	/// Base walking speed in meters per second.
-	/// </summary>
-	[Export(PropertyHint.Range, "0,10,or_greater,hide_control,suffix:m/s")]
-	public float WalkSpeed { get; private set; } = 1.4f;
-
-	/// <summary>
-	/// Multiplier applied to <see cref="WalkSpeed"/> when the human is drunk (0–1 range).
-	/// </summary>
-	[Export(PropertyHint.Range, "0,1")]
-	public float WalkSpeedDrunkFactor { get; private set; } = 0.64f;
-}
-
-// <===================== GENDER =====================> //
-partial class Human
-{
-	/// <summary>
-	/// Gender of the human character, used to select the appropriate animation set.
-	/// </summary>
-	public enum EGender { Male, Female }
 }
