@@ -46,13 +46,13 @@ partial class Human
 	/// <summary>
 	/// Base walking speed in meters per second.
 	/// </summary>
-	[Export]
+	[Export(PropertyHint.Range, "0,10,or_greater,hide_control,suffix:m/s")]
 	public float WalkSpeed { get; private set; } = 1.4f;
 
 	/// <summary>
 	/// Multiplier applied to <see cref="WalkSpeed"/> when the human is drunk (0–1 range).
 	/// </summary>
-	[Export]
+	[Export(PropertyHint.Range, "0,1")]
 	public float WalkSpeedDrunkFactor { get; private set; } = 0.64f;
 }
 

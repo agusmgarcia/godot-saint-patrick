@@ -41,7 +41,7 @@ partial class Character
     /// The radius of the characters considered as near by.
     /// It is expressed in meters.
     /// </summary>
-    [Export]
+    [Export(PropertyHint.Range, "0,10,or_greater,hide_control,suffix:m")]
     public float NearByCharactersRadius
     {
         get => this._nearByCharactersController.Radius;
