@@ -16,14 +16,12 @@ public sealed partial class Human : Character
 		base._EnterTree();
 
 		base.AddChild(this._animationsController);
-		base.AddChild(this._nearByHumansController);
 		base.AddChild(this._state);
 	}
 
 	public override void _ExitTree()
 	{
 		base.RemoveChild(this._state);
-		base.RemoveChild(this._nearByHumansController);
 		base.RemoveChild(this._animationsController);
 
 		base._ExitTree();
@@ -66,16 +64,6 @@ partial class Human
 	/// </summary>
 	[Export]
 	public float WalkSpeedDrunkFactor { get; private set; } = 0.64f;
-
-	/// <summary>
-	/// The radius of the talking area in meters.
-	/// </summary>
-	[Export]
-	public float TalkingAreaRadius
-	{
-		get => this._nearByHumansController.Radius;
-		private set => this._nearByHumansController.Radius = value;
-	}
 }
 
 // <===================== GENDER =====================> //

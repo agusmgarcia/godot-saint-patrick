@@ -110,15 +110,21 @@ partial class Human
             }
             else
             {
-                if (Character.MAIN is Human main && base.Human.NearByHumans.Contains(main))
+                if (Character.MAIN != null && base.Human.NearByCharacters.Contains(Character.MAIN))
                 {
-                    var direction = (main.GlobalPosition - base.Human.GlobalPosition).Normalized();
-                    float targetRotation = Mathf.Atan2(direction.X, direction.Z);
-                    base.Human.Rotation = new Vector3(
-                        base.Human.Rotation.X,
-                        Mathf.LerpAngle(base.Human.Rotation.Y, targetRotation, (float)delta * 2.0f),
-                        base.Human.Rotation.Z
-                    );
+                    var raycast = PhysicsRayQueryParameters3D.Create(Character.MAIN.GlobalPosition, base.Human.GlobalPosition);
+                    raycast.Exclude = [Character.MAIN.GetRid(), base.Human.GetRid()];
+
+                    if (Character.MAIN.GetWorld3D().DirectSpaceState.IntersectRay(raycast).Count == 0)
+                    {
+                        var direction = (Character.MAIN.GlobalPosition - base.Human.GlobalPosition).Normalized();
+                        var targetRotation = Mathf.Atan2(direction.X, direction.Z);
+                        base.Human.Rotation = new Vector3(
+                            base.Human.Rotation.X,
+                            Mathf.LerpAngle(base.Human.Rotation.Y, targetRotation, (float)delta * 2.0f),
+                            base.Human.Rotation.Z
+                        );
+                    }
                 }
             }
         }

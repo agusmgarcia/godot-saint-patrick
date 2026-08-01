@@ -9,8 +9,8 @@ height = 1.7
 
 [node name="Helena" type="CharacterBody3D" unique_id=1969776114]
 script = ExtResource("1_8b5yy")
-Name = "Helena"
 Gender = 1
+Name = "Helena"
 
 [node name="Model" parent="." unique_id=672929712 instance=ExtResource("2_model")]
 

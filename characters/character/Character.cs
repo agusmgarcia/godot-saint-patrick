@@ -9,70 +9,32 @@ namespace SaintPatrick;
 /// </summary>
 public abstract partial class Character : CharacterBody3D
 {
-    private static readonly Character.MainController MAIN_CONTROLLER = new();
-
-    /// <summary>
-    /// Fired whenever a character becomes the main one.
-    /// The argument are the old and the new main character instances.
-    /// </summary>
-    public static event Action<Character?, Character?>? MAIN_CHANGED
+    public override void _EnterTree()
     {
-        add => Character.MAIN_CONTROLLER.Changed += value;
-        remove => Character.MAIN_CONTROLLER.Changed -= value;
+        base._EnterTree();
+
+        base.AddChild(this._nearByCharactersController);
     }
 
-    /// <summary>
-    /// Holds a reference of the main character or null in case no-one has been selected.
-    /// </summary>
-    public static Character? MAIN => Character.MAIN_CONTROLLER.Instance;
-
-    /// <summary>
-    /// Whether this character is the player-controlled one (responds to input actions).
-    /// </summary>
-    [Export]
-    public bool Main
+    public override void _ExitTree()
     {
-        get => Character.MAIN_CONTROLLER.Instance == this;
-        set => Character.MAIN_CONTROLLER.Instance = value
-            ? this
-            : Character.MAIN_CONTROLLER.Instance == this
-                ? null
-                : Character.MAIN_CONTROLLER.Instance;
+        base.RemoveChild(this._nearByCharactersController);
+
+        base._ExitTree();
     }
+}
 
-    private sealed class MainController
+// <==================== PROPERTIES ====================> //
+partial class Character
+{
+    /// <summary>
+	/// The radius of the characters considered as near by.
+    /// It is expressed in meters.
+	/// </summary>
+	[Export]
+    public float NearByCharactersRadius
     {
-        public event Action<Character?, Character?>? Changed;
-
-        private bool beingNotified = false;
-
-        public Character? Instance
-        {
-            get;
-            set
-            {
-                if (this.beingNotified)
-                    throw new InvalidOperationException();
-
-                if (value == field)
-                    return;
-
-                var prevMain = field;
-                var newMain = value;
-
-                field?.TreeExited -= this.OnTreeExited;
-                field = newMain;
-                field?.TreeExited += this.OnTreeExited;
-
-                this.beingNotified = true;
-                this.Changed?.Invoke(prevMain, newMain);
-                this.beingNotified = false;
-            }
-        }
-
-        private void OnTreeExited()
-        {
-            this.Instance = null;
-        }
+        get => this._nearByCharactersController.Radius;
+        private set => this._nearByCharactersController.Radius = value;
     }
 }
