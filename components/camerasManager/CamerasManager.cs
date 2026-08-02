@@ -27,6 +27,7 @@ public sealed partial class CamerasManager : Node
         var nearestCamera = default(Camera3D);
         var activeCamera = base.GetViewport().GetCamera3D();
         var nearestDistance = float.MaxValue;
+        var doubleHysteresis = this.Hysteresis * this.Hysteresis;
 
         foreach (var child in this.GetChildren())
         {
@@ -36,7 +37,7 @@ public sealed partial class CamerasManager : Node
             var distance = camera.GlobalPosition.DistanceSquaredTo(Character.MAIN.GlobalPosition);
 
             if (camera != activeCamera)
-                distance += this.Hysteresis;
+                distance += doubleHysteresis;
 
             if (distance < nearestDistance)
             {
