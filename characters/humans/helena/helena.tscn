@@ -8,9 +8,13 @@ radius = 0.3
 height = 1.7
 
 [node name="Helena" type="CharacterBody3D" unique_id=1969776114]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_8b5yy")
 NearestTalkerRadius = 1.0
 Gender = 1
+WalkSpeed = 1.4
+WalkSpeedDrunkFactor = 0.64
 Name = "Helena"
 
 [node name="Model" parent="." unique_id=672929712 instance=ExtResource("2_model")]

@@ -17,13 +17,13 @@ public sealed partial class Human : Character
 	/// The gender of this human.
 	/// </summary>
 	[Export]
-	public Human.EGender Gender { get; private set; } = EGender.Male;
+	public Human.EGender Gender { get; private set; }
 
 	/// <summary>
 	/// Whether this human exhibits drunk behavior.
 	/// </summary>
 	[Export]
-	public bool Drunk { get; private set; } = false;
+	public bool Drunk { get; private set; }
 
 	public override void _EnterTree()
 	{

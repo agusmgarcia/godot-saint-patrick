@@ -80,7 +80,7 @@ partial class Human
 
         public NearestTalkerController()
         {
-            // TODO: add collision masks.
+            base.CollisionMask = 2;
         }
 
         public override void _EnterTree()
