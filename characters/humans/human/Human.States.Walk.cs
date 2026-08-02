@@ -100,7 +100,7 @@ partial class Human
 
             if (direction.Length() > 0.01)
             {
-                float targetRotation = Mathf.Atan2(direction.X, direction.Z);
+                var targetRotation = Mathf.Atan2(direction.X, direction.Z);
                 base.Human.Rotation = new Vector3(
                     base.Human.Rotation.X,
                     Mathf.LerpAngle(base.Human.Rotation.Y, targetRotation, (float)delta * 8.0f),
