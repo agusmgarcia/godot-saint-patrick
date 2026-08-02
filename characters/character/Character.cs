@@ -22,12 +22,10 @@ public abstract partial class Character : CharacterBody3D
         base._EnterTree();
 
         base.AddChild(this._allController);
-        base.AddChild(this._nearByCharactersController);
     }
 
     public override void _ExitTree()
     {
-        base.RemoveChild(this._nearByCharactersController);
         base.RemoveChild(this._allController);
 
         base._ExitTree();
