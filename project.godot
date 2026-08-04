@@ -19,6 +19,18 @@ config/icon="res://icon.svg"
 
 window/size/mode=3
 
+[autoload]
+
+DialogueManager="*uid://c3rodes2l3gxb"
+
+[dialogue_manager]
+
+runtime/advanced/uses_dotnet=true
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
+
 [dotnet]
 
 project/assembly_name="Saint Patrick"
