@@ -15,9 +15,21 @@ run/main_scene="res://scenes/schoolEntrance/schoolEntrance.tscn"
 config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+DialogueManager="*uid://c3rodes2l3gxb"
+
+[dialogue_manager]
+
+runtime/advanced/uses_dotnet=true
+
 [dotnet]
 
 project/assembly_name="Saint Patrick"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 
 [physics]
 
