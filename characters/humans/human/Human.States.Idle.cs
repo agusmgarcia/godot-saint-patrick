@@ -58,9 +58,9 @@ partial class Human
             }
             else
             {
-                if (Character.MAIN != null && base.Human.NearestTalker == Character.MAIN)
+                if (base.Human.NearestTalker != null && base.Human.NearestTalker == Character.MAIN)
                 {
-                    var direction = (Character.MAIN.GlobalPosition - base.Human.GlobalPosition).Normalized();
+                    var direction = (base.Human.NearestTalker.GlobalPosition - base.Human.GlobalPosition).Normalized();
                     var targetRotation = Mathf.Atan2(direction.X, direction.Z);
                     base.Human.Rotation = new Vector3(
                         base.Human.Rotation.X,
