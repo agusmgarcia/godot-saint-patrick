@@ -46,7 +46,7 @@ partial class Character
             get;
             set
             {
-                if (this.beingNotified)
+                if (this._beingNotified)
                     throw new InvalidOperationException();
 
                 if (value == field)
@@ -59,13 +59,13 @@ partial class Character
                 field = newMain;
                 field?.TreeExited += this.OnTreeExited;
 
-                this.beingNotified = true;
+                this._beingNotified = true;
                 this.Changed?.Invoke(prevMain, newMain);
-                this.beingNotified = false;
+                this._beingNotified = false;
             }
         }
 
-        private bool beingNotified = false;
+        private bool _beingNotified = false;
 
         private void OnTreeExited()
         {

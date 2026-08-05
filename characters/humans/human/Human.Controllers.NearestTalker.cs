@@ -45,7 +45,7 @@ partial class Human
             get;
             private set
             {
-                if (this.beingNotified)
+                if (this._beingNotified)
                     throw new InvalidOperationException();
 
                 if (value == field)
@@ -56,9 +56,9 @@ partial class Human
 
                 field = newNearest;
 
-                this.beingNotified = true;
+                this._beingNotified = true;
                 this.Changed?.Invoke(prevNearest, newNearest);
-                this.beingNotified = false;
+                this._beingNotified = false;
             }
         }
 
@@ -76,7 +76,7 @@ partial class Human
         private readonly Dictionary<Human, Action> _unsubscribes = [];
         private readonly HashSet<Human> _list = [];
 
-        private bool beingNotified = false;
+        private bool _beingNotified = false;
 
         public NearestTalkerController()
         {
