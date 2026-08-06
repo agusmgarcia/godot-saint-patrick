@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://nkrsck7ca5h" path="res://entities/humans/human/Human.cs" id="1_human"]
 [ext_resource type="AnimationLibrary" uid="uid://duv7bilmq1jw8" path="res://entities/humans/human/humanAnimationPlayer/human.drunkIdle.1.fbx" id="2_2rbr1"]
 [ext_resource type="AnimationLibrary" uid="uid://b0pueu60y8snb" path="res://entities/humans/human/humanAnimationPlayer/human.idle.1.fbx" id="2_ffwvl"]
+[ext_resource type="Script" uid="uid://bqp3aqampcjla" path="res://components/dialogue/Dialogue.cs" id="2_sykna"]
 [ext_resource type="AnimationLibrary" uid="uid://cek0ojprlf881" path="res://entities/humans/human/humanAnimationPlayer/human.argue.1.fbx" id="3_4ps2d"]
 [ext_resource type="AnimationLibrary" uid="uid://mltoawrfcdh3" path="res://entities/humans/human/humanAnimationPlayer/human.drunkRun.1.fbx" id="3_evr87"]
 [ext_resource type="Script" uid="uid://gy1gs6s1xgyf" path="res://entities/humans/human/humanAnimationPlayer/HumanAnimationPlayer.cs" id="3_ncc1u"]
@@ -36,6 +37,10 @@ script = ExtResource("1_human")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2035372996]
 shape = SubResource("SphereShape3D_45isd")
+
+[node name="Dialogue" type="Node" parent="." unique_id=446930260]
+script = ExtResource("2_sykna")
+metadata/_custom_type_script = "uid://bqp3aqampcjla"
 
 [node name="HumanAnimationPlayer" type="AnimationPlayer" parent="." unique_id=658435941]
 libraries/human.argue.1 = ExtResource("3_4ps2d")

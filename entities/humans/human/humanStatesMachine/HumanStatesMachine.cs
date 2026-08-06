@@ -63,19 +63,28 @@ public sealed partial class HumanStatesMachine : StatesMachine<Human>
         base.SetState<HumanIdleState, HumanIdleStateParams>(new HumanIdleStateParams() { });
 
     /// <summary>
-    /// // TODO:
+    /// // TODO: document this.
     /// </summary>
-    public void Walk(in Vector3 destination) =>
-        base.SetState<HumanWalkState, HumanWalkStateParams>(new HumanWalkStateParams
+    public void Run(in Vector3 destination) =>
+        base.SetState<HumanRunState, HumanRunStateParams>(new HumanRunStateParams
         {
             Destination = destination,
         });
 
     /// <summary>
-    /// // TODO:
+    /// // TODO: document this.
     /// </summary>
-    public void Run(in Vector3 destination) =>
-        base.SetState<HumanRunState, HumanRunStateParams>(new HumanRunStateParams
+    public void Talk(string dialogueId) =>
+        base.SetState<HumanTalkState, HumanTalkStateParams>(new HumanTalkStateParams
+        {
+            DialogueId = dialogueId,
+        });
+
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public void Walk(in Vector3 destination) =>
+        base.SetState<HumanWalkState, HumanWalkStateParams>(new HumanWalkStateParams
         {
             Destination = destination,
         });

@@ -25,6 +25,12 @@ public sealed partial class HumanInputController : Node
 
         var owner = base.GetOwnerOrNull<Human>() ?? base.GetParent<Human>();
 
+        if (Input.IsActionJustPressed("talk"))
+        {
+            owner.HumanStatesMachineTracker.Node?.Talk("start");
+            return;
+        }
+
         var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
         if (!input.IsZeroApprox())
         {

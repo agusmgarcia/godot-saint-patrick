@@ -1,6 +1,7 @@
 using System;
 using Godot;
 using GodotPlugins.Game;
+using SaintPatrick.Components;
 using SaintPatrick.Utils;
 
 namespace SaintPatrick.Entities;
@@ -51,6 +52,11 @@ public partial class Human : CharacterBody3D
     /// <summary>
     /// // TODO: document this.
     /// </summary>
+    public NodesTracker<Dialogue> DialogueTracker { get; } = new() { Name = "Dialogue" };
+
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
     public NodesTracker<HumanAnimationPlayer> HumanAnimationPlayerTracker { get; } = new() { Name = "HumanAnimationPlayer" };
 
     /// <summary>
@@ -80,9 +86,10 @@ public partial class Human : CharacterBody3D
     {
         base._EnterTree();
 
+        this.DialogueTracker.Track(this);
         this.HumanAnimationPlayerTracker.Track(this);
-        this.HumanStatesMachineTracker.Track(this);
         this.HumanMovementTracker.Track(this);
+        this.HumanStatesMachineTracker.Track(this);
         this.SocialZoneArea3DTracker.Track(this);
     }
 
@@ -103,9 +110,10 @@ public partial class Human : CharacterBody3D
     public override void _ExitTree()
     {
         this.SocialZoneArea3DTracker.Untrack();
-        this.HumanMovementTracker.Untrack();
         this.HumanStatesMachineTracker.Untrack();
+        this.HumanMovementTracker.Untrack();
         this.HumanAnimationPlayerTracker.Untrack();
+        this.DialogueTracker.Untrack();
 
         base._ExitTree();
     }
