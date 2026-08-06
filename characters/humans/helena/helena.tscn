@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dqkrs6t6jrndy"]
 
-[ext_resource type="Script" uid="uid://o8tq2l5xujgx" path="res://characters/humans/human/Human.cs" id="1_8b5yy"]
+[ext_resource type="Script" uid="uid://ddqbnre4m5w11" path="res://characters/humans/helena/Helena.cs" id="1_8b5yy"]
 [ext_resource type="PackedScene" uid="uid://8mqqy0e3bst0" path="res://characters/humans/helena/helena.fbx" id="2_model"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]

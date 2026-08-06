@@ -6,7 +6,7 @@ namespace SaintPatrick;
 /// A human character with state-machine driven animations and navigation.
 /// Supports idle, walk, fly-removal, and drunk behavior variants.
 /// </summary>
-public sealed partial class Human : Character
+public abstract partial class Human : Character
 {
 	/// <summary>
 	/// Gender of the human character, used to select the appropriate animation set.
@@ -31,6 +31,7 @@ public sealed partial class Human : Character
 
 		base.AddChild(this._allController);
 		base.AddChild(this._animationsController);
+		base.AddChild(this._dialoguesController);
 		base.AddChild(this._nearestTalkerController);
 		base.AddChild(this._state);
 	}
@@ -39,6 +40,7 @@ public sealed partial class Human : Character
 	{
 		base.RemoveChild(this._state);
 		base.RemoveChild(this._nearestTalkerController);
+		base.RemoveChild(this._dialoguesController);
 		base.RemoveChild(this._animationsController);
 		base.RemoveChild(this._allController);
 

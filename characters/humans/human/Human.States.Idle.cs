@@ -49,6 +49,15 @@ partial class Human
 
             if (base.Human.Main)
             {
+                if (Input.IsActionJustPressed("ui_talk"))
+                {
+                    if (base.Human.NearestTalker != null)
+                    {
+                        base.Human.Talk(base.Human.NearestTalker);
+                        return;
+                    }
+                }
+
                 var inputDirection = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
                 if (inputDirection.Length() > 0.01f)
                 {
