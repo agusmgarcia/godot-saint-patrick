@@ -29,7 +29,6 @@ public sealed partial class Human : Character
 	{
 		base._EnterTree();
 
-		base.AddChild(this._allController);
 		base.AddChild(this._animationsController);
 		base.AddChild(this._nearestTalkerController);
 		base.AddChild(this._state);
@@ -40,7 +39,6 @@ public sealed partial class Human : Character
 		base.RemoveChild(this._state);
 		base.RemoveChild(this._nearestTalkerController);
 		base.RemoveChild(this._animationsController);
-		base.RemoveChild(this._allController);
 
 		base._ExitTree();
 	}
