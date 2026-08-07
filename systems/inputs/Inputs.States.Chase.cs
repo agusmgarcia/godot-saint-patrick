@@ -1,20 +1,20 @@
+using System.Linq;
 using Godot;
 
 namespace SaintPatrick;
 
 // <=================== MOVE STATE ====================> //
-partial class InputManager
+partial class Inputs
 {
     private void Chase() =>
-        this._statesMachine.SetState<InputManager.MoveState>(new InputManager.MoveState.InitParams());
+        this._statesMachine.SetState<Inputs.MoveState>(new Inputs.MoveState.InitParams());
 
-    private sealed partial class MoveState : InputManager.BaseState
+    private sealed partial class MoveState : Inputs.BaseState
     {
         public readonly record struct InitParams { }
 
-        private const float LEAD_DISTANCE = 100.0f;
-
         private readonly Node3D _waypoint = new();
+        private readonly Observer<Cameras> _camerasObserver = new();
 
         private Vector3 _cameraForward;
         private Vector3 _cameraRight;
@@ -24,7 +24,9 @@ partial class InputManager
         {
             base._EnterTree();
 
-            var camera = base.GetViewport().GetCamera3D();
+            base.AddChild(this._camerasObserver);
+
+            var camera = this._camerasObserver.Nodes.SingleOrDefault()?.ActiveCamera;
             if (camera != null)
             {
                 this._cameraForward = new Vector3(-camera.GlobalBasis.Z.X, 0, -camera.GlobalBasis.Z.Z).Normalized();
@@ -51,7 +53,7 @@ partial class InputManager
             var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
             if (input.Length() <= 0)
             {
-                base.InputManager.Idle();
+                base.Inputs.Idle();
                 return;
             }
 
@@ -69,8 +71,8 @@ partial class InputManager
         private void PositionWaypoint()
         {
             var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
-            var worldDir = (_cameraRight * input.X + _cameraForward * -input.Y).Normalized();
-            this._waypoint.GlobalPosition = (Character.MAIN?.GlobalPosition ?? Vector3.Zero) + worldDir * LEAD_DISTANCE;
+            var worldDir = (this._cameraRight * input.X + this._cameraForward * -input.Y).Normalized();
+            this._waypoint.GlobalPosition = (Character.MAIN?.GlobalPosition ?? Vector3.Zero) + worldDir * 100.0f;
         }
 
         public override void _ExitTree()
@@ -82,6 +84,8 @@ partial class InputManager
 
             this._cameraForward = Vector3.Zero;
             this._cameraRight = Vector3.Zero;
+
+            base.RemoveChild(this._camerasObserver);
 
             base._ExitTree();
         }

@@ -3,13 +3,13 @@ using Godot;
 namespace SaintPatrick;
 
 // <=================== BASE STATE ====================> //
-partial class InputManager
+partial class Inputs
 {
-    private readonly StatesMachine<InputManager.BaseState> _statesMachine = new();
+    private readonly StatesMachine<Inputs.BaseState> _statesMachine = new();
 
-    private abstract partial class BaseState : StatesMachine<InputManager.BaseState>.BaseState
+    private abstract partial class BaseState : StatesMachine<Inputs.BaseState>.BaseState
     {
-        protected InputManager InputManager { get; private set; } = null!;
+        protected Inputs Inputs { get; private set; } = null!;
 
         protected BaseState() { }
 
@@ -17,20 +17,20 @@ partial class InputManager
         {
             base._EnterTree();
 
-            this.InputManager = base.GetParent().GetParent<InputManager>();
+            this.Inputs = base.GetParent().GetParent<Inputs>();
             Character.MAIN_CHANGED += this.OnMainChanged;
         }
 
         private void OnMainChanged(Character? oldMain, Character? newMain)
         {
             oldMain?.Idle();
-            this.InputManager.Idle();
+            this.Inputs.Idle();
         }
 
         public override void _ExitTree()
         {
             Character.MAIN_CHANGED -= this.OnMainChanged;
-            this.InputManager = null!;
+            this.Inputs = null!;
 
             base._ExitTree();
         }

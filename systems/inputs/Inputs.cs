@@ -1,5 +1,3 @@
-using Godot;
-
 namespace SaintPatrick;
 
 /// <summary>
@@ -9,21 +7,21 @@ namespace SaintPatrick;
 /// Moves the main character camera-relatively using WASD / left joystick, and supports
 /// running by holding Left Shift / L1.
 /// </summary>
-public sealed partial class InputManager : Node3D
+public sealed partial class Inputs : System
 {
-	public override void _EnterTree()
-	{
-		base._EnterTree();
+    public override void _EnterTree()
+    {
+        base._EnterTree();
 
-		base.AddChild(this._statesMachine);
-		this.Idle();
-	}
+        base.AddChild(this._statesMachine);
+        this.Idle();
+    }
 
-	public override void _ExitTree()
-	{
-		this.Idle();
-		base.RemoveChild(this._statesMachine);
+    public override void _ExitTree()
+    {
+        this.Idle();
+        base.RemoveChild(this._statesMachine);
 
-		base._ExitTree();
-	}
+        base._ExitTree();
+    }
 }
