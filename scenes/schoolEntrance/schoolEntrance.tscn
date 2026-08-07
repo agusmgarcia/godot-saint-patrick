@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bmljoluxik5wr" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.tscn" id="7_5jtxm"]
 [ext_resource type="PackedScene" uid="uid://dupx3tdfesvrq" path="res://components/camerasManager/camerasManager.tscn" id="7_pew12"]
 [ext_resource type="PackedScene" uid="uid://kf1kuq4u5fid" path="res://scenes/schoolEntrance/bridge/bridge.tscn" id="8_bridge"]
+[ext_resource type="PackedScene" uid="uid://pcx45gxmo3pf" path="res://components/charactersManageer/charactersManager.tscn" id="8_pew12"]
 [ext_resource type="PackedScene" uid="uid://dkh0siy1yckv0" path="res://scenes/schoolEntrance/parkingLot/parkingLot.tscn" id="9_parking"]
 [ext_resource type="PackedScene" uid="uid://c3ilcm6imfur6" path="res://scenes/schoolEntrance/streetBlock/streetBlock.tscn" id="10_streetblock"]
 [ext_resource type="PackedScene" uid="uid://b18wfsc1jivmc" path="res://scenes/schoolEntrance/river/river.tscn" id="11_river"]
@@ -66,21 +67,6 @@ light_color = Color(0.7529412, 0.8156863, 1, 1)
 light_energy = 0.3
 shadow_enabled = true
 
-[node name="Characters" type="Node3D" parent="." unique_id=2104005020]
-
-[node name="Helena1" parent="Characters" unique_id=1974297223 instance=ExtResource("6_21yb8")]
-transform = Transform3D(0.38418263, 0, 0.92325723, 0, 1, 0, -0.92325723, 0, 0.38418263, -2.218048, 0.20193653, 31.58735)
-Main = true
-Name = "Helena1"
-
-[node name="Helena2" parent="Characters" unique_id=525764048 instance=ExtResource("6_21yb8")]
-transform = Transform3D(0.6488905, 0, -0.76088184, 0, 1, 0, 0.76088184, 0, 0.6488905, 2.1160312, 0.20193724, 28.567314)
-Name = "Helena2"
-
-[node name="Helena3" parent="Characters" unique_id=255764739 instance=ExtResource("6_21yb8")]
-transform = Transform3D(-0.9541569, 0, -0.29930753, 0, 1, 0, 0.29930753, 0, -0.9541569, 5.450505, 0.1593988, 36.396217)
-Name = "Helena3"
-
 [node name="CamerasManager" parent="." unique_id=281928255 instance=ExtResource("7_pew12")]
 
 [node name="Entrance" type="Camera3D" parent="CamerasManager" unique_id=47935763]
@@ -94,3 +80,18 @@ fov = 60.0
 [node name="Access" type="Camera3D" parent="CamerasManager" unique_id=899676698]
 transform = Transform3D(-0.3334397, 0.3806496, -0.8625102, 0.06326706, 0.92183894, 0.38237444, 0.94064623, 0.07293035, -0.3314603, -7.8565583, 5.551695, 8.306373)
 fov = 60.0
+
+[node name="CharactersManager" parent="." unique_id=1498495245 instance=ExtResource("8_pew12")]
+
+[node name="Helena1" parent="CharactersManager" unique_id=1974297223 instance=ExtResource("6_21yb8")]
+transform = Transform3D(0.38418263, 0, 0.92325723, 0, 1, 0, -0.92325723, 0, 0.38418263, -2.218048, 0.20193653, 31.58735)
+Main = true
+Name = "Helena1"
+
+[node name="Helena2" parent="CharactersManager" unique_id=525764048 instance=ExtResource("6_21yb8")]
+transform = Transform3D(0.6488905, 0, -0.76088184, 0, 1, 0, 0.76088184, 0, 0.6488905, 2.1160312, 0.20193724, 28.567314)
+Name = "Helena2"
+
+[node name="Helena3" parent="CharactersManager" unique_id=255764739 instance=ExtResource("6_21yb8")]
+transform = Transform3D(-0.9541569, 0, -0.29930753, 0, 1, 0, 0.29930753, 0, -0.9541569, 5.450505, 0.1593988, 36.396217)
+Name = "Helena3"
