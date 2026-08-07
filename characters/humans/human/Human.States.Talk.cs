@@ -10,9 +10,9 @@ partial class Human
     /// </summary>
     /// <param name="listener">The listener.</param>
     public void Talk(Human listener) =>
-        this.State = ElementsFactory.GetOrCreate<TalkState, TalkState.InitParams>(new() { Listener = listener });
+        this._statesMachine.SetState<Human.TalkState>(new Human.TalkState.InitParams { Listener = listener });
 
-    private sealed partial class TalkState : BaseState<TalkState.InitParams>
+    private sealed partial class TalkState : Human.BaseState
     {
         public readonly record struct InitParams
         {

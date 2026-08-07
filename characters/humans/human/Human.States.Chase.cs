@@ -39,9 +39,9 @@ partial class Human
     /// </param>
     /// <param name="run">When <c>true</c>, the human chases at run speed; otherwise at walk speed.</param>
     public void Chase(Node3D destination, bool straight = false, bool run = false) =>
-        this.State = ElementsFactory.GetOrCreate<ChaseState, ChaseState.InitParams>(new() { Destination = destination, Straight = straight, Run = run });
+        this._statesMachine.SetState<Human.ChaseState>(new Human.ChaseState.InitParams() { Destination = destination, Straight = straight, Run = run });
 
-    private sealed partial class ChaseState : BaseState<ChaseState.InitParams>
+    private sealed partial class ChaseState : Human.BaseState
     {
         public readonly record struct InitParams
         {

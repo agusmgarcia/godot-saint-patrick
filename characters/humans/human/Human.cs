@@ -32,12 +32,14 @@ public abstract partial class Human : Character
 
 		base.AddChild(this._animationsController);
 		base.AddChild(this._nearestHumanController);
-		base.AddChild(this._state);
+		base.AddChild(this._statesMachine);
+
+		this.Idle();
 	}
 
 	public override void _ExitTree()
 	{
-		base.RemoveChild(this._state);
+		base.RemoveChild(this._statesMachine);
 		base.RemoveChild(this._nearestHumanController);
 		base.RemoveChild(this._animationsController);
 

@@ -10,9 +10,9 @@ partial class Human
     /// Transitions the human to the idle state.
     /// </summary>
     public void Idle() =>
-        this.State = ElementsFactory.GetOrCreate<IdleState, IdleState.InitParams>(new());
+        this._statesMachine.SetState<Human.IdleState>(new Human.IdleState.InitParams());
 
-    private sealed partial class IdleState : BaseState<IdleState.InitParams>
+    private sealed partial class IdleState : Human.BaseState
     {
         public readonly record struct InitParams { }
 
