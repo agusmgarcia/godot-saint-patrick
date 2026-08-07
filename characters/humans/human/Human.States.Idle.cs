@@ -6,10 +6,7 @@ namespace SaintPatrick;
 // <=================== IDLE STATE ===================> //
 partial class Human
 {
-    /// <summary>
-    /// Transitions the human to the idle state.
-    /// </summary>
-    public void Idle() =>
+    public sealed override void Idle() =>
         this._statesMachine.SetState<Human.IdleState>(new Human.IdleState.InitParams());
 
     private sealed partial class IdleState : Human.BaseState

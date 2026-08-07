@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dqkrs6t6jrndy" path="res://characters/humans/helena/helena.tscn" id="6_21yb8"]
 [ext_resource type="PackedScene" uid="uid://bmljoluxik5wr" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.tscn" id="7_5jtxm"]
 [ext_resource type="PackedScene" uid="uid://dupx3tdfesvrq" path="res://components/camerasManager/camerasManager.tscn" id="7_pew12"]
+[ext_resource type="PackedScene" uid="uid://c8ilw455dec20" path="res://components/inputManager/inputManager.tscn" id="12_inputmgr"]
 [ext_resource type="PackedScene" uid="uid://kf1kuq4u5fid" path="res://scenes/schoolEntrance/bridge/bridge.tscn" id="8_bridge"]
 [ext_resource type="PackedScene" uid="uid://pcx45gxmo3pf" path="res://components/charactersManageer/charactersManager.tscn" id="8_pew12"]
 [ext_resource type="PackedScene" uid="uid://dkh0siy1yckv0" path="res://scenes/schoolEntrance/parkingLot/parkingLot.tscn" id="9_parking"]
@@ -95,3 +96,5 @@ Name = "Helena2"
 [node name="Helena3" parent="CharactersManager" unique_id=255764739 instance=ExtResource("6_21yb8")]
 transform = Transform3D(-0.9541569, 0, -0.29930753, 0, 1, 0, 0.29930753, 0, -0.9541569, 5.450505, 0.1593988, 36.396217)
 Name = "Helena3"
+
+[node name="InputManager" parent="." unique_id=312847563 instance=ExtResource("12_inputmgr")]

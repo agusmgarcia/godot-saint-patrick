@@ -29,16 +29,7 @@ partial class Human
     [Export(PropertyHint.Range, "0,1")]
     public float RunSpeedDrunkFactor { get; private set; }
 
-    /// <summary>
-    /// Transitions the human to the chase state, tracking the given destination object.
-    /// </summary>
-    /// <param name="destination">The object to chase. Its position is re-read every frame.</param>
-    /// <param name="straight">
-    /// When <c>true</c>, the human moves in a straight line toward the destination, ignoring obstacles.
-    /// When <c>false</c>, the human uses navmesh pathfinding to route around obstacles.
-    /// </param>
-    /// <param name="run">When <c>true</c>, the human chases at run speed; otherwise at walk speed.</param>
-    public void Chase(Node3D destination, bool straight = false, bool run = false) =>
+    public sealed override void Chase(Node3D destination, bool straight = false, bool run = false) =>
         this._statesMachine.SetState<Human.ChaseState>(new Human.ChaseState.InitParams() { Destination = destination, Straight = straight, Run = run });
 
     private sealed partial class ChaseState : Human.BaseState
