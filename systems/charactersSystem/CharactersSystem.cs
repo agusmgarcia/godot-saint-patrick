@@ -4,15 +4,15 @@ using Godot;
 namespace SaintPatrick;
 
 /// <summary>
-/// Manages multiple Character children. It holds them within a list
-/// that can be consumed everytime.
+/// Manages multiple Character children. It holds them within a set
+/// that can be consumed at any time.
 /// </summary>
-public sealed partial class CharactersManager : Node3D
+public sealed partial class CharactersSystem : System
 {
     private readonly HashSet<Character> _characters = [];
 
     /// <summary>
-    /// The list of Characters.
+    /// The set of characters currently managed by this system.
     /// </summary>
     public IReadOnlySet<Character> Characters =>
         this._characters;

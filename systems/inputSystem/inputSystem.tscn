@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c8ilw455dec20"]
+
+[ext_resource type="Script" uid="uid://egmubojle4jp" path="res://systems/inputSystem/InputSystem.cs" id="1_weeho"]
+
+[node name="InputSystem" type="Node3D" unique_id=2069392974]
+script = ExtResource("1_weeho")

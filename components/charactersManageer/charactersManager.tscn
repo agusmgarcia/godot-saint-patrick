@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://pcx45gxmo3pf"]
-
-[ext_resource type="Script" uid="uid://n5bsgcvwrhys" path="res://components/charactersManageer/CharactersManager.cs" id="1_hlord"]
-
-[node name="CharactersManager" type="Node3D" unique_id=1498495245]
-script = ExtResource("1_hlord")

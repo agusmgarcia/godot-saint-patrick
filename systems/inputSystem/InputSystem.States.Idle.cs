@@ -3,12 +3,12 @@ using Godot;
 namespace SaintPatrick;
 
 // <=================== IDLE STATE ====================> //
-partial class InputManager
+partial class InputSystem
 {
     private void Idle() =>
-        this._statesMachine.SetState<InputManager.IdleState>(new InputManager.IdleState.InitParams());
+        this._statesMachine.SetState<InputSystem.IdleState>(new InputSystem.IdleState.InitParams());
 
-    private sealed partial class IdleState : InputManager.BaseState
+    private sealed partial class IdleState : InputSystem.BaseState
     {
         public readonly record struct InitParams { }
 
@@ -25,7 +25,7 @@ partial class InputManager
 
             var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
             if (input.Length() > 0)
-                base.InputManager.Chase();
+                base.InputSystem.Chase();
         }
 
         public override void _ExitTree()

@@ -3,12 +3,12 @@ using Godot;
 namespace SaintPatrick;
 
 // <=================== MOVE STATE ====================> //
-partial class InputManager
+partial class InputSystem
 {
     private void Chase() =>
-        this._statesMachine.SetState<InputManager.MoveState>(new InputManager.MoveState.InitParams());
+        this._statesMachine.SetState<InputSystem.MoveState>(new InputSystem.MoveState.InitParams());
 
-    private sealed partial class MoveState : InputManager.BaseState
+    private sealed partial class MoveState : InputSystem.BaseState
     {
         public readonly record struct InitParams { }
 
@@ -24,7 +24,7 @@ partial class InputManager
         {
             base._EnterTree();
 
-            var camera = base.GetViewport().GetCamera3D();
+            var camera = base.InputSystem.CamerasSystem?.ActiveCamera;
             if (camera != null)
             {
                 this._cameraForward = new Vector3(-camera.GlobalBasis.Z.X, 0, -camera.GlobalBasis.Z.Z).Normalized();
@@ -51,7 +51,7 @@ partial class InputManager
             var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
             if (input.Length() <= 0)
             {
-                base.InputManager.Idle();
+                base.InputSystem.Idle();
                 return;
             }
 

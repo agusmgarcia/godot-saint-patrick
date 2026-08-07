@@ -2,13 +2,13 @@
 
 [ext_resource type="PackedScene" uid="uid://dqkrs6t6jrndy" path="res://characters/humans/helena/helena.tscn" id="6_21yb8"]
 [ext_resource type="PackedScene" uid="uid://bmljoluxik5wr" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.tscn" id="7_5jtxm"]
-[ext_resource type="PackedScene" uid="uid://dupx3tdfesvrq" path="res://components/camerasManager/camerasManager.tscn" id="7_pew12"]
-[ext_resource type="PackedScene" uid="uid://c8ilw455dec20" path="res://components/inputManager/inputManager.tscn" id="12_inputmgr"]
+[ext_resource type="PackedScene" uid="uid://dupx3tdfesvrq" path="res://systems/camerasSystem/camerasSystem.tscn" id="7_pew12"]
 [ext_resource type="PackedScene" uid="uid://kf1kuq4u5fid" path="res://scenes/schoolEntrance/bridge/bridge.tscn" id="8_bridge"]
-[ext_resource type="PackedScene" uid="uid://pcx45gxmo3pf" path="res://components/charactersManageer/charactersManager.tscn" id="8_pew12"]
+[ext_resource type="PackedScene" uid="uid://pcx45gxmo3pf" path="res://systems/charactersSystem/charactersSystem.tscn" id="8_pew12"]
 [ext_resource type="PackedScene" uid="uid://dkh0siy1yckv0" path="res://scenes/schoolEntrance/parkingLot/parkingLot.tscn" id="9_parking"]
 [ext_resource type="PackedScene" uid="uid://c3ilcm6imfur6" path="res://scenes/schoolEntrance/streetBlock/streetBlock.tscn" id="10_streetblock"]
 [ext_resource type="PackedScene" uid="uid://b18wfsc1jivmc" path="res://scenes/schoolEntrance/river/river.tscn" id="11_river"]
+[ext_resource type="PackedScene" uid="uid://c8ilw455dec20" path="res://systems/inputSystem/inputSystem.tscn" id="12_inputmgr"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_21yb8"]
 vertices = PackedVector3Array(23.1, 0.5500002, -6.2500005, 23.1, 0.5500002, -5.5000005, 23.6, 0.5500002, -5.2500005, 31.85, 0.3000002, -6.2500005, 23.6, 0.3000002, 12.75, 23.1, 0.3000002, 13, 23.1, 0.3000002, 17, 23.6, 0.3000002, 17.25, 31.85, 0.3000002, 36, 23.6, 0.5500002, 35.5, 23.1, 0.5500002, 36, -19.15, 4.3, -4.0000005, -19.15, 4.3, 4.2499995, 19.1, 4.3, 4.2499995, 19.1, 4.3, -4.0000005, -18.9, 1.0500002, -3.7500005, -18.9, 1.0500002, 3.9999995, 18.85, 1.0500002, 3.9999995, 18.85, 1.0500002, -3.7500005, -20.65, 0.3000002, 6.4999995, -21.15, 0.3000002, 5.9999995, -21.15, 0.3000002, 7.4999995, -4.1499996, 0.3000002, 7.4999995, -4.1499996, 0.3000002, 6.4999995, 21.1, 0.3000002, 7.4999995, 21.1, 0.3000002, 5.9999995, 20.6, 0.3000002, 6.4999995, 4.1000004, 0.3000002, 7.4999995, 4.1000004, 0.3000002, 6.4999995, 2.1000004, 0.5500002, 31.25, 2.6000004, 0.5500002, 30.5, 1.8500004, 0.5500002, 30, 2.1000004, 0.5500002, 33, -1.6499996, 0.5500002, 33.5, 2.6000004, 0.5500002, 33.5, -1.6499996, 0.5500002, 6.2499995, 1.8500004, 0.5500002, 6.2499995, 4.1000004, 0.3000002, 30, 3.6000004, 0.3000002, 30.25, 7.1000004, 0.3000002, 30.5, 4.3500004, 0.3000002, 27.5, 7.8500004, 0.3000002, 31.25, 21.1, 0.3000002, 34, 21.1, 0.3000002, 28.25, 20.1, 0.3000002, 27.5, 7.8500004, 0.3000002, 34, 21.1, 0.3000002, 25.75, 20.6, 0.3000002, 13, 20.1, 0.3000002, 13.5, 18.35, 0.3000002, 13.5, 20.1, 0.3000002, 26.5, 17.6, 0.3000002, 12.75, 17.6, 0.3000002, 10, 4.1000004, 0.3000002, 10, 2.8500004, 0.5500002, 36.25, 2.6000004, 0.5500002, 35.75, -2.1499996, 0.5500002, 35.75, -2.3999996, 0.5500002, 36.25, -21.4, 0.3000002, 44.75, 22.6, 0.3000002, 44.75, -21.4, 0.5500002, 36.25, 22.6, 0.5500002, 36.25, 31.85, 0.3000002, 44.75)
@@ -68,33 +68,33 @@ light_color = Color(0.7529412, 0.8156863, 1, 1)
 light_energy = 0.3
 shadow_enabled = true
 
-[node name="CamerasManager" parent="." unique_id=281928255 instance=ExtResource("7_pew12")]
+[node name="CamerasSystem" parent="." unique_id=281928255 instance=ExtResource("7_pew12")]
 
-[node name="Entrance" type="Camera3D" parent="CamerasManager" unique_id=47935763]
+[node name="Entrance" type="Camera3D" parent="CamerasSystem" unique_id=47935763]
 transform = Transform3D(0.926614, -0.114427015, 0.35818017, 7.1626025e-09, 0.9525712, 0.3043158, -0.37601405, -0.28198326, 0.8826658, 7.010169, 2.8091543, 39.693356)
 fov = 60.0
 
-[node name="Bridge" type="Camera3D" parent="CamerasManager" unique_id=533416551]
+[node name="Bridge" type="Camera3D" parent="CamerasSystem" unique_id=533416551]
 transform = Transform3D(0.948026, 0.14414844, -0.28366882, -0.044844966, 0.9431299, 0.32938585, 0.31501698, -0.2995452, 0.90057594, -1.7837934, 3.3499527, 36.291996)
 fov = 60.0
 
-[node name="Access" type="Camera3D" parent="CamerasManager" unique_id=899676698]
+[node name="Access" type="Camera3D" parent="CamerasSystem" unique_id=899676698]
 transform = Transform3D(-0.3334397, 0.3806496, -0.8625102, 0.06326706, 0.92183894, 0.38237444, 0.94064623, 0.07293035, -0.3314603, -7.8565583, 5.551695, 8.306373)
 fov = 60.0
 
-[node name="CharactersManager" parent="." unique_id=1498495245 instance=ExtResource("8_pew12")]
+[node name="CharactersSystem" parent="." unique_id=1498495245 instance=ExtResource("8_pew12")]
 
-[node name="Helena1" parent="CharactersManager" unique_id=1974297223 instance=ExtResource("6_21yb8")]
+[node name="Helena1" parent="CharactersSystem" unique_id=1974297223 instance=ExtResource("6_21yb8")]
 transform = Transform3D(0.38418263, 0, 0.92325723, 0, 1, 0, -0.92325723, 0, 0.38418263, -2.218048, 0.20193653, 31.58735)
 Main = true
 Name = "Helena1"
 
-[node name="Helena2" parent="CharactersManager" unique_id=525764048 instance=ExtResource("6_21yb8")]
+[node name="Helena2" parent="CharactersSystem" unique_id=525764048 instance=ExtResource("6_21yb8")]
 transform = Transform3D(0.6488905, 0, -0.76088184, 0, 1, 0, 0.76088184, 0, 0.6488905, 2.1160312, 0.20193724, 28.567314)
 Name = "Helena2"
 
-[node name="Helena3" parent="CharactersManager" unique_id=255764739 instance=ExtResource("6_21yb8")]
+[node name="Helena3" parent="CharactersSystem" unique_id=255764739 instance=ExtResource("6_21yb8")]
 transform = Transform3D(-0.9541569, 0, -0.29930753, 0, 1, 0, 0.29930753, 0, -0.9541569, 5.450505, 0.1593988, 36.396217)
 Name = "Helena3"
 
-[node name="InputManager" parent="." unique_id=312847563 instance=ExtResource("12_inputmgr")]
+[node name="InputSystem" parent="." unique_id=312847563 instance=ExtResource("12_inputmgr")]
