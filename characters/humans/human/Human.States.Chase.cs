@@ -18,6 +18,18 @@ partial class Human
     public float WalkSpeedDrunkFactor { get; private set; }
 
     /// <summary>
+    /// Base running speed in meters per second.
+    /// </summary>
+    [Export(PropertyHint.Range, "0,10,or_greater,hide_control,suffix:m/s")]
+    public float RunSpeed { get; private set; }
+
+    /// <summary>
+    /// Multiplier applied to <see cref="RunSpeed"/> when the human is drunk (0–1 range).
+    /// </summary>
+    [Export(PropertyHint.Range, "0,1")]
+    public float RunSpeedDrunkFactor { get; private set; }
+
+    /// <summary>
     /// Transitions the human to the chase state, tracking the given destination object.
     /// </summary>
     /// <param name="destination">The object to chase. Its position is re-read every frame.</param>
@@ -25,8 +37,9 @@ partial class Human
     /// When <c>true</c>, the human moves in a straight line toward the destination, ignoring obstacles.
     /// When <c>false</c>, the human uses navmesh pathfinding to route around obstacles.
     /// </param>
-    public void Chase(Node3D destination, bool straight = false) =>
-        this.State = ElementsFactory.GetOrCreate<ChaseState, ChaseState.InitParams>(new() { Destination = destination, Straight = straight });
+    /// <param name="run">When <c>true</c>, the human chases at run speed; otherwise at walk speed.</param>
+    public void Chase(Node3D destination, bool straight = false, bool run = false) =>
+        this.State = ElementsFactory.GetOrCreate<ChaseState, ChaseState.InitParams>(new() { Destination = destination, Straight = straight, Run = run });
 
     private sealed partial class ChaseState : BaseState<ChaseState.InitParams>
     {
@@ -34,10 +47,12 @@ partial class Human
         {
             public required Node3D Destination { get; init; }
             public required bool Straight { get; init; }
+            public required bool Run { get; init; }
         }
 
         public Node3D Destination { get; private set; } = null!;
         public bool Straight { get; private set; }
+        public bool Run { get; private set; }
 
         private bool _destinationAdopted;
         private readonly NavigationAgent3D _navigationAgent = new();
@@ -53,7 +68,11 @@ partial class Human
             if (!this.Straight)
                 base.AddChild(this._navigationAgent);
 
-            base.Human._animationsController.PlayRandom(!base.Human.Drunk ? AnimationsController.EState.Walk : AnimationsController.EState.DrunkWalk, base.Human.Gender);
+            base.Human._animationsController.PlayRandom(
+                this.Run
+                    ? !base.Human.Drunk ? AnimationsController.EState.Run : AnimationsController.EState.DrunkRun
+                    : !base.Human.Drunk ? AnimationsController.EState.Walk : AnimationsController.EState.DrunkWalk,
+                base.Human.Gender);
         }
 
         public override void _Process(double delta)
@@ -98,7 +117,10 @@ partial class Human
                 );
             }
 
-            base.Human.Velocity = direction * base.Human.WalkSpeed * (!base.Human.Drunk ? 1 : base.Human.WalkSpeedDrunkFactor);
+            base.Human.Velocity = direction * (this.Run
+                ? base.Human.RunSpeed * (!base.Human.Drunk ? 1 : base.Human.RunSpeedDrunkFactor)
+                : base.Human.WalkSpeed * (!base.Human.Drunk ? 1 : base.Human.WalkSpeedDrunkFactor));
+
             base.Human.MoveAndSlide();
         }
 

@@ -13,7 +13,7 @@ partial class Human
 
     private sealed partial class AnimationsController : AnimationPlayer
     {
-        public enum EState { Idle, Walk, FlyRemoval, DrunkIdle, DrunkWalk, Talk }
+        public enum EState { Idle, Walk, Run, FlyRemoval, DrunkIdle, DrunkWalk, DrunkRun, Talk }
 
         private static readonly IReadOnlyDictionary<AnimationsController.EState, IReadOnlyDictionary<Human.EGender, IReadOnlySet<string>>> ANIMATIONS =
             new Dictionary<AnimationsController.EState, IReadOnlyDictionary<Human.EGender, IReadOnlySet<string>>>()
@@ -41,6 +41,13 @@ partial class Human
                         "human.female.walk.1/mixamo_com",
                     },
                 },
+                [AnimationsController.EState.Run] = new Dictionary<Human.EGender, IReadOnlySet<string>>()
+                {
+                    [Human.EGender.Female] = new HashSet<string>()
+                    {
+                        "human.female.run.1/mixamo_com",
+                    },
+                },
                 [AnimationsController.EState.DrunkIdle] = new Dictionary<Human.EGender, IReadOnlySet<string>>()
                 {
                     [Human.EGender.Female] = new HashSet<string>()
@@ -53,6 +60,13 @@ partial class Human
                     [Human.EGender.Female] = new HashSet<string>()
                     {
                         "human.female.drunkWalk.1/mixamo_com",
+                    },
+                },
+                [AnimationsController.EState.DrunkRun] = new Dictionary<Human.EGender, IReadOnlySet<string>>()
+                {
+                    [Human.EGender.Female] = new HashSet<string>()
+                    {
+                        "human.female.drunkRun.1/mixamo_com",
                     },
                 },
                 [AnimationsController.EState.Talk] = new Dictionary<Human.EGender, IReadOnlySet<string>>()
