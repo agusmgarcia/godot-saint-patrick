@@ -33,9 +33,9 @@ partial class Human
         {
             base._Process(delta);
 
-            if (base.Human.NearestTalker?.Main == true)
+            if (base.Human.NearestHuman?.Main == true)
             {
-                var direction = (base.Human.NearestTalker.GlobalPosition - base.Human.GlobalPosition).Normalized();
+                var direction = (base.Human.NearestHuman.GlobalPosition - base.Human.GlobalPosition).Normalized();
                 var targetRotation = Mathf.Atan2(direction.X, direction.Z);
                 base.Human.Rotation = new Vector3(
                     base.Human.Rotation.X,

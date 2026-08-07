@@ -24,19 +24,21 @@ public abstract partial class Human : Character
 	[Export]
 	public bool Drunk { get; private set; }
 
+	protected Human() { }
+
 	public override void _EnterTree()
 	{
 		base._EnterTree();
 
 		base.AddChild(this._animationsController);
-		base.AddChild(this._nearestTalkerController);
+		base.AddChild(this._nearestHumanController);
 		base.AddChild(this._state);
 	}
 
 	public override void _ExitTree()
 	{
 		base.RemoveChild(this._state);
-		base.RemoveChild(this._nearestTalkerController);
+		base.RemoveChild(this._nearestHumanController);
 		base.RemoveChild(this._animationsController);
 
 		base._ExitTree();

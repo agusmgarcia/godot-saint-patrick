@@ -4,39 +4,39 @@ using Godot;
 
 namespace SaintPatrick;
 
-// <==================== NEAREST TALKER CONTROLLER ====================> //
+// <==================== NEAREST HUMAN CONTROLLER ====================> //
 partial class Human
 {
     /// <summary>
-    /// The nearest human within the talking radius that has an unobstructed
+    /// The nearest human within the radius that has an unobstructed
     /// line of sight to this human, or <c>null</c> if none qualifies.
     /// </summary>
-    public Human? NearestTalker => this._nearestTalkerController.Instance;
+    public Human? NearestHuman => this._nearestHumanController.Instance;
 
     /// <summary>
-    /// Raised when the nearest talker changes. The first argument is the
-    /// previous nearest talker and the second is the new one.
+    /// Raised when the nearest human changes. The first argument is the
+    /// previous nearest human and the second is the new one.
     /// </summary>
-    public event Action<Human?, Human?>? NearestTalkerChanged
+    public event Action<Human?, Human?>? NearestHumanChanged
     {
-        add => this._nearestTalkerController.Changed += value;
-        remove => this._nearestTalkerController.Changed -= value;
+        add => this._nearestHumanController.Changed += value;
+        remove => this._nearestHumanController.Changed -= value;
     }
 
     /// <summary>
-    /// The detection radius used to find the nearest talker.
+    /// The detection radius used to find the nearest human.
     /// Expressed in meters.
     /// </summary>
     [Export(PropertyHint.Range, "0,10,or_greater,hide_control,suffix:m")]
-    public float NearestTalkerRadius
+    public float NearestHumanRadius
     {
-        get => this._nearestTalkerController.Radius;
-        private set => this._nearestTalkerController.Radius = value;
+        get => this._nearestHumanController.Radius;
+        private set => this._nearestHumanController.Radius = value;
     }
 
-    private readonly NearestTalkerController _nearestTalkerController = new();
+    private readonly NearestHumanController _nearestHumanController = new();
 
-    private sealed partial class NearestTalkerController : Area3D
+    private sealed partial class NearestHumanController : Area3D
     {
         public event Action<Human?, Human?>? Changed;
 
@@ -78,7 +78,7 @@ partial class Human
 
         private bool _beingNotified = false;
 
-        public NearestTalkerController()
+        public NearestHumanController()
         {
             base.CollisionMask = 2;
         }
@@ -122,7 +122,7 @@ partial class Human
 
             var thisHuman = base.GetParent<Human>();
 
-            var nearestTalker = default(Human);
+            var nearestHuman = default(Human);
             var nearestDistance = float.MaxValue;
             var spaceState = thisHuman.GetWorld3D().DirectSpaceState;
 
@@ -142,11 +142,11 @@ partial class Human
                 if (distance >= nearestDistance)
                     continue;
 
-                nearestTalker = human;
+                nearestHuman = human;
                 nearestDistance = distance;
             }
 
-            this.Instance = nearestTalker;
+            this.Instance = nearestHuman;
         }
 
         private void OnBodyExited(Node3D node)

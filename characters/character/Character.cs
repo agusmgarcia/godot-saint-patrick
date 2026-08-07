@@ -16,4 +16,6 @@ public abstract partial class Character : CharacterBody3D
         get => base.Name;
         private set => base.Name = value;
     }
+
+    protected Character() { }
 }
