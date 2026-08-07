@@ -2,7 +2,7 @@ using Godot;
 
 namespace SaintPatrick;
 
-// <=================== WALK STATE ===================> //
+// <=================== CHASE STATE ===================> //
 partial class Human
 {
     /// <summary>
@@ -18,52 +18,40 @@ partial class Human
     public float WalkSpeedDrunkFactor { get; private set; }
 
     /// <summary>
-    /// Transitions the human to the walk state, navigating toward the given destination.
-    /// For player-controlled humans, the destination is ignored and input direction is used instead.
+    /// Transitions the human to the chase state, tracking the given destination object.
     /// </summary>
-    /// <param name="destination">World-space position to walk toward (used for AI-controlled humans).</param>
-    public void Walk(in Vector3 destination)
-    {
-        this.CallDeferred(nameof(this.SetState), ElementsFactory.GetOrCreate<WalkState, WalkState.InitParams>(new() { Destination = destination }));
-    }
+    /// <param name="destination">The object to chase. Its position is re-read every frame.</param>
+    /// <param name="straight">
+    /// When <c>true</c>, the human moves in a straight line toward the destination, ignoring obstacles.
+    /// When <c>false</c>, the human uses navmesh pathfinding to route around obstacles.
+    /// </param>
+    public void Chase(Node3D destination, bool straight = false) =>
+        this.State = ElementsFactory.GetOrCreate<ChaseState, ChaseState.InitParams>(new() { Destination = destination, Straight = straight });
 
-    private sealed partial class WalkState : BaseState<WalkState.InitParams>
+    private sealed partial class ChaseState : BaseState<ChaseState.InitParams>
     {
         public readonly record struct InitParams
         {
-            public required Vector3 Destination { get; init; }
+            public required Node3D Destination { get; init; }
+            public required bool Straight { get; init; }
         }
 
-        public Vector3 Destination { get; private set; }
+        public Node3D Destination { get; private set; } = null!;
+        public bool Straight { get; private set; }
 
-        private readonly NavigationAgent3D _navigationAgent;
-
-        private Vector3 _cameraForward;
-        private Vector3 _cameraRight;
-
-        public WalkState()
-        {
-            this._navigationAgent = new NavigationAgent3D();
-            this._navigationAgent.AvoidanceEnabled = false;
-        }
-
-        public override void Initialize(in WalkState.InitParams initParams)
-        {
-            this.Destination = initParams.Destination;
-        }
+        private bool _destinationAdopted;
+        private readonly NavigationAgent3D _navigationAgent = new();
 
         public override void _EnterTree()
         {
             base._EnterTree();
 
-            var camera = base.GetViewport().GetCamera3D();
-            var forward = -camera.GlobalTransform.Basis.Z;
-            var right = camera.GlobalTransform.Basis.X;
-            this._cameraForward = new Vector3(forward.X, 0, forward.Z).Normalized();
-            this._cameraRight = new Vector3(right.X, 0, right.Z).Normalized();
+            this._destinationAdopted = this.Destination.GetParent() == null;
+            if (this._destinationAdopted)
+                base.AddChild(this.Destination);
 
-            base.AddChild(this._navigationAgent);
-            this._navigationAgent.TargetPosition = this.Destination;
+            if (!this.Straight)
+                base.AddChild(this._navigationAgent);
 
             base.Human._animationsController.PlayRandom(!base.Human.Drunk ? AnimationsController.EState.Walk : AnimationsController.EState.DrunkWalk, base.Human.Gender);
         }
@@ -74,20 +62,22 @@ partial class Human
 
             Vector3 direction;
 
-            if (base.Human.Main)
+            if (this.Straight)
             {
-                var inputDirection = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-                if (inputDirection.Length() < 0.01f)
+                var toDestination = this.Destination.GlobalPosition - base.Human.GlobalPosition;
+                if (toDestination.Length() <= this._navigationAgent.TargetDesiredDistance)
                 {
                     base.Human.Velocity = Vector3.Zero;
                     base.Human.Idle();
                     return;
                 }
 
-                direction = (this._cameraRight * inputDirection.X + this._cameraForward * (-inputDirection.Y)).Normalized();
+                direction = toDestination.Normalized();
             }
             else
             {
+                this._navigationAgent.TargetPosition = this.Destination.GlobalPosition;
+
                 if (this._navigationAgent.IsNavigationFinished())
                 {
                     base.Human.Velocity = Vector3.Zero;
@@ -98,7 +88,7 @@ partial class Human
                 direction = (this._navigationAgent.GetNextPathPosition() - base.Human.GlobalPosition).Normalized();
             }
 
-            if (direction.Length() > 0.01)
+            if (direction.Length() > 0.01f)
             {
                 var targetRotation = Mathf.Atan2(direction.X, direction.Z);
                 base.Human.Rotation = new Vector3(
@@ -116,11 +106,11 @@ partial class Human
         {
             base.Human._animationsController.Pause();
 
-            this._navigationAgent.TargetPosition = Vector3.Zero;
-            base.RemoveChild(this._navigationAgent);
+            if (!this.Straight)
+                base.RemoveChild(this._navigationAgent);
 
-            this._cameraForward = new Vector3(0, 0, -1);
-            this._cameraRight = new Vector3(1, 0, 0);
+            if (this._destinationAdopted)
+                base.RemoveChild(this.Destination);
 
             base._ExitTree();
         }

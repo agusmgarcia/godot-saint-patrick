@@ -6,32 +6,20 @@ namespace SaintPatrick;
 partial class Human
 {
     /// <summary>
-    /// Transitions the human to the talk state, looking at the target all the time.
+    /// Transitions the human to the talk state, looking at the listener all the time.
     /// </summary>
-    /// <param name="target">The target human.</param>
-    public void Talk(Human target)
-    {
-        this.CallDeferred(nameof(this.SetState), ElementsFactory.GetOrCreate<TalkState, TalkState.InitParams>(new() { Target = target }));
-    }
+    /// <param name="listener">The listener.</param>
+    public void Talk(Human listener) =>
+        this.State = ElementsFactory.GetOrCreate<TalkState, TalkState.InitParams>(new() { Listener = listener });
 
     private sealed partial class TalkState : BaseState<TalkState.InitParams>
     {
         public readonly record struct InitParams
         {
-            public required Human Target { get; init; }
+            public required Human Listener { get; init; }
         }
 
-        public Human Target { get; private set; }
-
-        public TalkState()
-        {
-            this.Target = null!;
-        }
-
-        public override void Initialize(in TalkState.InitParams initParams)
-        {
-            this.Target = initParams.Target;
-        }
+        public Human Listener { get; private set; } = null!;
 
         public override void _EnterTree()
         {
@@ -44,7 +32,7 @@ partial class Human
         {
             base._Process(delta);
 
-            var direction = (this.Target.GlobalPosition - base.Human.GlobalPosition).Normalized();
+            var direction = (this.Listener.GlobalPosition - base.Human.GlobalPosition).Normalized();
             var targetRotation = Mathf.Atan2(direction.X, direction.Z);
             base.Human.Rotation = new Vector3(
                 base.Human.Rotation.X,

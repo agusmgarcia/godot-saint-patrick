@@ -3,13 +3,12 @@ using Godot;
 namespace SaintPatrick;
 
 /// <summary>
-/// A human character with state-machine driven animations and navigation.
-/// Supports idle, walk, fly-removal, and drunk behavior variants.
+/// A human character with a state-machine.
 /// </summary>
-public sealed partial class Human : Character
+public abstract partial class Human : Character
 {
 	/// <summary>
-	/// Gender of the human character, used to select the appropriate animation set.
+	/// Gender of the human character.
 	/// </summary>
 	public enum EGender { Male, Female }
 

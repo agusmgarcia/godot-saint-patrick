@@ -9,28 +9,14 @@ partial class Human
     /// <summary>
     /// Transitions the human to the idle state.
     /// </summary>
-    public void Idle()
-    {
-        this.CallDeferred(nameof(this.SetState), ElementsFactory.GetOrCreate<IdleState, IdleState.InitParams>(new()));
-    }
+    public void Idle() =>
+        this.State = ElementsFactory.GetOrCreate<IdleState, IdleState.InitParams>(new());
 
     private sealed partial class IdleState : BaseState<IdleState.InitParams>
     {
-        public readonly record struct InitParams
-        {
-        }
+        public readonly record struct InitParams { }
 
-        private readonly Timer _timer;
-
-        public IdleState()
-        {
-            this._timer = new Timer();
-            this._timer.OneShot = true;
-        }
-
-        public override void Initialize(in InitParams initParams)
-        {
-        }
+        private readonly Timer _timer = new() { OneShot = true };
 
         public override void _EnterTree()
         {
@@ -47,37 +33,22 @@ partial class Human
         {
             base._Process(delta);
 
-            if (base.Human.Main)
+            if (base.Human.NearestTalker?.Main == true)
             {
-                var inputDirection = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-                if (inputDirection.Length() > 0.01f)
-                {
-                    base.Human.Walk(Vector3.Zero);
-                    return;
-                }
-            }
-            else
-            {
-                if (base.Human.NearestTalker != null && base.Human.NearestTalker == Character.MAIN)
-                {
-                    var direction = (base.Human.NearestTalker.GlobalPosition - base.Human.GlobalPosition).Normalized();
-                    var targetRotation = Mathf.Atan2(direction.X, direction.Z);
-                    base.Human.Rotation = new Vector3(
-                        base.Human.Rotation.X,
-                        Mathf.LerpAngle(base.Human.Rotation.Y, targetRotation, (float)delta * 2.0f),
-                        base.Human.Rotation.Z
-                    );
-                }
+                var direction = (base.Human.NearestTalker.GlobalPosition - base.Human.GlobalPosition).Normalized();
+                var targetRotation = Mathf.Atan2(direction.X, direction.Z);
+                base.Human.Rotation = new Vector3(
+                    base.Human.Rotation.X,
+                    Mathf.LerpAngle(base.Human.Rotation.Y, targetRotation, (float)delta * 2.0f),
+                    base.Human.Rotation.Z
+                );
             }
         }
 
         private void OnTimeout()
         {
-            if (base.Human.Drunk || base.Human.Main)
-                return;
-
-            if (GD.Randf() < 0.15)
-                this.Human.FlyRemoval();
+            if (GD.Randf() < 0.15 && !base.Human.Main && !base.Human.Drunk)
+                base.Human._animationsController.PlayRandom(AnimationsController.EState.FlyRemoval, base.Human.Gender, 0.5);
             else
                 this._timer.Start(Random.Shared.Next(5, 60));
         }
@@ -85,6 +56,7 @@ partial class Human
         protected override void OnAnimationFinished(StringName animationName)
         {
             base.OnAnimationFinished(animationName);
+
             base.Human._animationsController.PlayRandom(!base.Human.Drunk ? AnimationsController.EState.Idle : AnimationsController.EState.DrunkIdle, base.Human.Gender, 2);
         }
 
