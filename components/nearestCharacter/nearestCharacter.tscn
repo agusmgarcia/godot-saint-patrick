@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://4hdusud4atca"]
+
+[ext_resource type="Script" uid="uid://b1jy34641wo7o" path="res://components/nearestCharacter/NearestCharacter.cs" id="1_nrcs"]
+
+[node name="NearestCharacter" type="Node" unique_id=334455667]
+script = ExtResource("1_nrcs")
