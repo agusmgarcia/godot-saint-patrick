@@ -4,37 +4,42 @@ using Godot;
 namespace SaintPatrick;
 
 /// <summary>
-/// A node-based state machine that manages a single active <typeparamref name="TState"/> at a time.
+/// A node-based state machine that manages a single active state at a time.
 /// The active state is a direct child of this node, so it participates in the scene tree lifecycle
 /// normally. State instances are pooled via <see cref="ElementsFactory"/> to reduce allocations.
 /// </summary>
-/// <typeparam name="TState">The base state type managed by this machine.</typeparam>
-public sealed partial class StatesMachine<TState> : Node3D
-    where TState : StatesMachine<TState>.BaseState
+public sealed partial class StatesMachine : Node, Observer<StatesMachine, Node?>.IObserver
 {
     /// <summary>
-    /// Abstract base class for all states managed by a <see cref="StatesMachine{TState}"/>.
-    /// Derive from this to implement a concrete state with its own <c>_EnterTree</c>,
-    /// <c>_Process</c>, and <c>_ExitTree</c> logic.
+    /// Raised whenever <see cref="Value"/> changes.
+    /// Arguments are, in order: this node, the previous value, and the new value.
     /// </summary>
-    public abstract partial class BaseState : Node3D
+    public event Action<StatesMachine, Node?, Node?>? Changed;
+
+    /// <summary>
+    /// The currently active state node, or <see langword="null"/> when no state is set.
+    /// Changes whenever <see cref="SetState{TNewState}"/> completes its deferred swap.
+    /// </summary>
+    public Node? Value
     {
-        protected BaseState() { }
+        get;
+        private set
+        {
+            if (field == value)
+                return;
 
-        public sealed override void _Ready() =>
-            base._Ready();
+            var prevValue = field;
+            field = value;
+
+            this.Changed?.Invoke(this, prevValue, field);
+        }
     }
-
-    private TState? _state;
 
     public override void _EnterTree()
     {
         base._EnterTree();
 
         base.ChildExitingTree += this.OnChildExitingTree;
-
-        if (this._state != null)
-            base.AddChild(this._state);
     }
 
     /// <summary>
@@ -46,33 +51,28 @@ public sealed partial class StatesMachine<TState> : Node3D
     /// <typeparam name="TNewState">The concrete state type to transition to.</typeparam>
     /// <param name="initParams">Initialization parameters copied into the new state's matching properties.</param>
     public void SetState<TNewState>(in ValueType initParams)
-       where TNewState : TState, new()
+       where TNewState : Node, new()
     {
         var newState = ElementsFactory.GetOrCreate<TNewState>(initParams);
-        Callable.From(() =>
-        {
-            if (this._state != null)
-                base.RemoveChild(this._state);
-
-            this._state = newState;
-            base.AddChild(this._state);
-        }).CallDeferred();
+        Callable.From(() => this.SetState(newState)).CallDeferred();
     }
 
-    private void OnChildExitingTree(Node node)
+    private void SetState(Node? newState)
     {
-        if (node is TState state)
-            ElementsFactory.Set(state);
+        if (this.Value != null)
+            base.RemoveChild(this.Value);
+
+        this.Value = newState;
+
+        if (this.Value != null)
+            base.AddChild(this.Value);
     }
+
+    private void OnChildExitingTree(Node node) =>
+        ElementsFactory.Set(node);
 
     public override void _ExitTree()
     {
-        if (this._state != null)
-        {
-            base.RemoveChild(this._state);
-            this._state = null;
-        }
-
         base.ChildExitingTree -= this.OnChildExitingTree;
 
         base._ExitTree();
