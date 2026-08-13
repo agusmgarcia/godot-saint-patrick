@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://c8ilw455dec20"]
-
-[ext_resource type="Script" uid="uid://d3uy6k2b8j1bn" path="res://systems/inputs/Inputs.cs" id="1_weeho"]
-
-[node name="Inputs" type="Node3D" unique_id=2069392974]
-script = ExtResource("1_weeho")
