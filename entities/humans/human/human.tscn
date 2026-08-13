@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://dy7e2cqkxm4aa"]
+
+[ext_resource type="Script" uid="uid://nkrsck7ca5h" path="res://entities/humans/human/Human.cs" id="1_human"]
+[ext_resource type="PackedScene" uid="uid://b8hx5n4hf0xu" path="res://components/model/model.tscn" id="2_model"]
+[ext_resource type="PackedScene" uid="uid://dhxthfedaxfpt" path="res://components/animation/animation.tscn" id="3_anim"]
+[ext_resource type="PackedScene" uid="uid://dwfr2j4jof7ew" path="res://components/mainCharacter/mainCharacter.tscn" id="4_main"]
+[ext_resource type="PackedScene" uid="uid://4hdusud4atca" path="res://components/nearestCharacter/nearestCharacter.tscn" id="5_nearest"]
+[ext_resource type="PackedScene" uid="uid://bj1kdkwh4nmex" path="res://components/statesMachine/statesMachine.tscn" id="6_2h4wo"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_human"]
+
+[node name="Human" type="CharacterBody3D" unique_id=1598348195]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_human")
+WalkSpeed = 1.4
+WalkSpeedDrunkFactor = 0.64
+RunSpeed = 3.2
+RunSpeedDrunkFactor = 0.5
+
+[node name="Model" parent="." unique_id=1018623982 instance=ExtResource("2_model")]
+
+[node name="Animation" parent="." unique_id=1194732030 instance=ExtResource("3_anim")]
+
+[node name="MainCharacter" parent="." unique_id=721071727 instance=ExtResource("4_main")]
+
+[node name="NearestCharacter" parent="." unique_id=984635361 instance=ExtResource("5_nearest")]
+Radius = 1.0
+
+[node name="Shape" type="CollisionShape3D" parent="." unique_id=565779414]
+shape = SubResource("CapsuleShape3D_human")
+
+[node name="StatesMachine" parent="." unique_id=1657137300 instance=ExtResource("6_2h4wo")]

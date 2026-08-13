@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b5k7x2qr8dnme"]
 
-[ext_resource type="PackedScene" uid="uid://dqkrs6t6jrndy" path="res://characters/humans/helena/helena.tscn" id="6_21yb8"]
+[ext_resource type="PackedScene" uid="uid://dqkrs6t6jrndy" path="res://entities/humans/helena/helena.tscn" id="6_21yb8"]
 [ext_resource type="PackedScene" uid="uid://bmljoluxik5wr" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.tscn" id="7_5jtxm"]
 [ext_resource type="PackedScene" uid="uid://kf1kuq4u5fid" path="res://scenes/schoolEntrance/bridge/bridge.tscn" id="8_bridge"]
 [ext_resource type="PackedScene" uid="uid://dkh0siy1yckv0" path="res://scenes/schoolEntrance/parkingLot/parkingLot.tscn" id="9_parking"]
@@ -84,14 +84,9 @@ fov = 60.0
 [node name="Helena1" parent="Characters" unique_id=1974297223 instance=ExtResource("6_21yb8")]
 transform = Transform3D(0.38418263, 0, 0.92325723, 0, 1, 0, -0.92325723, 0, 0.38418263, -2.218048, 0.20193653, 31.58735)
 Main = true
-Name = "Helena1"
 
 [node name="Helena2" parent="Characters" unique_id=525764048 instance=ExtResource("6_21yb8")]
 transform = Transform3D(0.6488905, 0, -0.76088184, 0, 1, 0, 0.76088184, 0, 0.6488905, 2.1160312, 0.20193724, 28.567314)
-Name = "Helena2"
 
 [node name="Helena3" parent="Characters" unique_id=255764739 instance=ExtResource("6_21yb8")]
 transform = Transform3D(-0.9541569, 0, -0.29930753, 0, 1, 0, 0.29930753, 0, -0.9541569, 5.450505, 0.1593988, 36.396217)
-Name = "Helena3"
-
-[node name="Inputs" parent="." unique_id=312847563 instance=ExtResource("12_inputmgr")]
