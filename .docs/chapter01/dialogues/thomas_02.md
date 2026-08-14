@@ -70,4 +70,4 @@ _La conversación se cierra. Thomas no da más detalles sobre qué estaban hacie
 
 _La conversación se cierra._
 
-> ❌ **Recuerdo "Los amenaza de Christian" no disponible por este camino.**
+> ❌ **Recuerdo "La amenaza de Christian" no disponible por este camino.**

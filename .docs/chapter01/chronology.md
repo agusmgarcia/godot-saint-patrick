@@ -26,7 +26,7 @@ Vahid llega y se queda esperando en el puente por Philippe. Habían decidido ing
 
 ## ~21:20
 
-Thomas llega y se queda esperando en el puente hasta que sea la hora de inicio de la fiesta. Mientras espera, enciende un cigarrillo. Abraham sale de su garita y le dice que lo apague. No se puede fumar dentro de las instalaciones; ni siquiera en los exteriores. Está visiblemente molesto. Le pregunta a Abraham si puede salir a la calle a lo que éste último response que una vez ingresado, no se puede salir y volver a entrar.
+Thomas llega y se queda esperando en el puente hasta que sea la hora de inicio de la fiesta. Mientras espera, enciende un cigarrillo. Abraham sale de su garita y le dice que lo apague. No se puede fumar dentro de las instalaciones; ni siquiera en los exteriores. Está visiblemente molesto. Le pregunta a Abraham si puede salir a la calle a lo que este último responde que una vez ingresado, no se puede salir y volver a entrar.
 
 ## ~21:25
 
@@ -58,14 +58,14 @@ Tras finalizar el discurso Helena puede interactuar con todos los personajes que
 
 - Hudson: [Ver diálogo](./dialogues/hudson_03.md)
 - Walsh: [Ver diálogo](./dialogues/walsh_01.md)
-- Elijah [Ver diálogo](./dialogues/elijah_01.md)
+- Elijah: [Ver diálogo](./dialogues/elijah_01.md)
 - Philippe (con Vahid): [Ver diálogo](./dialogues/philippe_02.md)
 - Thomas: [Ver diálogo](./dialogues/thomas_02.md)
 - Stephanie y Cinthia: [Ver diálogo](./dialogues/stephanie_02.md)
 
 ## ~22:15
 
-Sarah llega al colegio. Habla con Abraham para registarse. Está visiblemente alterada, aunque lo disimula. Está drogada, ese fue el motivo de su demora.
+Sarah llega al colegio. Habla con Abraham para registrarse. Está visiblemente alterada, aunque lo disimula. Está drogada, ese fue el motivo de su demora.
 
 ## ~22:20
 
@@ -83,7 +83,7 @@ Thomas se enfrenta a Christian por no tolerar las acusaciones hacia él ni hacia
 
 Hudson interviene y expulsa a Christian del salón: [Ver diálogo](./dialogues/hudson_04.md) mientras que Thomas va al baño a lavarse las heridas. Lo acompaña Elijah, por orden de Hudson, para asegurarse de que esté bien y no tenga heridas mayores.
 
-A partir de éste momento se desbloquean nuevos díalogos. Algunos de ellos hacen alusión a la pelea:
+A partir de este momento se desbloquean nuevos diálogos. Algunos de ellos hacen alusión a la pelea:
 
 - Hudson: [Ver diálogo](./dialogues/hudson_05.md)
 - Walsh: [Ver diálogo](./dialogues/walsh_02.md)
@@ -114,7 +114,7 @@ Elijah nota que todos los amigos de Helena se han marchado y se acerca disimulad
 
 ## ~23:10
 
-Vahid vuelve al salón. A partir de éste momento se desbloquea un nuevo diálogo de Vahid: [Ver diálogo](./dialogues/vahid_02.md)
+Vahid vuelve al salón. A partir de este momento se desbloquea un nuevo diálogo de Vahid: [Ver diálogo](./dialogues/vahid_02.md)
 
 ## ~23:15
 
@@ -148,7 +148,7 @@ Hudson ingresa nuevamente al salón y desde su teléfono accede al sistema de c�
 
 ## ~00:00
 
-La fiesta termina. Hudson hace el cierre: [Ver diálogo](./dialogues/hudson_06.md). Helena se va en taxi rumbo a su casa de acuerdo con lo planeado por Elijah. Los alumnos y profesores van saliendo. Nadie se percata que la garita estaba abandonada. Todos piensan que Abraham simplemente había terminado su servicio. El único que se da cuenta es Hudson, que sale último. Inmediatamente lo llama pero éste no responde. El único que se queda tras finalizar la fiesta es Herrera quien hace su rutina de limpieza.
+La fiesta termina. Hudson hace el cierre: [Ver diálogo](./dialogues/hudson_06.md). Helena se va en taxi rumbo a su casa de acuerdo con lo planeado por Elijah. Los alumnos y profesores van saliendo. Nadie se percata que la garita estaba abandonada. Todos piensan que Abraham simplemente había terminado su servicio. El único que se da cuenta es Hudson, que sale último. Inmediatamente lo llama pero este no responde. El único que se queda tras finalizar la fiesta es Herrera quien hace su rutina de limpieza.
 
 ## ~00:15
 
