@@ -4,12 +4,12 @@ namespace SaintPatrick;
 
 /// <summary>
 /// Base class for all human characters. Manages a <see cref="StatesMachine"/> and binds the
-/// <see cref="Animation"/>, <see cref="Collider"/>, <see cref="Main"/>,
+/// <see cref="Animation"/>, <see cref="Collider"/>, <see cref="Inputs"/>, <see cref="Main"/>,
 /// <see cref="MainCharacter"/>, <see cref="NearestCharacter"/>, and <see cref="StatesMachine"/>
 /// sibling components via <see cref="BindChildAttribute"/> declarations. Concrete subclasses
 /// define which model is shown and configure exported properties through the scene inspector.
 /// </summary>
-public partial class Human : CharacterBody3D
+public partial class Human : CharacterBody3D, Inputs.IHumanoid
 {
     /// <summary>
     /// Gender of the human character. Used by the animation system to select the correct
@@ -61,6 +61,9 @@ public partial class Human : CharacterBody3D
 
     [BindChild("Collider")]
     protected Collider? ColliderComponent { get; private set; }
+
+    [BindChild("Inputs")]
+    protected Inputs? InputsComponent { get; private set; }
 
     [BindChild("Main")]
     protected Main? MainComponent { get; private set; }
