@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dwfr2j4jof7ew" path="res://components/mainCharacter/mainCharacter.tscn" id="4_main"]
 [ext_resource type="PackedScene" uid="uid://cnyk6edhwnmr0" path="res://components/nearestCharacter/nearestCharacter.tscn" id="5_nearest"]
 [ext_resource type="PackedScene" uid="uid://bj1kdkwh4nmex" path="res://components/statesMachine/statesMachine.tscn" id="6_2h4wo"]
-[ext_resource type="PackedScene" path="res://components/collider/collider.tscn" id="7_coll"]
+[ext_resource type="PackedScene" uid="uid://w7yhhts52rp4" path="res://components/collider/collider.tscn" id="7_coll"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_82rou"]
 

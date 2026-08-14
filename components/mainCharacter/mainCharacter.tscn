@@ -5,4 +5,3 @@
 
 [node name="MainCharacter" unique_id=1655332340 instance=ExtResource("1_0w01d")]
 script = ExtResource("2_ho4uu")
-Value = false
