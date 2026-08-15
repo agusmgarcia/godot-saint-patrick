@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://w7yhhts52rp4"]
+
+[ext_resource type="PackedScene" uid="uid://dblljvvkdlm30" path="res://components/component/component.tscn" id="1_comp"]
+[ext_resource type="Script" uid="uid://ht6btreb87vv" path="res://components/collider/Collider.cs" id="2_coll"]
+
+[node name="Collider" unique_id=1655332340 instance=ExtResource("1_comp")]
+script = ExtResource("2_coll")

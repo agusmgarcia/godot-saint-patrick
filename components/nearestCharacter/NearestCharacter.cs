@@ -10,34 +10,18 @@ namespace SaintPatrick;
 /// The detection is automatically scoped to bodies on the same collision layer as the owner:
 /// the internal <see cref="Area3D"/> collision mask is set to match the owner's
 /// <see cref="CollisionObject3D.CollisionLayer"/> at tree-entry time.
-/// Implements <see cref="Observer{TNode, TValue}.IObserver"/> so that other systems can
-/// react to changes in the nearest character via <see cref="Observer{TNode, TValue}"/>.
+/// The nearest visible character is exposed via the inherited
+/// <see cref="Component{TValue}.Value"/> property and updated every process frame.
 /// </summary>
-public sealed partial class NearestCharacter : Node, Observer<NearestCharacter, CharacterBody3D?>.IObserver
+public sealed partial class NearestCharacter : Component<CharacterBody3D?>
 {
     /// <summary>
-    /// Raised whenever <see cref="Value"/> changes.
-    /// Arguments are, in order: this node, the previous value, and the new value.
+    /// Initialises the component with no character tracked
+    /// (<see cref="Component{TValue}.Value"/> starts as <see langword="null"/>).
     /// </summary>
-    public event Action<NearestCharacter, CharacterBody3D?, CharacterBody3D?>? Changed;
-
-    /// <summary>
-    /// The nearest <see cref="CharacterBody3D"/> currently visible from the owning character,
-    /// or <see langword="null"/> if none is within <see cref="Radius"/>.
-    /// </summary>
-    public CharacterBody3D? Value
+    public NearestCharacter()
+        : base(null)
     {
-        get;
-        private set
-        {
-            if (field == value)
-                return;
-
-            var prevValue = field;
-            field = value;
-
-            this.Changed?.Invoke(this, prevValue, field);
-        }
     }
 
     /// <summary>
@@ -68,7 +52,7 @@ public sealed partial class NearestCharacter : Node, Observer<NearestCharacter, 
 
         base.AddChild(this._area);
 
-        this.Value = null;
+        base.Value = null;
     }
 
     private void OnBodyEntered(Node3D body)
@@ -100,7 +84,7 @@ public sealed partial class NearestCharacter : Node, Observer<NearestCharacter, 
 
             var distSq = owner.GlobalPosition.DistanceSquaredTo(candidate.GlobalPosition);
 
-            if (this.Value != null && this.Value != candidate)
+            if (base.Value != null && base.Value != candidate)
                 distSq += 1.0f;
 
             if (distSq >= nearestDistSq)
@@ -110,7 +94,7 @@ public sealed partial class NearestCharacter : Node, Observer<NearestCharacter, 
             nearestDistSq = distSq;
         }
 
-        this.Value = nearest;
+        base.Value = nearest;
     }
 
     private void OnBodyExited(Node3D body)
@@ -127,7 +111,7 @@ public sealed partial class NearestCharacter : Node, Observer<NearestCharacter, 
 
     public override void _ExitTree()
     {
-        this.Value = null;
+        base.Value = null;
 
         base.RemoveChild(this._area);
 

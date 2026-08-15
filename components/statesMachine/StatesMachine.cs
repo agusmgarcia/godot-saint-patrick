@@ -8,31 +8,15 @@ namespace SaintPatrick;
 /// The active state is a direct child of this node, so it participates in the scene tree lifecycle
 /// normally. State instances are pooled via <see cref="ElementsFactory"/> to reduce allocations.
 /// </summary>
-public sealed partial class StatesMachine : Node, Observer<StatesMachine, Node?>.IObserver
+public sealed partial class StatesMachine : Component<Node?>
 {
     /// <summary>
-    /// Raised whenever <see cref="Value"/> changes.
-    /// Arguments are, in order: this node, the previous value, and the new value.
+    /// Initialises the state machine with no active state
+    /// (<see cref="Component{TValue}.Value"/> starts as <see langword="null"/>).
     /// </summary>
-    public event Action<StatesMachine, Node?, Node?>? Changed;
-
-    /// <summary>
-    /// The currently active state node, or <see langword="null"/> when no state is set.
-    /// Changes whenever <see cref="SetState{TNewState}"/> completes its deferred swap.
-    /// </summary>
-    public Node? Value
+    public StatesMachine()
+        : base(null)
     {
-        get;
-        private set
-        {
-            if (field == value)
-                return;
-
-            var prevValue = field;
-            field = value;
-
-            this.Changed?.Invoke(this, prevValue, field);
-        }
     }
 
     public override void _EnterTree()
@@ -59,13 +43,13 @@ public sealed partial class StatesMachine : Node, Observer<StatesMachine, Node?>
 
     private void SetState(Node? newState)
     {
-        if (this.Value != null)
-            base.RemoveChild(this.Value);
+        if (base.Value != null)
+            base.RemoveChild(base.Value);
 
-        this.Value = newState;
+        base.Value = newState;
 
-        if (this.Value != null)
-            base.AddChild(this.Value);
+        if (base.Value != null)
+            base.AddChild(base.Value);
     }
 
     private void OnChildExitingTree(Node node) =>

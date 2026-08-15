@@ -3,11 +3,11 @@ using Godot;
 namespace SaintPatrick;
 
 /// <summary>
-/// Base class for all human characters. Manages a <see cref="StatesMachine{TState}"/> and
-/// discovers the <see cref="Animation"/>, <see cref="MainCharacter"/>, and
-/// <see cref="NearestCharacter"/> sibling components via scoped <see cref="Observer{TNode, TValue}"/>
-/// instances. Concrete subclasses define which model is shown and configure exported properties
-/// through the scene inspector.
+/// Base class for all human characters. Manages a <see cref="StatesMachine"/> and binds the
+/// <see cref="Animation"/>, <see cref="Collider"/>, <see cref="Main"/>,
+/// <see cref="MainCharacter"/>, <see cref="NearestCharacter"/>, and <see cref="StatesMachine"/>
+/// sibling components via <see cref="BindChildAttribute"/> declarations. Concrete subclasses
+/// define which model is shown and configure exported properties through the scene inspector.
 /// </summary>
 public partial class Human : CharacterBody3D
 {
@@ -22,20 +22,6 @@ public partial class Human : CharacterBody3D
     /// </summary>
     [Export]
     public EGender Gender { get; private set; }
-
-    /// <summary>
-    /// Whether this human is the active main character within its scene instance.
-    /// Delegates to the sibling <see cref="MainCharacter"/> component: at most one human per
-    /// scene instance may have this set to <see langword="true"/> at any given time — the
-    /// <see cref="MainCharacter"/> component automatically clears other instances when a new
-    /// one is promoted.
-    /// </summary>
-    [Export]
-    public bool Main
-    {
-        get => this._mainCharacterObserver.Node?.Value ?? false;
-        set => this._mainCharacterObserver.Node?.Value = value;
-    }
 
     /// <summary>
     /// When <see langword="true"/>, the human exhibits drunk behaviour: slower movement speeds
@@ -70,25 +56,43 @@ public partial class Human : CharacterBody3D
     [Export(PropertyHint.Range, "0,1")]
     public float RunSpeedDrunkFactor { get; private set; }
 
-    private readonly Observer<MainCharacter, bool> _mainCharacterObserver = new() { Single = true, Filter = true };
-    private readonly Observer<StatesMachine> _statesMachineObserver = new() { Single = true };
+    [BindChild("Animation")]
+    protected Animation? AnimationComponent { get; private set; }
+
+    [BindChild("Collider")]
+    protected Collider? ColliderComponent { get; private set; }
+
+    [BindChild("Main")]
+    protected Main? MainComponent { get; private set; }
+
+    [BindChild("MainCharacter")]
+    protected MainCharacter? MainCharacterComponent { get; private set; }
+
+    [BindChild("NearestCharacter")]
+    protected NearestCharacter? NearestCharacterComponent { get; private set; }
+
+    [BindChild("StatesMachine")]
+    protected StatesMachine? StatesMachineComponent { get; private set; }
 
     public override void _EnterTree()
     {
         base._EnterTree();
 
-        this._mainCharacterObserver.Observe(this);
-        this._statesMachineObserver.Observe(this);
+        base.ChildEnteredTree += BindChildAttribute.OnChildEnteredTree;
+        base.ChildExitingTree += BindChildAttribute.OnChildExitingTree;
+    }
+
+    public override void _Ready()
+    {
+        base._Ready();
 
         this.Idle();
     }
 
     public override void _ExitTree()
     {
-        this.Idle();
-
-        this._statesMachineObserver.Unobserve();
-        this._mainCharacterObserver.Unobserve();
+        base.ChildEnteredTree -= BindChildAttribute.OnChildEnteredTree;
+        base.ChildExitingTree -= BindChildAttribute.OnChildExitingTree;
 
         base._ExitTree();
     }

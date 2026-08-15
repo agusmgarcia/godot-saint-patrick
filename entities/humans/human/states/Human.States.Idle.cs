@@ -9,7 +9,7 @@ partial class Human
     /// and optionally look toward the nearest main character.
     /// </summary>
     public void Idle() =>
-        this._statesMachineObserver.Node?.SetState<Human.IdleState>(new Human.IdleState.InitParams());
+        this.StatesMachineComponent?.SetState<Human.IdleState>(new Human.IdleState.InitParams());
 
     /// <summary>
     /// Idle state for a <see cref="Human"/>. Plays a random idle animation on entry and
@@ -40,10 +40,10 @@ partial class Human
         {
             base._Process(delta);
 
-            if (base.NearestCharacter == null || base.NearestCharacter != base.MainCharacter)
+            if (base.Human.NearestCharacterComponent?.Value == null || base.Human.NearestCharacterComponent.Value != base.Human.MainCharacterComponent?.Value)
                 return;
 
-            var direction = (base.NearestCharacter.GlobalPosition - base.Human.GlobalPosition).Normalized();
+            var direction = (base.Human.NearestCharacterComponent.Value.GlobalPosition - base.Human.GlobalPosition).Normalized();
             var targetYaw = Mathf.Atan2(direction.X, direction.Z);
 
             base.Human.Rotation = new Vector3(
@@ -54,7 +54,7 @@ partial class Human
 
         private void OnTimeout()
         {
-            if (GD.Randf() < 0.15f && !base.Main && !base.Human.Drunk)
+            if (GD.Randf() < 0.15f && base.Human.MainCharacterComponent?.Value != base.Human && !base.Human.Drunk)
                 base.PlayRandomAnimation(EState.FlyRemoval, customBlend: 0.5);
 
             this._timer.Start(GD.RandRange(5, 60));

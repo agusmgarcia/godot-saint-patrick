@@ -1,43 +1,28 @@
-using System;
 using Godot;
 
 namespace SaintPatrick;
 
 /// <summary>
-/// Represents the main character node. Enforces mutual exclusion across all active instances in the
-/// scene tree: when a new <see cref="MainCharacter"/> with <see cref="Value"/> <see langword="true"/>
-/// is detected, this node sets its own <see cref="Value"/> to <see langword="false"/>.
+/// Tracks all <see cref="Main"/> components in the scene tree and exposes the owner of the one
+/// currently set to <see langword="true"/> as <see cref="Component{TValue}.Value"/>.
+/// When a <see cref="Main"/> component is promoted (its <see cref="Main.Value"/> becomes
+/// <see langword="true"/>), this component updates <see cref="Component{TValue}.Value"/> to that
+/// component's owner. When the active one is demoted (its value returns to
+/// <see langword="false"/>), <see cref="Component{TValue}.Value"/> is cleared to
+/// <see langword="null"/>.
 /// </summary>
-public sealed partial class MainCharacter : Node, Observer<MainCharacter, bool>.IObserver
+public sealed partial class MainCharacter : Component<Node?>
 {
     /// <summary>
-    /// Raised whenever <see cref="Value"/> changes.
-    /// Arguments are, in order: this node, the previous value, and the new value.
+    /// Initialises the component with no main character resolved
+    /// (<see cref="Component{TValue}.Value"/> starts as <see langword="null"/>).
     /// </summary>
-    public event Action<MainCharacter, bool, bool>? Changed;
-
-    /// <summary>
-    /// Whether this instance is currently the active main character.
-    /// Setting this to <see langword="true"/> may be overridden to <see langword="false"/> if another
-    /// <see cref="MainCharacter"/> with <see cref="Value"/> <see langword="true"/> is present in the tree.
-    /// </summary>
-    [Export]
-    public bool Value
+    public MainCharacter()
+        : base(null)
     {
-        get;
-        set
-        {
-            if (field == value)
-                return;
-
-            var prevValue = field;
-            field = value;
-
-            this.Changed?.Invoke(this, prevValue, value);
-        }
     }
 
-    private readonly Observer<MainCharacter, bool> _observer = new() { Filter = true };
+    private readonly Observer<Main> _observer = new();
 
     public override void _EnterTree()
     {
@@ -48,27 +33,23 @@ public sealed partial class MainCharacter : Node, Observer<MainCharacter, bool>.
         this._observer.Observe(base.GetTree().Root);
     }
 
-    private void OnMainCharacterTracked(MainCharacter node)
+    private void OnMainCharacterTracked(Main node)
     {
-        if (this == node)
-            return;
-
         node.Changed += this.OnMainCharacterChanged;
         this.OnMainCharacterChanged(node, !node.Value, node.Value);
     }
 
-    private void OnMainCharacterChanged(MainCharacter node, bool prevValue, bool newValue)
+    private void OnMainCharacterChanged(Component<bool> node, bool prevValue, bool newValue)
     {
-        if (this.Value && node.Value)
-            this.Value = false;
+        if (newValue)
+            base.Value = node.GetOwner();
+        else
+            base.Value = base.Value == node.GetOwner() ? null : base.Value;
     }
 
-    private void OnMainCharacterUntracked(MainCharacter node)
+    private void OnMainCharacterUntracked(Main node)
     {
-        if (this == node)
-            return;
-
-        this.OnMainCharacterChanged(node, !node.Value, node.Value);
+        this.OnMainCharacterChanged(node, node.Value, !node.Value);
         node.Changed -= this.OnMainCharacterChanged;
     }
 

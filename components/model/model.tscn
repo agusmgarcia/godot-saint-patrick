@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b8hx5n4hf0xu"]
 
-[ext_resource type="Script" uid="uid://cxosjwenhd1tq" path="res://components/model/Model.cs" id="1_qt8sw"]
+[ext_resource type="PackedScene" uid="uid://dblljvvkdlm30" path="res://components/component/component.tscn" id="1_qt8sw"]
+[ext_resource type="Script" uid="uid://cxosjwenhd1tq" path="res://components/model/Model.cs" id="2_n07s3"]
 
-[node name="Model" type="Node3D" unique_id=445118416]
-script = ExtResource("1_qt8sw")
+[node name="Model" unique_id=1655332340 instance=ExtResource("1_qt8sw")]
+script = ExtResource("2_n07s3")

@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Godot;
 
 namespace SaintPatrick;
@@ -8,38 +6,24 @@ namespace SaintPatrick;
 /// Manages animation playback for the owning scene. Discovers a sibling <see cref="Model"/>
 /// node via an <see cref="Observer{TNode}"/> scoped to the owner, and defers adding the
 /// internal <see cref="AnimationPlayer"/> to the tree until a model is available.
-/// Implements <see cref="Observer{TNode, TValue}.IObserver"/> so that other observers can
-/// track which animation is currently playing.
+/// Exposes the name of the currently playing animation through the inherited
+/// <see cref="Component{TValue}.Value"/> property (<see langword="null"/> when idle), and raises
+/// <see cref="Component{TValue}.Changed"/> on every transition so that state machines and other
+/// consumers can react to animation completion.
 /// </summary>
-public sealed partial class Animation : Node, Observer<Animation, string?>.IObserver
+public sealed partial class Animation : Component<string?>
 {
-    /// <summary>
-    /// Raised whenever <see cref="Value"/> changes.
-    /// Arguments are, in order: this node, the previous value, and the new value.
-    /// </summary>
-    public event Action<Animation, string?, string?>? Changed;
-
-    /// <summary>
-    /// The name of the currently playing animation, or <see langword="null"/> when idle.
-    /// </summary>
-    public string? Value
-    {
-        get;
-        private set
-        {
-            if (field == value)
-                return;
-
-            var prevValue = field;
-            field = value;
-
-            this.Changed?.Invoke(this, prevValue, field);
-        }
-    }
-
     private readonly AnimationPlayer _animationPlayer = new();
-
     private readonly Observer<Model> _modelObserver = new() { Single = true };
+
+    /// <summary>
+    /// Initialises the component with no animation playing (<see cref="Component{TValue}.Value"/>
+    /// starts as <see langword="null"/>).
+    /// </summary>
+    public Animation()
+        : base(null)
+    {
+    }
 
     public override void _EnterTree()
     {
@@ -54,15 +38,32 @@ public sealed partial class Animation : Node, Observer<Animation, string?>.IObse
     }
 
     private void OnAnimationStarted(StringName animationName) =>
-       this.Value = animationName;
+       base.Value = animationName;
 
     private void OnModelTracked(Model model)
     {
-        if (!this._animationPlayer.IsInsideTree())
-            base.AddChild(this._animationPlayer);
+        model.Changed += this.OnModelChanged;
+        this.OnModelChanged(model, null, model.Value);
+    }
 
-        this._animationPlayer.RootNode = this._animationPlayer.GetPathTo(model.Value);
-        this._animationPlayer.Stop();
+    private void OnModelChanged(Component<Node3D?> model, Node3D? prevValue, Node3D? newValue)
+    {
+        if (newValue != null)
+        {
+            if (!this._animationPlayer.IsInsideTree())
+                base.AddChild(this._animationPlayer);
+
+            this._animationPlayer.RootNode = this._animationPlayer.GetPathTo(newValue);
+            this._animationPlayer.Stop();
+        }
+        else
+        {
+            this._animationPlayer.Stop();
+            this._animationPlayer.RootNode = null;
+
+            if (this._animationPlayer.IsInsideTree())
+                base.RemoveChild(this._animationPlayer);
+        }
     }
 
     /// <summary>
@@ -116,15 +117,12 @@ public sealed partial class Animation : Node, Observer<Animation, string?>.IObse
 
     private void OnModelUntracked(Model model)
     {
-        this._animationPlayer.Stop();
-        this._animationPlayer.RootNode = null;
-
-        if (this._animationPlayer.IsInsideTree())
-            base.RemoveChild(this._animationPlayer);
+        this.OnModelChanged(model, model.Value, null);
+        model.Changed -= this.OnModelChanged;
     }
 
     private void OnAnimationFinished(StringName animationName) =>
-        this.Value = (this.Value?.Equals(animationName) ?? false) ? null : this.Value;
+        base.Value = (base.Value?.Equals(animationName) ?? false) ? null : base.Value;
 
     public override void _ExitTree()
     {

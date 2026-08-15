@@ -12,7 +12,7 @@ namespace SaintPatrick;
 /// is allowed at a time and a second detection throws <see cref="InvalidOperationException"/>.
 /// </summary>
 /// <typeparam name="TNode">The <see cref="Node"/> type to track.</typeparam>
-public class Observer<TNode> where TNode : Node
+public sealed class Observer<TNode> where TNode : Node
 {
     /// <summary>
     /// Fired when a node of type <typeparamref name="TNode"/> enters the scene tree.
@@ -68,6 +68,8 @@ public class Observer<TNode> where TNode : Node
         this._root = root;
         this._sceneTree = root.GetTree();
 
+        // TODO: use ChildEnteredTree and ChildExitingTree instead of looking the entire scene tree.
+        // The idea is to continue working even if the root is removed from the scene.
         this._sceneTree.NodeAdded += this.OnNodeAdded;
         this._sceneTree.NodeRemoved += this.OnNodeRemoved;
 
@@ -96,7 +98,7 @@ public class Observer<TNode> where TNode : Node
     /// <exception cref="InvalidOperationException">
     /// Thrown when <see cref="Single"/> is <see langword="true"/> and a second matching node is detected.
     /// </exception>
-    protected virtual void OnNodeAdded(TNode node)
+    private void OnNodeAdded(TNode node)
     {
         if (this._nodes.Contains(node))
             return;
@@ -117,7 +119,7 @@ public class Observer<TNode> where TNode : Node
     /// the default untracking logic.
     /// </summary>
     /// <param name="node">The matching node that exited the tree.</param>
-    protected virtual void OnNodeRemoved(TNode node)
+    private void OnNodeRemoved(TNode node)
     {
         this.Node = this.Node == node ? null : this.Node;
 
@@ -154,80 +156,5 @@ public class Observer<TNode> where TNode : Node
 
         this._sceneTree = null;
         this._root = null;
-    }
-}
-
-/// <summary>
-/// Monitors the scene tree for nodes of type <typeparamref name="TNode"/>, maintaining a live
-/// set of all currently present instances. Fires <see cref="NodeTracked"/> and
-/// <see cref="NodeUntracked"/> as matching nodes enter and leave the tree.
-/// An optional <see cref="Filter"/> filter restricts tracking to nodes whose
-/// <see cref="IObserver.Value"/> matches the configured value.
-/// </summary>
-/// <typeparam name="TNode">The <see cref="Node"/> type to track.</typeparam>
-/// <typeparam name="TValue">
-/// The value type exposed by <typeparamref name="TNode"/> via <see cref="IObserver.Value"/>.
-/// Used for optional value-based filtering.
-/// </typeparam>
-public sealed class Observer<TNode, TValue> : Observer<TNode>
-    where TNode : Node, Observer<TNode, TValue>.IObserver
-{
-    /// <summary>
-    /// Contract that a <typeparamref name="TNode"/> must implement to be trackable by <see cref="Observer{TNode, TValue}"/>.
-    /// Exposes the observable value and notifies the observer whenever that value changes.
-    /// </summary>
-    public interface IObserver
-    {
-        /// <summary>
-        /// Raised whenever <see cref="Value"/> changes.
-        /// The arguments are, in order: the node itself, the previous value, and the new value.
-        /// </summary>
-        public event Action<TNode, TValue, TValue>? Changed;
-
-        /// <summary>
-        /// The current value being observed. Used by <see cref="Observer{TNode, TValue}"/> to determine
-        /// whether this node matches the active filter.
-        /// </summary>
-        public TValue Value { get; }
-    }
-
-    /// <summary>
-    /// Optional filter value. When set (even to <see langword="null"/>), only nodes whose
-    /// <see cref="IObserver.Value"/> equals this value are tracked. When not set, all nodes of
-    /// type <typeparamref name="TNode"/> are tracked regardless of their value.
-    /// </summary>
-    public TValue? Filter
-    {
-        get;
-        init
-        {
-            field = value;
-            this._filterSet = true;
-        }
-    }
-
-    private readonly bool _filterSet;
-
-    protected sealed override void OnNodeAdded(TNode node)
-    {
-        node.Changed += this.OnValueChanged;
-        this.OnValueChanged(node, node.Value, false);
-    }
-
-    private void OnValueChanged(TNode node, TValue prevValue, TValue newValue) =>
-        this.OnValueChanged(node, newValue, false);
-
-    private void OnValueChanged(TNode node, TValue newValue, bool forceDeletion)
-    {
-        if (!forceDeletion && (!this._filterSet || (this.Filter == null ? newValue == null : this.Filter.Equals(newValue))))
-            base.OnNodeAdded(node);
-        else
-            base.OnNodeRemoved(node);
-    }
-
-    protected sealed override void OnNodeRemoved(TNode node)
-    {
-        this.OnValueChanged(node, node.Value, true);
-        node.Changed -= this.OnValueChanged;
     }
 }

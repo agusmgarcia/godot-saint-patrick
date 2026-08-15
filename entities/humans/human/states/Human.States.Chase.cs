@@ -18,7 +18,7 @@ partial class Human
     /// When <see langword="true"/>, moves at <see cref="RunSpeed"/>; otherwise at <see cref="WalkSpeed"/>.
     /// </param>
     public void Chase(Node3D destination, bool straight = false, bool run = false) =>
-        this._statesMachineObserver.Node?.SetState<Human.ChaseState>(new Human.ChaseState.InitParams
+        this.StatesMachineComponent?.SetState<Human.ChaseState>(new Human.ChaseState.InitParams
         {
             Destination = destination,
             Straight = straight,

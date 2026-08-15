@@ -6,7 +6,19 @@ using Godot;
 namespace SaintPatrick;
 
 /// <summary>
-/// // TODO: document this.
+/// Marks a field or property as a child-node binding. When placed on a member of a
+/// <see cref="Component{TValue}"/> (or any node that manually calls
+/// <see cref="OnChildEnteredTree"/> / <see cref="OnChildExitingTree"/>), the member is
+/// automatically populated with the matching child node as it enters the scene tree and cleared
+/// when it exits.
+/// <para>
+/// The child is matched by its <see cref="Node.Name"/>: if <see cref="Name"/> is specified it
+/// is used as the expected child name; otherwise the member name itself is used.
+/// </para>
+/// <para>
+/// Type safety is enforced at runtime: if the entering child is not assignable to the member's
+/// declared type an <see cref="InvalidOperationException"/> is thrown.
+/// </para>
 /// </summary>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 public sealed class BindChildAttribute : Attribute
@@ -14,21 +26,31 @@ public sealed class BindChildAttribute : Attribute
     private static readonly BindTargetsPool _CACHE = new();
 
     /// <summary>
-    /// // TODO: document this.
+    /// The scene-node name used to locate the child. When empty, the decorated member's own
+    /// name is used instead.
     /// </summary>
     public string Name { get; init; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Initialises the attribute.
     /// </summary>
-    /// <param name="name"></param>
+    /// <param name="name">
+    /// The expected <see cref="Node.Name"/> of the child to bind to. When
+    /// <see langword="null"/> or empty, the decorated member's own name is used.
+    /// </param>
     public BindChildAttribute(string? name = null) =>
         this.Name = name ?? string.Empty;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Should be called from a <c>ChildEnteredTree</c> handler on the parent node.
+    /// Looks up any <c>[BindChild]</c>-decorated member on the parent whose expected name
+    /// matches <paramref name="node"/>'s name, verifies the type, and assigns the node.
     /// </summary>
-    /// <param name="node"></param>
+    /// <param name="node">The child node that just entered the tree.</param>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when the entering child is not assignable to the type declared by the matching
+    /// <c>[BindChild]</c> member.
+    /// </exception>
     public static void OnChildEnteredTree(Node node)
     {
         var parent = node.GetParent();
@@ -46,9 +68,13 @@ public sealed class BindChildAttribute : Attribute
     }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Should be called from a <c>ChildExitingTree</c> handler on the parent node.
+    /// Looks up any <c>[BindChild]</c>-decorated member on the parent whose expected name
+    /// matches <paramref name="node"/>'s name, and clears the member — but only if it is
+    /// currently holding <paramref name="node"/> as its value (identity check). This prevents
+    /// accidentally nulling a member that was already rebound to a different child.
     /// </summary>
-    /// <param name="node"></param>
+    /// <param name="node">The child node that is about to exit the tree.</param>
     public static void OnChildExitingTree(Node node)
     {
         var parent = node.GetParent();
@@ -57,6 +83,9 @@ public sealed class BindChildAttribute : Attribute
 
         var bindTargets = BindChildAttribute._CACHE.GetBindTargets(parent.GetType());
         if (!bindTargets.TryGetValue(node.Name, out var bindTarget))
+            return;
+
+        if (!ReferenceEquals(bindTarget.GetValue(parent), node))
             return;
 
         bindTarget.SetValue(parent, null);

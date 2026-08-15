@@ -83,34 +83,7 @@ partial class Human
         /// </summary>
         protected Human Human { get; private set; } = null!;
 
-        /// <summary>
-        /// Whether the owning <see cref="Human"/> is the active main character within this scene
-        /// instance. Reflects the scoped <see cref="MainCharacter.Value"/> of the sibling
-        /// <see cref="MainCharacter"/> component.
-        /// </summary>
-        protected bool Main =>
-            this._mainCharacterObserver.Node?.Value ?? false;
-
-        /// <summary>
-        /// The <see cref="CharacterBody3D"/> that is currently the active main character across
-        /// the entire scene tree, or <see langword="null"/> if none is active.
-        /// Resolved as the scene owner of the globally tracked <see cref="MainCharacter"/> node.
-        /// </summary>
-        protected Node? MainCharacter =>
-            this._mainGlobalCharacterObserver.Node?.GetOwner();
-
-        /// <summary>
-        /// The nearest <see cref="CharacterBody3D"/> currently visible from the owning
-        /// <see cref="Human"/>, as reported by the sibling <see cref="NearestCharacter"/>
-        /// component, or <see langword="null"/> if none is within detection range.
-        /// </summary>
-        protected CharacterBody3D? NearestCharacter =>
-            this._nearestCharacterObserver.Node?.Value;
-
-        private readonly Observer<Animation, string?> _animationsObserver = new() { Single = true };
-        private readonly Observer<MainCharacter, bool> _mainCharacterObserver = new() { Single = true, Filter = true };
-        private readonly Observer<MainCharacter, bool> _mainGlobalCharacterObserver = new() { Single = true, Filter = true };
-        private readonly Observer<NearestCharacter, CharacterBody3D?> _nearestCharacterObserver = new() { Single = true };
+        private readonly Observer<Animation> _animationObserver = new() { Single = true };
 
         public override void _EnterTree()
         {
@@ -118,19 +91,18 @@ partial class Human
 
             this.Human = base.GetParent().GetOwner<Human>();
 
-            this._animationsObserver.NodeTracked += this.OnAnimationTracked;
-            this._animationsObserver.NodeUntracked += this.OnAnimationUntracked;
-
-            this._animationsObserver.Observe(this.Human);
-            this._mainCharacterObserver.Observe(this.Human);
-            this._mainGlobalCharacterObserver.Observe(base.GetTree().Root);
-            this._nearestCharacterObserver.Observe(this.Human);
+            this._animationObserver.NodeTracked += this.OnAnimationTracked;
+            this._animationObserver.NodeUntracked += this.OnAnimationUntracked;
+            this._animationObserver.Observe(this.Human);
         }
 
-        private void OnAnimationTracked(Animation animation) =>
-           animation.Changed += this.OnAnimationChanged;
+        private void OnAnimationTracked(Animation animation)
+        {
+            animation.Changed += this.OnAnimationChanged;
+            this.OnAnimationChanged(animation, null, animation.Value);
+        }
 
-        private void OnAnimationChanged(Animation animation, string? prevAnimation, string? newAnimation)
+        private void OnAnimationChanged(Component<string?> component, string? prevAnimation, string? newAnimation)
         {
             if (newAnimation == null)
                 this.OnAnimationFinished();
@@ -142,8 +114,8 @@ partial class Human
         /// animations are found or if the <see cref="Animation"/> component is unavailable.
         /// </summary>
         /// <param name="state">
-        /// The animation state name as it appears in the filename
-        /// (e.g. <c>"idle"</c>, <c>"walk"</c>, <c>"talking"</c>).
+        /// The animation category as it appears in the filename segment
+        /// (e.g. <see cref="EState.Idle"/>, <see cref="EState.Walk"/>).
         /// </param>
         /// <param name="customBlend">Blend time in seconds; <c>-1</c> uses the player's default.</param>
         /// <param name="customSpeed">Playback speed multiplier.</param>
@@ -154,7 +126,7 @@ partial class Human
             float customSpeed = 1.0f,
             bool fromEnd = false)
         {
-            var animation = this._animationsObserver.Node;
+            var animation = this._animationObserver.Node;
             if (animation == null)
                 return;
 
@@ -173,27 +145,28 @@ partial class Human
         /// Has no effect if the <see cref="Animation"/> component is unavailable.
         /// </summary>
         protected void StopAnimation() =>
-            this._animationsObserver.Node?.Stop();
+            this._animationObserver.Node?.Stop();
 
         /// <summary>
-        /// Called when the <see cref="Animation"/> component's <see cref="Animation.Value"/>
-        /// transitions to <see langword="null"/>, indicating the current animation finished.
-        /// Override in subclasses to react to animation completion.
+        /// Called when the <see cref="Animation"/> component's
+        /// <see cref="Component{TValue}.Value"/> transitions to <see langword="null"/>,
+        /// indicating the current animation has finished.
+        /// Override in subclasses to react to animation completion (e.g. to restart a looping
+        /// idle animation or to chain a follow-up clip).
         /// </summary>
         protected virtual void OnAnimationFinished() { }
 
-        private void OnAnimationUntracked(Animation animation) =>
+        private void OnAnimationUntracked(Animation animation)
+        {
+            this.OnAnimationChanged(animation, animation.Value, null);
             animation.Changed -= this.OnAnimationChanged;
+        }
 
         public override void _ExitTree()
         {
-            this._nearestCharacterObserver.Unobserve();
-            this._mainGlobalCharacterObserver.Unobserve();
-            this._mainCharacterObserver.Unobserve();
-            this._animationsObserver.Unobserve();
-
-            this._animationsObserver.NodeUntracked -= this.OnAnimationUntracked;
-            this._animationsObserver.NodeTracked -= this.OnAnimationTracked;
+            this._animationObserver.Unobserve();
+            this._animationObserver.NodeUntracked -= this.OnAnimationUntracked;
+            this._animationObserver.NodeTracked -= this.OnAnimationTracked;
 
             this.Human = null!;
 
