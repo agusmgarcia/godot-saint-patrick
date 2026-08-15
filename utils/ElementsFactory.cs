@@ -11,7 +11,7 @@ namespace SaintPatrick;
 /// </summary>
 public static class ElementsFactory
 {
-    private static readonly Dictionary<Type, HashSet<object>> _pools = [];
+    private static readonly Dictionary<Type, HashSet<object>> _POOLS = [];
 
     /// <summary>
     /// Retrieves an existing element of type <typeparamref name="TElement"/> from the pool,
@@ -28,7 +28,7 @@ public static class ElementsFactory
 
         TElement element;
 
-        if (_pools.TryGetValue(type, out var pool) && pool.Count > 0)
+        if (_POOLS.TryGetValue(type, out var pool) && pool.Count > 0)
         {
             var item = pool.First();
             pool.Remove(item);
@@ -51,10 +51,10 @@ public static class ElementsFactory
     {
         var type = element.GetType();
 
-        if (!_pools.TryGetValue(type, out var pool))
+        if (!_POOLS.TryGetValue(type, out var pool))
         {
             pool = [];
-            _pools[type] = pool;
+            _POOLS[type] = pool;
         }
 
         pool.Add(element);
