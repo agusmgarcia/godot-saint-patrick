@@ -25,7 +25,20 @@ partial class Inputs
 
             var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
             if (input.Length() > 0)
+            {
                 base.Inputs.Chase();
+                return;
+            }
+
+            if (Input.IsActionJustPressed("talk"))
+            {
+                var nearest = base.Humanoid?.NearestCharacter;
+                if (nearest != null)
+                {
+                    base.Inputs.Talk(nearest);
+                    return;
+                }
+            }
         }
 
         public override void _ExitTree()

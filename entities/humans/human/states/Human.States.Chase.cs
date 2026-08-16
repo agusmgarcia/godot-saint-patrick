@@ -25,49 +25,17 @@ partial class Human
             Run = run
         });
 
-    /// <summary>
-    /// Chase state for a <see cref="Human"/>. Moves the human toward a <see cref="Destination"/>
-    /// using either straight-line movement or <see cref="NavigationAgent3D"/> pathfinding.
-    /// Transitions back to <see cref="IdleState"/> automatically when the destination is reached.
-    /// </summary>
     private sealed partial class ChaseState : Human.BaseState
     {
-        /// <summary>
-        /// Initialisation parameters for <see cref="ChaseState"/>.
-        /// </summary>
         public readonly record struct InitParams
         {
-            /// <summary>
-            /// The node the human will move toward.
-            /// </summary>
             public required Node3D Destination { get; init; }
-
-            /// <summary>
-            /// When <see langword="true"/>, moves in a straight line.
-            /// When <see langword="false"/>, uses navmesh pathfinding.
-            /// </summary>
             public required bool Straight { get; init; }
-
-            /// <summary>
-            /// When <see langword="true"/>, uses <see cref="Human.RunSpeed"/>;
-            /// otherwise uses <see cref="Human.WalkSpeed"/>.
-            /// </summary>
             public required bool Run { get; init; }
         }
 
-        /// <summary>
-        /// The node this human is chasing.
-        /// </summary>
         public Node3D Destination { get; private set; } = null!;
-
-        /// <summary>
-        /// Whether this human moves in a straight line toward <see cref="Destination"
-        /// />.</summary>
         public bool Straight { get; private set; }
-
-        /// <summary>
-        /// Whether this human runs rather than walks.
-        /// </summary>
         public bool Run { get; private set; }
 
         private readonly NavigationAgent3D _navAgent = new();

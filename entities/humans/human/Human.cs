@@ -56,6 +56,12 @@ public partial class Human : CharacterBody3D, Inputs.IHumanoid
     [Export(PropertyHint.Range, "0,1")]
     public float RunSpeedDrunkFactor { get; private set; }
 
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public CharacterBody3D? NearestCharacter =>
+        this.NearestCharacterComponent?.Value;
+
     [BindChild("Animation")]
     protected Animation? AnimationComponent { get; private set; }
 

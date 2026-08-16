@@ -11,16 +11,8 @@ partial class Human
     public void Idle() =>
         this.StatesMachineComponent?.SetState<Human.IdleState>(new Human.IdleState.InitParams());
 
-    /// <summary>
-    /// Idle state for a <see cref="Human"/>. Plays a random idle animation on entry and
-    /// occasionally interrupts it with a fly-removal animation. While idle, the human slowly
-    /// rotates to face the nearest main character when one is in range.
-    /// </summary>
     private sealed partial class IdleState : Human.BaseState
     {
-        /// <summary>
-        /// Initialisation parameters for <see cref="IdleState"/>.
-        /// </summary>
         public readonly record struct InitParams { }
 
         private readonly Timer _timer = new() { OneShot = true };

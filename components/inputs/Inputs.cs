@@ -16,10 +16,19 @@ public sealed partial class Inputs : Component<Node?>
     /// </summary>
     public interface IHumanoid
     {
-        /// <summary>World-space position of this character.</summary>
+        /// <summary>
+        /// World-space position of this character.
+        /// </summary>
         Vector3 GlobalPosition { get; }
 
-        /// <summary>Transitions this character to its idle state.</summary>
+        /// <summary>
+        /// // TODO: document this.
+        /// </summary>
+        CharacterBody3D? NearestCharacter { get; }
+
+        /// <summary>
+        /// Transitions this character to its idle state.
+        /// </summary>
         void Idle();
 
         /// <summary>
@@ -27,6 +36,11 @@ public sealed partial class Inputs : Component<Node?>
         /// <paramref name="destination"/>.
         /// </summary>
         void Chase(Node3D destination, bool straight = false, bool run = false);
+
+        /// <summary>
+        /// Transitions this character to the talk state, facing <paramref name="listener"/>.
+        /// </summary>
+        void Talk(Node3D listener);
     }
 
     /// <summary>
