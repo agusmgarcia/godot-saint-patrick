@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://cnyk6edhwnmr0"]
-
-[ext_resource type="PackedScene" uid="uid://dblljvvkdlm30" path="res://components/component/component.tscn" id="1_wllne"]
-[ext_resource type="Script" uid="uid://b1jy34641wo7o" path="res://components/nearestCharacter/NearestCharacter.cs" id="2_nearc"]
-
-[node name="NearestCharacter" unique_id=1655332340 instance=ExtResource("1_wllne")]
-script = ExtResource("2_nearc")

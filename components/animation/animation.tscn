@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://dhxthfedaxfpt"]
-
-[ext_resource type="PackedScene" uid="uid://dblljvvkdlm30" path="res://components/component/component.tscn" id="1_fw27w"]
-[ext_resource type="Script" uid="uid://bv4st1c2mknpp" path="res://components/animation/Animation.cs" id="2_2nt7p"]
-
-[node name="Animation" unique_id=1655332340 instance=ExtResource("1_fw27w")]
-script = ExtResource("2_2nt7p")

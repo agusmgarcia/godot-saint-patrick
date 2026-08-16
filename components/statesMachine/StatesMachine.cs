@@ -1,7 +1,8 @@
 using System;
 using Godot;
+using SaintPatrick.Utils;
 
-namespace SaintPatrick;
+namespace SaintPatrick.Components.StatesMachine;
 
 /// <summary>
 /// A node-based state machine that manages a single active state at a time.
@@ -10,14 +11,7 @@ namespace SaintPatrick;
 /// </summary>
 public sealed partial class StatesMachine : Component<Node?>
 {
-    /// <summary>
-    /// Initialises the state machine with no active state
-    /// (<see cref="Component{TValue}.Value"/> starts as <see langword="null"/>).
-    /// </summary>
-    public StatesMachine()
-        : base(null)
-    {
-    }
+    public StatesMachine() : base(null) { }
 
     public override void _EnterTree()
     {
@@ -38,18 +32,18 @@ public sealed partial class StatesMachine : Component<Node?>
        where TNewState : Node, new()
     {
         var newState = ElementsFactory.GetOrCreate<TNewState>(initParams);
-        Callable.From(() => this.SetState(newState)).CallDeferred();
+        Callable.From(() => this.SwapState(newState)).CallDeferred();
     }
 
-    private void SetState(Node? newState)
+    private void SwapState(Node? newState)
     {
-        if (base.Value != null)
-            base.RemoveChild(base.Value);
+        if (this.Value != null)
+            base.RemoveChild(this.Value);
 
-        base.Value = newState;
+        this.Value = newState;
 
-        if (base.Value != null)
-            base.AddChild(base.Value);
+        if (this.Value != null)
+            base.AddChild(this.Value);
     }
 
     private void OnChildExitingTree(Node node) =>

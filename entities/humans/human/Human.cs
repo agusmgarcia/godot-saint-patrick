@@ -1,22 +1,23 @@
+using System.Collections.Generic;
 using Godot;
+using SaintPatrick.Components.Main;
+using SaintPatrick.Components.SocialZoneArea3D;
+using SaintPatrick.Components.StatesMachine;
+using SaintPatrick.Components.Gravity;
+using SaintPatrick.Entities.Humans.Human.States;
+using SaintPatrick.Utils;
 
-namespace SaintPatrick;
+namespace SaintPatrick.Entities.Humans.Human;
 
 /// <summary>
-/// Base class for all human characters. Manages a <see cref="StatesMachine"/> and binds the
-/// <see cref="Animation"/>, <see cref="Collider"/>, <see cref="Inputs"/>, <see cref="Main"/>,
-/// <see cref="MainCharacter"/>, <see cref="NearestCharacter"/>, and <see cref="StatesMachine"/>
-/// sibling components via <see cref="BindChildAttribute"/> declarations. Concrete subclasses
-/// define which model is shown and configure exported properties through the scene inspector.
+/// Base node for all human characters in the scene.
+/// Manages gender, movement speeds, and drunk state, and exposes high-level
+/// behavioural methods (<see cref="Idle"/>, <see cref="Chase"/>, <see cref="Talk"/>)
+/// that drive the internal <see cref="SaintPatrick.Components.StatesMachine.StatesMachine"/>.
+/// Child nodes are bound automatically via <see cref="SaintPatrick.Utils.BindChildAttribute"/>.
 /// </summary>
-public partial class Human : CharacterBody3D, Inputs.IHumanoid
+public partial class Human : CharacterBody3D
 {
-    /// <summary>
-    /// Gender of the human character. Used by the animation system to select the correct
-    /// set of animation files from the <c>animations/</c> folder.
-    /// </summary>
-    public enum EGender { Male, Female }
-
     /// <summary>
     /// The gender of this human. Controls which animation variants are selected at runtime.
     /// </summary>
@@ -57,31 +58,35 @@ public partial class Human : CharacterBody3D, Inputs.IHumanoid
     public float RunSpeedDrunkFactor { get; private set; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Whether this human is currently the active player-controlled character.
+    /// Delegates to the child <see cref="SaintPatrick.Components.Main.Main"/> component's
+    /// <see cref="SaintPatrick.Components.Main.Main.Value"/> property.
     /// </summary>
-    public CharacterBody3D? NearestCharacter =>
-        this.NearestCharacterComponent?.Value;
+    public bool Main => this._mainComponent?.Value ?? false;
 
-    [BindChild("Animation")]
-    protected Animation? AnimationComponent { get; private set; }
+    /// <summary>
+    /// The physics bodies currently inside this human's social zone that have an unobstructed
+    /// line of sight to the owner, sorted by ascending distance (closest first).
+    /// Delegates to the child <see cref="SaintPatrick.Components.SocialZoneArea3D.SocialZoneArea3D"/>
+    /// component. Returns an empty collection when the component is not yet available.
+    /// </summary>
+    public IReadOnlyCollection<CollisionObject3D> NearestBodies =>
+        this._socialZoneArea3DComponent?.Bodies ?? [];
 
-    [BindChild("Collider")]
-    protected Collider? ColliderComponent { get; private set; }
-
-    [BindChild("Inputs")]
-    protected Inputs? InputsComponent { get; private set; }
+    [BindChild("AnimationPlayer")]
+    private readonly AnimationPlayer _animationPlayerComponent = default!;
 
     [BindChild("Main")]
-    protected Main? MainComponent { get; private set; }
+    private readonly Main _mainComponent = default!;
 
-    [BindChild("MainCharacter")]
-    protected MainCharacter? MainCharacterComponent { get; private set; }
-
-    [BindChild("NearestCharacter")]
-    protected NearestCharacter? NearestCharacterComponent { get; private set; }
+    [BindChild("SocialZoneArea3D")]
+    private readonly SocialZoneArea3D _socialZoneArea3DComponent = default!;
 
     [BindChild("StatesMachine")]
-    protected StatesMachine? StatesMachineComponent { get; private set; }
+    private readonly StatesMachine _statesMachineComponent = default!;
+
+    [BindChild("Gravity")]
+    private readonly Gravity _gravityComponent = default!;
 
     public override void _EnterTree()
     {
@@ -98,6 +103,48 @@ public partial class Human : CharacterBody3D, Inputs.IHumanoid
         this.Idle();
     }
 
+    /// <summary>
+    /// Transitions this human to the idle state. The human will play a random idle animation
+    /// and optionally look toward the nearest main character.
+    /// </summary>
+    public void Idle() =>
+        this._statesMachineComponent.SetState<HumanIdleState>(new HumanIdleStateInitParams());
+
+    /// <summary>
+    /// Transitions this human to the chase state, navigating toward <paramref name="destination"/>.
+    /// </summary>
+    /// <param name="destination">
+    /// The target node to move toward. Its <see cref="Node3D.GlobalPosition"/> is re-read each frame.
+    /// </param>
+    /// <param name="straight">
+    /// When <see langword="true"/>, moves in a straight line ignoring obstacles.
+    /// When <see langword="false"/>, uses <see cref="NavigationAgent3D"/> pathfinding.
+    /// </param>
+    /// <param name="run">
+    /// When <see langword="true"/>, moves at <see cref="RunSpeed"/>; otherwise at <see cref="WalkSpeed"/>.
+    /// </param>
+    public void Chase(Node3D destination, bool straight = false, bool run = false) =>
+        this._statesMachineComponent.SetState<HumanChaseState>(new HumanChaseStateInitParams
+        {
+            Destination = destination,
+            Straight = straight,
+            Run = run
+        });
+
+    /// <summary>
+    /// Transitions this human to the talk state, facing <paramref name="listener"/> and playing
+    /// a looping talk animation.
+    /// </summary>
+    /// <param name="listener">
+    /// The node this human will face while talking. Its <see cref="Node3D.GlobalPosition"/> is
+    /// re-read each frame.
+    /// </param>
+    public void Talk(Node3D listener) =>
+        this._statesMachineComponent.SetState<HumanTalkState>(new HumanTalkStateInitParams
+        {
+            Listener = listener
+        });
+
     public override void _ExitTree()
     {
         base.ChildEnteredTree -= BindChildAttribute.OnChildEnteredTree;
@@ -106,3 +153,9 @@ public partial class Human : CharacterBody3D, Inputs.IHumanoid
         base._ExitTree();
     }
 }
+
+/// <summary>
+/// Gender of the human character. Used by the animation system to select the correct
+/// set of animation files from the <c>animations/</c> folder.
+/// </summary>
+public enum EGender { Male, Female }

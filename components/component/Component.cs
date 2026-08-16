@@ -1,18 +1,19 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using SaintPatrick.Utils;
 
 namespace SaintPatrick;
 
 /// <summary>
-/// Abstract base class for all scene components. Wraps a single observable <see cref="Value"/>
+/// Abstract base class for all custom scene components. Wraps a single observable <see cref="Value"/>
 /// and fires <see cref="Changed"/> whenever that value transitions. Also wires up
 /// <see cref="BindChildAttribute"/> so that subclasses can declare child-node bindings with the
 /// <c>[BindChild]</c> attribute and have them populated automatically as children enter and exit
 /// the tree.
 /// </summary>
 /// <typeparam name="TValue">The type of the value this component exposes.</typeparam>
-public abstract partial class Component<TValue> : Node3D
+public abstract partial class Component<TValue> : Node
 {
     /// <summary>
     /// Raised whenever <see cref="Value"/> changes.

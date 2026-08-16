@@ -2,14 +2,19 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-namespace SaintPatrick;
+namespace SaintPatrick.Utils;
 
 /// <summary>
-/// Monitors the scene tree for nodes of type <typeparamref name="TNode"/>, maintaining a live
+/// Monitors a node subtree for nodes of type <typeparamref name="TNode"/>, maintaining a live
 /// set of all currently present instances within an optional root scope. Fires
 /// <see cref="NodeTracked"/> and <see cref="NodeUntracked"/> as matching nodes enter and leave
 /// the tree. When <see cref="Single"/> is <see langword="true"/>, at most one matching node
 /// is allowed at a time and a second detection throws <see cref="InvalidOperationException"/>.
+/// <para>
+/// Tracking is driven by <see cref="Node.ChildEnteredTree"/> and
+/// <see cref="Node.ChildExitingTree"/> signals, subscribed recursively throughout the subtree
+/// so that nodes at any depth — direct children, grandchildren, and beyond — are detected.
+/// </para>
 /// </summary>
 /// <typeparam name="TNode">The <see cref="Node"/> type to track.</typeparam>
 public sealed class Observer<TNode> where TNode : Node
@@ -40,20 +45,21 @@ public sealed class Observer<TNode> where TNode : Node
     /// <summary>
     /// When <see langword="true"/>, enforces that at most one matching node exists within the
     /// observed scope at any time. An <see cref="InvalidOperationException"/> is thrown if a
-    /// second matching node is detected. Intended for components that are expected to be unique
-    /// within their scene instance (e.g. <see cref="Animation"/>, <see cref="NearestCharacter"/>).
+    /// second matching node is detected. Intended for node types that are expected to be unique
+    /// within their observed scope (e.g. singleton system nodes).
     /// </summary>
     public bool Single { get; init; }
 
     private readonly HashSet<TNode> _nodes = [];
+    private readonly HashSet<Node> _subscribed = [];
 
     private Node? _root;
-    private SceneTree? _sceneTree;
 
     /// <summary>
     /// Begins observing the subtree rooted at <paramref name="root"/>, immediately scanning its
-    /// existing children and subscribing to <see cref="SceneTree.NodeAdded"/> and
-    /// <see cref="SceneTree.NodeRemoved"/> for future changes. Has no effect if already observing.
+    /// existing children and subscribing to <see cref="Node.ChildEnteredTree"/> and
+    /// <see cref="Node.ChildExitingTree"/> recursively throughout the subtree so that nodes at
+    /// any depth are detected. Has no effect if already observing.
     /// </summary>
     /// <param name="root">
     /// The node whose subtree (including itself) will be monitored. Only nodes that are
@@ -62,42 +68,29 @@ public sealed class Observer<TNode> where TNode : Node
     /// </param>
     public void Observe(Node root)
     {
-        if (this._root != null && this._sceneTree != null)
+        if (this._root != null)
             return;
 
         this._root = root;
-        this._sceneTree = root.GetTree();
 
-        // TODO: use ChildEnteredTree and ChildExitingTree instead of looking the entire scene tree.
-        // The idea is to continue working even if the root is removed from the scene.
-        this._sceneTree.NodeAdded += this.OnNodeAdded;
-        this._sceneTree.NodeRemoved += this.OnNodeRemoved;
-
-        this.OnNodeAdded(this._root);
+        this.OnChildEnteredTree(this._root);
     }
 
-    private void OnNodeAdded(Node node)
+    private void OnChildEnteredTree(Node node)
     {
-        if (this._root != null && this._root != node && !this._root.IsAncestorOf(node))
-            return;
+        if (this._subscribed.Add(node))
+        {
+            node.ChildEnteredTree += this.OnChildEnteredTree;
+            node.ChildExitingTree += this.OnChildExitingTree;
+        }
 
         if (node is TNode match)
             this.OnNodeAdded(match);
 
         foreach (var child in node.GetChildren())
-            this.OnNodeAdded(child);
+            this.OnChildEnteredTree(child);
     }
 
-    /// <summary>
-    /// Called when a node of type <typeparamref name="TNode"/> enters the observed subtree.
-    /// Registers the node in the internal tracking set and raises <see cref="NodeTracked"/>.
-    /// When <see cref="Single"/> is <see langword="true"/>, throws if a second node is detected.
-    /// Override in subclasses to intercept or replace the default tracking logic.
-    /// </summary>
-    /// <param name="node">The matching node that entered the tree.</param>
-    /// <exception cref="InvalidOperationException">
-    /// Thrown when <see cref="Single"/> is <see langword="true"/> and a second matching node is detected.
-    /// </exception>
     private void OnNodeAdded(TNode node)
     {
         if (this._nodes.Contains(node))
@@ -112,13 +105,6 @@ public sealed class Observer<TNode> where TNode : Node
             this.NodeTracked?.Invoke(node);
     }
 
-    /// <summary>
-    /// Called when a node of type <typeparamref name="TNode"/> exits the observed subtree.
-    /// Removes the node from the internal tracking set, clears <see cref="Node"/> if it matches,
-    /// and raises <see cref="NodeUntracked"/>. Override in subclasses to intercept or replace
-    /// the default untracking logic.
-    /// </summary>
-    /// <param name="node">The matching node that exited the tree.</param>
     private void OnNodeRemoved(TNode node)
     {
         this.Node = this.Node == node ? null : this.Node;
@@ -127,34 +113,30 @@ public sealed class Observer<TNode> where TNode : Node
             this.NodeUntracked?.Invoke(node);
     }
 
-    private void OnNodeRemoved(Node node)
+    private void OnChildExitingTree(Node node)
     {
-        if (this._root != null && this._root != node && !this._root.IsAncestorOf(node))
-            return;
-
         foreach (var child in node.GetChildren())
-            this.OnNodeRemoved(child);
+            this.OnChildExitingTree(child);
 
         if (node is TNode match)
             this.OnNodeRemoved(match);
+
+        if (this._subscribed.Remove(node))
+        {
+            node.ChildExitingTree -= this.OnChildExitingTree;
+            node.ChildEnteredTree -= this.OnChildEnteredTree;
+        }
     }
 
     /// <summary>
-    /// Stops observing the subtree and unregisters all scene-tree event handlers.
-    /// All currently tracked nodes are removed from the internal set and
+    /// Stops observing the subtree and unregisters all event handlers subscribed throughout
+    /// the subtree. All currently tracked nodes are removed from the internal set and
     /// <see cref="NodeUntracked"/> is raised for each one. Has no effect if not currently observing.
     /// </summary>
     public void Unobserve()
     {
-        if (this._root == null || this._sceneTree == null)
-            return;
+        this.OnChildExitingTree(this._root!);
 
-        this.OnNodeRemoved(this._root);
-
-        this._sceneTree.NodeRemoved -= this.OnNodeRemoved;
-        this._sceneTree.NodeAdded -= this.OnNodeAdded;
-
-        this._sceneTree = null;
         this._root = null;
     }
 }

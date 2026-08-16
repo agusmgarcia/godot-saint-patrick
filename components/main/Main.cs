@@ -1,22 +1,22 @@
 using Godot;
 
-namespace SaintPatrick;
+namespace SaintPatrick.Components.Main;
 
 /// <summary>
-/// A component that marks the owning scene as the active main character.
-/// Exposes a read/write <see cref="Value"/> that widens the base-class protected setter to
-/// <see langword="public"/>, allowing external callers (e.g. <see cref="MainCharacter"/>) to
-/// promote or demote the owning character at runtime.
-/// At most one <see cref="Main"/> component per scene instance should have
-/// <see cref="Value"/> set to <see langword="true"/> at any given time; the
-/// <see cref="MainCharacter"/> component enforces this invariant globally.
+/// Component that marks a character as the active main character.
+/// Attach this node to any character that can become the player-controlled entity.
+/// Setting <see cref="Value"/> to <see langword="true"/> signals other systems
+/// (e.g. <see cref="SaintPatrick.Systems.MainCharacter"/>) to treat this character's
+/// owner as the current main character.
 /// </summary>
 public sealed partial class Main : Component<bool>
 {
     /// <summary>
-    /// Whether the owning scene is currently the active main character.
-    /// Setting this to <see langword="true"/> will trigger <see cref="Component{TValue}.Changed"/>
-    /// and be picked up by any <see cref="MainCharacter"/> component observing the tree.
+    /// Whether the owning character is currently the active main character.
+    /// Setting this to <see langword="true"/> raises <see cref="Component{TValue}.Changed"/>
+    /// and allows other systems to react (e.g. camera targeting, human interaction).
+    /// Setting it to <see langword="false"/> deactivates the character.
+    /// No event is raised when the value does not change.
     /// </summary>
     [Export]
     public new bool Value
@@ -25,11 +25,5 @@ public sealed partial class Main : Component<bool>
         set => base.Value = value;
     }
 
-    /// <summary>
-    /// Initialises the component with <see cref="Value"/> set to <see langword="false"/>.
-    /// </summary>
-    public Main()
-        : base(false)
-    {
-    }
+    public Main() : base(false) { }
 }

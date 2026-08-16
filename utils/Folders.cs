@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-namespace SaintPatrick;
+namespace SaintPatrick.Utils;
 
 /// <summary>
 /// Utility class for filesystem operations on Godot resource paths.

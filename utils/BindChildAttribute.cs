@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Godot;
 
-namespace SaintPatrick;
+namespace SaintPatrick.Utils;
 
 /// <summary>
 /// Marks a field or property as a child-node binding. When placed on a member of a
@@ -78,7 +78,7 @@ public sealed class BindChildAttribute : Attribute
     public static void OnChildExitingTree(Node node)
     {
         var parent = node.GetParent();
-        if (parent is null)
+        if (parent == null)
             return;
 
         var bindTargets = BindChildAttribute._CACHE.GetBindTargets(parent.GetType());
@@ -100,19 +100,19 @@ public sealed class BindChildAttribute : Attribute
         private readonly PropertyInfo? _prop;
         private readonly FieldInfo? _field;
 
-        public BindTarget(PropertyInfo prop, BindChildAttribute attr)
+        public BindTarget(PropertyInfo property, BindChildAttribute attribute)
         {
-            this.Name = !string.IsNullOrEmpty(attr.Name) ? attr.Name : prop.Name;
-            this.Type = prop.PropertyType;
-            this.MemberName = prop.Name;
+            this.Name = !string.IsNullOrEmpty(attribute.Name) ? attribute.Name : property.Name;
+            this.Type = property.PropertyType;
+            this.MemberName = property.Name;
 
-            this._prop = prop;
+            this._prop = property;
             this._field = null;
         }
 
-        public BindTarget(FieldInfo field, BindChildAttribute attr)
+        public BindTarget(FieldInfo field, BindChildAttribute attribute)
         {
-            this.Name = !string.IsNullOrEmpty(attr.Name) ? attr.Name : field.Name;
+            this.Name = !string.IsNullOrEmpty(attribute.Name) ? attribute.Name : field.Name;
             this.Type = field.FieldType;
             this.MemberName = field.Name;
 

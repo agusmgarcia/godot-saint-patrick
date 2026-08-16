@@ -1,15 +1,24 @@
 [gd_scene format=3 uid="uid://dy7e2cqkxm4aa"]
 
 [ext_resource type="Script" uid="uid://nkrsck7ca5h" path="res://entities/humans/human/Human.cs" id="1_human"]
-[ext_resource type="PackedScene" uid="uid://b8hx5n4hf0xu" path="res://components/model/model.tscn" id="2_model"]
-[ext_resource type="PackedScene" uid="uid://dhxthfedaxfpt" path="res://components/animation/animation.tscn" id="3_anim"]
+[ext_resource type="AnimationLibrary" uid="uid://duv7bilmq1jw8" path="res://entities/humans/human/animations/human.female.drunkIdle.1.fbx" id="2_2rbr1"]
+[ext_resource type="AnimationLibrary" uid="uid://b0pueu60y8snb" path="res://entities/humans/human/animations/human.female.idle.1.fbx" id="2_ffwvl"]
+[ext_resource type="AnimationLibrary" uid="uid://mltoawrfcdh3" path="res://entities/humans/human/animations/human.female.drunkRun.1.fbx" id="3_evr87"]
 [ext_resource type="PackedScene" uid="uid://bse6vry8th6t8" path="res://components/main/main.tscn" id="3_xjdmw"]
-[ext_resource type="PackedScene" uid="uid://dwfr2j4jof7ew" path="res://components/mainCharacter/mainCharacter.tscn" id="4_main"]
-[ext_resource type="PackedScene" uid="uid://cnyk6edhwnmr0" path="res://components/nearestCharacter/nearestCharacter.tscn" id="5_nearest"]
-[ext_resource type="PackedScene" uid="uid://bj1kdkwh4nmex" path="res://components/statesMachine/statesMachine.tscn" id="6_2h4wo"]
-[ext_resource type="PackedScene" uid="uid://w7yhhts52rp4" path="res://components/collider/collider.tscn" id="7_coll"]
+[ext_resource type="AnimationLibrary" uid="uid://doleeyb52ev5n" path="res://entities/humans/human/animations/human.female.drunkWalk.1.fbx" id="4_u0kdo"]
+[ext_resource type="AnimationLibrary" uid="uid://dp68xt7714vvt" path="res://entities/humans/human/animations/human.female.flyRemoval.1.fbx" id="5_l4cms"]
+[ext_resource type="AnimationLibrary" uid="uid://ctb670d2287eu" path="res://entities/humans/human/animations/human.female.idle.2.fbx" id="7_hqa5r"]
+[ext_resource type="AnimationLibrary" uid="uid://bbmcf4ps6nwue" path="res://entities/humans/human/animations/human.female.idle.3.fbx" id="8_4ps2d"]
+[ext_resource type="AnimationLibrary" uid="uid://dprf6pfciuhs2" path="res://entities/humans/human/animations/human.female.run.1.fbx" id="9_7q7s5"]
+[ext_resource type="AnimationLibrary" uid="uid://dyirnyykq8ltf" path="res://entities/humans/human/animations/human.female.talk.1.fbx" id="10_sykna"]
+[ext_resource type="AnimationLibrary" uid="uid://brn3jkov0cagr" path="res://entities/humans/human/animations/human.female.talk.2.fbx" id="11_j3wvj"]
+[ext_resource type="AnimationLibrary" uid="uid://dqbvekp16pgpg" path="res://entities/humans/human/animations/human.female.talk.3.fbx" id="12_7m1so"]
+[ext_resource type="AnimationLibrary" uid="uid://cs6bn3rv5fh8t" path="res://entities/humans/human/animations/human.female.walk.1.fbx" id="13_yocrs"]
+[ext_resource type="PackedScene" uid="uid://bj1kdkwh4nmex" path="res://components/statesMachine/statesMachine.tscn" id="15_6dp7l"]
+[ext_resource type="PackedScene" uid="uid://c61rb58jpltm7" path="res://components/socialZoneArea3D/socialZoneArea3D.tscn" id="16_2rbr1"]
+[ext_resource type="PackedScene" uid="uid://gravity001" path="res://components/gravity/gravity.tscn" id="17_grav01"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_82rou"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_45isd"]
 
 [node name="Human" type="CharacterBody3D" unique_id=1598348195]
 collision_layer = 2
@@ -20,22 +29,31 @@ WalkSpeedDrunkFactor = 0.64
 RunSpeed = 3.2
 RunSpeedDrunkFactor = 0.5
 
-[node name="Animation" parent="." unique_id=1194732030 instance=ExtResource("3_anim")]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2118215871]
+libraries/human.female.drunkIdle.1 = ExtResource("2_2rbr1")
+libraries/human.female.drunkRun.1 = ExtResource("3_evr87")
+libraries/human.female.drunkWalk.1 = ExtResource("4_u0kdo")
+libraries/human.female.flyRemoval.1 = ExtResource("5_l4cms")
+libraries/human.female.idle.1 = ExtResource("2_ffwvl")
+libraries/human.female.idle.2 = ExtResource("7_hqa5r")
+libraries/human.female.idle.3 = ExtResource("8_4ps2d")
+libraries/human.female.run.1 = ExtResource("9_7q7s5")
+libraries/human.female.talk.1 = ExtResource("10_sykna")
+libraries/human.female.talk.2 = ExtResource("11_j3wvj")
+libraries/human.female.talk.3 = ExtResource("12_7m1so")
+libraries/human.female.walk.1 = ExtResource("13_yocrs")
 
-[node name="Collider" parent="." unique_id=412830948 instance=ExtResource("7_coll")]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2035372996]
+shape = SubResource("SphereShape3D_45isd")
+
+[node name="Gravity" parent="." unique_id=1085755552 instance=ExtResource("17_grav01")]
+Value = true
 
 [node name="Main" parent="." unique_id=1655332340 instance=ExtResource("3_xjdmw")]
 
-[node name="MainCharacter" parent="." unique_id=721071727 instance=ExtResource("4_main")]
+[node name="SocialZoneArea3D" parent="." unique_id=1886332722 instance=ExtResource("16_2rbr1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+collision_layer = 0
+collision_mask = 2
 
-[node name="Model" parent="." unique_id=1018623982 instance=ExtResource("2_model")]
-
-[node name="NearestCharacter" parent="." unique_id=984635361 instance=ExtResource("5_nearest")]
-Radius = 1.0
-
-[node name="StatesMachine" parent="." unique_id=1657137300 instance=ExtResource("6_2h4wo")]
-
-[node name="_IgnoredShape" type="CollisionShape3D" parent="." unique_id=293847561]
-visible = false
-shape = SubResource("SphereShape3D_82rou")
-disabled = true
+[node name="StatesMachine" parent="." unique_id=1085755551 instance=ExtResource("15_6dp7l")]

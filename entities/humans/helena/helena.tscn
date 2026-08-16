@@ -2,18 +2,22 @@
 
 [ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_7abgk"]
 [ext_resource type="PackedScene" uid="uid://8mqqy0e3bst0" path="res://entities/humans/helena/helena.fbx" id="2_model"]
-[ext_resource type="PackedScene" uid="uid://70xa8tbkrr1s" path="res://components/inputs/inputs.tscn" id="3_s44hm"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s44hm"]
+radius = 0.3
+height = 1.7
 
 [node name="Helena" unique_id=1598348195 instance=ExtResource("1_7abgk")]
 Gender = 1
 
-[node name="Collider" parent="." index="1" unique_id=412830948]
-Radius = 0.3
-Height = 1.7
+[node name="AnimationPlayer" parent="." index="0" unique_id=2118215871]
+root_node = NodePath("../Model")
 
-[node name="Inputs" parent="." index="2" unique_id=312475891 instance=ExtResource("3_s44hm")]
+[node name="Model" parent="." index="1" unique_id=1742174694 instance=ExtResource("2_model")]
 
-[node name="Main" parent="." index="3" unique_id=1655332340]
+[node name="CollisionShape3D" parent="." index="2" unique_id=2035372996]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("CapsuleShape3D_s44hm")
+
+[node name="Main" parent="." index="4" unique_id=1655332340]
 Value = true
-
-[node name="Model" parent="Model" parent_id_path=PackedInt32Array(1018623982) index="0" unique_id=2021754830 instance=ExtResource("2_model")]

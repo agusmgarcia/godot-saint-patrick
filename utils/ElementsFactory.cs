@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Godot;
 
-namespace SaintPatrick;
+namespace SaintPatrick.Utils;
 
 /// <summary>
 /// A static object pool that recycles elements to reduce allocations.
@@ -62,25 +63,54 @@ public static class ElementsFactory
 
     private static void Initialize(object element, in ValueType initParams)
     {
-        var flags = BindingFlags.Public | BindingFlags.Instance;
+        const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
         var sourceProperties = initParams.GetType().GetProperties(flags);
+
         var targetProperties = element.GetType().GetProperties(flags);
+        var targetFields = element.GetType().GetFields(flags);
 
         foreach (var sourceProp in sourceProperties)
         {
             if (!sourceProp.CanRead)
                 throw new InvalidOperationException($"Property {sourceProp.Name} cannot be read");
 
-            var targetProp = Array.Find(targetProperties, p =>
-                p.Name.Equals(sourceProp.Name, StringComparison.Ordinal) && p.CanWrite) ??
-                    throw new InvalidOperationException($"There is not any property {sourceProp.Name} to be assigned into {element.GetType().Name}");
+            var sourceValue = sourceProp.GetValue(initParams);
+            var found = false;
 
-            if (!targetProp.PropertyType.IsAssignableFrom(sourceProp.PropertyType))
-                throw new InvalidOperationException($"The property {sourceProp.Name} cannot be assigned to {element.GetType().Name}");
+            foreach (var targetProp in targetProperties)
+            {
+                if (targetProp.Name == sourceProp.Name)
+                {
+                    if (!targetProp.PropertyType.IsAssignableFrom(sourceProp.PropertyType))
+                        throw new InvalidOperationException($"The property {sourceProp.Name} cannot be assigned to {element.GetType().Name}.{targetProp.Name}");
 
-            var value = sourceProp.GetValue(initParams);
-            targetProp.SetValue(element, value);
+                    targetProp.SetValue(element, sourceValue);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found)
+                continue;
+
+            foreach (var targetField in targetFields)
+            {
+                if (targetField.Name == $"_{sourceProp.Name.ToCamelCase()}")
+                {
+                    if (!targetField.FieldType.IsAssignableFrom(sourceProp.PropertyType))
+                        throw new InvalidOperationException($"The property {sourceProp.Name} cannot be assigned to {element.GetType().Name}.{targetField.Name}");
+
+                    targetField.SetValue(element, sourceValue);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (found)
+                continue;
+
+            throw new InvalidOperationException($"There is not any property nor field for {sourceProp.Name} to be assigned into {element.GetType().Name}");
         }
     }
 }
