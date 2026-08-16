@@ -138,8 +138,6 @@ partial class Human
 
         public override void _ExitTree()
         {
-            base.StopAnimation();
-
             if (!this.Straight)
                 base.RemoveChild(this._navAgent);
 

@@ -65,8 +65,6 @@ partial class Human
 
         public override void _ExitTree()
         {
-            base.StopAnimation();
-
             this._timer.Stop();
             this._timer.Timeout -= this.OnTimeout;
             base.RemoveChild(this._timer);
