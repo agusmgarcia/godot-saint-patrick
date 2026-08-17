@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dh7eu4pic0ag5"]
+
+[ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_whcoa"]
+[ext_resource type="PackedScene" uid="uid://drtfot1kfrxje" path="res://entities/humans/sarah/sarah.fbx" id="3_vk2oe"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sarah"]
+radius = 0.3
+height = 1.7
+
+[node name="Sarah" unique_id=1598348195 instance=ExtResource("1_whcoa")]
+Gender = 1
+
+[node name="AnimationPlayer" parent="." index="0" unique_id=2118215871]
+root_node = NodePath("../Model")
+
+[node name="CollisionShape3D" parent="." index="1" unique_id=2035372996]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("CapsuleShape3D_sarah")
+
+[node name="Model" parent="." index="2" unique_id=1938991891 instance=ExtResource("3_vk2oe")]
