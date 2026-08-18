@@ -36,7 +36,7 @@ public static class AnimationPlayerExtensions
     {
         var owner = animationPlayer.GetOwner<Human>();
 
-        var animationRegexp = $"{owner.Gender.ToString().ToLower()}.{animation.ToString().ToLower()}";
+        var animationRegexp = $".{animation.ToString().ToCamelCase()}";
         var animationList = animationPlayer.GetAnimationList().Where(x => x.Contains(animationRegexp));
 
         var animationPath = animationList.ElementAt(GD.RandRange(0, animationList.Count() - 1));

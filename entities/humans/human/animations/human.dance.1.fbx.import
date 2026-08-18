@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://cek0ojprlf881"
-path="res://.godot/imported/human.female.argue.1.fbx-3bf572a9af9cb8d36495f66117831f53.res"
+uid="uid://caqyc3l4fau0a"
+path="res://.godot/imported/human.dance.1.fbx-171132e6601d49ae460962dcda75cd37.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.female.argue.1.fbx"
-dest_files=["res://.godot/imported/human.female.argue.1.fbx-3bf572a9af9cb8d36495f66117831f53.res"]
+source_file="res://entities/humans/human/animations/human.dance.1.fbx"
+dest_files=["res://.godot/imported/human.dance.1.fbx-171132e6601d49ae460962dcda75cd37.res"]
 
 [params]
 

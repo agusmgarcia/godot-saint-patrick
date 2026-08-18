@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://cs6bn3rv5fh8t"
-path="res://.godot/imported/human.female.walk.1.fbx-c46e3ac89b6bbf74d8e3b712fed3c9d6.res"
+uid="uid://bbmcf4ps6nwue"
+path="res://.godot/imported/human.idle.3.fbx-37376d97d6d25eda911b6f09a92909d5.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.female.walk.1.fbx"
-dest_files=["res://.godot/imported/human.female.walk.1.fbx-c46e3ac89b6bbf74d8e3b712fed3c9d6.res"]
+source_file="res://entities/humans/human/animations/human.idle.3.fbx"
+dest_files=["res://.godot/imported/human.idle.3.fbx-37376d97d6d25eda911b6f09a92909d5.res"]
 
 [params]
 
@@ -46,7 +46,7 @@ _subresources={
 "save_to_file/fallback_path": "",
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "",
-"settings/loop_mode": 1,
+"settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",

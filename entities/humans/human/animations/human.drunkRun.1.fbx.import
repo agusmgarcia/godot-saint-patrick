@@ -4,12 +4,12 @@ importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
 uid="uid://mltoawrfcdh3"
-path="res://.godot/imported/human.female.drunkRun.1.fbx-6a23922c2736a62496e6da214ee023cf.res"
+path="res://.godot/imported/human.drunkRun.1.fbx-e252d5f1bc4ac0da728c9b8630b850d8.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.female.drunkRun.1.fbx"
-dest_files=["res://.godot/imported/human.female.drunkRun.1.fbx-6a23922c2736a62496e6da214ee023cf.res"]
+source_file="res://entities/humans/human/animations/human.drunkRun.1.fbx"
+dest_files=["res://.godot/imported/human.drunkRun.1.fbx-e252d5f1bc4ac0da728c9b8630b850d8.res"]
 
 [params]
 

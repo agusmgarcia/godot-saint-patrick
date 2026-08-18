@@ -4,12 +4,12 @@ importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
 uid="uid://btqcmki0i08d2"
-path="res://.godot/imported/human.female.argue.2.fbx-485e935a1cac173854b0e26df84c7e77.res"
+path="res://.godot/imported/human.argue.2.fbx-c0dc9c45a0247c69cac5021c64aa821f.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.female.argue.2.fbx"
-dest_files=["res://.godot/imported/human.female.argue.2.fbx-485e935a1cac173854b0e26df84c7e77.res"]
+source_file="res://entities/humans/human/animations/human.argue.2.fbx"
+dest_files=["res://.godot/imported/human.argue.2.fbx-c0dc9c45a0247c69cac5021c64aa821f.res"]
 
 [params]
 

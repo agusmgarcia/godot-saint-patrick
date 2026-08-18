@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://brn3jkov0cagr"
-path="res://.godot/imported/human.female.talk.2.fbx-75e6d84db767f532555101da10133aa9.res"
+uid="uid://dqbvekp16pgpg"
+path="res://.godot/imported/human.talk.3.fbx-0bed24822e4ba9a22078b121f92533b4.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.female.talk.2.fbx"
-dest_files=["res://.godot/imported/human.female.talk.2.fbx-75e6d84db767f532555101da10133aa9.res"]
+source_file="res://entities/humans/human/animations/human.talk.3.fbx"
+dest_files=["res://.godot/imported/human.talk.3.fbx-0bed24822e4ba9a22078b121f92533b4.res"]
 
 [params]
 

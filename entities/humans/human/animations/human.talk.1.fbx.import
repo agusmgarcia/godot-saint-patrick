@@ -4,12 +4,12 @@ importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
 uid="uid://dyirnyykq8ltf"
-path="res://.godot/imported/human.female.talk.1.fbx-624d191dcaa25c5f43b5a04d559ac67e.res"
+path="res://.godot/imported/human.talk.1.fbx-4a170d62bc706474a62305fd2374757b.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.female.talk.1.fbx"
-dest_files=["res://.godot/imported/human.female.talk.1.fbx-624d191dcaa25c5f43b5a04d559ac67e.res"]
+source_file="res://entities/humans/human/animations/human.talk.1.fbx"
+dest_files=["res://.godot/imported/human.talk.1.fbx-4a170d62bc706474a62305fd2374757b.res"]
 
 [params]
 
