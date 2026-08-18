@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dqkrs6t6jrndy"]
 
 [ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_7abgk"]
-[ext_resource type="PackedScene" uid="uid://8mqqy0e3bst0" path="res://entities/humans/helena/helena.fbx" id="2_model"]
+[ext_resource type="PackedScene" uid="uid://8mqqy0e3bst0" path="res://entities/humans/helena/helena.fbx" id="3_helena"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s44hm"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_helena"]
 radius = 0.3
 height = 1.7
 
@@ -13,11 +13,11 @@ Gender = 1
 [node name="AnimationPlayer" parent="." index="0" unique_id=2118215871]
 root_node = NodePath("../Model")
 
-[node name="Model" parent="." index="1" unique_id=1742174694 instance=ExtResource("2_model")]
-
-[node name="CollisionShape3D" parent="." index="2" unique_id=2035372996]
+[node name="CollisionShape3D" parent="." index="1" unique_id=2035372996]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
-shape = SubResource("CapsuleShape3D_s44hm")
+shape = SubResource("CapsuleShape3D_helena")
+
+[node name="Model" parent="." index="2" unique_id=1938991891 instance=ExtResource("3_helena")]
 
 [node name="Main" parent="." index="4" unique_id=1655332340]
 Value = true
