@@ -1,11 +1,15 @@
 [gd_scene format=3 uid="uid://b5k7x2qr8dnme"]
 
 [ext_resource type="PackedScene" uid="uid://dqkrs6t6jrndy" path="res://entities/humans/helena/helena.tscn" id="6_21yb8"]
+[ext_resource type="PackedScene" uid="uid://cinthia001" path="res://entities/humans/cinthia/cinthia.tscn" id="6_vcxv5"]
+[ext_resource type="PackedScene" uid="uid://dh7eu4pic0ag5" path="res://entities/humans/sarah/sarah.tscn" id="7_2dlmy"]
 [ext_resource type="PackedScene" uid="uid://bmljoluxik5wr" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.tscn" id="7_5jtxm"]
 [ext_resource type="PackedScene" uid="uid://j5mtjy86egwl" path="res://systems/mainCamera/mainCamera.tscn" id="7_pew12"]
 [ext_resource type="PackedScene" uid="uid://kf1kuq4u5fid" path="res://scenes/schoolEntrance/bridge/bridge.tscn" id="8_bridge"]
+[ext_resource type="PackedScene" uid="uid://stephanie001" path="res://entities/humans/stephanie/stephanie.tscn" id="8_mffhs"]
 [ext_resource type="PackedScene" uid="uid://cetn2hbeh6lsy" path="res://systems/mainCharacter/mainCharacter.tscn" id="8_pew12"]
 [ext_resource type="PackedScene" uid="uid://cue64gcg84fj8" path="res://systems/inputs/inputs.tscn" id="9_inputs"]
+[ext_resource type="PackedScene" uid="uid://walsh001" path="res://entities/humans/walsh/walsh.tscn" id="9_kq0po"]
 [ext_resource type="PackedScene" uid="uid://dkh0siy1yckv0" path="res://scenes/schoolEntrance/parkingLot/parkingLot.tscn" id="9_parking"]
 [ext_resource type="PackedScene" uid="uid://c3ilcm6imfur6" path="res://scenes/schoolEntrance/streetBlock/streetBlock.tscn" id="10_streetblock"]
 [ext_resource type="PackedScene" uid="uid://b18wfsc1jivmc" path="res://scenes/schoolEntrance/river/river.tscn" id="11_river"]
@@ -84,6 +88,18 @@ fov = 60.0
 [node name="Camera_Entrance" type="Camera3D" parent="Entities" unique_id=47935763]
 transform = Transform3D(0.926614, -0.114427015, 0.35818017, 7.1626025e-09, 0.9525712, 0.3043158, -0.37601405, -0.28198326, 0.8826658, 7.010169, 2.8091543, 39.693356)
 fov = 60.0
+
+[node name="Cinthia" parent="Entities" unique_id=1598348195 instance=ExtResource("6_vcxv5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4399526, 2.0475242, 31.073841)
+
+[node name="Sarah" parent="Entities" unique_id=917011000 instance=ExtResource("7_2dlmy")]
+transform = Transform3D(0.5699837, 0, -0.821656, 0, 1, 0, 0.821656, 0, 0.5699837, 2.0352652, 1.150625, 32.491306)
+
+[node name="Stephanie" parent="Entities" unique_id=128916389 instance=ExtResource("8_mffhs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1752048, 1.1504158, 29.939009)
+
+[node name="Walsh" parent="Entities" unique_id=264393845 instance=ExtResource("9_kq0po")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.99793905, 1.1505076, 30.928509)
 
 [node name="Systems" type="Node" parent="." unique_id=517929844]
 
