@@ -1,13 +1,9 @@
 using System.Collections.Generic;
 using Godot;
-using SaintPatrick.Components.Main;
-using SaintPatrick.Components.SocialZoneArea3D;
-using SaintPatrick.Components.StatesMachine;
-using SaintPatrick.Components.Gravity;
-using SaintPatrick.Entities.Humans.Human.States;
+using SaintPatrick.Components;
 using SaintPatrick.Utils;
 
-namespace SaintPatrick.Entities.Humans.Human;
+namespace SaintPatrick.Entities;
 
 /// <summary>
 /// Base node for all human characters in the scene.

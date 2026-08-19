@@ -1,7 +1,6 @@
 using Godot;
-using SaintPatrick.Entities.Humans.Human.Extensions;
 
-namespace SaintPatrick.Entities.Humans.Human.States;
+namespace SaintPatrick.Entities;
 
 /// <summary>
 /// State that plays a looping talk animation while smoothly rotating the human to

@@ -1,7 +1,7 @@
 using System.Linq;
 using Godot;
 
-namespace SaintPatrick.Entities.Humans.Human.States;
+namespace SaintPatrick.Entities;
 
 /// <summary>
 /// Abstract base for all human behaviour states managed by the

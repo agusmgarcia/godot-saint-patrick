@@ -1,6 +1,6 @@
 using Godot;
 
-namespace SaintPatrick.Entities.Humans.Human;
+namespace SaintPatrick.Entities;
 
 /// <summary>
 /// An <see cref="AnimationPlayer"/> that automatically corrects the owning <see cref="Human"/>'s

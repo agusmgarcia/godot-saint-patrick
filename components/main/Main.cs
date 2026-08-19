@@ -1,6 +1,6 @@
 using Godot;
 
-namespace SaintPatrick.Components.Main;
+namespace SaintPatrick.Components;
 
 /// <summary>
 /// Component that marks a character as the active main character.

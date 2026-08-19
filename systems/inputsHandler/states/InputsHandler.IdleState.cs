@@ -1,6 +1,6 @@
 using Godot;
 
-namespace SaintPatrick.Systems.InputsHandler.States;
+namespace SaintPatrick.Systems;
 
 /// <summary>
 /// Input state that waits for directional movement input (WASD / left joystick).

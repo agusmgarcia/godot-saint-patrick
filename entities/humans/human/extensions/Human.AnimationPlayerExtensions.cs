@@ -1,7 +1,7 @@
 using System.Linq;
 using Godot;
 
-namespace SaintPatrick.Entities.Humans.Human.Extensions;
+namespace SaintPatrick.Entities;
 
 /// <summary>
 /// Extension methods for <see cref="AnimationPlayer"/> that add human-specific

@@ -1,7 +1,6 @@
 using Godot;
-using SaintPatrick.Entities.Humans.Human.Extensions;
 
-namespace SaintPatrick.Entities.Humans.Human.States;
+namespace SaintPatrick.Entities;
 
 /// <summary>
 /// State that moves the human toward a target <see cref="Node3D"/> each physics frame.

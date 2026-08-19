@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Godot;
 using SaintPatrick.Utils;
 
-namespace SaintPatrick;
+namespace SaintPatrick.Components;
 
 /// <summary>
 /// Abstract base class for all custom scene components. Wraps a single observable <see cref="Value"/>

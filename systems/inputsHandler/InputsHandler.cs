@@ -1,10 +1,9 @@
 using Godot;
-using SaintPatrick.Components.StatesMachine;
-using SaintPatrick.Entities.Humans.Human;
-using SaintPatrick.Systems.InputsHandler.States;
+using SaintPatrick.Components;
+using SaintPatrick.Entities;
 using SaintPatrick.Utils;
 
-namespace SaintPatrick.Systems.InputsHandler;
+namespace SaintPatrick.Systems;
 
 /// <summary>
 /// System node that handles player input and drives the active main character accordingly.

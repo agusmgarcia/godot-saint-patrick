@@ -1,6 +1,6 @@
 using Godot;
 
-namespace SaintPatrick.Components.Gravity;
+namespace SaintPatrick.Components;
 
 /// <summary>
 /// Component that applies gravity and drives movement for a <see cref="CharacterBody3D"/> owner.

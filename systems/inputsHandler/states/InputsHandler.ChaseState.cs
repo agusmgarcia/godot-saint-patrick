@@ -1,8 +1,7 @@
 using Godot;
 using SaintPatrick.Utils;
-using MainCameraSelectorSystem = SaintPatrick.Systems.MainCameraSelector.MainCameraSelector;
 
-namespace SaintPatrick.Systems.InputsHandler.States;
+namespace SaintPatrick.Systems;
 
 /// <summary>
 /// Input state that translates directional input (WASD / left joystick) into character
@@ -14,7 +13,7 @@ namespace SaintPatrick.Systems.InputsHandler.States;
 /// </summary>
 public sealed partial class InputsHandlerChaseState : InputsHandlerBaseState
 {
-    private readonly Observer<MainCameraSelectorSystem> _mainCameraSelectorObserver = new() { Single = true };
+    private readonly Observer<MainCameraSelector> _mainCameraSelectorObserver = new() { Single = true };
     private readonly Node3D _waypoint = new();
 
     private Vector3 _cameraForward;

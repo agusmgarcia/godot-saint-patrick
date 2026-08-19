@@ -1,9 +1,9 @@
 using System;
 using Godot;
-using SaintPatrick.Components.Main;
+using SaintPatrick.Components;
 using SaintPatrick.Utils;
 
-namespace SaintPatrick.Systems.MainCharacterSelector;
+namespace SaintPatrick.Systems;
 
 /// <summary>
 /// System node that tracks all <see cref="Main"/> components in the scene and enforces the

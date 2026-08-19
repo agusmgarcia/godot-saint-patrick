@@ -1,8 +1,7 @@
 using System.Linq;
 using Godot;
-using SaintPatrick.Entities.Humans.Human.Extensions;
 
-namespace SaintPatrick.Entities.Humans.Human.States;
+namespace SaintPatrick.Entities;
 
 /// <summary>
 /// State that keeps the human standing in place and playing looping idle animations.

@@ -1,8 +1,7 @@
 using Godot;
 using SaintPatrick.Utils;
-using MainCharacterSelectorSystem = SaintPatrick.Systems.MainCharacterSelector.MainCharacterSelector;
 
-namespace SaintPatrick.Systems.MainCameraSelector;
+namespace SaintPatrick.Systems;
 
 /// <summary>
 /// System node that selects which <see cref="Camera3D"/> in the scene should be active,
@@ -13,7 +12,7 @@ namespace SaintPatrick.Systems.MainCameraSelector;
 /// </summary>
 public sealed partial class MainCameraSelector : Node
 {
-    private readonly Observer<MainCharacterSelectorSystem> _mainCharacterSelectorObserver = new() { Single = true };
+    private readonly Observer<MainCharacterSelector> _mainCharacterSelectorObserver = new() { Single = true };
     private readonly Observer<Camera3D> _cameraComponentsObserver = new();
 
     /// <summary>

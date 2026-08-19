@@ -2,7 +2,7 @@ using System;
 using Godot;
 using SaintPatrick.Utils;
 
-namespace SaintPatrick.Components.StatesMachine;
+namespace SaintPatrick.Components;
 
 /// <summary>
 /// A node-based state machine that manages a single active state at a time.

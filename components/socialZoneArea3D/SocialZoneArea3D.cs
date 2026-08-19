@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Godot;
 
-namespace SaintPatrick.Components.SocialZoneArea3D;
+namespace SaintPatrick.Components;
 
 /// <summary>
 /// An <see cref="Area3D"/> that maintains a live set of all <see cref="CollisionObject3D"/> physics bodies

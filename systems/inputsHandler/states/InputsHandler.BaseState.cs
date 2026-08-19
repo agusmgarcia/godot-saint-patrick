@@ -1,10 +1,9 @@
 using Godot;
-using SaintPatrick.Components.Main;
-using SaintPatrick.Entities.Humans.Human;
+using SaintPatrick.Entities;
+using SaintPatrick.Components;
 using SaintPatrick.Utils;
-using MainCharacterSelectorSystem = SaintPatrick.Systems.MainCharacterSelector.MainCharacterSelector;
 
-namespace SaintPatrick.Systems.InputsHandler.States;
+namespace SaintPatrick.Systems;
 
 /// <summary>
 /// Abstract base for all input-handling states managed by the
@@ -15,7 +14,7 @@ namespace SaintPatrick.Systems.InputsHandler.States;
 /// </summary>
 public abstract partial class InputsHandlerBaseState : Node
 {
-    private readonly Observer<MainCharacterSelectorSystem> _mainCharacterSelectorObserver = new() { Single = true };
+    private readonly Observer<MainCharacterSelector> _mainCharacterSelectorObserver = new() { Single = true };
 
     /// <summary>
     /// The <see cref="InputsHandler"/> system that owns this state, resolved automatically when
@@ -45,7 +44,7 @@ public abstract partial class InputsHandlerBaseState : Node
         this._mainCharacterSelectorObserver.Observe(base.GetTree().Root);
     }
 
-    private void OnMainCharacterSelectorTracked(MainCharacterSelectorSystem mainCharacterSelector)
+    private void OnMainCharacterSelectorTracked(MainCharacterSelector mainCharacterSelector)
     {
         mainCharacterSelector.ActiveMainChanged += this.OnActiveMainChanged;
         this.OnActiveMainChanged(mainCharacterSelector.ActiveMain);
@@ -63,7 +62,7 @@ public abstract partial class InputsHandlerBaseState : Node
             this.InputsHandler.Idle();
     }
 
-    private void OnMainCharacterSelectorUntracked(MainCharacterSelectorSystem mainCharacterSelector)
+    private void OnMainCharacterSelectorUntracked(MainCharacterSelector mainCharacterSelector)
     {
         this.OnActiveMainChanged(mainCharacterSelector.ActiveMain);
         mainCharacterSelector.ActiveMainChanged -= this.OnActiveMainChanged;
