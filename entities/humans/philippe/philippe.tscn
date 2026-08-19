@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://cb6wfm5pvgy67" path="res://entities/humans/philippe/philippe.fbx" id="3_philippe"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_philippe"]
-radius = 0.3
-height = 1.7
+radius = 0.309
+height = 1.75
 
 [node name="Philippe" unique_id=1598348195 instance=ExtResource("1_philippe")]
 
@@ -13,7 +13,8 @@ height = 1.7
 root_node = NodePath("../Model")
 
 [node name="CollisionShape3D" parent="." index="1" unique_id=2035372996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.875, 0)
 shape = SubResource("CapsuleShape3D_philippe")
 
 [node name="Model" parent="." index="2" unique_id=1938991891 instance=ExtResource("3_philippe")]
+transform = Transform3D(1.0294, 0, 0, 0, 1.0294, 0, 0, 0, 1.0294, 0, 0, 0)

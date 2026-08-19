@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://ko0djwoxpfl1" path="res://entities/humans/hudson/hudson.fbx" id="3_hudson"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hudson"]
-radius = 0.3
-height = 1.7
+radius = 0.321
+height = 1.82
 
 [node name="Hudson" unique_id=1598348195 instance=ExtResource("1_hudson")]
 
@@ -13,7 +13,8 @@ height = 1.7
 root_node = NodePath("../Model")
 
 [node name="CollisionShape3D" parent="." index="1" unique_id=2035372996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91, 0)
 shape = SubResource("CapsuleShape3D_hudson")
 
 [node name="Model" parent="." index="2" unique_id=1938991891 instance=ExtResource("3_hudson")]
+transform = Transform3D(1.0706, 0, 0, 0, 1.0706, 0, 0, 0, 1.0706, 0, 0, 0)

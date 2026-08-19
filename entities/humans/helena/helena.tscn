@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://8mqqy0e3bst0" path="res://entities/humans/helena/helena.fbx" id="3_helena"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_helena"]
-radius = 0.3
-height = 1.7
+radius = 0.279
+height = 1.58
 
 [node name="Helena" unique_id=1598348195 instance=ExtResource("1_7abgk")]
 Gender = 1
@@ -14,10 +14,11 @@ Gender = 1
 root_node = NodePath("../Model")
 
 [node name="CollisionShape3D" parent="." index="1" unique_id=2035372996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79, 0)
 shape = SubResource("CapsuleShape3D_helena")
 
 [node name="Model" parent="." index="2" unique_id=1938991891 instance=ExtResource("3_helena")]
+transform = Transform3D(0.9294, 0, 0, 0, 0.9294, 0, 0, 0, 0.9294, 0, 0, 0)
 
 [node name="Main" parent="." index="4" unique_id=1655332340]
 Value = true

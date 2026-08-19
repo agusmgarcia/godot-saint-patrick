@@ -11,6 +11,11 @@ namespace SaintPatrick.Components;
 /// instantly, avoiding visible pops when animations transition.
 /// </para>
 /// <para>
+/// The Y-offset values are authored for a base height of 1.7 m (scale 1.0). The component reads
+/// the <c>Model</c> node's <see cref="Node3D.Scale"/> Y component at runtime to derive the
+/// actual scale factor, so offsets remain correct regardless of the character's configured height.
+/// </para>
+/// <para>
 /// Instance this component in place of the standard <see cref="AnimationPlayer"/> on any
 /// <see cref="SaintPatrick.Entities.Human"/> scene. No additional configuration is required;
 /// the target Y-offset is determined solely by the animation name.
@@ -40,11 +45,13 @@ public sealed partial class CorrectedAnimationPlayer : AnimationPlayer
         if (this._model == null)
             return;
 
+        var scaleFactor = this._model.Scale.Y;
+
         this._targetPosition = (string)animationName switch
         {
-            "human.dance.1/mixamo_com" => new Vector3(0, 0.278f, 0),
-            "human.drunkRun.1/mixamo_com" => new Vector3(0, 0.280f, 0),
-            "human.run.1/mixamo_com" => new Vector3(0, 0.205f, 0),
+            "human.dance.1/mixamo_com" => new Vector3(0, 0.278f * scaleFactor, 0),
+            "human.drunkRun.1/mixamo_com" => new Vector3(0, 0.280f * scaleFactor, 0),
+            "human.run.1/mixamo_com" => new Vector3(0, 0.205f * scaleFactor, 0),
             _ => Vector3.Zero,
         };
     }

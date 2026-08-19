@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://dytcowcai7nvi" path="res://entities/humans/mascot/mascot.fbx" id="3_mascot"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mascot"]
-radius = 0.3
-height = 1.7
+radius = 0.326
+height = 1.85
 
 [node name="Mascot" unique_id=1598348195 instance=ExtResource("1_mascot")]
 
@@ -13,7 +13,8 @@ height = 1.7
 root_node = NodePath("../Model")
 
 [node name="CollisionShape3D" parent="." index="1" unique_id=2035372996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925, 0)
 shape = SubResource("CapsuleShape3D_mascot")
 
 [node name="Model" parent="." index="2" unique_id=1938991891 instance=ExtResource("3_mascot")]
+transform = Transform3D(1.0882, 0, 0, 0, 1.0882, 0, 0, 0, 1.0882, 0, 0, 0)
