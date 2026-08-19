@@ -100,8 +100,8 @@ public partial class Human : CharacterBody3D
     }
 
     /// <summary>
-    /// Transitions this human to the idle state. The human will play a random idle animation
-    /// and optionally look toward the nearest main character.
+    /// Transitions this human to the idle state. The human will stand in place and play a
+    /// random idle animation.
     /// </summary>
     public void Idle() =>
         this._statesMachineComponent.SetState<HumanIdleState>(new HumanIdleStateInitParams());

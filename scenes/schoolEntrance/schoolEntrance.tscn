@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://cue64gcg84fj8" path="res://systems/inputsHandler/inputsHandler.tscn" id="9_inputs"]
 [ext_resource type="PackedScene" uid="uid://walsh001" path="res://entities/humans/walsh/walsh.tscn" id="9_kq0po"]
 [ext_resource type="PackedScene" uid="uid://dkh0siy1yckv0" path="res://scenes/schoolEntrance/parkingLot/parkingLot.tscn" id="9_parking"]
+[ext_resource type="PackedScene" uid="uid://c7o0wdraqliyy" path="res://systems/socialGaze/socialGaze.tscn" id="9_sg001"]
 [ext_resource type="PackedScene" uid="uid://c3ilcm6imfur6" path="res://scenes/schoolEntrance/streetBlock/streetBlock.tscn" id="10_streetblock"]
 [ext_resource type="PackedScene" uid="uid://b18wfsc1jivmc" path="res://scenes/schoolEntrance/river/river.tscn" id="11_river"]
 [ext_resource type="PackedScene" uid="uid://hudson001" path="res://entities/humans/hudson/hudson.tscn" id="12_wldd3"]
@@ -146,3 +147,5 @@ transform = Transform3D(0.3111363, 0, 0.95036536, 0, 1, 0, -0.95036536, 0, 0.311
 [node name="MainCharacterSelector" parent="Systems" unique_id=1347305871 instance=ExtResource("8_pew12")]
 
 [node name="InputsHandler" parent="Systems" unique_id=100000001 instance=ExtResource("9_inputs")]
+
+[node name="SocialGaze" parent="Systems" unique_id=100000003 instance=ExtResource("9_sg001")]

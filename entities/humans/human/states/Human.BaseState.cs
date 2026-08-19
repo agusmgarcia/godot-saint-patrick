@@ -16,7 +16,7 @@ public abstract partial class HumanBaseState : Node
     /// enters the scene tree. Available between <c>_EnterTree</c> and <c>_ExitTree</c>;
     /// do not access this outside that window.
     /// </summary>
-    protected Human Human { get; private set; } = default!;
+    public Human Human { get; private set; } = default!;
 
     /// <summary>
     /// The <see cref="AnimationPlayer"/> child of the owning <see cref="Human"/>, resolved

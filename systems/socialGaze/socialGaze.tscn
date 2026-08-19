@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c7o0wdraqliyy"]
+
+[ext_resource type="Script" uid="uid://4kcmjglmghva" path="res://systems/socialGaze/SocialGaze.cs" id="1_qfjyp"]
+
+[node name="SocialGaze" type="Node" unique_id=100000002]
+script = ExtResource("1_qfjyp")
