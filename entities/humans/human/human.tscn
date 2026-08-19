@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dy7e2cqkxm4aa"]
 
+[ext_resource type="PackedScene" uid="uid://corranimpl01" path="res://components/correctedAnimationPlayer/correctedAnimationPlayer.tscn" id="1_corranim"]
 [ext_resource type="Script" uid="uid://nkrsck7ca5h" path="res://entities/humans/human/Human.cs" id="1_human"]
-[ext_resource type="Script" uid="uid://btkwsblrew01" path="res://entities/humans/human/CorrectedAnimationPlayer.cs" id="1_corranim"]
 [ext_resource type="AnimationLibrary" uid="uid://duv7bilmq1jw8" path="res://entities/humans/human/animations/human.drunkIdle.1.fbx" id="2_2rbr1"]
 [ext_resource type="AnimationLibrary" uid="uid://b0pueu60y8snb" path="res://entities/humans/human/animations/human.idle.1.fbx" id="2_ffwvl"]
 [ext_resource type="AnimationLibrary" uid="uid://caqyc3l4fau0a" path="res://entities/humans/human/animations/human.dance.1.fbx" id="2_u0kdo"]
@@ -31,8 +31,20 @@ WalkSpeedDrunkFactor = 0.64
 RunSpeed = 3.2
 RunSpeedDrunkFactor = 0.5
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2118215871]
-script = ExtResource("1_corranim")
+[node name="CorrectedAnimationPlayer" parent="." unique_id=2118215871 instance=ExtResource("1_corranim")]
+libraries/human.dance.1 = ExtResource("2_u0kdo")
+libraries/human.drunkIdle.1 = ExtResource("2_2rbr1")
+libraries/human.drunkRun.1 = ExtResource("3_evr87")
+libraries/human.drunkWalk.1 = ExtResource("4_u0kdo")
+libraries/human.flyRemoval.1 = ExtResource("5_l4cms")
+libraries/human.idle.1 = ExtResource("2_ffwvl")
+libraries/human.idle.2 = ExtResource("7_hqa5r")
+libraries/human.idle.3 = ExtResource("8_4ps2d")
+libraries/human.run.1 = ExtResource("9_7q7s5")
+libraries/human.talk.1 = ExtResource("10_sykna")
+libraries/human.talk.2 = ExtResource("11_j3wvj")
+libraries/human.talk.3 = ExtResource("12_7m1so")
+libraries/human.walk.1 = ExtResource("13_yocrs")
 libraries/human.dance.1 = ExtResource("2_u0kdo")
 libraries/human.drunkIdle.1 = ExtResource("2_2rbr1")
 libraries/human.drunkRun.1 = ExtResource("3_evr87")

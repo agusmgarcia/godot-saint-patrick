@@ -10,7 +10,7 @@ height = 1.7
 [node name="Helena" unique_id=1598348195 instance=ExtResource("1_7abgk")]
 Gender = 1
 
-[node name="AnimationPlayer" parent="." index="0" unique_id=2118215871]
+[node name="CorrectedAnimationPlayer" parent="." index="0" unique_id=2118215871]
 root_node = NodePath("../Model")
 
 [node name="CollisionShape3D" parent="." index="1" unique_id=2035372996]

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://corranimpl01"]
+
+[ext_resource type="Script" uid="uid://cm4uxyecq37i4" path="res://components/correctedAnimationPlayer/CorrectedAnimationPlayer.cs" id="1_corranimpl"]
+
+[node name="CorrectedAnimationPlayer" type="AnimationPlayer" unique_id=2118215871]
+script = ExtResource("1_corranimpl")
