@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://bndefksbmnq2n"]
-
-[ext_resource type="Script" uid="uid://cokdxp2et1wyy" path="res://systems/animationCorrection/AnimationCorrection.cs" id="1_d5a2h"]
-
-[node name="AnimationCorrection" type="Node" unique_id=2126525037]
-script = ExtResource("1_d5a2h")

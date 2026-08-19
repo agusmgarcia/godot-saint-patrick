@@ -1,14 +1,15 @@
 using Godot;
 
-namespace SaintPatrick.Systems.Inputs.States;
+namespace SaintPatrick.Systems.InputsHandler.States;
 
 /// <summary>
 /// Input state that waits for directional movement input (WASD / left joystick).
 /// Each process frame the input vector is sampled; when any direction is pressed
-/// the machine transitions to <see cref="InputsChaseState"/> to begin moving the character.
+/// the machine transitions to <see cref="InputsHandlerChaseState"/> to begin moving
+/// the character.
 /// On entering this state the active character is told to return to its own idle behaviour.
 /// </summary>
-public sealed partial class InputsIdleState : InputsBaseState
+public sealed partial class InputsHandlerIdleState : InputsHandlerBaseState
 {
     public override void _EnterTree()
     {
@@ -23,11 +24,11 @@ public sealed partial class InputsIdleState : InputsBaseState
 
         var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
         if (input.Length() > 0)
-            base.Inputs.Chase();
+            base.InputsHandler.Chase();
     }
 }
 
 /// <summary>
-/// Initialisation parameters for <see cref="InputsIdleState"/>.
+/// Initialisation parameters for <see cref="InputsHandlerIdleState"/>.
 /// </summary>
-public readonly record struct InputsIdleStateInitParams { }
+public readonly record struct InputsHandlerIdleStateInitParams { }

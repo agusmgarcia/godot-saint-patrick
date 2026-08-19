@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://j5mtjy86egwl"]
+
+[ext_resource type="Script" uid="uid://cjfts3qfv8gop" path="res://systems/mainCameraSelector/MainCameraSelector.cs" id="1_ntjby"]
+
+[node name="MainCameraSelector" type="Node" unique_id=191561576]
+script = ExtResource("1_ntjby")

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dy7e2cqkxm4aa"]
 
 [ext_resource type="Script" uid="uid://nkrsck7ca5h" path="res://entities/humans/human/Human.cs" id="1_human"]
+[ext_resource type="Script" uid="uid://btkwsblrew01" path="res://entities/humans/human/CorrectedAnimationPlayer.cs" id="1_corranim"]
 [ext_resource type="AnimationLibrary" uid="uid://duv7bilmq1jw8" path="res://entities/humans/human/animations/human.drunkIdle.1.fbx" id="2_2rbr1"]
 [ext_resource type="AnimationLibrary" uid="uid://b0pueu60y8snb" path="res://entities/humans/human/animations/human.idle.1.fbx" id="2_ffwvl"]
 [ext_resource type="AnimationLibrary" uid="uid://caqyc3l4fau0a" path="res://entities/humans/human/animations/human.dance.1.fbx" id="2_u0kdo"]
@@ -31,6 +32,7 @@ RunSpeed = 3.2
 RunSpeedDrunkFactor = 0.5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2118215871]
+script = ExtResource("1_corranim")
 libraries/human.dance.1 = ExtResource("2_u0kdo")
 libraries/human.drunkIdle.1 = ExtResource("2_2rbr1")
 libraries/human.drunkRun.1 = ExtResource("3_evr87")

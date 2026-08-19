@@ -1,18 +1,19 @@
 using Godot;
 using SaintPatrick.Utils;
+using MainCharacterSelectorSystem = SaintPatrick.Systems.MainCharacterSelector.MainCharacterSelector;
 
-namespace SaintPatrick.Systems;
+namespace SaintPatrick.Systems.MainCameraSelector;
 
 /// <summary>
 /// System node that selects which <see cref="Camera3D"/> in the scene should be active,
 /// choosing the one closest to the current main character (tracked via
-/// <see cref="MainCharacter"/>). A configurable <see cref="Hysteresis"/> margin is
+/// <see cref="MainCharacterSelector"/>). A configurable <see cref="Hysteresis"/> margin is
 /// applied to the non-active cameras to avoid rapid switching when the character is
 /// near the midpoint between two cameras.
 /// </summary>
-public sealed partial class MainCamera : Node
+public sealed partial class MainCameraSelector : Node
 {
-    private readonly Observer<MainCharacter> _mainCharacterSystemObserver = new() { Single = true };
+    private readonly Observer<MainCharacterSelectorSystem> _mainCharacterSelectorObserver = new() { Single = true };
     private readonly Observer<Camera3D> _cameraComponentsObserver = new();
 
     /// <summary>
@@ -35,7 +36,7 @@ public sealed partial class MainCamera : Node
     {
         base._EnterTree();
 
-        this._mainCharacterSystemObserver.Observe(base.GetTree().Root);
+        this._mainCharacterSelectorObserver.Observe(base.GetTree().Root);
         this._cameraComponentsObserver.Observe(base.GetTree().Root);
     }
 
@@ -43,7 +44,7 @@ public sealed partial class MainCamera : Node
     {
         base._Process(delta);
 
-        var mainCharacter = this._mainCharacterSystemObserver?.Node?.ActiveMain?.GetOwner<Node3D>();
+        var mainCharacter = this._mainCharacterSelectorObserver.Node?.ActiveMain?.GetOwner<Node3D>();
         if (mainCharacter == null)
             return;
 
@@ -77,7 +78,7 @@ public sealed partial class MainCamera : Node
     public override void _ExitTree()
     {
         this._cameraComponentsObserver.Unobserve();
-        this._mainCharacterSystemObserver.Unobserve();
+        this._mainCharacterSelectorObserver.Unobserve();
 
         base._ExitTree();
     }

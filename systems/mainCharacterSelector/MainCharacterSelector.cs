@@ -3,7 +3,7 @@ using Godot;
 using SaintPatrick.Components.Main;
 using SaintPatrick.Utils;
 
-namespace SaintPatrick.Systems;
+namespace SaintPatrick.Systems.MainCharacterSelector;
 
 /// <summary>
 /// System node that tracks all <see cref="Main"/> components in the scene and enforces the
@@ -12,7 +12,7 @@ namespace SaintPatrick.Systems;
 /// <see langword="true"/>, any previously active character is deactivated first, and
 /// <see cref="ActiveMain"/> is updated to point to the new active component.
 /// </summary>
-public sealed partial class MainCharacter : Node
+public sealed partial class MainCharacterSelector : Node
 {
     private readonly Observer<Main> _mainComponentsObserver = new();
 
@@ -26,7 +26,8 @@ public sealed partial class MainCharacter : Node
     /// <summary>
     /// The <see cref="Main"/> component of the character that is currently active, or
     /// <see langword="null"/> when no character is active.
-    /// Other systems (e.g. <see cref="MainCamera"/>, <see cref="Inputs"/>) use this to
+    /// Other systems (e.g. <see cref="SaintPatrick.Systems.MainCameraSelector.MainCameraSelector"/>,
+    /// <see cref="SaintPatrick.Systems.InputsHandler.InputsHandler"/>) use this to
     /// locate the player character.
     /// </summary>
     public Main? ActiveMain { get; private set; }

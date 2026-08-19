@@ -1,18 +1,20 @@
 using Godot;
 using SaintPatrick.Utils;
+using MainCameraSelectorSystem = SaintPatrick.Systems.MainCameraSelector.MainCameraSelector;
 
-namespace SaintPatrick.Systems.Inputs.States;
+namespace SaintPatrick.Systems.InputsHandler.States;
 
 /// <summary>
 /// Input state that translates directional input (WASD / left joystick) into character
 /// movement. A hidden <see cref="Node3D"/> waypoint is repositioned each frame relative
 /// to the camera axes so the character always moves in the direction the camera faces.
 /// Holding the run action (<c>run</c> input map) switches between walk and run speed.
-/// When the input vector drops to zero the machine transitions back to <see cref="InputsIdleState"/>.
+/// When the input vector drops to zero the machine transitions back to
+/// <see cref="InputsHandlerIdleState"/>.
 /// </summary>
-public sealed partial class InputsChaseState : InputsBaseState
+public sealed partial class InputsHandlerChaseState : InputsHandlerBaseState
 {
-    private readonly Observer<MainCamera> _mainCameraSystemObserver = new() { Single = true };
+    private readonly Observer<MainCameraSelectorSystem> _mainCameraSelectorObserver = new() { Single = true };
     private readonly Node3D _waypoint = new();
 
     private Vector3 _cameraForward;
@@ -23,9 +25,9 @@ public sealed partial class InputsChaseState : InputsBaseState
     {
         base._EnterTree();
 
-        this._mainCameraSystemObserver.Observe(base.GetTree().Root);
+        this._mainCameraSelectorObserver.Observe(base.GetTree().Root);
 
-        var camera = this._mainCameraSystemObserver.Node?.ActiveCamera;
+        var camera = this._mainCameraSelectorObserver.Node?.ActiveCamera;
         if (camera != null)
         {
             this._cameraForward = new Vector3(-camera.GlobalBasis.Z.X, 0, -camera.GlobalBasis.Z.Z).Normalized();
@@ -48,7 +50,7 @@ public sealed partial class InputsChaseState : InputsBaseState
         var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
         if (input.Length() <= 0)
         {
-            base.Inputs.Idle();
+            base.InputsHandler.Idle();
             return;
         }
 
@@ -72,13 +74,13 @@ public sealed partial class InputsChaseState : InputsBaseState
         this._cameraForward = Vector3.Forward;
         this._cameraRight = Vector3.Right;
 
-        this._mainCameraSystemObserver.Unobserve();
+        this._mainCameraSelectorObserver.Unobserve();
 
         base._ExitTree();
     }
 }
 
 /// <summary>
-/// Initialisation parameters for <see cref="InputsChaseState"/>.
+/// Initialisation parameters for <see cref="InputsHandlerChaseState"/>.
 /// </summary>
-public readonly record struct InputsChaseStateInitParams { }
+public readonly record struct InputsHandlerChaseStateInitParams { }
