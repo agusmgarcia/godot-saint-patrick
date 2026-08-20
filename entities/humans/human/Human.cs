@@ -55,10 +55,10 @@ public partial class Human : CharacterBody3D
 
     /// <summary>
     /// Whether this human is currently the active player-controlled character.
-    /// Delegates to the child <see cref="SaintPatrick.Components.Main.Main"/> component's
-    /// <see cref="SaintPatrick.Components.Main.Main.Value"/> property.
+    /// <see langword="true"/> when the child <see cref="SaintPatrick.Components.Main"/> marker
+    /// node is present in the scene tree; <see langword="false"/> otherwise.
     /// </summary>
-    public bool Main => this._mainComponent?.Value ?? false;
+    public bool Main => this._mainComponent != null;
 
     /// <summary>
     /// The physics bodies currently inside this human's social zone that have an unobstructed

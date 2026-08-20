@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://velocity002"]
+
+[ext_resource type="Script" uid="uid://velocity001" path="res://components/velocity/Velocity.cs" id="1_vel01"]
+
+[node name="Velocity" type="Node" unique_id=300000001]
+script = ExtResource("1_vel01")

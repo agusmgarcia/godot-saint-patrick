@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dqkrs6t6jrndy"]
 
 [ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_7abgk"]
+[ext_resource type="PackedScene" uid="uid://bse6vry8th6t8" path="res://components/main/main.tscn" id="2_s44hm"]
 [ext_resource type="PackedScene" uid="uid://8mqqy0e3bst0" path="res://entities/humans/helena/helena.fbx" id="3_helena"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_helena"]
@@ -17,8 +18,7 @@ root_node = NodePath("../Model")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79, 0)
 shape = SubResource("CapsuleShape3D_helena")
 
-[node name="Model" parent="." index="2" unique_id=1938991891 instance=ExtResource("3_helena")]
-transform = Transform3D(0.9294, 0, 0, 0, 0.9294, 0, 0, 0, 0.9294, 0, 0, 0)
+[node name="Main" parent="." index="2" unique_id=595111723 instance=ExtResource("2_s44hm")]
 
-[node name="Main" parent="." index="4" unique_id=1655332340]
-Value = true
+[node name="Model" parent="." index="3" unique_id=1938991891 instance=ExtResource("3_helena")]
+transform = Transform3D(0.9294, 0, 0, 0, 0.9294, 0, 0, 0, 0.9294, 0, 0, 0)

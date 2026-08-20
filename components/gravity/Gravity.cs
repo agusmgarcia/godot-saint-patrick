@@ -3,56 +3,49 @@ using Godot;
 namespace SaintPatrick.Components;
 
 /// <summary>
-/// Component that applies gravity and drives movement for a <see cref="CharacterBody3D"/> owner.
-/// Each physics frame the component accumulates gravity on the vertical axis of the owner's
-/// <see cref="CharacterBody3D.Velocity"/> (when <see cref="Value"/> is <see langword="true"/>)
-/// and always calls <see cref="CharacterBody3D.MoveAndSlide"/> so that horizontal velocity
-/// written by other states is applied even when gravity itself is disabled.
+/// Component that accumulates gravitational acceleration on the Y axis of the owning
+/// <see cref="CharacterBody3D"/>'s <see cref="CharacterBody3D.Velocity"/> every physics frame.
+/// <para>
+/// This component is responsible only for writing to <c>Velocity.Y</c>; it does not call
+/// <see cref="CharacterBody3D.MoveAndSlide"/>. A separate <see cref="Velocity"/> component
+/// must be present (and processed after this one) to flush the accumulated velocity and
+/// actually move the body. This separation allows other force components to write their own
+/// contributions to <c>Velocity</c> in the same physics frame without causing multiple
+/// <see cref="CharacterBody3D.MoveAndSlide"/> calls.
+/// </para>
 /// <para>
 /// Callers (e.g. chase or idle states) must write horizontal velocity (<c>X</c> / <c>Z</c>)
 /// inside a <c>_PhysicsProcess</c> override — not inside <c>_Process</c> — so that their
-/// value is always current in the same physics tick that this component reads and moves the body.
-/// Only the <c>X</c> and <c>Z</c> components should be written; the <c>Y</c> component must
-/// be left untouched so that gravity accumulates correctly across frames.
+/// value is current in the same physics tick. Only <c>X</c> and <c>Z</c> should be written
+/// by callers; <c>Y</c> is owned by this component.
+/// </para>
+/// <para>
+/// Set <see cref="GravityValue"/> to <c>0</c> to effectively disable gravity without removing
+/// the component.
 /// </para>
 /// </summary>
-public sealed partial class Gravity : Component<bool>
+public sealed partial class Gravity : Node
 {
     /// <summary>
-    /// When <see langword="true"/> (the default), gravity is accumulated on the Y axis and
-    /// <see cref="CharacterBody3D.MoveAndSlide"/> is called every physics frame.
-    /// When <see langword="false"/>, only <see cref="CharacterBody3D.MoveAndSlide"/> is called
-    /// so that horizontal movement still works; gravity is not applied.
+    /// The gravitational acceleration in metres per second squared applied to the owner's
+    /// <c>Velocity.Y</c> every physics frame. Defaults to the project-wide gravity setting
+    /// (<c>physics/3d/default_gravity</c>). Set to <c>0</c> to disable gravity.
     /// </summary>
-    [Export]
-    public new bool Value
-    {
-        get => base.Value;
-        set => base.Value = value;
-    }
-
-    private static readonly float GravityStrength =
+    [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s²")]
+    public float GravityValue { get; set; } =
         (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
-
-    public Gravity() : base(false) { }
 
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
 
         var owner = base.GetOwner<CharacterBody3D>();
+        var velocity = owner.Velocity;
 
-        if (this.Value)
-        {
-            var velocity = owner.Velocity;
+        velocity.Y = owner.IsOnFloor()
+            ? 0f
+            : velocity.Y - this.GravityValue * (float)delta;
 
-            velocity.Y = owner.IsOnFloor()
-                ? 0f
-                : velocity.Y - GravityStrength * (float)delta;
-
-            owner.Velocity = velocity;
-        }
-
-        owner.MoveAndSlide();
+        owner.Velocity = velocity;
     }
 }

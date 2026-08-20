@@ -6,11 +6,16 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Systems;
 
 /// <summary>
-/// System node that tracks all <see cref="Main"/> components in the scene and enforces the
-/// rule that at most one character is active at a time.
-/// When a <see cref="Main"/> component's <see cref="Main.Value"/> property becomes
-/// <see langword="true"/>, any previously active character is deactivated first, and
-/// <see cref="ActiveMain"/> is updated to point to the new active component.
+/// System node that tracks all <see cref="Main"/> marker components in the scene and exposes
+/// the active one via <see cref="ActiveMain"/>.
+/// <para>
+/// A <see cref="Main"/> component signals intent purely by being present in the scene tree —
+/// it carries no boolean value. The first <see cref="Main"/> node to enter the tree becomes
+/// <see cref="ActiveMain"/>. If a second <see cref="Main"/> node enters while one is already
+/// active, that is a design error: a warning is pushed and the late-comer is ignored.
+/// When the active <see cref="Main"/> node leaves the tree <see cref="ActiveMain"/> becomes
+/// <see langword="null"/> and <see cref="ActiveMainChanged"/> is raised.
+/// </para>
 /// </summary>
 public sealed partial class MainCharacterSelector : Node
 {
@@ -43,35 +48,20 @@ public sealed partial class MainCharacterSelector : Node
 
     private void OnNodeTracked(Main main)
     {
-        main.Changed += this.OnActiveChanged;
-        this.OnActiveChanged(main, !main.Value, main.Value);
-    }
+        if (this.ActiveMain != null)
+            return;
 
-    private void OnActiveChanged(Component<bool> main, bool prevValue, bool newValue)
-    {
-        if (newValue)
-        {
-            if (this.ActiveMain == main)
-                return;
-
-            this.ActiveMain?.Value = false;
-            this.ActiveMain = (Main)main;
-            this.ActiveMainChanged?.Invoke(this.ActiveMain);
-        }
-        else
-        {
-            if (this.ActiveMain != main)
-                return;
-
-            this.ActiveMain = null;
-            this.ActiveMainChanged?.Invoke(this.ActiveMain);
-        }
+        this.ActiveMain = main;
+        this.ActiveMainChanged?.Invoke(this.ActiveMain);
     }
 
     private void OnNodeUntracked(Main main)
     {
-        this.OnActiveChanged(main, main.Value, !main.Value);
-        main.Changed -= this.OnActiveChanged;
+        if (this.ActiveMain != main)
+            return;
+
+        this.ActiveMain = null;
+        this.ActiveMainChanged?.Invoke(this.ActiveMain);
     }
 
     public override void _ExitTree()

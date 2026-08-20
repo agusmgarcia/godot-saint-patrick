@@ -9,9 +9,13 @@ namespace SaintPatrick.Components;
 /// The active state is a direct child of this node, so it participates in the scene tree lifecycle
 /// normally. State instances are pooled via <see cref="ElementsFactory"/> to reduce allocations.
 /// </summary>
-public sealed partial class StatesMachine : Component<Node?>
+public sealed partial class StatesMachine : Node
 {
-    public StatesMachine() : base(null) { }
+    /// <summary>
+    /// The currently active state node, or <see langword="null"/> when no state is active.
+    /// This is a direct child of this node and participates in the normal scene tree lifecycle.
+    /// </summary>
+    private Node? State { get; set; }
 
     public override void _EnterTree()
     {
@@ -29,7 +33,7 @@ public sealed partial class StatesMachine : Component<Node?>
     /// <typeparam name="TNewState">The concrete state type to transition to.</typeparam>
     /// <param name="initParams">Initialization parameters copied into the new state's matching properties.</param>
     public void SetState<TNewState>(in ValueType initParams)
-       where TNewState : Node, new()
+        where TNewState : Node, new()
     {
         var newState = ElementsFactory.GetOrCreate<TNewState>(initParams);
         Callable.From(() => this.SwapState(newState)).CallDeferred();
@@ -37,13 +41,13 @@ public sealed partial class StatesMachine : Component<Node?>
 
     private void SwapState(Node? newState)
     {
-        if (this.Value != null)
-            base.RemoveChild(this.Value);
+        if (this.State != null)
+            base.RemoveChild(this.State);
 
-        this.Value = newState;
+        this.State = newState;
 
-        if (this.Value != null)
-            base.AddChild(this.Value);
+        if (this.State != null)
+            base.AddChild(this.State);
     }
 
     private void OnChildExitingTree(Node node) =>

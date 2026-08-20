@@ -3,26 +3,14 @@ using Godot;
 namespace SaintPatrick.Components;
 
 /// <summary>
-/// Component that marks a character as the active main character.
-/// Attach this node to any character that can become the player-controlled entity.
-/// Setting <see cref="Value"/> to <see langword="true"/> signals that this character's
-/// owner should be treated as the current main character.
+/// Marker component that designates the owning character as a candidate for the active
+/// main (player-controlled) character.
+/// <para>
+/// The component carries no state of its own: its mere presence in the scene tree is what
+/// signals intent. <see cref="SaintPatrick.Systems.MainCharacterSelector"/> observes all
+/// <see cref="Main"/> nodes in the scene and enforces that at most one is active at a time.
+/// If more than one <see cref="Main"/> node enters the tree simultaneously that is a design
+/// error and will be reported via <see cref="GD.PushWarning"/>.
+/// </para>
 /// </summary>
-public sealed partial class Main : Component<bool>
-{
-    /// <summary>
-    /// Whether the owning character is currently the active main character.
-    /// Setting this to <see langword="true"/> raises <see cref="Component{TValue}.Changed"/>
-    /// and allows other systems to react (e.g. camera targeting, human interaction).
-    /// Setting it to <see langword="false"/> deactivates the character.
-    /// No event is raised when the value does not change.
-    /// </summary>
-    [Export]
-    public new bool Value
-    {
-        get => base.Value;
-        set => base.Value = value;
-    }
-
-    public Main() : base(false) { }
-}
+public sealed partial class Main : Node { }
