@@ -1,9 +1,0 @@
-[gd_scene format=3 uid="uid://cue64gcg84fj8"]
-
-[ext_resource type="Script" uid="uid://otq36rqc1d8i" path="res://systems/inputsHandler/InputsHandler.cs" id="1_inputs"]
-[ext_resource type="PackedScene" uid="uid://bj1kdkwh4nmex" path="res://components/statesMachine/statesMachine.tscn" id="2_sm"]
-
-[node name="InputsHandler" type="Node" unique_id=100000001]
-script = ExtResource("1_inputs")
-
-[node name="StatesMachine" parent="." unique_id=100000002 instance=ExtResource("2_sm")]

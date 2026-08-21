@@ -1,24 +1,6 @@
 [gd_scene format=3 uid="uid://dy7e2cqkxm4aa"]
 
-[ext_resource type="PackedScene" uid="uid://corranimpl01" path="res://components/correctedAnimationPlayer/correctedAnimationPlayer.tscn" id="1_corranim"]
 [ext_resource type="Script" uid="uid://nkrsck7ca5h" path="res://entities/humans/human/Human.cs" id="1_human"]
-[ext_resource type="AnimationLibrary" uid="uid://duv7bilmq1jw8" path="res://entities/humans/human/animations/human.drunkIdle.1.fbx" id="2_2rbr1"]
-[ext_resource type="AnimationLibrary" uid="uid://b0pueu60y8snb" path="res://entities/humans/human/animations/human.idle.1.fbx" id="2_ffwvl"]
-[ext_resource type="AnimationLibrary" uid="uid://caqyc3l4fau0a" path="res://entities/humans/human/animations/human.dance.1.fbx" id="2_u0kdo"]
-[ext_resource type="AnimationLibrary" uid="uid://mltoawrfcdh3" path="res://entities/humans/human/animations/human.drunkRun.1.fbx" id="3_evr87"]
-[ext_resource type="AnimationLibrary" uid="uid://doleeyb52ev5n" path="res://entities/humans/human/animations/human.drunkWalk.1.fbx" id="4_u0kdo"]
-[ext_resource type="AnimationLibrary" uid="uid://dp68xt7714vvt" path="res://entities/humans/human/animations/human.flyRemoval.1.fbx" id="5_l4cms"]
-[ext_resource type="AnimationLibrary" uid="uid://ctb670d2287eu" path="res://entities/humans/human/animations/human.idle.2.fbx" id="7_hqa5r"]
-[ext_resource type="AnimationLibrary" uid="uid://bbmcf4ps6nwue" path="res://entities/humans/human/animations/human.idle.3.fbx" id="8_4ps2d"]
-[ext_resource type="AnimationLibrary" uid="uid://dprf6pfciuhs2" path="res://entities/humans/human/animations/human.run.1.fbx" id="9_7q7s5"]
-[ext_resource type="AnimationLibrary" uid="uid://dyirnyykq8ltf" path="res://entities/humans/human/animations/human.talk.1.fbx" id="10_sykna"]
-[ext_resource type="AnimationLibrary" uid="uid://brn3jkov0cagr" path="res://entities/humans/human/animations/human.talk.2.fbx" id="11_j3wvj"]
-[ext_resource type="AnimationLibrary" uid="uid://dqbvekp16pgpg" path="res://entities/humans/human/animations/human.talk.3.fbx" id="12_7m1so"]
-[ext_resource type="AnimationLibrary" uid="uid://cs6bn3rv5fh8t" path="res://entities/humans/human/animations/human.walk.1.fbx" id="13_yocrs"]
-[ext_resource type="PackedScene" uid="uid://bj1kdkwh4nmex" path="res://components/statesMachine/statesMachine.tscn" id="15_6dp7l"]
-[ext_resource type="PackedScene" uid="uid://c61rb58jpltm7" path="res://components/socialZoneArea3D/socialZoneArea3D.tscn" id="16_2rbr1"]
-[ext_resource type="PackedScene" uid="uid://gravity001" path="res://components/gravity/gravity.tscn" id="17_grav01"]
-[ext_resource type="PackedScene" uid="uid://velocity002" path="res://components/velocity/velocity.tscn" id="18_vel02"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_45isd"]
 
@@ -26,36 +8,6 @@
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_human")
-WalkSpeed = 1.4
-WalkSpeedDrunkFactor = 0.64
-RunSpeed = 3.2
-RunSpeedDrunkFactor = 0.5
-
-[node name="CorrectedAnimationPlayer" parent="." unique_id=2118215871 instance=ExtResource("1_corranim")]
-libraries/human.dance.1 = ExtResource("2_u0kdo")
-libraries/human.drunkIdle.1 = ExtResource("2_2rbr1")
-libraries/human.drunkRun.1 = ExtResource("3_evr87")
-libraries/human.drunkWalk.1 = ExtResource("4_u0kdo")
-libraries/human.flyRemoval.1 = ExtResource("5_l4cms")
-libraries/human.idle.1 = ExtResource("2_ffwvl")
-libraries/human.idle.2 = ExtResource("7_hqa5r")
-libraries/human.idle.3 = ExtResource("8_4ps2d")
-libraries/human.run.1 = ExtResource("9_7q7s5")
-libraries/human.talk.1 = ExtResource("10_sykna")
-libraries/human.talk.2 = ExtResource("11_j3wvj")
-libraries/human.talk.3 = ExtResource("12_7m1so")
-libraries/human.walk.1 = ExtResource("13_yocrs")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2035372996]
 shape = SubResource("SphereShape3D_45isd")
-
-[node name="Gravity" parent="." unique_id=1085755552 instance=ExtResource("17_grav01")]
-
-[node name="SocialZoneArea3D" parent="." unique_id=1886332722 instance=ExtResource("16_2rbr1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
-collision_layer = 0
-collision_mask = 2
-
-[node name="StatesMachine" parent="." unique_id=1085755551 instance=ExtResource("15_6dp7l")]
-
-[node name="Velocity" parent="." unique_id=1085755553 instance=ExtResource("18_vel02")]

@@ -1,0 +1,181 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using Godot;
+
+namespace SaintPatrick.Utils;
+
+/// <summary>
+/// // TODO:
+/// </summary>
+public static class Binder
+{
+    /// <summary>
+    /// // TODO:
+    /// </summary>
+    /// <param name="nodeChild"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public static void Bind(Node nodeChild)
+    {
+        var parent = nodeChild.GetParent();
+        if (parent == null)
+            return;
+
+        var memberInfos = MemberInfosPool.GetOrcreate(parent.GetType());
+        if (!memberInfos.TryGetValue(nodeChild.Name, out var memberInfo))
+            return;
+
+        if (!memberInfo.Type.IsInstanceOfType(nodeChild))
+            throw new InvalidOperationException($"'{parent.GetType().Name}.{memberInfo.Name}': is not assignable to '{memberInfo.Type.Name}'.");
+
+        memberInfo.SetValue(parent, nodeChild);
+    }
+
+    /// <summary>
+    /// // TODO:
+    /// </summary>
+    /// <param name="instance"></param>
+    /// <param name="initParams"></param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public static void Bind(object instance, in ValueType initParams)
+    {
+        var memberInfosTarget = MemberInfosPool.GetOrcreate(instance.GetType());
+        var memberInfosSource = MemberInfosPool.GetOrcreate(initParams.GetType());
+
+        foreach (var memberInfoTarget in memberInfosTarget)
+        {
+            if (!memberInfosSource.TryGetValue(memberInfoTarget.Key, out var memberInfoSource))
+                return;
+
+            if (!memberInfoTarget.Value.Type.IsInstanceOfType(memberInfoSource.Type))
+                throw new InvalidOperationException($"'{instance.GetType().Name}.{memberInfoTarget.Value.Name}': is not assignable to '{memberInfoTarget.Value.Type.Name}'.");
+
+            memberInfoTarget.Value.SetValue(instance, memberInfoSource.GetValue(initParams));
+        }
+    }
+
+    /// <summary>
+    /// // TODO:
+    /// </summary>
+    /// <param name="instance"></param>
+    public static void Unbind(object instance)
+    {
+        var memberInfos = MemberInfosPool.GetOrcreate(instance.GetType());
+
+        foreach (var memberInfo in memberInfos)
+            memberInfo.Value.SetValue(instance, GetDefaultValue(memberInfo.Value.Type));
+    }
+
+    /// <summary>
+    /// // TODO:
+    /// </summary>
+    /// <param name="nodeChild"></param>
+    public static void Unbind(Node nodeChild)
+    {
+        var parent = nodeChild.GetParent();
+        if (parent == null)
+            return;
+
+        var memberInfos = MemberInfosPool.GetOrcreate(parent.GetType());
+        if (!memberInfos.TryGetValue(nodeChild.Name, out var memberInfo))
+            return;
+
+        if (!ReferenceEquals(memberInfo.GetValue(parent), nodeChild))
+            return;
+
+        memberInfo.SetValue(parent, null);
+    }
+
+    private static object? GetDefaultValue(Type type)
+    {
+        if (!type.IsValueType)
+            return null;
+
+        if (Nullable.GetUnderlyingType(type) != null)
+            return null;
+
+        return Activator.CreateInstance(type);
+    }
+
+    private static class MemberInfosPool
+    {
+        private static readonly Dictionary<Type, IReadOnlyDictionary<string, CustomMemberInfo>> _CACHE = [];
+
+        public static IReadOnlyDictionary<string, CustomMemberInfo> GetOrcreate(Type type)
+        {
+            if (MemberInfosPool._CACHE.TryGetValue(type, out var cached))
+                return cached;
+
+            const BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+            var bindTargets = new Dictionary<string, CustomMemberInfo>();
+
+            foreach (var property in type.GetProperties(flags))
+            {
+                var attribute = property.GetCustomAttribute<BindAttribute>();
+                if (attribute == null)
+                    continue;
+
+                if (property.SetMethod == null)
+                    throw new InvalidOperationException($"'{type.Name}.{property.Name}': property with the attribute [{typeof(BindAttribute).Name}] must declare a setter.");
+
+                var name = !string.IsNullOrEmpty(attribute.Name) ? attribute.Name : property.Name;
+                if (!bindTargets.TryAdd(name, new CustomMemberInfo(property)))
+                    throw new InvalidOperationException($"'{type.Name}': multiple members with the attribute[{typeof(BindAttribute).Name}] share the name '{name}'.");
+            }
+
+            foreach (var field in type.GetFields(flags))
+            {
+                var attr = field.GetCustomAttribute<BindAttribute>();
+                if (attr == null)
+                    continue;
+
+                var name = field.Name[1..].ToPascalCase();
+                if (!bindTargets.TryAdd(name, new CustomMemberInfo(field)))
+                    throw new InvalidOperationException($"'{type.Name}': multiple members with the attribute [{typeof(BindAttribute).Name}] share the name '{name}'.");
+            }
+
+            MemberInfosPool._CACHE[type] = bindTargets;
+            return bindTargets;
+        }
+    }
+
+    private sealed class CustomMemberInfo
+    {
+        public Type Type { get; }
+        public string Name { get; }
+
+        private readonly PropertyInfo? _prop;
+        private readonly FieldInfo? _field;
+
+        public CustomMemberInfo(PropertyInfo property)
+        {
+            this.Type = property.PropertyType;
+            this.Name = property.Name;
+
+            this._prop = property;
+            this._field = null;
+        }
+
+        public CustomMemberInfo(FieldInfo field)
+        {
+            this.Type = field.FieldType;
+            this.Name = field.Name;
+
+            this._prop = null;
+            this._field = field;
+        }
+
+        public object? GetValue(object instance) =>
+            this._prop != null
+                ? this._prop.GetValue(instance)
+                : this._field?.GetValue(instance);
+
+        public void SetValue(object instance, object? value)
+        {
+            if (this._prop != null)
+                this._prop.SetValue(instance, value);
+            else
+                this._field?.SetValue(instance, value);
+        }
+    }
+}
