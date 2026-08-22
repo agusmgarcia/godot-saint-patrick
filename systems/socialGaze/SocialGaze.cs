@@ -10,7 +10,7 @@ namespace SaintPatrick.Systems;
 /// whenever it is present anywhere inside their <see cref="SaintPatrick.Components.SocialZoneArea3D.SocialZoneArea3D"/>.
 /// <para>
 /// The system tracks all <see cref="HumanIdleState"/> nodes in the scene via
-/// <see cref="Observer{TNode}"/> and, each frame, rotates every qualifying human toward
+/// <see cref="NodeTracker{TNode}"/> and, each frame, rotates every qualifying human toward
 /// the active main character. A human qualifies when all of the following hold:
 /// <list type="bullet">
 ///   <item>It is currently in <see cref="HumanIdleState"/>.</item>
@@ -22,26 +22,26 @@ namespace SaintPatrick.Systems;
 /// </summary>
 public sealed partial class SocialGaze : Node
 {
-    private readonly Observer<MainCharacterSelector> _mainCharacterSelectorObserver = new() { Single = true };
-    private readonly Observer<HumanIdleState> _idleStateObserver = new();
+    private readonly NodeTracker<MainCharacterSelector> _mainCharacterSelectorTracker = new();
+    private readonly NodeTracker<HumanIdleState> _idleStateTracker = new();
 
     public override void _EnterTree()
     {
         base._EnterTree();
 
-        this._mainCharacterSelectorObserver.Observe(base.GetTree().Root);
-        this._idleStateObserver.Observe(base.GetTree().Root);
+        this._mainCharacterSelectorTracker.Track(base.GetTree().Root);
+        this._idleStateTracker.Track(base.GetTree().Root);
     }
 
     public override void _Process(double delta)
     {
         base._Process(delta);
 
-        var mainCharacter = this._mainCharacterSelectorObserver.Node?.ActiveMain?.GetOwner<Human>();
+        var mainCharacter = this._mainCharacterSelectorTracker.Node?.ActiveMain?.GetOwner<Human>();
         if (mainCharacter == null)
             return;
 
-        foreach (var idleState in this._idleStateObserver.Nodes)
+        foreach (var idleState in this._idleStateTracker.Nodes)
         {
             var human = idleState.Human;
 
@@ -63,8 +63,8 @@ public sealed partial class SocialGaze : Node
 
     public override void _ExitTree()
     {
-        this._idleStateObserver.Unobserve();
-        this._mainCharacterSelectorObserver.Unobserve();
+        this._idleStateTracker.Untrack();
+        this._mainCharacterSelectorTracker.Untrack();
 
         base._ExitTree();
     }

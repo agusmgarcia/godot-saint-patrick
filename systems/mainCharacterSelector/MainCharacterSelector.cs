@@ -19,7 +19,7 @@ namespace SaintPatrick.Systems;
 /// </summary>
 public sealed partial class MainCharacterSelector : Node
 {
-    private readonly Observer<Main> _mainComponentsObserver = new();
+    private readonly NodeTracker<Main> _mainComponentsTracker = new();
 
     /// <summary>
     /// Raised whenever <see cref="ActiveMain"/> changes.
@@ -41,9 +41,9 @@ public sealed partial class MainCharacterSelector : Node
     {
         base._EnterTree();
 
-        this._mainComponentsObserver.NodeTracked += this.OnNodeTracked;
-        this._mainComponentsObserver.NodeUntracked += this.OnNodeUntracked;
-        this._mainComponentsObserver.Observe(base.GetTree().Root);
+        this._mainComponentsTracker.NodeTracked += this.OnNodeTracked;
+        this._mainComponentsTracker.NodeUntracked += this.OnNodeUntracked;
+        this._mainComponentsTracker.Track(base.GetTree().Root);
     }
 
     private void OnNodeTracked(Main main)
@@ -66,9 +66,9 @@ public sealed partial class MainCharacterSelector : Node
 
     public override void _ExitTree()
     {
-        this._mainComponentsObserver.Unobserve();
-        this._mainComponentsObserver.NodeUntracked -= this.OnNodeUntracked;
-        this._mainComponentsObserver.NodeTracked -= this.OnNodeTracked;
+        this._mainComponentsTracker.Untrack();
+        this._mainComponentsTracker.NodeUntracked -= this.OnNodeUntracked;
+        this._mainComponentsTracker.NodeTracked -= this.OnNodeTracked;
 
         base._ExitTree();
     }

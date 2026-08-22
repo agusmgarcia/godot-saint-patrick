@@ -13,7 +13,7 @@ namespace SaintPatrick.Systems;
 /// </summary>
 public sealed partial class InputsHandlerChaseState : InputsHandlerBaseState
 {
-    private readonly Observer<MainCameraSelector> _mainCameraSelectorObserver = new() { Single = true };
+    private readonly NodeTracker<MainCameraSelector> _mainCameraSelectorTracker = new();
     private readonly Node3D _waypoint = new();
 
     private Vector3 _cameraForward;
@@ -24,9 +24,9 @@ public sealed partial class InputsHandlerChaseState : InputsHandlerBaseState
     {
         base._EnterTree();
 
-        this._mainCameraSelectorObserver.Observe(base.GetTree().Root);
+        this._mainCameraSelectorTracker.Track(base.GetTree().Root);
 
-        var camera = this._mainCameraSelectorObserver.Node?.ActiveCamera;
+        var camera = this._mainCameraSelectorTracker.Node?.ActiveCamera;
         if (camera != null)
         {
             this._cameraForward = new Vector3(-camera.GlobalBasis.Z.X, 0, -camera.GlobalBasis.Z.Z).Normalized();
@@ -73,7 +73,7 @@ public sealed partial class InputsHandlerChaseState : InputsHandlerBaseState
         this._cameraForward = Vector3.Forward;
         this._cameraRight = Vector3.Right;
 
-        this._mainCameraSelectorObserver.Unobserve();
+        this._mainCameraSelectorTracker.Untrack();
 
         base._ExitTree();
     }

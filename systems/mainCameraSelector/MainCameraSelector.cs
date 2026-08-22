@@ -12,8 +12,8 @@ namespace SaintPatrick.Systems;
 /// </summary>
 public sealed partial class MainCameraSelector : Node
 {
-    private readonly Observer<MainCharacterSelector> _mainCharacterSelectorObserver = new() { Single = true };
-    private readonly Observer<Camera3D> _cameraComponentsObserver = new();
+    private readonly NodeTracker<MainCharacterSelector> _mainCharacterSelectorTracker = new();
+    private readonly NodeTracker<Camera3D> _cameraComponentsTracker = new();
 
     /// <summary>
     /// Extra distance (in meters) that competing cameras must overcome to replace the
@@ -35,15 +35,15 @@ public sealed partial class MainCameraSelector : Node
     {
         base._EnterTree();
 
-        this._mainCharacterSelectorObserver.Observe(base.GetTree().Root);
-        this._cameraComponentsObserver.Observe(base.GetTree().Root);
+        this._mainCharacterSelectorTracker.Track(base.GetTree().Root);
+        this._cameraComponentsTracker.Track(base.GetTree().Root);
     }
 
     public override void _Process(double delta)
     {
         base._Process(delta);
 
-        var mainCharacter = this._mainCharacterSelectorObserver.Node?.ActiveMain?.GetOwner<Node3D>();
+        var mainCharacter = this._mainCharacterSelectorTracker.Node?.ActiveMain?.GetOwner<Node3D>();
         if (mainCharacter == null)
             return;
 
@@ -51,7 +51,7 @@ public sealed partial class MainCameraSelector : Node
         var nearestDistance = float.MaxValue;
         var doubleHysteresis = this.Hysteresis * this.Hysteresis;
 
-        foreach (var camera in _cameraComponentsObserver.Nodes)
+        foreach (var camera in _cameraComponentsTracker.Nodes)
         {
             var distance = camera.GlobalPosition.DistanceSquaredTo(mainCharacter.GlobalPosition);
 
@@ -69,15 +69,15 @@ public sealed partial class MainCameraSelector : Node
         {
             this.ActiveCamera = nearestCamera;
 
-            foreach (var camera in this._cameraComponentsObserver.Nodes)
+            foreach (var camera in this._cameraComponentsTracker.Nodes)
                 camera.Current = camera == this.ActiveCamera;
         }
     }
 
     public override void _ExitTree()
     {
-        this._cameraComponentsObserver.Unobserve();
-        this._mainCharacterSelectorObserver.Unobserve();
+        this._cameraComponentsTracker.Untrack();
+        this._mainCharacterSelectorTracker.Untrack();
 
         base._ExitTree();
     }

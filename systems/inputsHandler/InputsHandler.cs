@@ -17,16 +17,8 @@ namespace SaintPatrick.Systems;
 /// </summary>
 public sealed partial class InputsHandler : Node
 {
-    [BindChild("StatesMachine")]
+    [Bind("StatesMachine")]
     private readonly StatesMachine _statesMachineComponent = default!;
-
-    public override void _EnterTree()
-    {
-        base._EnterTree();
-
-        base.ChildEnteredTree += BindChildAttribute.OnChildEnteredTree;
-        base.ChildExitingTree += BindChildAttribute.OnChildExitingTree;
-    }
 
     public override void _Ready()
     {
@@ -48,12 +40,4 @@ public sealed partial class InputsHandler : Node
     /// </summary>
     public void Chase() =>
         this._statesMachineComponent?.SetState<InputsHandlerChaseState>(new InputsHandlerChaseStateInitParams());
-
-    public override void _ExitTree()
-    {
-        base.ChildExitingTree -= BindChildAttribute.OnChildExitingTree;
-        base.ChildEnteredTree -= BindChildAttribute.OnChildEnteredTree;
-
-        base._ExitTree();
-    }
 }

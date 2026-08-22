@@ -1,4 +1,5 @@
 using Godot;
+using SaintPatrick.Utils;
 
 namespace SaintPatrick.Entities;
 
@@ -12,9 +13,15 @@ namespace SaintPatrick.Entities;
 /// </summary>
 public sealed partial class HumanChaseState : HumanBaseState
 {
+    [Bind]
     private readonly Node3D _destination = default!;
+
+    [Bind]
     private readonly bool _straight = false;
+
+    [Bind]
     private readonly bool _run = false;
+
     private readonly NavigationAgent3D _navAgent = new();
 
     public override void _EnterTree()

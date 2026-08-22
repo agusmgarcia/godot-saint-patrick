@@ -14,7 +14,7 @@ namespace SaintPatrick.Systems;
 /// </summary>
 public abstract partial class InputsHandlerBaseState : Node
 {
-    private readonly Observer<MainCharacterSelector> _mainCharacterSelectorObserver = new() { Single = true };
+    private readonly NodeTracker<MainCharacterSelector> _mainCharacterSelectorTracker = new() { };
 
     /// <summary>
     /// The <see cref="InputsHandler"/> system that owns this state, resolved automatically when
@@ -39,9 +39,9 @@ public abstract partial class InputsHandlerBaseState : Node
         this.InputsHandler = base.GetParent().GetOwner<InputsHandler>();
         this.MainHuman = null;
 
-        this._mainCharacterSelectorObserver.NodeTracked += this.OnMainCharacterSelectorTracked;
-        this._mainCharacterSelectorObserver.NodeUntracked += this.OnMainCharacterSelectorUntracked;
-        this._mainCharacterSelectorObserver.Observe(base.GetTree().Root);
+        this._mainCharacterSelectorTracker.NodeTracked += this.OnMainCharacterSelectorTracked;
+        this._mainCharacterSelectorTracker.NodeUntracked += this.OnMainCharacterSelectorUntracked;
+        this._mainCharacterSelectorTracker.Track(base.GetTree().Root);
     }
 
     private void OnMainCharacterSelectorTracked(MainCharacterSelector mainCharacterSelector)
@@ -70,9 +70,9 @@ public abstract partial class InputsHandlerBaseState : Node
 
     public override void _ExitTree()
     {
-        this._mainCharacterSelectorObserver.Unobserve();
-        this._mainCharacterSelectorObserver.NodeUntracked -= this.OnMainCharacterSelectorUntracked;
-        this._mainCharacterSelectorObserver.NodeTracked -= this.OnMainCharacterSelectorTracked;
+        this._mainCharacterSelectorTracker.Untrack();
+        this._mainCharacterSelectorTracker.NodeUntracked -= this.OnMainCharacterSelectorUntracked;
+        this._mainCharacterSelectorTracker.NodeTracked -= this.OnMainCharacterSelectorTracked;
 
         this.MainHuman = null;
         this.InputsHandler = default!;

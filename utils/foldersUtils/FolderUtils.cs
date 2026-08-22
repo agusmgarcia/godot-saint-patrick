@@ -7,7 +7,7 @@ namespace SaintPatrick.Utils;
 /// <summary>
 /// Utility class for filesystem operations on Godot resource paths.
 /// </summary>
-public static class Folders
+public static class FolderUtils
 {
     /// <summary>
     /// Returns the file names (not full paths) of all non-directory entries directly inside

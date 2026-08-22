@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cngmmjqdccgp7"]
+
+[ext_resource type="Script" uid="uid://b18tuy40hfleo" path="res://systems/nodeBinder/NodeBinder.cs" id="1_bt11o"]
+
+[node name="NodeBinder" type="Node" unique_id=2067841521]
+script = ExtResource("1_bt11o")

@@ -10,7 +10,7 @@ namespace SaintPatrick.Entities;
 /// Manages gender, movement speeds, and drunk state, and exposes high-level
 /// behavioural methods (<see cref="Idle"/>, <see cref="Chase"/>, <see cref="Talk"/>)
 /// that drive the internal <see cref="SaintPatrick.Components.StatesMachine.StatesMachine"/>.
-/// Child nodes are bound automatically via <see cref="SaintPatrick.Utils.BindChildAttribute"/>.
+/// Child nodes are bound automatically via <see cref="SaintPatrick.Utils.BindAttribute"/>.
 /// </summary>
 public partial class Human : CharacterBody3D
 {
@@ -69,28 +69,20 @@ public partial class Human : CharacterBody3D
     public IReadOnlyCollection<CollisionObject3D> NearestBodies =>
         this._socialZoneArea3DComponent?.Bodies ?? [];
 
-    [BindChild("AnimationPlayer")]
+    [Bind("AnimationPlayer")]
     private readonly AnimationPlayer _animationPlayerComponent = default!;
 
-    [BindChild("Main")]
+    [Bind("Main")]
     private readonly Main _mainComponent = default!;
 
-    [BindChild("SocialZoneArea3D")]
+    [Bind("SocialZoneArea3D")]
     private readonly SocialZoneArea3D _socialZoneArea3DComponent = default!;
 
-    [BindChild("StatesMachine")]
+    [Bind("StatesMachine")]
     private readonly StatesMachine _statesMachineComponent = default!;
 
-    [BindChild("Gravity")]
+    [Bind("Gravity")]
     private readonly Gravity _gravityComponent = default!;
-
-    public override void _EnterTree()
-    {
-        base._EnterTree();
-
-        base.ChildEnteredTree += BindChildAttribute.OnChildEnteredTree;
-        base.ChildExitingTree += BindChildAttribute.OnChildExitingTree;
-    }
 
     public override void _Ready()
     {
@@ -140,14 +132,6 @@ public partial class Human : CharacterBody3D
         {
             Listener = listener
         });
-
-    public override void _ExitTree()
-    {
-        base.ChildEnteredTree -= BindChildAttribute.OnChildEnteredTree;
-        base.ChildExitingTree -= BindChildAttribute.OnChildExitingTree;
-
-        base._ExitTree();
-    }
 }
 
 /// <summary>

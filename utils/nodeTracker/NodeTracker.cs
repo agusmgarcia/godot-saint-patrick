@@ -17,7 +17,8 @@ namespace SaintPatrick.Utils;
 /// </para>
 /// </summary>
 /// <typeparam name="TNode">The <see cref="Node"/> type to track.</typeparam>
-public sealed class Observer<TNode> where TNode : Node
+public sealed class NodeTracker<TNode>
+    where TNode : Node
 {
     /// <summary>
     /// Fired when a node of type <typeparamref name="TNode"/> enters the scene tree.
@@ -42,14 +43,6 @@ public sealed class Observer<TNode> where TNode : Node
     /// </summary>
     public TNode? Node { get; private set; }
 
-    /// <summary>
-    /// When <see langword="true"/>, enforces that at most one matching node exists within the
-    /// observed scope at any time. An <see cref="InvalidOperationException"/> is thrown if a
-    /// second matching node is detected. Intended for node types that are expected to be unique
-    /// within their observed scope (e.g. singleton system nodes).
-    /// </summary>
-    public bool Single { get; init; }
-
     private readonly HashSet<TNode> _nodes = [];
     private readonly HashSet<Node> _subscribed = [];
 
@@ -66,10 +59,10 @@ public sealed class Observer<TNode> where TNode : Node
     /// descendants of <paramref name="root"/> — or <paramref name="root"/> itself — are considered.
     /// Pass <see cref="SceneTree.Root"/> to observe the entire scene tree.
     /// </param>
-    public void Observe(Node root)
+    public void Track(Node root)
     {
         if (this._root != null)
-            return;
+            throw new InvalidOperationException($"You need to call '{nameof(this.Untrack)}' before calling '{nameof(this.Track)}'");
 
         this._root = root;
 
@@ -93,24 +86,20 @@ public sealed class Observer<TNode> where TNode : Node
 
     private void OnNodeAdded(TNode node)
     {
-        if (this._nodes.Contains(node))
+        if (!this._nodes.Add(node))
             return;
 
-        if (this.Single && this.Node != null)
-            throw new InvalidOperationException($"There is more than one node of type {typeof(TNode).Name}");
-
         this.Node = node;
-
-        if (this._nodes.Add(node))
-            this.NodeTracked?.Invoke(node);
+        this.NodeTracked?.Invoke(node);
     }
 
     private void OnNodeRemoved(TNode node)
     {
-        this.Node = this.Node == node ? null : this.Node;
+        if (!this._nodes.Remove(node))
+            return;
 
-        if (this._nodes.Remove(node))
-            this.NodeUntracked?.Invoke(node);
+        this.Node = this.Node == node ? null : this.Node;
+        this.NodeUntracked?.Invoke(node);
     }
 
     private void OnChildExitingTree(Node node)
@@ -133,9 +122,12 @@ public sealed class Observer<TNode> where TNode : Node
     /// the subtree. All currently tracked nodes are removed from the internal set and
     /// <see cref="NodeUntracked"/> is raised for each one. Has no effect if not currently observing.
     /// </summary>
-    public void Unobserve()
+    public void Untrack()
     {
-        this.OnChildExitingTree(this._root!);
+        if (this._root == null)
+            throw new InvalidOperationException($"You need to call '{nameof(this.Track)}' before calling '{nameof(this.Untrack)}'");
+
+        this.OnChildExitingTree(this._root);
 
         this._root = null;
     }
