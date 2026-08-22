@@ -5,23 +5,57 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Components;
 
 /// <summary>
-/// A node-based state machine that manages a single active state at a time.
-/// The active state is a direct child of this node, so it participates in the scene tree lifecycle
-/// normally. State instances are pooled via <see cref="ElementsFactory"/> to reduce allocations.
+/// // TODO:
 /// </summary>
-public sealed partial class StatesMachine : Node
+/// <typeparam name="TOwner"></typeparam>
+/// <typeparam name="TState"></typeparam>
+public partial class StatesMachine : Node
 {
+    /// <summary>
+    /// // TODO:
+    /// </summary>
+    public event Action<StatesMachine, BaseState?, BaseState?> StateChanged
+    {
+        add => this._stateObservableProperty.Changed += value;
+        remove => this._stateObservableProperty.Changed -= value;
+    }
+
     /// <summary>
     /// The currently active state node, or <see langword="null"/> when no state is active.
     /// This is a direct child of this node and participates in the normal scene tree lifecycle.
     /// </summary>
-    private Node? State { get; set; }
+    public BaseState? State
+    {
+        get => this._stateObservableProperty.Value;
+        private set => this._stateObservableProperty.Value = value;
+    }
 
-    public override void _EnterTree()
+    private readonly ObservableProperty<StatesMachine, BaseState?> _stateObservableProperty;
+
+    private ValueTuple<Type, ValueType>? _newState;
+
+    /// <summary>
+    /// // TODO:
+    /// </summary>
+    public StatesMachine()
+    {
+        this._stateObservableProperty = new() { Instance = this, Value = default };
+        this._newState = null;
+    }
+
+    public sealed override void _EnterTree()
     {
         base._EnterTree();
 
-        base.ChildExitingTree += this.OnChildExitingTree;
+        this._newState = null;
+    }
+
+    private static BaseState InitState(in ValueTuple<Type, ValueType> initStateConfig, Node owner)
+    {
+        var state = (BaseState)ElementsFactory.GetOrCreate(initStateConfig.Item1, initStateConfig.Item2);
+        typeof(BaseState).GetProperty(nameof(state.Owner))?.SetValue(state, owner);
+        state.OnInit();
+        return state;
     }
 
     /// <summary>
@@ -33,30 +67,82 @@ public sealed partial class StatesMachine : Node
     /// <typeparam name="TNewState">The concrete state type to transition to.</typeparam>
     /// <param name="initParams">Initialization parameters copied into the new state's matching properties.</param>
     public void SetState<TNewState>(in ValueType initParams)
-        where TNewState : Node, new()
+        where TNewState : BaseState, new() =>
+            this._newState = (typeof(TNewState), initParams);
+
+    /// <summary>
+    /// // TODO:
+    /// </summary>
+    /// <param name="delta"></param>
+    public override void _PhysicsProcess(double delta)
     {
-        var newState = ElementsFactory.GetOrCreate<TNewState>(initParams);
-        Callable.From(() => this.SwapState(newState)).CallDeferred();
+        base._PhysicsProcess(delta);
+
+        if (this._newState != null)
+        {
+            if (this.State != null && this.State.GetType() == this._newState.Value.Item1)
+            {
+                Binder.Bind(this.State, this._newState.Value.Item2);
+            }
+            else
+            {
+                if (this.State != null)
+                    StatesMachine.DisposeState(this.State);
+
+                this.State = StatesMachine.InitState(this._newState.Value, base.Owner);
+            }
+
+            this._newState = null;
+        }
+
+        this.State?.OnUpdate(delta);
     }
 
-    private void SwapState(Node? newState)
+    private static void DisposeState(BaseState state)
     {
-        if (this.State != null)
-            base.RemoveChild(this.State);
-
-        this.State = newState;
-
-        if (this.State != null)
-            base.AddChild(this.State);
+        state.OnDispose();
+        typeof(BaseState).GetProperty(nameof(state.Owner))?.SetValue(state, null);
+        ElementsFactory.Set(state);
     }
 
-    private void OnChildExitingTree(Node node) =>
-        ElementsFactory.Set(node);
-
-    public override void _ExitTree()
+    public sealed override void _ExitTree()
     {
-        base.ChildExitingTree -= this.OnChildExitingTree;
+        if (this.State != null)
+        {
+            var prevState = this.State;
+            this.State = null;
+            StatesMachine.DisposeState(prevState);
+        }
+
+        this._newState = null;
 
         base._ExitTree();
+    }
+
+    /// <summary>
+    /// // TODO:
+    /// </summary>
+    public abstract class BaseState
+    {
+        /// <summary>
+        /// // TODO:
+        /// </summary>
+        public Node Owner { get; private set; } = default!;
+
+        /// <summary>
+        /// // TODO:
+        /// </summary>
+        public virtual void OnInit() { }
+
+        /// <summary>
+        /// // TODO:
+        /// </summary>
+        /// <param name="delta"></param>
+        public virtual void OnUpdate(double delta) { }
+
+        /// <summary>
+        /// // TODO:
+        /// </summary>
+        public virtual void OnDispose() { }
     }
 }
