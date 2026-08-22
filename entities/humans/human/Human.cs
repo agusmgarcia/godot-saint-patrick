@@ -165,8 +165,11 @@ public partial class Human : CharacterBody3D
     [Bind("SocialZoneArea3D")]
     private readonly SocialZoneArea3D _socialZoneArea3DComponent = default!;
 
-    [Bind("StatesMachine")]
-    private readonly StatesMachine _statesMachineComponent = default!;
+    [Bind("HumanStatesMachine")]
+    private readonly HumanStatesMachine _humanStatesMachineComponent = default!;
+
+    [Bind]
+    public HumanAnimationPlayer HumanAnimationPlayer { get; private set; } = default!;
 
     private readonly ObservableProperty<Human, EGender> _genderObservableProperty;
     private readonly ObservableProperty<Human, bool> _mainObservableProperty;
@@ -187,19 +190,12 @@ public partial class Human : CharacterBody3D
         this._runSpeedDrunkFactorObservableProperty = new() { Instance = this, Value = 0 };
     }
 
-    public override void _Ready()
-    {
-        base._Ready();
-
-        this.Idle();
-    }
-
     /// <summary>
     /// Transitions this human to the idle state. The human will stand in place and play a
     /// random idle animation.
     /// </summary>
     public void Idle() =>
-        this._statesMachineComponent.SetState<HumanIdleState>(new HumanIdleStateInitParams());
+        this._humanStatesMachineComponent.Idle();
 
     /// <summary>
     /// Transitions this human to the chase state, navigating toward <paramref name="destination"/>.
@@ -214,27 +210,23 @@ public partial class Human : CharacterBody3D
     /// <param name="run">
     /// When <see langword="true"/>, moves at <see cref="RunSpeed"/>; otherwise at <see cref="WalkSpeed"/>.
     /// </param>
-    public void Chase(Node3D destination, bool straight = false, bool run = false) =>
-        this._statesMachineComponent.SetState<HumanChaseState>(new HumanChaseStateInitParams
-        {
-            Destination = destination,
-            Straight = straight,
-            Run = run
-        });
+    public void Chase(in Vector3 destination, bool run = false) =>
+        this._humanStatesMachineComponent.Chase(destination, run);
 
     /// <summary>
-    /// Transitions this human to the talk state, facing <paramref name="listener"/> and playing
-    /// a looping talk animation.
+    /// // TODO:
     /// </summary>
-    /// <param name="listener">
-    /// The node this human will face while talking. Its <see cref="Node3D.GlobalPosition"/> is
-    /// re-read each frame.
-    /// </param>
-    public void Talk(Node3D listener) =>
-        this._statesMachineComponent.SetState<HumanTalkState>(new HumanTalkStateInitParams
-        {
-            Listener = listener
-        });
+    /// <param name="direction"></param>
+    /// <param name="delta"></param>
+    /// <param name="angularSpeed"></param>
+    public void LookAt(in Vector3 direction, double delta, float angularSpeed)
+    {
+        var targetYaw = Mathf.Atan2(direction.X, direction.Z);
+        base.Rotation = new Vector3(
+            base.Rotation.X,
+            Mathf.LerpAngle(base.Rotation.Y, targetYaw, (float)delta * angularSpeed),
+            base.Rotation.Z);
+    }
 }
 
 /// <summary>
