@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://ceu0dtjntxa6o"]
+
+[ext_resource type="PackedScene" uid="uid://corranimpl01" path="res://components/correctedAnimationPlayer/correctedAnimationPlayer.tscn" id="1_xgo1i"]
+[ext_resource type="Script" uid="uid://gy1gs6s1xgyf" path="res://entities/humans/human/humanAnimationPlayer/HumanAnimationPlayer.cs" id="2_6wcxb"]
+
+[node name="HumanAnimationPlayer" unique_id=2118215871 instance=ExtResource("1_xgo1i")]
+script = ExtResource("2_6wcxb")

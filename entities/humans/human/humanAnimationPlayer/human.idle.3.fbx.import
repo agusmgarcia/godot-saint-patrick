@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://mltoawrfcdh3"
-path="res://.godot/imported/human.drunkRun.1.fbx-e252d5f1bc4ac0da728c9b8630b850d8.res"
+uid="uid://bbmcf4ps6nwue"
+path="res://.godot/imported/human.idle.3.fbx-320168872951aeedea24227913d75831.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.drunkRun.1.fbx"
-dest_files=["res://.godot/imported/human.drunkRun.1.fbx-e252d5f1bc4ac0da728c9b8630b850d8.res"]
+source_file="res://entities/humans/human/humanAnimationPlayer/human.idle.3.fbx"
+dest_files=["res://.godot/imported/human.idle.3.fbx-320168872951aeedea24227913d75831.res"]
 
 [params]
 
@@ -46,7 +46,7 @@ _subresources={
 "save_to_file/fallback_path": "",
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "",
-"settings/loop_mode": 1,
+"settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",

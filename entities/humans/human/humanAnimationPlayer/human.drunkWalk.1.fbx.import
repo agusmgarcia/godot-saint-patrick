@@ -4,12 +4,12 @@ importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
 uid="uid://doleeyb52ev5n"
-path="res://.godot/imported/human.drunkWalk.1.fbx-bf5fc79f9d60b1ef07c1d847d64f7710.res"
+path="res://.godot/imported/human.drunkWalk.1.fbx-a306c6274fa854be5b5d179e96b08c61.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.drunkWalk.1.fbx"
-dest_files=["res://.godot/imported/human.drunkWalk.1.fbx-bf5fc79f9d60b1ef07c1d847d64f7710.res"]
+source_file="res://entities/humans/human/humanAnimationPlayer/human.drunkWalk.1.fbx"
+dest_files=["res://.godot/imported/human.drunkWalk.1.fbx-a306c6274fa854be5b5d179e96b08c61.res"]
 
 [params]
 

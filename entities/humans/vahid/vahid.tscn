@@ -9,11 +9,11 @@ height = 1.7
 
 [node name="Vahid" unique_id=1598348195 instance=ExtResource("1_vahid")]
 
-[node name="CorrectedAnimationPlayer" parent="." index="0" unique_id=2118215871]
-root_node = NodePath("../Model")
-
-[node name="CollisionShape3D" parent="." index="1" unique_id=2035372996]
+[node name="CollisionShape3D" parent="." index="0" unique_id=2035372996]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
 shape = SubResource("CapsuleShape3D_vahid")
 
 [node name="Model" parent="." index="2" unique_id=1938991891 instance=ExtResource("3_vahid")]
+
+[node name="HumanAnimationPlayer" parent="." index="3" unique_id=2118215871]
+root_node = NodePath("../Model")

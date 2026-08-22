@@ -1,14 +1,13 @@
 using System.Linq;
 using Godot;
+using SaintPatrick.Components;
 
 namespace SaintPatrick.Entities;
 
 /// <summary>
-/// Extension methods for <see cref="AnimationPlayer"/> that add human-specific
-/// animation helpers, using the owning <see cref="Human"/>'s gender to select
-/// the appropriate animation variant.
+/// // TODO:
 /// </summary>
-public static class AnimationPlayerExtensions
+public sealed partial class HumanAnimationPlayer : CorrectedAnimationPlayer
 {
     /// <summary>
     /// Plays a randomly chosen animation from the set of clips that match
@@ -27,21 +26,30 @@ public static class AnimationPlayerExtensions
     /// <param name="fromEnd">
     /// When <see langword="true"/>, plays the animation backwards from the last frame.
     /// </param>
-    public static void PlayRandom(
-        this AnimationPlayer animationPlayer,
+    public void PlayRandom(
         EHumanAnimation animation,
         double customBlend = -1,
         float customSpeed = 1.0f,
         bool fromEnd = false)
     {
-        var owner = animationPlayer.GetOwner<Human>();
-
-        var animationRegexp = $".{animation.ToString().ToCamelCase()}";
-        var animationList = animationPlayer.GetAnimationList().Where(x => x.Contains(animationRegexp));
+        var animationRegexp = $"human.{animation.ToString().ToCamelCase()}.";
+        var animationList = this.GetAnimationList().Where(x => x.Contains(animationRegexp));
 
         var animationPath = animationList.ElementAt(GD.RandRange(0, animationList.Count() - 1));
-        animationPlayer.Play(animationPath, customBlend, customSpeed, fromEnd);
+        this.Play(animationPath, customBlend, customSpeed, fromEnd);
     }
+
+    protected override Vector3 GetCorrectedPosition(StringName animationName)
+    {
+        return (string)animationName switch
+        {
+            "human.dance.1/mixamo_com" => new Vector3(0, 0.278f, 0),
+            "human.drunkRun.1/mixamo_com" => new Vector3(0, 0.280f, 0),
+            "human.run.1/mixamo_com" => new Vector3(0, 0.205f, 0),
+            _ => Vector3.Zero,
+        };
+    }
+
 }
 
 /// <summary>

@@ -4,12 +4,12 @@ importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
 uid="uid://brn3jkov0cagr"
-path="res://.godot/imported/human.talk.2.fbx-062a57174a084de9334364b37d34e9ba.res"
+path="res://.godot/imported/human.talk.2.fbx-b4d0093d388080e72ed6dc46fabfe20c.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.talk.2.fbx"
-dest_files=["res://.godot/imported/human.talk.2.fbx-062a57174a084de9334364b37d34e9ba.res"]
+source_file="res://entities/humans/human/humanAnimationPlayer/human.talk.2.fbx"
+dest_files=["res://.godot/imported/human.talk.2.fbx-b4d0093d388080e72ed6dc46fabfe20c.res"]
 
 [params]
 

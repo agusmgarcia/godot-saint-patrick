@@ -4,12 +4,12 @@ importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
 uid="uid://dqbvekp16pgpg"
-path="res://.godot/imported/human.talk.3.fbx-0bed24822e4ba9a22078b121f92533b4.res"
+path="res://.godot/imported/human.talk.3.fbx-ae2e2403bf712aee2eb36c8e22176f2d.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.talk.3.fbx"
-dest_files=["res://.godot/imported/human.talk.3.fbx-0bed24822e4ba9a22078b121f92533b4.res"]
+source_file="res://entities/humans/human/humanAnimationPlayer/human.talk.3.fbx"
+dest_files=["res://.godot/imported/human.talk.3.fbx-ae2e2403bf712aee2eb36c8e22176f2d.res"]
 
 [params]
 

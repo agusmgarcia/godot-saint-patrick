@@ -4,12 +4,12 @@ importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
 uid="uid://caqyc3l4fau0a"
-path="res://.godot/imported/human.dance.1.fbx-171132e6601d49ae460962dcda75cd37.res"
+path="res://.godot/imported/human.dance.1.fbx-52c3b2ba9cd791e30e7c896daa7f7dca.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.dance.1.fbx"
-dest_files=["res://.godot/imported/human.dance.1.fbx-171132e6601d49ae460962dcda75cd37.res"]
+source_file="res://entities/humans/human/humanAnimationPlayer/human.dance.1.fbx"
+dest_files=["res://.godot/imported/human.dance.1.fbx-52c3b2ba9cd791e30e7c896daa7f7dca.res"]
 
 [params]
 

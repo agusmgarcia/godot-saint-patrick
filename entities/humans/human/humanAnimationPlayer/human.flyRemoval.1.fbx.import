@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://cek0ojprlf881"
-path="res://.godot/imported/human.argue.1.fbx-582f980ca054b90834e532f5b78f2916.res"
+uid="uid://dp68xt7714vvt"
+path="res://.godot/imported/human.flyRemoval.1.fbx-95744a91f3a02fc967149147242dc532.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.argue.1.fbx"
-dest_files=["res://.godot/imported/human.argue.1.fbx-582f980ca054b90834e532f5b78f2916.res"]
+source_file="res://entities/humans/human/humanAnimationPlayer/human.flyRemoval.1.fbx"
+dest_files=["res://.godot/imported/human.flyRemoval.1.fbx-95744a91f3a02fc967149147242dc532.res"]
 
 [params]
 

@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://b0pueu60y8snb"
-path="res://.godot/imported/human.idle.1.fbx-b5ee71c0b4bd084cb175e1aaf0f81c5f.res"
+uid="uid://ctb670d2287eu"
+path="res://.godot/imported/human.idle.2.fbx-9c10dd59c0c432f6074953d0d54f60ce.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.idle.1.fbx"
-dest_files=["res://.godot/imported/human.idle.1.fbx-b5ee71c0b4bd084cb175e1aaf0f81c5f.res"]
+source_file="res://entities/humans/human/humanAnimationPlayer/human.idle.2.fbx"
+dest_files=["res://.godot/imported/human.idle.2.fbx-9c10dd59c0c432f6074953d0d54f60ce.res"]
 
 [params]
 

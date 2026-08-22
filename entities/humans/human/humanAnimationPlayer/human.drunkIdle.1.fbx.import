@@ -4,12 +4,12 @@ importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
 uid="uid://duv7bilmq1jw8"
-path="res://.godot/imported/human.drunkIdle.1.fbx-2bf8cf23825be9c0e461c406f453b0f1.res"
+path="res://.godot/imported/human.drunkIdle.1.fbx-54857c5d8ad34da15c85d0df9413e14f.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.drunkIdle.1.fbx"
-dest_files=["res://.godot/imported/human.drunkIdle.1.fbx-2bf8cf23825be9c0e461c406f453b0f1.res"]
+source_file="res://entities/humans/human/humanAnimationPlayer/human.drunkIdle.1.fbx"
+dest_files=["res://.godot/imported/human.drunkIdle.1.fbx-54857c5d8ad34da15c85d0df9413e14f.res"]
 
 [params]
 

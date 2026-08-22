@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://dyirnyykq8ltf"
-path="res://.godot/imported/human.talk.1.fbx-4a170d62bc706474a62305fd2374757b.res"
+uid="uid://btqcmki0i08d2"
+path="res://.godot/imported/human.argue.2.fbx-f4886fe4234db5d6d9e56cdb8af2b141.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.talk.1.fbx"
-dest_files=["res://.godot/imported/human.talk.1.fbx-4a170d62bc706474a62305fd2374757b.res"]
+source_file="res://entities/humans/human/humanAnimationPlayer/human.argue.2.fbx"
+dest_files=["res://.godot/imported/human.argue.2.fbx-f4886fe4234db5d6d9e56cdb8af2b141.res"]
 
 [params]
 

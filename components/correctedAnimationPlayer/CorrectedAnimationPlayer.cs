@@ -21,7 +21,7 @@ namespace SaintPatrick.Components;
 /// the target Y-offset is determined solely by the animation name.
 /// </para>
 /// </summary>
-public sealed partial class CorrectedAnimationPlayer : AnimationPlayer
+public partial class CorrectedAnimationPlayer : AnimationPlayer
 {
     /// <summary>
     /// // TODO:
@@ -49,16 +49,16 @@ public sealed partial class CorrectedAnimationPlayer : AnimationPlayer
         if (this._model == null)
             return;
 
-        var scaleFactor = this._model.Scale.Y;
-
-        this._targetPosition = (string)animationName switch
-        {
-            "human.dance.1/mixamo_com" => new Vector3(0, 0.278f * scaleFactor, 0),
-            "human.drunkRun.1/mixamo_com" => new Vector3(0, 0.280f * scaleFactor, 0),
-            "human.run.1/mixamo_com" => new Vector3(0, 0.205f * scaleFactor, 0),
-            _ => Vector3.Zero,
-        };
+        this._targetPosition = this.GetCorrectedPosition(animationName) * this._model.Scale.Y;
     }
+
+    /// <summary>
+    /// // TODO:
+    /// </summary>
+    /// <param name="animationName"></param>
+    /// <returns></returns>
+    protected virtual Vector3 GetCorrectedPosition(StringName animationName) =>
+        Vector3.Zero;
 
     public override void _PhysicsProcess(double delta)
     {

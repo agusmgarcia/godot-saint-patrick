@@ -24,14 +24,14 @@ public abstract partial class HumanBaseState : Node
     /// manage animations. Available between <c>_EnterTree</c> and <c>_ExitTree</c>;
     /// do not access this outside that window.
     /// </summary>
-    protected AnimationPlayer AnimationPlayer { get; private set; } = default!;
+    protected HumanAnimationPlayer AnimationPlayer { get; private set; } = default!;
 
     public override void _EnterTree()
     {
         base._EnterTree();
 
         this.Human = base.GetParent().GetOwner<Human>();
-        this.AnimationPlayer = (AnimationPlayer)this.Human.GetChildren().Single(c => c is AnimationPlayer);
+        this.AnimationPlayer = (HumanAnimationPlayer)this.Human.GetChildren().Single(c => c is HumanAnimationPlayer);
     }
 
     public override void _ExitTree()
