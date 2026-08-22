@@ -23,7 +23,11 @@ namespace SaintPatrick.Components;
 /// </summary>
 public sealed partial class CorrectedAnimationPlayer : AnimationPlayer
 {
-    private const float LerpSpeed = 5.0f;
+    /// <summary>
+    /// // TODO:
+    /// </summary>
+    [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
+    public float LerpSpeed { get; private set; } = 5.0f;
 
     private Vector3 _targetPosition = Vector3.Zero;
     private Node3D? _model;
@@ -56,9 +60,9 @@ public sealed partial class CorrectedAnimationPlayer : AnimationPlayer
         };
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
-        base._Process(delta);
+        base._PhysicsProcess(delta);
 
         if (this._model == null)
             return;
