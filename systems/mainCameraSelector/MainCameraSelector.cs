@@ -43,7 +43,7 @@ public sealed partial class MainCameraSelector : Node
     {
         base._Process(delta);
 
-        var mainCharacter = this._mainCharacterSelectorTracker.Node?.ActiveMain?.GetOwner<Node3D>();
+        var mainCharacter = this._mainCharacterSelectorTracker.Node?.MainHuman;
         if (mainCharacter == null)
             return;
 

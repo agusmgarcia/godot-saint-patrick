@@ -37,7 +37,7 @@ public sealed partial class SocialGaze : Node
     {
         base._Process(delta);
 
-        var mainCharacter = this._mainCharacterSelectorTracker.Node?.ActiveMain?.GetOwner<Human>();
+        var mainCharacter = this._mainCharacterSelectorTracker.Node?.MainHuman;
         if (mainCharacter == null)
             return;
 
