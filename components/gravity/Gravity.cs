@@ -43,7 +43,7 @@ public sealed partial class Gravity : Node
         var velocity = owner.Velocity;
 
         velocity.Y = owner.IsOnFloor()
-            ? 0f
+            ? velocity.Y <= 0 ? 0 : velocity.Y
             : velocity.Y - this.GravityValue * (float)delta;
 
         owner.Velocity = velocity;
