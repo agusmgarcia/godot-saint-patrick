@@ -37,11 +37,11 @@ public sealed partial class HumanChaseState : HumanBaseState
         var toTarget = this._destination - base.Owner.GlobalPosition;
         if (toTarget.Length() <= 1.0f)
         {
-            base.Owner.Idle();
+            base.Owner.HumanStatesMachine.Idle();
             return;
         }
 
-        base.Owner.LookAt(toTarget, delta, 8.0f);
+        base.Owner.LookAt(this._destination, delta, 8.0f);
 
         var horizontal = toTarget.Normalized() * (this._run
             ? base.Owner.RunSpeed * (base.Owner.Drunk ? base.Owner.RunSpeedDrunkFactor : 1f)

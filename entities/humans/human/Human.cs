@@ -153,23 +153,14 @@ public partial class Human : CharacterBody3D
         private set => this._runSpeedDrunkFactorObservableProperty.Value = value;
     }
 
-    /// <summary>
-    /// The physics bodies currently inside this human's social zone that have an unobstructed
-    /// line of sight to the owner, sorted by ascending distance (closest first).
-    /// Delegates to the child <see cref="SaintPatrick.Components.SocialZoneArea3D.SocialZoneArea3D"/>
-    /// component. Returns an empty collection when the component is not yet available.
-    /// </summary>
-    public IReadOnlyCollection<CollisionObject3D> NearestBodies =>
-        this._socialZoneArea3DComponent?.Bodies ?? [];
-
-    [Bind("SocialZoneArea3D")]
-    private readonly SocialZoneArea3D _socialZoneArea3DComponent = default!;
-
-    [Bind("HumanStatesMachine")]
-    private readonly HumanStatesMachine _humanStatesMachineComponent = default!;
-
     [Bind]
     public HumanAnimationPlayer HumanAnimationPlayer { get; private set; } = default!;
+
+    [Bind]
+    public HumanStatesMachine HumanStatesMachine { get; private set; } = default!;
+
+    [Bind]
+    public SocialZoneArea3D SocialZoneArea3D { get; private set; } = default!;
 
     private readonly ObservableProperty<Human, EGender> _genderObservableProperty;
     private readonly ObservableProperty<Human, bool> _mainObservableProperty;
@@ -191,36 +182,14 @@ public partial class Human : CharacterBody3D
     }
 
     /// <summary>
-    /// Transitions this human to the idle state. The human will stand in place and play a
-    /// random idle animation.
-    /// </summary>
-    public void Idle() =>
-        this._humanStatesMachineComponent.Idle();
-
-    /// <summary>
-    /// Transitions this human to the chase state, navigating toward <paramref name="destination"/>.
-    /// </summary>
-    /// <param name="destination">
-    /// The target node to move toward. Its <see cref="Node3D.GlobalPosition"/> is re-read each frame.
-    /// </param>
-    /// <param name="straight">
-    /// When <see langword="true"/>, moves in a straight line ignoring obstacles.
-    /// When <see langword="false"/>, uses <see cref="NavigationAgent3D"/> pathfinding.
-    /// </param>
-    /// <param name="run">
-    /// When <see langword="true"/>, moves at <see cref="RunSpeed"/>; otherwise at <see cref="WalkSpeed"/>.
-    /// </param>
-    public void Chase(in Vector3 destination, bool run = false) =>
-        this._humanStatesMachineComponent.Chase(destination, run);
-
-    /// <summary>
     /// // TODO:
     /// </summary>
-    /// <param name="direction"></param>
+    /// <param name="target"></param>
     /// <param name="delta"></param>
     /// <param name="angularSpeed"></param>
-    public void LookAt(in Vector3 direction, double delta, float angularSpeed)
+    public void LookAt(in Vector3 target, double delta, float angularSpeed)
     {
+        var direction = target - base.GlobalPosition;
         var targetYaw = Mathf.Atan2(direction.X, direction.Z);
         base.Rotation = new Vector3(
             base.Rotation.X,
