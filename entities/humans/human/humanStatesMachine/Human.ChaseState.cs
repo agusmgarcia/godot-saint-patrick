@@ -19,9 +19,13 @@ public sealed partial class HumanChaseState : HumanBaseState
     [Bind]
     private readonly bool _run = false;
 
+    private bool _lastRun = false;
+
     public override void OnInit()
     {
         base.OnInit();
+
+        this._lastRun = this._run;
 
         base.Owner.HumanAnimationPlayer.PlayRandom(
             this._run
@@ -39,6 +43,16 @@ public sealed partial class HumanChaseState : HumanBaseState
         {
             base.Owner.HumanStatesMachine.Idle();
             return;
+        }
+
+        if (this._lastRun != this._run)
+        {
+            base.Owner.HumanAnimationPlayer.PlayRandom(
+                this._run
+                    ? (base.Owner.Drunk ? EHumanAnimation.DrunkRun : EHumanAnimation.Run)
+                    : (base.Owner.Drunk ? EHumanAnimation.DrunkWalk : EHumanAnimation.Walk),
+                customBlend: 0.5);
+            this._lastRun = this._run;
         }
 
         base.Owner.LookAt(this._destination, delta, 8.0f);
