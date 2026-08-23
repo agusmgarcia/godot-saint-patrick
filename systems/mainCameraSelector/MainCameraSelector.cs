@@ -39,9 +39,9 @@ public sealed partial class MainCameraSelector : Node
         this._cameraComponentsTracker.Track(base.GetTree().Root);
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
-        base._Process(delta);
+        base._PhysicsProcess(delta);
 
         var mainCharacter = this._mainCharacterSelectorTracker.Node?.MainHuman;
         if (mainCharacter == null)
