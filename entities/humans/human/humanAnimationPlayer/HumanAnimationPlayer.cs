@@ -7,8 +7,11 @@ namespace SaintPatrick.Entities;
 /// <summary>
 /// Specialised <see cref="CorrectedAnimationPlayer"/> for <see cref="Human"/> characters.
 /// Provides <see cref="PlayRandom"/> to select and play a random gender-specific animation
-/// clip matching a logical <see cref="EHumanAnimation"/> type, and supplies per-animation
-/// Y-offset corrections via <see cref="CorrectedAnimationPlayer.GetCorrectedPosition"/>.
+/// clip matching a logical <see cref="EHumanAnimation"/> type.
+/// <para>
+/// Y-offset corrections are computed automatically by the base class
+/// <see cref="CorrectedAnimationPlayer"/> — no per-animation hardcoding required here.
+/// </para>
 /// </summary>
 public sealed partial class HumanAnimationPlayer : CorrectedAnimationPlayer
 {
@@ -19,13 +22,10 @@ public sealed partial class HumanAnimationPlayer : CorrectedAnimationPlayer
     /// <c>{gender}.{animation}</c> (both lower-cased) as a substring filter against
     /// <see cref="AnimationPlayer.GetAnimationList"/>.
     /// </summary>
-    /// <param name="animationPlayer">The animation player to play the animation on.</param>
     /// <param name="animation">The logical animation type to play.</param>
     /// <param name="customBlend">
     /// Blend time in seconds for transitioning from the previous animation.
     /// Pass <c>-1</c> (default) to use the value configured in the animation player.
-    /// </param>
-    /// When <see langword="true"/>, plays the animation backwards from the last frame.
     /// </param>
     public void PlayRandom(EHumanAnimation animation, double customBlend = -1)
     {
@@ -35,18 +35,6 @@ public sealed partial class HumanAnimationPlayer : CorrectedAnimationPlayer
         var animationPath = animationList.ElementAt(GD.RandRange(0, animationList.Count() - 1));
         this.Play(animationPath, customBlend);
     }
-
-    protected override Vector3 GetCorrectedPosition(StringName animationName)
-    {
-        return (string)animationName switch
-        {
-            "human.dance.1/mixamo_com" => new Vector3(0, 0.278f, 0),
-            "human.drunkRun.1/mixamo_com" => new Vector3(0, 0.280f, 0),
-            "human.run.1/mixamo_com" => new Vector3(0, 0.205f, 0),
-            _ => Vector3.Zero,
-        };
-    }
-
 }
 
 /// <summary>

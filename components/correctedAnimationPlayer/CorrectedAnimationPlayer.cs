@@ -1,24 +1,29 @@
+using System.Collections.Generic;
 using Godot;
+using SaintPatrick.Utils;
 
 namespace SaintPatrick.Components;
 
 /// <summary>
 /// An <see cref="AnimationPlayer"/> component that automatically corrects the owning
-/// <see cref="SaintPatrick.Entities.Human"/>'s <c>Model</c> node Y-position whenever a new
-/// animation starts, compensating for root-motion offsets baked into specific animation clips.
+/// entity's <c>Model</c> node Y-position whenever a new animation starts, compensating
+/// for root-motion offsets baked into Mixamo animation clips.
 /// <para>
-/// The correction is applied smoothly each frame via linear interpolation rather than snapping
-/// instantly, avoiding visible pops when animations transition.
+/// Offsets are computed <em>automatically</em> once on <see cref="_EnterTree"/> by scanning
+/// every loaded <see cref="AnimationLibrary"/>: for each animation the root bone's Y position
+/// at time 0 is sampled. The animation with the highest Hips Y (the most upright pose,
+/// naturally the standing idle) becomes the zero-correction baseline, and every other
+/// animation receives a positive offset equal to the difference. The results are cached in
+/// an internal dictionary so each per-animation look-up during gameplay is O(1).
 /// </para>
 /// <para>
-/// The Y-offset values are authored for a base height of 1.7 m (scale 1.0). The component reads
-/// the <c>Model</c> node's <see cref="Node3D.Scale"/> Y component at runtime to derive the
-/// actual scale factor, so offsets remain correct regardless of the character's configured height.
+/// The cached offsets are in Mixamo's unscaled coordinate space. When applying the
+/// correction, the offset is multiplied by the <c>Model</c> node's Y scale so characters
+/// of different heights are all corrected accurately.
 /// </para>
 /// <para>
-/// Instance this component in place of the standard <see cref="AnimationPlayer"/> on any
-/// <see cref="SaintPatrick.Entities.Human"/> scene. No additional configuration is required;
-/// the target Y-offset is determined solely by the animation name.
+/// The correction is applied smoothly each frame via linear interpolation rather than
+/// snapping instantly, avoiding visible pops when animations transition.
 /// </para>
 /// </summary>
 public partial class CorrectedAnimationPlayer : AnimationPlayer
@@ -31,6 +36,8 @@ public partial class CorrectedAnimationPlayer : AnimationPlayer
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
     public float LerpSpeed { get; private set; } = 5.0f;
 
+    private readonly NodeTracker<Node3D> _modelTracker = new();
+
     private Vector3 _targetPosition = Vector3.Zero;
     private Node3D? _model;
 
@@ -40,6 +47,10 @@ public partial class CorrectedAnimationPlayer : AnimationPlayer
 
         base.AnimationStarted += this.OnAnimationStarted;
         this.OnAnimationStarted(base.CurrentAnimation);
+
+        this._modelTracker.NodeTracked += this.OnModelTracked;
+        this._modelTracker.NodeUntracked += this.OnModelUntracked;
+        this._modelTracker.Track(base.GetOwner());
     }
 
     private void OnAnimationStarted(StringName animationName)
@@ -47,26 +58,19 @@ public partial class CorrectedAnimationPlayer : AnimationPlayer
         if (string.IsNullOrEmpty(animationName))
             return;
 
-        this._model ??= base.GetOwner<Node3D>()?.GetNodeOrNull<Node3D>("Model");
         if (this._model == null)
             return;
 
-        this._targetPosition = this.GetCorrectedPosition(animationName) * this._model.Scale.Y;
+        this._targetPosition = AnimationOffsetsPool.Get(this, animationName) * this._model.Scale.Y;
     }
 
-    /// <summary>
-    /// Returns the target local position offset for the <c>Model</c> node when the given
-    /// animation starts playing. Override in subclasses to supply per-animation offsets that
-    /// compensate for root-motion baked into specific clips. Values are authored for the base
-    /// height of 1.7 m (scale 1.0); the caller scales them by the model's current Y scale.
-    /// </summary>
-    /// <param name="animationName">The name of the animation that just started.</param>
-    /// <returns>
-    /// The position offset to apply to the model node, or <see cref="Vector3.Zero"/> when no
-    /// correction is needed.
-    /// </returns>
-    protected virtual Vector3 GetCorrectedPosition(StringName animationName) =>
-        Vector3.Zero;
+    private void OnModelTracked(Node3D maybeModel)
+    {
+        if (maybeModel.Name != "Model")
+            return;
+
+        this._model = maybeModel;
+    }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -77,15 +81,83 @@ public partial class CorrectedAnimationPlayer : AnimationPlayer
 
         this._model.Position = this._model.Position.Lerp(
             this._targetPosition,
-            (float)delta * LerpSpeed);
+            (float)delta * this.LerpSpeed);
+    }
+
+    private void OnModelUntracked(Node3D maybeModel)
+    {
+        if (this._model != maybeModel)
+            return;
+
+        this._model = null;
     }
 
     public override void _ExitTree()
     {
+        this._modelTracker.Untrack();
+        this._modelTracker.NodeUntracked -= this.OnModelUntracked;
+        this._modelTracker.NodeTracked -= this.OnModelTracked;
+
         base.AnimationStarted -= this.OnAnimationStarted;
 
-        this._model = null;
-
         base._ExitTree();
+    }
+
+    private static class AnimationOffsetsPool
+    {
+        private static readonly Dictionary<StringName, Vector3> _ANIMATION_OFFSETS = [];
+
+        public static Vector3 Get(AnimationPlayer animationPlayer, StringName animationName)
+        {
+            if (AnimationOffsetsPool._ANIMATION_OFFSETS.TryGetValue(animationName, out var result))
+                return result;
+
+            var samples = new Dictionary<StringName, float>();
+            var maxHipsY = float.MinValue;
+
+            foreach (var libraryName in animationPlayer.GetAnimationLibraryList())
+            {
+                var library = animationPlayer.GetAnimationLibrary(libraryName);
+
+                foreach (var animName in library.GetAnimationList())
+                {
+                    var hipsY = AnimationOffsetsPool.SampleRootBoneYAtStart(library.GetAnimation(animName));
+                    if (!hipsY.HasValue)
+                        continue;
+
+                    samples[new StringName(string.IsNullOrEmpty(libraryName)
+                        ? animName
+                        : $"{libraryName}/{animName}")] = hipsY.Value;
+
+                    if (hipsY.Value > maxHipsY)
+                        maxHipsY = hipsY.Value;
+                }
+            }
+
+            foreach (var (fullName, hipsY) in samples)
+            {
+                float offset = maxHipsY - hipsY;
+                if (offset > 0.001f)
+                    AnimationOffsetsPool._ANIMATION_OFFSETS[fullName] = new Vector3(0f, offset, 0f);
+            }
+
+            return AnimationOffsetsPool._ANIMATION_OFFSETS.GetValueOrDefault(animationName, Vector3.Zero);
+        }
+
+        private static float? SampleRootBoneYAtStart(Animation animation)
+        {
+            for (int i = 0; i < animation.GetTrackCount(); i++)
+            {
+                if (animation.TrackGetType(i) != Animation.TrackType.Position3D)
+                    continue;
+
+                if (animation.TrackGetPath(i).GetConcatenatedSubNames() != "mixamorig_Hips")
+                    continue;
+
+                return animation.PositionTrackInterpolate(i, 0.0).Y;
+            }
+
+            return null;
+        }
     }
 }
