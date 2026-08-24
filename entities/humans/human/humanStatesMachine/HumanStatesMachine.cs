@@ -22,8 +22,11 @@ public sealed partial class HumanStatesMachine : StatesMachine
     /// Transitions this human to the idle state. The human will stand in place and play a
     /// random idle animation.
     /// </summary>
-    public void Idle() =>
-        this.SetState<HumanIdleState>(new HumanIdleStateInitParams());
+    public void Idle(double stunnedTime = 0) =>
+        this.SetState<HumanIdleState>(new HumanIdleStateInitParams()
+        {
+            StunnedTime = stunnedTime
+        });
 
     /// <summary>
     /// // TODO:

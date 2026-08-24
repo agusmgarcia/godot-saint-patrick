@@ -25,21 +25,15 @@ public sealed partial class HumanAnimationPlayer : CorrectedAnimationPlayer
     /// Blend time in seconds for transitioning from the previous animation.
     /// Pass <c>-1</c> (default) to use the value configured in the animation player.
     /// </param>
-    /// <param name="customSpeed">Playback speed multiplier. Defaults to <c>1.0</c>.</param>
-    /// <param name="fromEnd">
     /// When <see langword="true"/>, plays the animation backwards from the last frame.
     /// </param>
-    public void PlayRandom(
-        EHumanAnimation animation,
-        double customBlend = -1,
-        float customSpeed = 1.0f,
-        bool fromEnd = false)
+    public void PlayRandom(EHumanAnimation animation, double customBlend = -1)
     {
         var animationRegexp = $"human.{animation.ToString().ToCamelCase()}.";
         var animationList = this.GetAnimationList().Where(x => x.Contains(animationRegexp));
 
         var animationPath = animationList.ElementAt(GD.RandRange(0, animationList.Count() - 1));
-        this.Play(animationPath, customBlend, customSpeed, fromEnd);
+        this.Play(animationPath, customBlend);
     }
 
     protected override Vector3 GetCorrectedPosition(StringName animationName)

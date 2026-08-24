@@ -28,7 +28,7 @@ public sealed partial class HumanReactToHitState : HumanBaseState
     private void OnAnimationFinished(StringName animationName)
     {
         this._readyToTransition = true;
-        base.Owner.HumanStatesMachine.Idle();
+        base.Owner.HumanStatesMachine.Idle(2.0f);
     }
 
     public override bool CanTransitionTo(Type stateType, in ValueType initParams) =>
