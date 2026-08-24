@@ -10,7 +10,7 @@ namespace SaintPatrick.Systems;
 /// both the main character and the collided NPC are transitioned to the
 /// <see cref="HumanReactToHitState"/>, triggering hit-reaction animations on both parties.
 /// </summary>
-public sealed partial class HitOnRun : Node
+public sealed partial class HitCharacterOnRun : Node
 {
     private readonly NodeTracker<MainCharacterSelector> _mainCharacterSelectorTracker = new();
 

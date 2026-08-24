@@ -22,7 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://facu001" path="res://entities/humans/facu/facu.tscn" id="17_wldd3"]
 [ext_resource type="PackedScene" uid="uid://vahid001" path="res://entities/humans/vahid/vahid.tscn" id="19_b7l1m"]
 [ext_resource type="PackedScene" uid="uid://b1hqu7wn54g4m" path="res://systems/lookAtMainCharacter/lookAtMainCharacter.tscn" id="20_2j75a"]
-[ext_resource type="PackedScene" uid="uid://fu3kqtejl3km" path="res://systems/hitOnRun/hitOnRun.tscn" id="21_bhgey"]
+[ext_resource type="PackedScene" uid="uid://fu3kqtejl3km" path="res://systems/hitCharacterOnRun/hitCharacterOnRun.tscn" id="21_bhgey"]
 [ext_resource type="PackedScene" uid="uid://dcuylcb13680o" path="res://systems/inputController/inputController.tscn" id="21_osac8"]
 [ext_resource type="PackedScene" uid="uid://cngmmjqdccgp7" path="res://systems/nodeBinder/nodeBinder.tscn" id="24_osac8"]
 
@@ -146,7 +146,7 @@ transform = Transform3D(0.3111363, 0, 0.95036536, 0, 1, 0, -0.95036536, 0, 0.311
 
 [node name="LookAtMainCharacter" parent="Systems" unique_id=1940847223 instance=ExtResource("20_2j75a")]
 
-[node name="HitOnRun" parent="Systems" unique_id=1183532758 instance=ExtResource("21_bhgey")]
+[node name="HitCharacterOnRun" parent="Systems" unique_id=1183532758 instance=ExtResource("21_bhgey")]
 
 [node name="InputController" parent="Systems" unique_id=713291935 instance=ExtResource("21_osac8")]
 
