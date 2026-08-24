@@ -58,4 +58,4 @@ public sealed partial class HumanAnimationPlayer : CorrectedAnimationPlayer
 /// <c>animations/</c> folder and resolved at runtime by
 /// <see cref="AnimationPlayerExtensions.PlayRandom"/>.
 /// </summary>
-public enum EHumanAnimation { DrunkIdle, DrunkRun, DrunkWalk, FlyRemoval, Hit, Idle, Run, Talk, Walk }
+public enum EHumanAnimation { DrunkIdle, DrunkRun, DrunkWalk, FlyRemoval, Idle, ReactToHit, Run, Talk, Walk }

@@ -80,16 +80,19 @@ public partial class StatesMachine : Node
 
         if (this._newState != null)
         {
-            if (this.State != null && this.State.GetType() == this._newState.Value.Item1)
+            if (this.State?.CanTransitionTo(this._newState.Value.Item1, this._newState.Value.Item2) ?? true)
             {
-                Binder.Bind(this.State, this._newState.Value.Item2);
-            }
-            else
-            {
-                if (this.State != null)
-                    StatesMachine.DisposeState(this.State);
+                if (this.State != null && this.State.GetType() == this._newState.Value.Item1)
+                {
+                    Binder.Bind(this.State, this._newState.Value.Item2);
+                }
+                else
+                {
+                    if (this.State != null)
+                        StatesMachine.DisposeState(this.State);
 
-                this.State = StatesMachine.InitState(this._newState.Value, base.Owner);
+                    this.State = StatesMachine.InitState(this._newState.Value, base.Owner);
+                }
             }
 
             this._newState = null;
@@ -144,5 +147,12 @@ public partial class StatesMachine : Node
         /// // TODO:
         /// </summary>
         public virtual void OnDispose() { }
+
+        /// <summary>
+        /// // TODO:
+        /// </summary>
+        /// <param name="stateType"></param>
+        /// <returns></returns>
+        public virtual bool CanTransitionTo(Type stateType, in ValueType initParams) => true;
     }
 }

@@ -8,9 +8,9 @@
 [ext_resource type="AnimationLibrary" uid="uid://doleeyb52ev5n" path="res://entities/humans/human/humanAnimationPlayer/human.drunkWalk.1.fbx" id="4_u0kdo"]
 [ext_resource type="AnimationLibrary" uid="uid://dp68xt7714vvt" path="res://entities/humans/human/humanAnimationPlayer/human.flyRemoval.1.fbx" id="5_l4cms"]
 [ext_resource type="AnimationLibrary" uid="uid://ctb670d2287eu" path="res://entities/humans/human/humanAnimationPlayer/human.idle.2.fbx" id="7_hqa5r"]
-[ext_resource type="AnimationLibrary" uid="uid://c6bxnntal03it" path="res://entities/humans/human/humanAnimationPlayer/human.hit.1.fbx" id="8_2rbr1"]
 [ext_resource type="AnimationLibrary" uid="uid://bbmcf4ps6nwue" path="res://entities/humans/human/humanAnimationPlayer/human.idle.3.fbx" id="8_4ps2d"]
 [ext_resource type="AnimationLibrary" uid="uid://dprf6pfciuhs2" path="res://entities/humans/human/humanAnimationPlayer/human.run.1.fbx" id="9_7q7s5"]
+[ext_resource type="AnimationLibrary" uid="uid://jhakstccpihf" path="res://entities/humans/human/humanAnimationPlayer/human.reactToHit.1.fbx" id="11_2rbr1"]
 [ext_resource type="PackedScene" uid="uid://brdk8kwj7o01" path="res://entities/humans/human/humanStatesMachine/humanStatesMachine.tscn" id="13_6dp7l"]
 [ext_resource type="AnimationLibrary" uid="uid://cs6bn3rv5fh8t" path="res://entities/humans/human/humanAnimationPlayer/human.walk.1.fbx" id="13_yocrs"]
 [ext_resource type="PackedScene" uid="uid://c61rb58jpltm7" path="res://components/socialZoneArea3D/socialZoneArea3D.tscn" id="16_2rbr1"]
@@ -38,10 +38,10 @@ libraries/human.drunkIdle.1 = ExtResource("2_2rbr1")
 libraries/human.drunkRun.1 = ExtResource("3_evr87")
 libraries/human.drunkWalk.1 = ExtResource("4_u0kdo")
 libraries/human.flyRemoval.1 = ExtResource("5_l4cms")
-libraries/human.hit.1 = ExtResource("8_2rbr1")
 libraries/human.idle.1 = ExtResource("2_ffwvl")
 libraries/human.idle.2 = ExtResource("7_hqa5r")
 libraries/human.idle.3 = ExtResource("8_4ps2d")
+libraries/human.reactToHit.1 = ExtResource("11_2rbr1")
 libraries/human.run.1 = ExtResource("9_7q7s5")
 libraries/human.walk.1 = ExtResource("13_yocrs")
 

@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace SaintPatrick.Entities;
@@ -10,22 +11,33 @@ namespace SaintPatrick.Entities;
 /// </summary>
 public sealed partial class HumanReactToHitState : HumanBaseState
 {
+    private bool _readyToTransition;
+
     public override void OnInit()
     {
         base.OnInit();
 
+        this._readyToTransition = false;
+
         base.Owner.HumanAnimationPlayer.AnimationFinished += this.OnAnimationFinished;
-        base.Owner.HumanAnimationPlayer.PlayRandom(EHumanAnimation.Hit, customBlend: 0.5);
+        base.Owner.HumanAnimationPlayer.PlayRandom(EHumanAnimation.ReactToHit, customBlend: 0.5);
 
         base.Owner.Velocity = base.Owner.Velocity with { X = 0f, Z = 0f };
     }
 
-    private void OnAnimationFinished(StringName animationName) =>
+    private void OnAnimationFinished(StringName animationName)
+    {
+        this._readyToTransition = true;
         base.Owner.HumanStatesMachine.Idle();
+    }
+
+    public override bool CanTransitionTo(Type stateType, in ValueType initParams) =>
+        this._readyToTransition;
 
     public override void OnDispose()
     {
         base.Owner.HumanAnimationPlayer.AnimationFinished -= this.OnAnimationFinished;
+        this._readyToTransition = false;
 
         base.OnDispose();
     }
