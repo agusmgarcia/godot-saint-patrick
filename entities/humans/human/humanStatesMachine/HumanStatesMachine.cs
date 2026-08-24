@@ -5,7 +5,7 @@ namespace SaintPatrick.Entities;
 
 /// <summary>
 /// Concrete <see cref="StatesMachine"/> for <see cref="Human"/> characters. Exposes
-/// high-level transition methods (<see cref="Idle"/>, <see cref="Chase"/>,
+/// high-level transition methods (<see cref="Idle"/>, <see cref="Walk"/>, <see cref="Run"/>,
 /// <see cref="ReactToHit"/>) that map to the corresponding human behaviour states.
 /// Automatically enters <see cref="HumanIdleState"/> when the node becomes ready.
 /// </summary>
@@ -26,20 +26,21 @@ public sealed partial class HumanStatesMachine : StatesMachine
         this.SetState<HumanIdleState>(new HumanIdleStateInitParams());
 
     /// <summary>
-    /// Transitions this human to the chase state, moving toward <paramref name="destination"/>.
+    /// // TODO:
     /// </summary>
-    /// <param name="destination">
-    /// The world-space position the human will move toward.
-    /// </param>
-    /// <param name="run">
-    /// When <see langword="true"/>, moves at <see cref="Human.RunSpeed"/>; otherwise at
-    /// <see cref="Human.WalkSpeed"/>.
-    /// </param>
-    public void Chase(in Vector3 destination, bool run = false) =>
-        this.SetState<HumanChaseState>(new HumanChaseStateInitParams
+    public void Walk(in Vector3 destination) =>
+        this.SetState<HumanWalkState>(new HumanWalkStateInitParams
         {
             Destination = destination,
-            Run = run
+        });
+
+    /// <summary>
+    /// // TODO:
+    /// </summary>
+    public void Run(in Vector3 destination) =>
+        this.SetState<HumanRunState>(new HumanRunStateInitParams
+        {
+            Destination = destination,
         });
 
     /// <summary>

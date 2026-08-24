@@ -6,7 +6,7 @@ namespace SaintPatrick.Systems;
 
 /// <summary>
 /// System that detects collisions between the main character and idle NPCs while the
-/// main character is in the <see cref="HumanChaseState"/>. When such a collision is detected,
+/// main character is in the <see cref="HumanRunState"/>. When such a collision is detected,
 /// both the main character and the collided NPC are transitioned to the
 /// <see cref="HumanReactToHitState"/>, triggering hit-reaction animations on both parties.
 /// </summary>
@@ -29,7 +29,7 @@ public sealed partial class HitOnRun : Node
         if (mainHuman == null)
             return;
 
-        if (mainHuman.HumanStatesMachine.State is not HumanChaseState)
+        if (mainHuman.HumanStatesMachine.State is not HumanRunState)
             return;
 
         for (var i = 0; i < mainHuman.GetSlideCollisionCount(); i++)

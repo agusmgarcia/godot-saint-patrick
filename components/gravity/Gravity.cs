@@ -14,7 +14,7 @@ namespace SaintPatrick.Components;
 /// <see cref="CharacterBody3D.MoveAndSlide"/> calls.
 /// </para>
 /// <para>
-/// Callers (e.g. chase or idle states) must write horizontal velocity (<c>X</c> / <c>Z</c>)
+/// Callers (e.g. walk, run or idle states) must write horizontal velocity (<c>X</c> / <c>Z</c>)
 /// inside a <c>_PhysicsProcess</c> override — not inside <c>_Process</c> — so that their
 /// value is current in the same physics tick. Only <c>X</c> and <c>Z</c> should be written
 /// by callers; <c>Y</c> is owned by this component.
