@@ -24,7 +24,9 @@ namespace SaintPatrick.Components;
 public partial class CorrectedAnimationPlayer : AnimationPlayer
 {
     /// <summary>
-    /// // TODO:
+    /// Speed (in units per second) at which the model's Y-position is interpolated toward
+    /// the target offset. Higher values make the correction snap faster; lower values produce
+    /// a smoother, more gradual transition between animation root-motion offsets.
     /// </summary>
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
     public float LerpSpeed { get; private set; } = 5.0f;
@@ -53,10 +55,16 @@ public partial class CorrectedAnimationPlayer : AnimationPlayer
     }
 
     /// <summary>
-    /// // TODO:
+    /// Returns the target local position offset for the <c>Model</c> node when the given
+    /// animation starts playing. Override in subclasses to supply per-animation offsets that
+    /// compensate for root-motion baked into specific clips. Values are authored for the base
+    /// height of 1.7 m (scale 1.0); the caller scales them by the model's current Y scale.
     /// </summary>
-    /// <param name="animationName"></param>
-    /// <returns></returns>
+    /// <param name="animationName">The name of the animation that just started.</param>
+    /// <returns>
+    /// The position offset to apply to the model node, or <see cref="Vector3.Zero"/> when no
+    /// correction is needed.
+    /// </returns>
     protected virtual Vector3 GetCorrectedPosition(StringName animationName) =>
         Vector3.Zero;
 

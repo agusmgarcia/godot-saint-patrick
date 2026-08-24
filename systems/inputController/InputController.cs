@@ -5,7 +5,12 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Systems;
 
 /// <summary>
-/// // TODO:
+/// System that reads directional input and the <c>run</c> action each physics frame,
+/// converts them into a camera-relative world-space destination, and drives the main
+/// character's <see cref="HumanStatesMachine"/> between <see cref="HumanIdleState"/>
+/// (no input) and <see cref="HumanChaseState"/> (movement input present). Camera
+/// orientation is cached when movement begins and held until input stops, preventing
+/// mid-movement direction jumps when the camera switches.
 /// </summary>
 public sealed partial class InputController : Node
 {

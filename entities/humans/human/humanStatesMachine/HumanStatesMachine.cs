@@ -4,7 +4,10 @@ using SaintPatrick.Components;
 namespace SaintPatrick.Entities;
 
 /// <summary>
-/// // TODO:
+/// Concrete <see cref="StatesMachine"/> for <see cref="Human"/> characters. Exposes
+/// high-level transition methods (<see cref="Idle"/>, <see cref="Chase"/>,
+/// <see cref="ReactToHit"/>) that map to the corresponding human behaviour states.
+/// Automatically enters <see cref="HumanIdleState"/> when the node becomes ready.
 /// </summary>
 public sealed partial class HumanStatesMachine : StatesMachine
 {
@@ -23,17 +26,14 @@ public sealed partial class HumanStatesMachine : StatesMachine
         this.SetState<HumanIdleState>(new HumanIdleStateInitParams());
 
     /// <summary>
-    /// Transitions this human to the chase state, navigating toward <paramref name="destination"/>.
+    /// Transitions this human to the chase state, moving toward <paramref name="destination"/>.
     /// </summary>
     /// <param name="destination">
-    /// The target node to move toward. Its <see cref="Node3D.GlobalPosition"/> is re-read each frame.
-    /// </param>
-    /// <param name="straight">
-    /// When <see langword="true"/>, moves in a straight line ignoring obstacles.
-    /// When <see langword="false"/>, uses <see cref="NavigationAgent3D"/> pathfinding.
+    /// The world-space position the human will move toward.
     /// </param>
     /// <param name="run">
-    /// When <see langword="true"/>, moves at <see cref="RunSpeed"/>; otherwise at <see cref="WalkSpeed"/>.
+    /// When <see langword="true"/>, moves at <see cref="Human.RunSpeed"/>; otherwise at
+    /// <see cref="Human.WalkSpeed"/>.
     /// </param>
     public void Chase(in Vector3 destination, bool run = false) =>
         this.SetState<HumanChaseState>(new HumanChaseStateInitParams
@@ -43,7 +43,9 @@ public sealed partial class HumanStatesMachine : StatesMachine
         });
 
     /// <summary>
-    /// // TODO:
+    /// Transitions this human to the react-to-hit state. The human freezes in place, plays a
+    /// hit-reaction animation, and returns to <see cref="HumanIdleState"/> once it completes.
+    /// While in this state, all other transition requests are blocked.
     /// </summary>
     public void ReactToHit() =>
         this.SetState<HumanReactToHitState>(new HumanReactToHitStateInitParams());

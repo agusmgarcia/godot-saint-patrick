@@ -5,14 +5,19 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Components;
 
 /// <summary>
-/// // TODO:
+/// A generic finite-state machine that manages a single active <see cref="BaseState"/> at a
+/// time. States are pooled and recycled via <see cref="ElementsFactory"/> to avoid allocations
+/// during gameplay. Transition requests made through <see cref="SetState{TNewState}"/> are
+/// deferred and applied at the start of the next <c>_PhysicsProcess</c> tick, ensuring a
+/// consistent evaluation order. The current state's <see cref="BaseState.CanTransitionTo"/>
+/// is consulted before every transition, allowing states to block or gate transitions.
 /// </summary>
-/// <typeparam name="TOwner"></typeparam>
-/// <typeparam name="TState"></typeparam>
 public partial class StatesMachine : Node
 {
     /// <summary>
-    /// // TODO:
+    /// Raised whenever <see cref="State"/> changes. The handler receives the state machine
+    /// instance, the previous state (or <see langword="null"/>), and the new state
+    /// (or <see langword="null"/>).
     /// </summary>
     public event Action<StatesMachine, BaseState?, BaseState?> StateChanged
     {
@@ -35,7 +40,7 @@ public partial class StatesMachine : Node
     private ValueTuple<Type, ValueType>? _newState;
 
     /// <summary>
-    /// // TODO:
+    /// Initialises the state machine with no active state and no pending transition.
     /// </summary>
     public StatesMachine()
     {
@@ -71,9 +76,13 @@ public partial class StatesMachine : Node
             this._newState = (typeof(TNewState), initParams);
 
     /// <summary>
-    /// // TODO:
+    /// Processes a pending state transition (if any) and then calls
+    /// <see cref="BaseState.OnUpdate"/> on the current state. If the pending state type
+    /// matches the current state, the existing instance is re-bound with the new init
+    /// parameters instead of being replaced. The current state's
+    /// <see cref="BaseState.CanTransitionTo"/> is consulted before committing the switch.
     /// </summary>
-    /// <param name="delta"></param>
+    /// <param name="delta">Elapsed time since the previous physics frame, in seconds.</param>
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
@@ -123,36 +132,50 @@ public partial class StatesMachine : Node
     }
 
     /// <summary>
-    /// // TODO:
+    /// Abstract base class for all states managed by a <see cref="StatesMachine"/>. Instances
+    /// are pooled by <see cref="ElementsFactory"/> and reused across transitions, so
+    /// implementations must reset any internal bookkeeping in <see cref="OnInit"/> and release
+    /// resources in <see cref="OnDispose"/>.
     /// </summary>
     public abstract class BaseState
     {
         /// <summary>
-        /// // TODO:
+        /// The <see cref="Node"/> that owns the <see cref="StatesMachine"/> managing this state.
+        /// Set automatically by the state machine before <see cref="OnInit"/> is called and
+        /// cleared after <see cref="OnDispose"/> returns.
         /// </summary>
         public Node Owner { get; private set; } = default!;
 
         /// <summary>
-        /// // TODO:
+        /// Called once after the state is obtained (or created) from the pool and its
+        /// <see cref="Owner"/> and bound parameters have been set. Use this to subscribe to
+        /// events, start timers, or play animations.
         /// </summary>
         public virtual void OnInit() { }
 
         /// <summary>
-        /// // TODO:
+        /// Called every physics frame while this state is active.
         /// </summary>
-        /// <param name="delta"></param>
+        /// <param name="delta">Elapsed time since the previous physics frame, in seconds.</param>
         public virtual void OnUpdate(double delta) { }
 
         /// <summary>
-        /// // TODO:
+        /// Called when the state is about to be returned to the pool. Use this to unsubscribe
+        /// from events, stop timers, and release any resources acquired in <see cref="OnInit"/>.
         /// </summary>
         public virtual void OnDispose() { }
 
         /// <summary>
-        /// // TODO:
+        /// Determines whether the state machine is allowed to transition away from this state
+        /// to a state of type <paramref name="stateType"/> with the given
+        /// <paramref name="initParams"/>. Return <see langword="false"/> to block the transition
+        /// (e.g. while a non-interruptible animation is playing).
         /// </summary>
-        /// <param name="stateType"></param>
-        /// <returns></returns>
+        /// <param name="stateType">The type of the target state.</param>
+        /// <param name="initParams">The initialisation parameters for the target state.</param>
+        /// <returns>
+        /// <see langword="true"/> to allow the transition; <see langword="false"/> to block it.
+        /// </returns>
         public virtual bool CanTransitionTo(Type stateType, in ValueType initParams) => true;
     }
 }

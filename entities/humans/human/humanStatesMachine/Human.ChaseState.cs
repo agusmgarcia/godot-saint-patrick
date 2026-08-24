@@ -72,8 +72,8 @@ public sealed partial class HumanChaseState : HumanBaseState
 public readonly record struct HumanChaseStateInitParams
 {
     /// <summary>
-    /// The node the human will move toward. Its <see cref="Node3D.GlobalPosition"/> is
-    /// re-read each frame, so moving targets are followed in real time.
+    /// The world-space position the human will move toward. The human transitions back
+    /// to idle once it is within 1 metre of this location.
     /// </summary>
     public required Vector3 Destination { get; init; }
 

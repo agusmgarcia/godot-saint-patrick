@@ -4,9 +4,9 @@ namespace SaintPatrick.Entities;
 
 /// <summary>
 /// Abstract base for all human behaviour states managed by the
-/// <see cref="SaintPatrick.Components.StatesMachine.StatesMachine"/>.
-/// Resolves and exposes the owning <see cref="Owner"/> when the state enters the scene tree,
-/// and clears it again on exit.
+/// <see cref="HumanStatesMachine"/>. Narrows the <see cref="StatesMachine.BaseState.Owner"/>
+/// type from <see cref="Godot.Node"/> to <see cref="Human"/> for convenient access in
+/// derived state classes.
 /// </summary>
 public abstract partial class HumanBaseState : StatesMachine.BaseState
 {

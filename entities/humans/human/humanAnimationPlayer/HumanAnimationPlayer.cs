@@ -5,7 +5,10 @@ using SaintPatrick.Components;
 namespace SaintPatrick.Entities;
 
 /// <summary>
-/// // TODO:
+/// Specialised <see cref="CorrectedAnimationPlayer"/> for <see cref="Human"/> characters.
+/// Provides <see cref="PlayRandom"/> to select and play a random gender-specific animation
+/// clip matching a logical <see cref="EHumanAnimation"/> type, and supplies per-animation
+/// Y-offset corrections via <see cref="CorrectedAnimationPlayer.GetCorrectedPosition"/>.
 /// </summary>
 public sealed partial class HumanAnimationPlayer : CorrectedAnimationPlayer
 {
@@ -56,6 +59,6 @@ public sealed partial class HumanAnimationPlayer : CorrectedAnimationPlayer
 /// Logical animation types available for human characters.
 /// Each value maps to one or more gender-specific animation clips stored in the
 /// <c>animations/</c> folder and resolved at runtime by
-/// <see cref="AnimationPlayerExtensions.PlayRandom"/>.
+/// <see cref="HumanAnimationPlayer.PlayRandom"/>.
 /// </summary>
 public enum EHumanAnimation { DrunkIdle, DrunkRun, DrunkWalk, FlyRemoval, Idle, ReactToHit, Run, Talk, Walk }

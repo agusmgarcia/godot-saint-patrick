@@ -24,6 +24,16 @@ public static class ElementsFactory
         where TElement : new() =>
             (TElement)ElementsFactory.GetOrCreate(typeof(TElement), initParams);
 
+    /// <summary>
+    /// Non-generic overload of <see cref="GetOrCreate{TElement}"/>. Retrieves an existing
+    /// element of the specified <paramref name="type"/> from the pool, or creates a new one
+    /// via <see cref="Activator.CreateInstance(Type)"/> if none are available. The element is
+    /// then initialized with <paramref name="initParams"/> through <see cref="Binder.Bind"/>
+    /// before being returned.
+    /// </summary>
+    /// <param name="type">The concrete element type to retrieve or create.</param>
+    /// <param name="initParams">Parameters passed to initialise on the element.</param>
+    /// <returns>A ready-to-use element instance.</returns>
     public static object GetOrCreate(Type type, in ValueType initParams)
     {
         // TODO: validate type is a class and has a default constructor maybe?

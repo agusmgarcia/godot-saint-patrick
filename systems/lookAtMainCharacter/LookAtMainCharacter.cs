@@ -5,7 +5,10 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Systems;
 
 /// <summary>
-/// // TODO:
+/// System that makes idle NPC <see cref="Human"/>s turn to face the main character when
+/// the main character is within their <see cref="SaintPatrick.Components.SocialZoneArea3D"/>
+/// and there is an unobstructed line of sight between them. A physics raycast is used each
+/// frame to verify visibility; NPCs that are not idle or are occluded by geometry are skipped.
 /// </summary>
 public sealed partial class LookAtMainCharacter : Node
 {

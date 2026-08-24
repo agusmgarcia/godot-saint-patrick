@@ -4,7 +4,11 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Systems;
 
 /// <summary>
-/// // TODO:
+/// System that automatically binds and unbinds <see cref="BindAttribute"/>-decorated members
+/// on every <see cref="Node"/> in the scene tree. It uses a <see cref="NodeTracker{TNode}"/>
+/// to observe the entire tree: when a node enters, <see cref="Binder.Bind(Node)"/> is called
+/// to populate the parent's matching members; when it exits, <see cref="Binder.Unbind(Node)"/>
+/// clears them.
 /// </summary>
 public sealed partial class NodeBinder : Node
 {

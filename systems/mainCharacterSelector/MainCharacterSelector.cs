@@ -6,15 +6,16 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Systems;
 
 /// <summary>
-/// System node that tracks all <see cref="Main"/> marker components in the scene and exposes
-/// the active one via <see cref="MainHuman"/>.
+/// System node that tracks all <see cref="Human"/> instances in the scene and exposes
+/// the one whose <see cref="Human.Main"/> property is <see langword="true"/> via
+/// <see cref="MainHuman"/>.
 /// <para>
-/// A <see cref="Main"/> component signals intent purely by being present in the scene tree —
-/// it carries no boolean value. The first <see cref="Main"/> node to enter the tree becomes
-/// <see cref="MainHuman"/>. If a second <see cref="Main"/> node enters while one is already
-/// active, that is a design error: a warning is pushed and the late-comer is ignored.
-/// When the active <see cref="Main"/> node leaves the tree <see cref="MainHuman"/> becomes
-/// <see langword="null"/> and <see cref="MainHumanChanged"/> is raised.
+/// When a <see cref="Human"/> with <see cref="Human.Main"/> set to <see langword="true"/>
+/// enters the tree (or has its property toggled), it becomes <see cref="MainHuman"/>. If a
+/// different human was already marked as main, the previous one is automatically deselected.
+/// When the active human leaves the tree or has <see cref="Human.Main"/> set to
+/// <see langword="false"/>, <see cref="MainHuman"/> becomes <see langword="null"/> and
+/// <see cref="MainHumanChanged"/> is raised.
 /// </para>
 /// </summary>
 public sealed partial class MainCharacterSelector : Node
@@ -31,11 +32,10 @@ public sealed partial class MainCharacterSelector : Node
     }
 
     /// <summary>
-    /// The <see cref="Main"/> component of the character that is currently active, or
+    /// The <see cref="Human"/> that is currently the active player-controlled character, or
     /// <see langword="null"/> when no character is active.
-    /// Other systems (e.g. <see cref="SaintPatrick.Systems.MainCameraSelector.MainCameraSelector"/>,
-    /// <see cref="SaintPatrick.Systems.InputsHandler.InputsHandler"/>) use this to
-    /// locate the player character.
+    /// Other systems (e.g. <see cref="MainCameraSelector"/>,
+    /// <see cref="InputController"/>) use this to locate the player character.
     /// </summary>
     public Human? MainHuman
     {

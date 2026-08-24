@@ -9,14 +9,15 @@ namespace SaintPatrick.Entities;
 /// <summary>
 /// Base node for all human characters in the scene.
 /// Manages gender, movement speeds, and drunk state, and exposes high-level
-/// behavioural methods (<see cref="Idle"/>, <see cref="Chase"/>, <see cref="Talk"/>)
-/// that drive the internal <see cref="SaintPatrick.Components.StatesMachine.StatesMachine"/>.
+/// behavioural methods (via <see cref="HumanStatesMachine"/>)
+/// that drive the internal <see cref="SaintPatrick.Components.StatesMachine"/>.
 /// Child nodes are bound automatically via <see cref="SaintPatrick.Utils.BindAttribute"/>.
 /// </summary>
 public partial class Human : CharacterBody3D
 {
     /// <summary>
-    /// // TODO:
+    /// Raised whenever <see cref="Main"/> changes. The handler receives this
+    /// <see cref="Human"/> instance, the previous value, and the new value.
     /// </summary>
     public event Action<Human, bool, bool> MainChanged
     {
@@ -25,7 +26,8 @@ public partial class Human : CharacterBody3D
     }
 
     /// <summary>
-    /// // TODO:
+    /// Raised whenever <see cref="Gender"/> changes. The handler receives this
+    /// <see cref="Human"/> instance, the previous gender, and the new gender.
     /// </summary>
     public event Action<Human, EGender, EGender> GenderChanged
     {
@@ -34,7 +36,8 @@ public partial class Human : CharacterBody3D
     }
 
     /// <summary>
-    /// // TODO:
+    /// Raised whenever <see cref="Drunk"/> changes. The handler receives this
+    /// <see cref="Human"/> instance, the previous value, and the new value.
     /// </summary>
     public event Action<Human, bool, bool> DrunkChanged
     {
@@ -43,7 +46,8 @@ public partial class Human : CharacterBody3D
     }
 
     /// <summary>
-    /// // TODO:
+    /// Raised whenever <see cref="WalkSpeed"/> changes. The handler receives this
+    /// <see cref="Human"/> instance, the previous speed, and the new speed.
     /// </summary>
     public event Action<Human, float, float> WalkSpeedChanged
     {
@@ -52,7 +56,8 @@ public partial class Human : CharacterBody3D
     }
 
     /// <summary>
-    /// // TODO:
+    /// Raised whenever <see cref="WalkSpeedDrunkFactor"/> changes. The handler receives this
+    /// <see cref="Human"/> instance, the previous factor, and the new factor.
     /// </summary>
     public event Action<Human, float, float> WalkSpeedDrunkFactorChanged
     {
@@ -61,7 +66,8 @@ public partial class Human : CharacterBody3D
     }
 
     /// <summary>
-    /// // TODO:
+    /// Raised whenever <see cref="RunSpeed"/> changes. The handler receives this
+    /// <see cref="Human"/> instance, the previous speed, and the new speed.
     /// </summary>
     public event Action<Human, float, float> RunSpeedChanged
     {
@@ -70,7 +76,8 @@ public partial class Human : CharacterBody3D
     }
 
     /// <summary>
-    /// // TODO:
+    /// Raised whenever <see cref="RunSpeedDrunkFactor"/> changes. The handler receives this
+    /// <see cref="Human"/> instance, the previous factor, and the new factor.
     /// </summary>
     public event Action<Human, float, float> RunSpeedDrunkFactorChanged
     {
@@ -182,11 +189,16 @@ public partial class Human : CharacterBody3D
     }
 
     /// <summary>
-    /// // TODO:
+    /// Smoothly rotates the human around the Y axis to face the given world-space
+    /// <paramref name="target"/> position using linear angle interpolation. Only the yaw
+    /// (Y rotation) is modified; pitch and roll remain unchanged.
     /// </summary>
-    /// <param name="target"></param>
-    /// <param name="delta"></param>
-    /// <param name="angularSpeed"></param>
+    /// <param name="target">The world-space position to face.</param>
+    /// <param name="delta">Elapsed time since the previous frame, in seconds.</param>
+    /// <param name="angularSpeed">
+    /// Interpolation factor multiplied by <paramref name="delta"/>. Higher values produce
+    /// faster turning.
+    /// </param>
     public void LookAt(in Vector3 target, double delta, float angularSpeed)
     {
         var direction = target - base.GlobalPosition;
