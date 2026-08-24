@@ -21,26 +21,11 @@ public static class ElementsFactory
     /// <param name="initParams">Parameters passed to initialze on the element.</param>
     /// <returns>A ready-to-use element instance.</returns>
     public static TElement GetOrCreate<TElement>(in ValueType initParams)
-        where TElement : new() =>
-            (TElement)ElementsFactory.GetOrCreate(typeof(TElement), initParams);
-
-    /// <summary>
-    /// Non-generic overload of <see cref="GetOrCreate{TElement}"/>. Retrieves an existing
-    /// element of the specified <paramref name="type"/> from the pool, or creates a new one
-    /// via <see cref="Activator.CreateInstance(Type)"/> if none are available. The element is
-    /// then initialized with <paramref name="initParams"/> through <see cref="Binder.Bind"/>
-    /// before being returned.
-    /// </summary>
-    /// <param name="type">The concrete element type to retrieve or create.</param>
-    /// <param name="initParams">Parameters passed to initialise on the element.</param>
-    /// <returns>A ready-to-use element instance.</returns>
-    public static object GetOrCreate(Type type, in ValueType initParams)
+        where TElement : new()
     {
-        // TODO: validate type is a class and has a default constructor maybe?
-
         object element;
 
-        if (_POOLS.TryGetValue(type, out var pool) && pool.Count > 0)
+        if (_POOLS.TryGetValue(typeof(TElement), out var pool) && pool.Count > 0)
         {
             var item = pool.First();
             pool.Remove(item);
@@ -48,11 +33,11 @@ public static class ElementsFactory
         }
         else
         {
-            element = Activator.CreateInstance(type)!; // TODO: after validation we might remove the exclamation mark!.
+            element = new TElement();
         }
 
         Binder.Bind(element, initParams);
-        return element;
+        return (TElement)element;
     }
 
     /// <summary>

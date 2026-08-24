@@ -51,6 +51,9 @@ public sealed partial class HumanStatesMachine : StatesMachine
     /// hit-reaction animation, and returns to <see cref="HumanIdleState"/> once it completes.
     /// While in this state, all other transition requests are blocked.
     /// </summary>
-    public void ReactToHit() =>
-        this.SetState<HumanReactToHitState>(new HumanReactToHitStateInitParams());
+    public void ReactToHit(double stunnedTimeAfterAnimation = 0) =>
+        this.SetState<HumanReactToHitState>(new HumanReactToHitStateInitParams
+        {
+            StunnedTimeAfterAnimation = stunnedTimeAfterAnimation
+        });
 }

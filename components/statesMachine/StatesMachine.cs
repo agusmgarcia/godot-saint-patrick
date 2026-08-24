@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 using SaintPatrick.Utils;
 
@@ -36,31 +37,19 @@ public partial class StatesMachine : Node
     }
 
     private readonly ObservableProperty<StatesMachine, BaseState?> _stateObservableProperty;
-
-    private ValueTuple<Type, ValueType>? _newState;
+    private readonly Queue<(BaseState, ValueType)> _newStates = [];
 
     /// <summary>
     /// Initialises the state machine with no active state and no pending transition.
     /// </summary>
-    public StatesMachine()
-    {
+    public StatesMachine() =>
         this._stateObservableProperty = new() { Instance = this, Value = default };
-        this._newState = null;
-    }
 
     public sealed override void _EnterTree()
     {
         base._EnterTree();
 
-        this._newState = null;
-    }
-
-    private static BaseState InitState(in ValueTuple<Type, ValueType> initStateConfig, Node owner)
-    {
-        var state = (BaseState)ElementsFactory.GetOrCreate(initStateConfig.Item1, initStateConfig.Item2);
-        typeof(BaseState).GetProperty(nameof(state.Owner))?.SetValue(state, owner);
-        state.OnInit();
-        return state;
+        this._newStates.Clear();
     }
 
     /// <summary>
@@ -72,8 +61,12 @@ public partial class StatesMachine : Node
     /// <typeparam name="TNewState">The concrete state type to transition to.</typeparam>
     /// <param name="initParams">Initialization parameters copied into the new state's matching properties.</param>
     protected void SetState<TNewState>(in ValueType initParams)
-        where TNewState : BaseState, new() =>
-            this._newState = (typeof(TNewState), initParams);
+        where TNewState : BaseState, new()
+    {
+        var state = ElementsFactory.GetOrCreate<TNewState>(initParams);
+        typeof(BaseState).GetProperty(nameof(state.Owner))?.SetValue(state, base.Owner);
+        this._newStates.Enqueue((state, initParams));
+    }
 
     /// <summary>
     /// Processes a pending state transition (if any) and then calls
@@ -87,24 +80,23 @@ public partial class StatesMachine : Node
     {
         base._PhysicsProcess(delta);
 
-        if (this._newState != null)
+        while (this._newStates.TryDequeue(out var newState))
         {
-            if (this.State?.CanTransitionTo(this._newState.Value.Item1, this._newState.Value.Item2) ?? true)
+            if (this.State?.CanTransitionTo(newState.Item1) ?? true)
             {
-                if (this.State != null && this.State.GetType() == this._newState.Value.Item1)
+                if (this.State != null && this.State.GetType() == newState.Item1.GetType())
                 {
-                    Binder.Bind(this.State, this._newState.Value.Item2);
+                    Binder.Bind(this.State, newState.Item2);
                 }
                 else
                 {
                     if (this.State != null)
                         StatesMachine.DisposeState(this.State);
 
-                    this.State = StatesMachine.InitState(this._newState.Value, base.Owner);
+                    newState.Item1.OnInit();
+                    this.State = newState.Item1;
                 }
             }
-
-            this._newState = null;
         }
 
         this.State?.OnUpdate(delta);
@@ -126,7 +118,7 @@ public partial class StatesMachine : Node
             StatesMachine.DisposeState(prevState);
         }
 
-        this._newState = null;
+        this._newStates.Clear();
 
         base._ExitTree();
     }
@@ -166,16 +158,8 @@ public partial class StatesMachine : Node
         public virtual void OnDispose() { }
 
         /// <summary>
-        /// Determines whether the state machine is allowed to transition away from this state
-        /// to a state of type <paramref name="stateType"/> with the given
-        /// <paramref name="initParams"/>. Return <see langword="false"/> to block the transition
-        /// (e.g. while a non-interruptible animation is playing).
+        /// // TODO:
         /// </summary>
-        /// <param name="stateType">The type of the target state.</param>
-        /// <param name="initParams">The initialisation parameters for the target state.</param>
-        /// <returns>
-        /// <see langword="true"/> to allow the transition; <see langword="false"/> to block it.
-        /// </returns>
-        public virtual bool CanTransitionTo(Type stateType, in ValueType initParams) => true;
+        public virtual bool CanTransitionTo(BaseState? newState) => true;
     }
 }

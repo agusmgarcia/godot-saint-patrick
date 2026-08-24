@@ -29,7 +29,10 @@ public sealed partial class HitOnRun : Node
         if (mainHuman == null)
             return;
 
-        if (mainHuman.HumanStatesMachine.State is not HumanRunState)
+        if (mainHuman.HumanStatesMachine.State is not HumanRunState mainHumanRunState)
+            return;
+
+        if (!mainHumanRunState.CanTransitionTo(null))
             return;
 
         for (var i = 0; i < mainHuman.GetSlideCollisionCount(); i++)
@@ -38,10 +41,13 @@ public sealed partial class HitOnRun : Node
             if (collider is not Human human)
                 continue;
 
-            if (human.HumanStatesMachine.State is not HumanIdleState)
+            if (human.HumanStatesMachine.State is not HumanIdleState humanIdleState)
                 continue;
 
-            human.HumanStatesMachine.ReactToHit();
+            if (!humanIdleState.CanTransitionTo(null))
+                continue;
+
+            human.HumanStatesMachine.ReactToHit(2);
             mainHuman.HumanStatesMachine.ReactToHit();
         }
     }

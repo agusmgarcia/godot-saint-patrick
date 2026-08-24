@@ -1,5 +1,6 @@
-using System;
 using Godot;
+using SaintPatrick.Components;
+using SaintPatrick.Utils;
 
 namespace SaintPatrick.Entities;
 
@@ -11,6 +12,9 @@ namespace SaintPatrick.Entities;
 /// </summary>
 public sealed partial class HumanReactToHitState : HumanBaseState
 {
+    [Bind]
+    private readonly double _stunnedTimeAfterAnimation = default;
+
     private bool _readyToTransition;
 
     public override void OnInit()
@@ -28,10 +32,10 @@ public sealed partial class HumanReactToHitState : HumanBaseState
     private void OnAnimationFinished(StringName animationName)
     {
         this._readyToTransition = true;
-        base.Owner.HumanStatesMachine.Idle(2.0f);
+        base.Owner.HumanStatesMachine.Idle(this._stunnedTimeAfterAnimation);
     }
 
-    public override bool CanTransitionTo(Type stateType, in ValueType initParams) =>
+    public override bool CanTransitionTo(StatesMachine.BaseState? newState) =>
         this._readyToTransition;
 
     public override void OnDispose()
@@ -48,4 +52,10 @@ public sealed partial class HumanReactToHitState : HumanBaseState
 /// Currently empty as the hit state requires no configuration — the human simply
 /// begins playing a random hit animation upon entry.
 /// </summary>
-public readonly record struct HumanReactToHitStateInitParams { }
+public readonly record struct HumanReactToHitStateInitParams
+{
+    /// <summary>
+    /// // TODO:
+    /// </summary>
+    public required double StunnedTimeAfterAnimation { get; init; }
+}

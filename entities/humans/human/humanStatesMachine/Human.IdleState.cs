@@ -1,5 +1,6 @@
 using System;
 using Godot;
+using SaintPatrick.Components;
 using SaintPatrick.Utils;
 
 namespace SaintPatrick.Entities;
@@ -15,7 +16,7 @@ namespace SaintPatrick.Entities;
 public sealed partial class HumanIdleState : HumanBaseState
 {
     [Bind]
-    private readonly double _stunnedTime;
+    private readonly double _stunnedTime = default;
 
     private readonly Timer _stunnedTimer = new() { OneShot = true };
     private readonly Timer _flyRemovalTimer = new() { OneShot = true };
@@ -57,7 +58,7 @@ public sealed partial class HumanIdleState : HumanBaseState
                 : EHumanAnimation.Idle,
             customBlend: 2.0);
 
-    public override bool CanTransitionTo(Type stateType, in ValueType initParams) =>
+    public override bool CanTransitionTo(StatesMachine.BaseState? newState) =>
         this._stunnedTimer.TimeLeft <= 0;
 
     public override void OnDispose()
