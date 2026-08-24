@@ -41,4 +41,10 @@ public sealed partial class HumanStatesMachine : StatesMachine
             Destination = destination,
             Run = run
         });
+
+    /// <summary>
+    /// // TODO:
+    /// </summary>
+    public void ReactToHit() =>
+        this.SetState<HumanReactToHitState>(new HumanReactToHitStateInitParams());
 }

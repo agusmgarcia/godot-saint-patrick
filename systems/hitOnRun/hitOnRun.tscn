@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://fu3kqtejl3km"]
+
+[ext_resource type="Script" uid="uid://dvs7c18q1topb" path="res://systems/hitOnRun/HitOnRun.cs" id="1_k75rh"]
+
+[node name="HitOnRun" type="Node" unique_id=1183532758]
+script = ExtResource("1_k75rh")
