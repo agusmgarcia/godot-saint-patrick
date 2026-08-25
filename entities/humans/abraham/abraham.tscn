@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://braham001"]
 
 [ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_abraham"]
+[ext_resource type="PackedScene" uid="uid://b8hti41ns3x65" path="res://entities/humans/human/humanNpcController/humanNpcController.tscn" id="3_0ftso"]
 [ext_resource type="PackedScene" uid="uid://cfoy8faaagxm2" path="res://entities/humans/abraham/abraham.fbx" id="3_abraham"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_abraham"]
@@ -9,12 +10,14 @@ height = 1.76
 
 [node name="Abraham" unique_id=1598348195 instance=ExtResource("1_abraham")]
 
-[node name="CollisionShape3D" parent="." unique_id=2035372996]
+[node name="CollisionShape3D" parent="." index="0" unique_id=2035372996]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, 0)
 shape = SubResource("CapsuleShape3D_abraham")
 
-[node name="Model" parent="." unique_id=1938991891 instance=ExtResource("3_abraham")]
+[node name="HumanAnimationPlayer" parent="." index="2" unique_id=2118215871]
+root_node = NodePath("../Model")
+
+[node name="Model" parent="." index="6" unique_id=1938991891 instance=ExtResource("3_abraham")]
 transform = Transform3D(1.0353, 0, 0, 0, 1.0353, 0, 0, 0, 1.0353, 0, 0, 0)
 
-[node name="HumanAnimationPlayer" parent="." unique_id=2118215871]
-root_node = NodePath("../Model")
+[node name="HumanNpcController" parent="." index="7" unique_id=1797964882 instance=ExtResource("3_0ftso")]
