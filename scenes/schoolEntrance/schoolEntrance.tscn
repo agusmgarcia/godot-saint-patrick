@@ -5,10 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://cinthia001" path="res://entities/humans/cinthia/cinthia.tscn" id="6_vcxv5"]
 [ext_resource type="PackedScene" uid="uid://dh7eu4pic0ag5" path="res://entities/humans/sarah/sarah.tscn" id="7_2dlmy"]
 [ext_resource type="PackedScene" uid="uid://bmljoluxik5wr" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.tscn" id="7_5jtxm"]
-[ext_resource type="PackedScene" uid="uid://j5mtjy86egwl" path="res://systems/mainCameraSelector/mainCameraSelector.tscn" id="7_pew12"]
 [ext_resource type="PackedScene" uid="uid://kf1kuq4u5fid" path="res://scenes/schoolEntrance/bridge/bridge.tscn" id="8_bridge"]
 [ext_resource type="PackedScene" uid="uid://stephanie001" path="res://entities/humans/stephanie/stephanie.tscn" id="8_mffhs"]
-[ext_resource type="PackedScene" uid="uid://cetn2hbeh6lsy" path="res://systems/mainCharacterSelector/mainCharacterSelector.tscn" id="8_pew12"]
 [ext_resource type="PackedScene" uid="uid://walsh001" path="res://entities/humans/walsh/walsh.tscn" id="9_kq0po"]
 [ext_resource type="PackedScene" uid="uid://dkh0siy1yckv0" path="res://scenes/schoolEntrance/parkingLot/parkingLot.tscn" id="9_parking"]
 [ext_resource type="PackedScene" uid="uid://c3ilcm6imfur6" path="res://scenes/schoolEntrance/streetBlock/streetBlock.tscn" id="10_streetblock"]
@@ -21,10 +19,9 @@
 [ext_resource type="PackedScene" uid="uid://thomas001" path="res://entities/humans/thomas/thomas.tscn" id="17_k1vrd"]
 [ext_resource type="PackedScene" uid="uid://facu001" path="res://entities/humans/facu/facu.tscn" id="17_wldd3"]
 [ext_resource type="PackedScene" uid="uid://vahid001" path="res://entities/humans/vahid/vahid.tscn" id="19_b7l1m"]
-[ext_resource type="PackedScene" uid="uid://b1hqu7wn54g4m" path="res://systems/lookAtMainCharacter/lookAtMainCharacter.tscn" id="20_2j75a"]
-[ext_resource type="PackedScene" uid="uid://fu3kqtejl3km" path="res://systems/hitCharacterOnRun/hitCharacterOnRun.tscn" id="21_bhgey"]
-[ext_resource type="PackedScene" uid="uid://dcuylcb13680o" path="res://systems/inputController/inputController.tscn" id="21_osac8"]
-[ext_resource type="PackedScene" uid="uid://cngmmjqdccgp7" path="res://systems/nodeBinder/nodeBinder.tscn" id="24_osac8"]
+[ext_resource type="Script" uid="uid://te0u6uj6aa27" path="res://systems/inputController/InputController.cs" id="22_bhgey"]
+[ext_resource type="Script" uid="uid://cjfts3qfv8gop" path="res://systems/mainCameraSelector/MainCameraSelector.cs" id="23_jujwo"]
+[ext_resource type="Script" uid="uid://x72rddodmlr2" path="res://systems/mainCharacterSelector/MainCharacterSelector.cs" id="24_l78xp"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_21yb8"]
 vertices = PackedVector3Array(23.1, 0.5500002, -6.2500005, 23.1, 0.5500002, -5.5000005, 23.6, 0.5500002, -5.2500005, 31.85, 0.3000002, -6.2500005, 23.6, 0.3000002, 12.75, 23.1, 0.3000002, 13, 23.1, 0.3000002, 17, 23.6, 0.3000002, 17.25, 31.85, 0.3000002, 36, 23.6, 0.5500002, 35.5, 23.1, 0.5500002, 36, -19.15, 4.3, -4.0000005, -19.15, 4.3, 4.2499995, 19.1, 4.3, 4.2499995, 19.1, 4.3, -4.0000005, -18.9, 1.0500002, -3.7500005, -18.9, 1.0500002, 3.9999995, 18.85, 1.0500002, 3.9999995, 18.85, 1.0500002, -3.7500005, -20.65, 0.3000002, 6.4999995, -21.15, 0.3000002, 5.9999995, -21.15, 0.3000002, 7.4999995, -4.1499996, 0.3000002, 7.4999995, -4.1499996, 0.3000002, 6.4999995, 21.1, 0.3000002, 7.4999995, 21.1, 0.3000002, 5.9999995, 20.6, 0.3000002, 6.4999995, 4.1000004, 0.3000002, 7.4999995, 4.1000004, 0.3000002, 6.4999995, 2.1000004, 0.5500002, 31.25, 2.6000004, 0.5500002, 30.5, 1.8500004, 0.5500002, 30, 2.1000004, 0.5500002, 33, -1.6499996, 0.5500002, 33.5, 2.6000004, 0.5500002, 33.5, -1.6499996, 0.5500002, 6.2499995, 1.8500004, 0.5500002, 6.2499995, 4.1000004, 0.3000002, 30, 3.6000004, 0.3000002, 30.25, 7.1000004, 0.3000002, 30.5, 4.3500004, 0.3000002, 27.5, 7.8500004, 0.3000002, 31.25, 21.1, 0.3000002, 34, 21.1, 0.3000002, 28.25, 20.1, 0.3000002, 27.5, 7.8500004, 0.3000002, 34, 21.1, 0.3000002, 25.75, 20.6, 0.3000002, 13, 20.1, 0.3000002, 13.5, 18.35, 0.3000002, 13.5, 20.1, 0.3000002, 26.5, 17.6, 0.3000002, 12.75, 17.6, 0.3000002, 10, 4.1000004, 0.3000002, 10, 2.8500004, 0.5500002, 36.25, 2.6000004, 0.5500002, 35.75, -2.1499996, 0.5500002, 35.75, -2.3999996, 0.5500002, 36.25, -21.4, 0.3000002, 44.75, 22.6, 0.3000002, 44.75, -21.4, 0.5500002, 36.25, 22.6, 0.5500002, 36.25, 31.85, 0.3000002, 44.75)
@@ -144,14 +141,14 @@ transform = Transform3D(0.3111363, 0, 0.95036536, 0, 1, 0, -0.95036536, 0, 0.311
 
 [node name="Systems" type="Node" parent="." unique_id=517929844]
 
-[node name="LookAtMainCharacter" parent="Systems" unique_id=1940847223 instance=ExtResource("20_2j75a")]
+[node name="InputController" type="Node" parent="Systems" unique_id=994822254]
+script = ExtResource("22_bhgey")
+metadata/_custom_type_script = "uid://te0u6uj6aa27"
 
-[node name="HitCharacterOnRun" parent="Systems" unique_id=1183532758 instance=ExtResource("21_bhgey")]
+[node name="MainCameraSelector" type="Node" parent="Systems" unique_id=58687517]
+script = ExtResource("23_jujwo")
+metadata/_custom_type_script = "uid://cjfts3qfv8gop"
 
-[node name="InputController" parent="Systems" unique_id=713291935 instance=ExtResource("21_osac8")]
-
-[node name="MainCameraSelector" parent="Systems" unique_id=191561576 instance=ExtResource("7_pew12")]
-
-[node name="MainCharacterSelector" parent="Systems" unique_id=1347305871 instance=ExtResource("8_pew12")]
-
-[node name="NodeBinder" parent="Systems" unique_id=2067841521 instance=ExtResource("24_osac8")]
+[node name="MainCharacterSelector" type="Node" parent="Systems" unique_id=58152157]
+script = ExtResource("24_l78xp")
+metadata/_custom_type_script = "uid://x72rddodmlr2"

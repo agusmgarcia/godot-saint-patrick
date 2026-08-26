@@ -4,12 +4,10 @@ using SaintPatrick.Components;
 namespace SaintPatrick.Entities;
 
 /// <summary>
-/// Concrete <see cref="StatesMachine"/> for <see cref="Human"/> characters. Exposes
-/// high-level transition methods (<see cref="Idle"/>, <see cref="Walk"/>, <see cref="Run"/>,
-/// <see cref="ReactToHit"/>) that map to the corresponding human behaviour states.
-/// Automatically enters <see cref="HumanIdleState"/> when the node becomes ready.
+/// // TODO: document this.
 /// </summary>
-public sealed partial class HumanStatesMachine : StatesMachine
+[GlobalClass]
+public sealed partial class HumanStatesMachine : StatesMachine<Human>
 {
     public override void _Ready()
     {
@@ -18,21 +16,43 @@ public sealed partial class HumanStatesMachine : StatesMachine
         this.Idle();
     }
 
-    /// <summary>
-    /// Transitions this human to the idle state. The human will stand in place and play a
-    /// random idle animation.
-    /// </summary>
-    public void Idle(double stunnedTime = 0) =>
-        this.SetState<HumanIdleState>(new HumanIdleStateInitParams()
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+
+        if (!base.Owner.IsOnFloor())
         {
-            StunnedTime = stunnedTime
-        });
+            base.SetState<HumanFallState, HumanFallStateParams>(new HumanFallStateParams() { }, force: true);
+            return;
+        }
+
+        for (var i = 0; i < base.Owner.GetSlideCollisionCount(); i++)
+        {
+            var collision = base.Owner.GetSlideCollision(i);
+
+            var collider = collision.GetCollider();
+            if (collider is not Human)
+                continue;
+
+            if ((collision.GetColliderVelocity() - base.Owner.Velocity).Length() < 2)
+                continue;
+
+            base.SetState<HumanReactToHitState, HumanReactToHitStateParams>(new HumanReactToHitStateParams() { }, force: true);
+            return;
+        }
+    }
+
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public void Idle() =>
+        base.SetState<HumanIdleState, HumanIdleStateParams>(new HumanIdleStateParams() { });
 
     /// <summary>
     /// // TODO:
     /// </summary>
     public void Walk(in Vector3 destination) =>
-        this.SetState<HumanWalkState>(new HumanWalkStateInitParams
+        base.SetState<HumanWalkState, HumanWalkStateParams>(new HumanWalkStateParams
         {
             Destination = destination,
         });
@@ -41,19 +61,8 @@ public sealed partial class HumanStatesMachine : StatesMachine
     /// // TODO:
     /// </summary>
     public void Run(in Vector3 destination) =>
-        this.SetState<HumanRunState>(new HumanRunStateInitParams
+        base.SetState<HumanRunState, HumanRunStateParams>(new HumanRunStateParams
         {
             Destination = destination,
-        });
-
-    /// <summary>
-    /// Transitions this human to the react-to-hit state. The human freezes in place, plays a
-    /// hit-reaction animation, and returns to <see cref="HumanIdleState"/> once it completes.
-    /// While in this state, all other transition requests are blocked.
-    /// </summary>
-    public void ReactToHit(double stunnedTimeAfterAnimation = 0) =>
-        this.SetState<HumanReactToHitState>(new HumanReactToHitStateInitParams
-        {
-            StunnedTimeAfterAnimation = stunnedTimeAfterAnimation
         });
 }

@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://b1hqu7wn54g4m"]
-
-[ext_resource type="Script" uid="uid://bn7rdgf6p5bqi" path="res://systems/lookAtMainCharacter/LookAtMainCharacter.cs" id="1_ujf50"]
-
-[node name="LookAtMainCharacter" type="Node" unique_id=1940847223]
-script = ExtResource("1_ujf50")

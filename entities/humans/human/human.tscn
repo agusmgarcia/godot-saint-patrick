@@ -3,53 +3,75 @@
 [ext_resource type="Script" uid="uid://nkrsck7ca5h" path="res://entities/humans/human/Human.cs" id="1_human"]
 [ext_resource type="AnimationLibrary" uid="uid://duv7bilmq1jw8" path="res://entities/humans/human/humanAnimationPlayer/human.drunkIdle.1.fbx" id="2_2rbr1"]
 [ext_resource type="AnimationLibrary" uid="uid://b0pueu60y8snb" path="res://entities/humans/human/humanAnimationPlayer/human.idle.1.fbx" id="2_ffwvl"]
-[ext_resource type="PackedScene" uid="uid://ceu0dtjntxa6o" path="res://entities/humans/human/humanAnimationPlayer/humanAnimationPlayer.tscn" id="3_2h4wo"]
+[ext_resource type="AnimationLibrary" uid="uid://cek0ojprlf881" path="res://entities/humans/human/humanAnimationPlayer/human.argue.1.fbx" id="3_4ps2d"]
 [ext_resource type="AnimationLibrary" uid="uid://mltoawrfcdh3" path="res://entities/humans/human/humanAnimationPlayer/human.drunkRun.1.fbx" id="3_evr87"]
+[ext_resource type="Script" uid="uid://gy1gs6s1xgyf" path="res://entities/humans/human/humanAnimationPlayer/HumanAnimationPlayer.cs" id="3_ncc1u"]
+[ext_resource type="AnimationLibrary" uid="uid://btqcmki0i08d2" path="res://entities/humans/human/humanAnimationPlayer/human.argue.2.fbx" id="4_7q7s5"]
+[ext_resource type="Script" uid="uid://d1nrnrhsxfwqc" path="res://entities/humans/human/humanStatesMachine/HumanStatesMachine.cs" id="4_ffwvl"]
 [ext_resource type="AnimationLibrary" uid="uid://doleeyb52ev5n" path="res://entities/humans/human/humanAnimationPlayer/human.drunkWalk.1.fbx" id="4_u0kdo"]
 [ext_resource type="AnimationLibrary" uid="uid://dp68xt7714vvt" path="res://entities/humans/human/humanAnimationPlayer/human.flyRemoval.1.fbx" id="5_l4cms"]
+[ext_resource type="AnimationLibrary" uid="uid://caqyc3l4fau0a" path="res://entities/humans/human/humanAnimationPlayer/human.dance.1.fbx" id="5_sykna"]
 [ext_resource type="AnimationLibrary" uid="uid://ctb670d2287eu" path="res://entities/humans/human/humanAnimationPlayer/human.idle.2.fbx" id="7_hqa5r"]
 [ext_resource type="AnimationLibrary" uid="uid://bbmcf4ps6nwue" path="res://entities/humans/human/humanAnimationPlayer/human.idle.3.fbx" id="8_4ps2d"]
+[ext_resource type="AnimationLibrary" uid="uid://dtcvweajfwruw" path="res://entities/humans/human/humanAnimationPlayer/human.fall.1.fbx" id="8_7q7s5"]
 [ext_resource type="AnimationLibrary" uid="uid://dprf6pfciuhs2" path="res://entities/humans/human/humanAnimationPlayer/human.run.1.fbx" id="9_7q7s5"]
 [ext_resource type="AnimationLibrary" uid="uid://jhakstccpihf" path="res://entities/humans/human/humanAnimationPlayer/human.reactToHit.1.fbx" id="11_2rbr1"]
-[ext_resource type="PackedScene" uid="uid://brdk8kwj7o01" path="res://entities/humans/human/humanStatesMachine/humanStatesMachine.tscn" id="13_6dp7l"]
+[ext_resource type="AnimationLibrary" uid="uid://dy7ne3qi7nxwt" path="res://entities/humans/human/humanAnimationPlayer/human.land.1.fbx" id="13_sykna"]
 [ext_resource type="AnimationLibrary" uid="uid://cs6bn3rv5fh8t" path="res://entities/humans/human/humanAnimationPlayer/human.walk.1.fbx" id="13_yocrs"]
-[ext_resource type="PackedScene" uid="uid://c61rb58jpltm7" path="res://components/socialZoneArea3D/socialZoneArea3D.tscn" id="16_2rbr1"]
-[ext_resource type="PackedScene" uid="uid://gravity001" path="res://components/gravity/gravity.tscn" id="17_grav01"]
-[ext_resource type="PackedScene" uid="uid://velocity002" path="res://components/velocity/velocity.tscn" id="18_vel02"]
+[ext_resource type="AnimationLibrary" uid="uid://dyirnyykq8ltf" path="res://entities/humans/human/humanAnimationPlayer/human.talk.1.fbx" id="15_j3wvj"]
+[ext_resource type="AnimationLibrary" uid="uid://brn3jkov0cagr" path="res://entities/humans/human/humanAnimationPlayer/human.talk.2.fbx" id="16_7m1so"]
+[ext_resource type="AnimationLibrary" uid="uid://dqbvekp16pgpg" path="res://entities/humans/human/humanAnimationPlayer/human.talk.3.fbx" id="17_yocrs"]
+[ext_resource type="Script" uid="uid://s02i6q81k7rc" path="res://entities/humans/human/humanMovement/HumanMovement.cs" id="20_hqa5r"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_45isd"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_45isd"]
+height = 0.1
+radius = 2.0
 
 [node name="Human" type="CharacterBody3D" unique_id=1598348195]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_human")
-WalkSpeed = 1.4
-WalkSpeedDrunkFactor = 0.64
-RunSpeed = 3.2
-RunSpeedDrunkFactor = 0.5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2035372996]
 shape = SubResource("SphereShape3D_45isd")
 
-[node name="Gravity" parent="." unique_id=1085755552 instance=ExtResource("17_grav01")]
-
-[node name="HumanAnimationPlayer" parent="." unique_id=2118215871 instance=ExtResource("3_2h4wo")]
+[node name="HumanAnimationPlayer" type="AnimationPlayer" parent="." unique_id=658435941]
+libraries/human.argue.1 = ExtResource("3_4ps2d")
+libraries/human.argue.2 = ExtResource("4_7q7s5")
+libraries/human.dance.1 = ExtResource("5_sykna")
 libraries/human.drunkIdle.1 = ExtResource("2_2rbr1")
 libraries/human.drunkRun.1 = ExtResource("3_evr87")
 libraries/human.drunkWalk.1 = ExtResource("4_u0kdo")
+libraries/human.fall.1 = ExtResource("8_7q7s5")
 libraries/human.flyRemoval.1 = ExtResource("5_l4cms")
 libraries/human.idle.1 = ExtResource("2_ffwvl")
 libraries/human.idle.2 = ExtResource("7_hqa5r")
 libraries/human.idle.3 = ExtResource("8_4ps2d")
+libraries/human.land.1 = ExtResource("13_sykna")
 libraries/human.reactToHit.1 = ExtResource("11_2rbr1")
 libraries/human.run.1 = ExtResource("9_7q7s5")
+libraries/human.talk.1 = ExtResource("15_j3wvj")
+libraries/human.talk.2 = ExtResource("16_7m1so")
+libraries/human.talk.3 = ExtResource("17_yocrs")
 libraries/human.walk.1 = ExtResource("13_yocrs")
+script = ExtResource("3_ncc1u")
+metadata/_custom_type_script = "uid://gy1gs6s1xgyf"
 
-[node name="HumanStatesMachine" parent="." unique_id=2047514760 instance=ExtResource("13_6dp7l")]
+[node name="HumanStatesMachine" type="Node" parent="." unique_id=446732591]
+script = ExtResource("4_ffwvl")
+metadata/_custom_type_script = "uid://d1nrnrhsxfwqc"
 
-[node name="SocialZoneArea3D" parent="." unique_id=1886332722 instance=ExtResource("16_2rbr1")]
+[node name="HumanMovement" type="Node" parent="." unique_id=1683391686]
+script = ExtResource("20_hqa5r")
+metadata/_custom_type_script = "uid://s02i6q81k7rc"
+
+[node name="SocialZoneArea3D" type="Area3D" parent="." unique_id=151741501]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 collision_layer = 0
 collision_mask = 2
 
-[node name="Velocity" parent="." unique_id=1085755553 instance=ExtResource("18_vel02")]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SocialZoneArea3D" unique_id=629376581]
+shape = SubResource("CylinderShape3D_45isd")
+debug_color = Color(0.8117146, 0.20956862, 0.86477333, 0.41960785)

@@ -4,30 +4,22 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Systems;
 
 /// <summary>
-/// System node that selects which <see cref="Camera3D"/> in the scene should be active,
-/// choosing the one closest to the current main character (tracked via
-/// <see cref="MainCharacterSelector"/>). A configurable <see cref="Hysteresis"/> margin is
-/// applied to the non-active cameras to avoid rapid switching when the character is
-/// near the midpoint between two cameras.
+/// // TODO: document this.
 /// </summary>
+[GlobalClass]
 public sealed partial class MainCameraSelector : Node
 {
-    private readonly NodeTracker<MainCharacterSelector> _mainCharacterSelectorTracker = new();
-    private readonly NodeTracker<Camera3D> _cameraComponentsTracker = new();
+    private readonly NodesTracker<MainCharacterSelector> _mainCharacterSelectorTracker = new();
+    private readonly NodesTracker<Camera3D> _camera3DsTracker = new();
 
     /// <summary>
-    /// Extra distance (in meters) that competing cameras must overcome to replace the
-    /// currently active one. Prevents rapid switching when the character is near the
-    /// midpoint between two cameras.
+    /// // TODO: document this.
     /// </summary>
     [Export(PropertyHint.Range, "0,10,or_greater,hide_control,suffix:m")]
     public float Hysteresis { get; private set; } = 1.0f;
 
     /// <summary>
-    /// The <see cref="Camera3D"/> currently marked as active (i.e. <see cref="Camera3D.Current"/>
-    /// is <see langword="true"/>), selected as the one closest to the main character after the
-    /// <see cref="Hysteresis"/> margin is applied. <see langword="null"/> when no cameras have
-    /// been observed yet or no main character is present.
+    /// // TODO: document this.
     /// </summary>
     public Camera3D? ActiveCamera { get; private set; }
 
@@ -36,7 +28,7 @@ public sealed partial class MainCameraSelector : Node
         base._EnterTree();
 
         this._mainCharacterSelectorTracker.Track(base.GetTree().Root);
-        this._cameraComponentsTracker.Track(base.GetTree().Root);
+        this._camera3DsTracker.Track(base.GetTree().Root);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -51,7 +43,7 @@ public sealed partial class MainCameraSelector : Node
         var nearestDistance = float.MaxValue;
         var doubleHysteresis = this.Hysteresis * this.Hysteresis;
 
-        foreach (var camera in _cameraComponentsTracker.Nodes)
+        foreach (var camera in _camera3DsTracker.Nodes)
         {
             var distance = camera.GlobalPosition.DistanceSquaredTo(mainCharacter.GlobalPosition);
 
@@ -69,14 +61,14 @@ public sealed partial class MainCameraSelector : Node
         {
             this.ActiveCamera = nearestCamera;
 
-            foreach (var camera in this._cameraComponentsTracker.Nodes)
+            foreach (var camera in this._camera3DsTracker.Nodes)
                 camera.Current = camera == this.ActiveCamera;
         }
     }
 
     public override void _ExitTree()
     {
-        this._cameraComponentsTracker.Untrack();
+        this._camera3DsTracker.Untrack();
         this._mainCharacterSelectorTracker.Untrack();
 
         base._ExitTree();

@@ -13,8 +13,20 @@ height = 1.82
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91, 0)
 shape = SubResource("CapsuleShape3D_hudson")
 
-[node name="HumanAnimationPlayer" parent="." index="2" unique_id=2118215871]
+[node name="HumanAnimationPlayer" parent="." index="1" unique_id=658435941]
 root_node = NodePath("../Model")
 
-[node name="Model" parent="." index="7" unique_id=1938991891 instance=ExtResource("3_hudson")]
+[node name="HumanMovement" parent="." index="3" unique_id=1683391686]
+RunAcceleration = 10.5
+RunAccelerationDrunkFactor = 0.5
+RunMaxAcceleration = 14.5
+RunMaxSpeed = 4.2
+WalkAcceleration = 6.0
+WalkAccelerationDrunkFactor = 0.6
+WalkMaxAcceleration = 10.0
+WalkMaxSpeed = 1.5
+Deceleration = 15.5
+DecelerationDrunkFactor = 0.65
+
+[node name="Model" parent="." index="5" unique_id=1938991891 instance=ExtResource("3_hudson")]
 transform = Transform3D(1.0706, 0, 0, 0, 1.0706, 0, 0, 0, 1.0706, 0, 0, 0)

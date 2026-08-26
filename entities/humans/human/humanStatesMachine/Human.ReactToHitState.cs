@@ -1,20 +1,12 @@
 using Godot;
-using SaintPatrick.Components;
-using SaintPatrick.Utils;
 
 namespace SaintPatrick.Entities;
 
 /// <summary>
-/// State that plays a hit animation after the human collides with another running
-/// character. While active the human is frozen in place (horizontal velocity is zeroed
-/// every frame). When the hit animation finishes the human transitions back to
-/// <see cref="HumanIdleState"/>.
+/// // TODO: document this.
 /// </summary>
-public sealed partial class HumanReactToHitState : HumanBaseState
+public sealed partial class HumanReactToHitState : HumanBaseState<HumanReactToHitStateParams>
 {
-    [Bind]
-    private readonly double _stunnedTimeAfterAnimation = default;
-
     private bool _readyToTransition;
 
     public override void OnInit()
@@ -23,24 +15,47 @@ public sealed partial class HumanReactToHitState : HumanBaseState
 
         this._readyToTransition = false;
 
-        base.Owner.HumanAnimationPlayer.AnimationFinished += this.OnAnimationFinished;
-        base.Owner.HumanAnimationPlayer.PlayRandom(EHumanAnimation.ReactToHit, customBlend: 0.5);
+        base.Owner.HumanAnimationPlayerTracker.NodeTracked += this.OnHumanAnimationPlayerTracked;
+        base.Owner.HumanAnimationPlayerTracker.NodeUntracked += this.OnHumanAnimationPlayerUntracked;
+        if (base.Owner.HumanAnimationPlayerTracker.Node != null)
+            this.OnHumanAnimationPlayerTracked(base.Owner.HumanAnimationPlayerTracker.Node);
+    }
 
-        base.Owner.Velocity = base.Owner.Velocity with { X = 0f, Z = 0f };
+    private void OnHumanAnimationPlayerTracked(HumanAnimationPlayer humanAnimationPlayer)
+    {
+        humanAnimationPlayer.AnimationFinished += this.OnAnimationFinished;
+        humanAnimationPlayer.PlayRandom(EHumanAnimation.ReactToHit, customBlend: 0.5);
+    }
+
+    public override void OnUpdate(double delta)
+    {
+        base.OnUpdate(delta);
+
+        base.Owner.HumanMovementTracker.Node?.Decelerate();
     }
 
     private void OnAnimationFinished(StringName animationName)
     {
         this._readyToTransition = true;
-        base.Owner.HumanStatesMachine.Idle(this._stunnedTimeAfterAnimation);
+        base.Owner.HumanStatesMachineTracker.Node?.Idle();
     }
 
-    public override bool CanTransitionTo(StatesMachine.BaseState? newState) =>
-        this._readyToTransition;
+    private void OnHumanAnimationPlayerUntracked(HumanAnimationPlayer humanAnimationPlayer)
+    {
+        humanAnimationPlayer.Pause();
+        humanAnimationPlayer.AnimationFinished -= this.OnAnimationFinished;
+    }
+
+    public override bool ReadyToTransition() =>
+        base.ReadyToTransition() && this._readyToTransition;
 
     public override void OnDispose()
     {
-        base.Owner.HumanAnimationPlayer.AnimationFinished -= this.OnAnimationFinished;
+        if (base.Owner.HumanAnimationPlayerTracker.Node != null)
+            this.OnHumanAnimationPlayerUntracked(base.Owner.HumanAnimationPlayerTracker.Node);
+        base.Owner.HumanAnimationPlayerTracker.NodeUntracked -= this.OnHumanAnimationPlayerUntracked;
+        base.Owner.HumanAnimationPlayerTracker.NodeTracked -= this.OnHumanAnimationPlayerTracked;
+
         this._readyToTransition = false;
 
         base.OnDispose();
@@ -48,14 +63,6 @@ public sealed partial class HumanReactToHitState : HumanBaseState
 }
 
 /// <summary>
-/// Initialisation parameters for <see cref="HumanReactToHitState"/>.
-/// Currently empty as the hit state requires no configuration — the human simply
-/// begins playing a random hit animation upon entry.
+/// // TODO: document this.
 /// </summary>
-public readonly record struct HumanReactToHitStateInitParams
-{
-    /// <summary>
-    /// // TODO:
-    /// </summary>
-    public required double StunnedTimeAfterAnimation { get; init; }
-}
+public readonly record struct HumanReactToHitStateParams { }

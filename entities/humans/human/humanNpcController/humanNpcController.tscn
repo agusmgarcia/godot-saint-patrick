@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://b8hti41ns3x65"]
-
-[ext_resource type="Script" path="res://entities/humans/human/humanNpcController/HumanNpcController.cs" id="1_npc01"]
-
-[node name="HumanNpcController" type="Node3D" unique_id=1797964882]
-script = ExtResource("1_npc01")

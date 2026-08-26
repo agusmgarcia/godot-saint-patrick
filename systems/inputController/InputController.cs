@@ -5,17 +5,13 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Systems;
 
 /// <summary>
-/// System that reads directional input and the <c>run</c> action each physics frame,
-/// converts them into a camera-relative world-space destination, and drives the main
-/// character's <see cref="HumanStatesMachine"/> between <see cref="HumanIdleState"/>
-/// (no input) and <see cref="HumanRunState"/> (movement input present). Camera
-/// orientation is cached when movement begins and held until input stops, preventing
-/// mid-movement direction jumps when the camera switches.
+/// // TODO: document this.
 /// </summary>
+[GlobalClass]
 public sealed partial class InputController : Node
 {
-    private readonly NodeTracker<MainCharacterSelector> _mainCharacterSelectorTracker = new();
-    private readonly NodeTracker<MainCameraSelector> _mainCameraSelectorTracker = new();
+    private readonly NodesTracker<MainCharacterSelector> _mainCharacterSelectorTracker = new();
+    private readonly NodesTracker<MainCameraSelector> _mainCameraSelectorTracker = new();
 
     private Human? _lastMainHuman;
     private Vector3? _cameraForward;
@@ -40,7 +36,7 @@ public sealed partial class InputController : Node
         var mainHuman = this._mainCharacterSelectorTracker.Node?.MainHuman;
         if (mainHuman == null || mainHuman != this._lastMainHuman)
         {
-            this._lastMainHuman?.HumanStatesMachine.Idle();
+            this._lastMainHuman?.HumanStatesMachineTracker.Node?.Idle();
             this._lastMainHuman = mainHuman;
             this._cameraForward = null;
             this._cameraRight = null;
@@ -52,7 +48,7 @@ public sealed partial class InputController : Node
         {
             this._cameraForward = null;
             this._cameraRight = null;
-            mainHuman.HumanStatesMachine.Idle();
+            mainHuman.HumanStatesMachineTracker.Node?.Idle();
             return;
         }
 
@@ -77,9 +73,9 @@ public sealed partial class InputController : Node
 
         var running = Input.IsActionPressed("run");
         if (running)
-            mainHuman.HumanStatesMachine.Run(destination);
+            mainHuman.HumanStatesMachineTracker.Node?.Run(destination);
         else
-            mainHuman.HumanStatesMachine.Walk(destination);
+            mainHuman.HumanStatesMachineTracker.Node?.Walk(destination);
     }
 
     public override void _ExitTree()

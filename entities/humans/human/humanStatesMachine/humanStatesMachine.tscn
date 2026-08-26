@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://brdk8kwj7o01"]
-
-[ext_resource type="Script" uid="uid://d1nrnrhsxfwqc" path="res://entities/humans/human/humanStatesMachine/HumanStatesMachine.cs" id="1_vkdji"]
-
-[node name="HumanStatesMachine" type="Node" unique_id=2047514760]
-script = ExtResource("1_vkdji")

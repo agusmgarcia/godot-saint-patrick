@@ -1,20 +1,35 @@
 [gd_scene format=3 uid="uid://facu001"]
 
 [ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_facu"]
+[ext_resource type="Script" path="res://entities/humans/human/humanNpcController/HumanNpcController.cs" id="3_0tia7"]
 [ext_resource type="PackedScene" uid="uid://dde801duwkng8" path="res://entities/humans/facu/facu.fbx" id="3_facu"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_facu"]
-radius = 0.305
-height = 1.73
+radius = 0.3
+height = 1.7
 
 [node name="Facu" unique_id=1598348195 instance=ExtResource("1_facu")]
 
 [node name="CollisionShape3D" parent="." index="0" unique_id=2035372996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.865, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
 shape = SubResource("CapsuleShape3D_facu")
 
-[node name="HumanAnimationPlayer" parent="." index="2" unique_id=2118215871]
+[node name="HumanAnimationPlayer" parent="." index="1" unique_id=658435941]
 root_node = NodePath("../Model")
 
-[node name="Model" parent="." index="7" unique_id=1938991891 instance=ExtResource("3_facu")]
-transform = Transform3D(1.0176, 0, 0, 0, 1.0176, 0, 0, 0, 1.0176, 0, 0, 0)
+[node name="HumanMovement" parent="." index="3" unique_id=1683391686]
+RunAcceleration = 12.0
+RunAccelerationDrunkFactor = 0.5
+RunMaxAcceleration = 16.0
+RunMaxSpeed = 4.0
+WalkAcceleration = 7.0
+WalkAccelerationDrunkFactor = 0.6
+WalkMaxAcceleration = 11.0
+WalkMaxSpeed = 1.45
+Deceleration = 17.0
+DecelerationDrunkFactor = 0.65
+
+[node name="Model" parent="." index="5" unique_id=1938991891 instance=ExtResource("3_facu")]
+
+[node name="HumanNpcController" type="Node3D" parent="." index="6" unique_id=1667661308]
+script = ExtResource("3_0tia7")

@@ -4,40 +4,19 @@ using SaintPatrick.Entities;
 namespace SaintPatrick.Components;
 
 /// <summary>
-/// Component that drives a non-main <see cref="Human"/> through an infinite wander loop:
-/// pick a random walkable point on the scene's navigation mesh → walk to it avoiding
-/// obstacles → wait a random number of seconds → repeat.
-/// <para>
-/// A <see cref="NavigationAgent3D"/> is created and attached to the owning
-/// <see cref="Human"/> on <see cref="_EnterTree"/> and removed on <see cref="_ExitTree"/>.
-/// The agent handles obstacle avoidance and path computation; this component feeds the
-/// next path position each physics frame into
-/// <see cref="HumanStatesMachine.Walk"/> so that the existing walk animation,
-/// speed and drunk-factor logic is fully reused.
-/// </para>
-/// <para>
-/// When the owning human becomes the main character (<see cref="Human.Main"/> is
-/// <see langword="true"/>) the component pauses and immediately idles, allowing the
-/// <c>InputController</c> to take over. It resumes automatically when
-/// <see cref="Human.Main"/> goes back to <see langword="false"/>.
-/// </para>
-/// <para>
-/// Add this node after <c>Gravity</c> and before <c>Velocity</c> in the scene tree so
-/// that the horizontal velocity written by <see cref="HumanWalkState"/> is flushed in
-/// the same physics tick by the <c>Velocity</c> component.
-/// </para>
+/// // TODO: document this.
 /// </summary>
+[GlobalClass]
 public sealed partial class HumanNpcController : Node3D
 {
     /// <summary>
-    /// Minimum number of seconds the NPC waits at a destination before choosing the next one.
+    /// // TODO: document this.
     /// </summary>
     [Export(PropertyHint.Range, "0,60,or_greater,suffix:s")]
     public float MinWaitSeconds { get; set; } = 2f;
 
     /// <summary>
-    /// Maximum number of seconds the NPC waits at a destination before choosing the next one.
-    /// Must be greater than or equal to <see cref="MinWaitSeconds"/>.
+    /// // TODO: document this.
     /// </summary>
     [Export(PropertyHint.Range, "0,60,or_greater,suffix:s")]
     public float MaxWaitSeconds { get; set; } = 6f;
@@ -105,11 +84,11 @@ public sealed partial class HumanNpcController : Node3D
         {
             this._phase = EPhase.Waiting;
             this._waitTimer.Start(GD.RandRange(this.MinWaitSeconds, this.MaxWaitSeconds));
-            this._owner.HumanStatesMachine.Idle();
+            this._owner.HumanStatesMachineTracker.Node?.Idle();
             return;
         }
 
-        this._owner.HumanStatesMachine.Walk(this._navigationAgent.GetNextPathPosition());
+        this._owner.HumanStatesMachineTracker.Node?.Walk(this._navigationAgent.GetNextPathPosition());
     }
 
     private void OnWaitTimerTimeout() =>

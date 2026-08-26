@@ -5,28 +5,14 @@ using SaintPatrick.Components;
 namespace SaintPatrick.Entities;
 
 /// <summary>
-/// Specialised <see cref="CorrectedAnimationPlayer"/> for <see cref="Human"/> characters.
-/// Provides <see cref="PlayRandom"/> to select and play a random gender-specific animation
-/// clip matching a logical <see cref="EHumanAnimation"/> type.
-/// <para>
-/// Y-offset corrections are computed automatically by the base class
-/// <see cref="CorrectedAnimationPlayer"/> — no per-animation hardcoding required here.
-/// </para>
+/// // TODO: document this.
 /// </summary>
+[GlobalClass]
 public sealed partial class HumanAnimationPlayer : CorrectedAnimationPlayer
 {
     /// <summary>
-    /// Plays a randomly chosen animation from the set of clips that match
-    /// <paramref name="animation"/> for the owning <see cref="Human"/>'s gender.
-    /// Animation names are matched using the pattern
-    /// <c>{gender}.{animation}</c> (both lower-cased) as a substring filter against
-    /// <see cref="AnimationPlayer.GetAnimationList"/>.
+    /// // TODO: document this.
     /// </summary>
-    /// <param name="animation">The logical animation type to play.</param>
-    /// <param name="customBlend">
-    /// Blend time in seconds for transitioning from the previous animation.
-    /// Pass <c>-1</c> (default) to use the value configured in the animation player.
-    /// </param>
     public void PlayRandom(EHumanAnimation animation, double customBlend = -1)
     {
         var animationRegexp = $"human.{animation.ToString().ToCamelCase()}.";
@@ -35,12 +21,23 @@ public sealed partial class HumanAnimationPlayer : CorrectedAnimationPlayer
         var animationPath = animationList.ElementAt(GD.RandRange(0, animationList.Count() - 1));
         this.Play(animationPath, customBlend);
     }
+
+    protected override Vector3 GetTargetPosition(string animationName)
+    {
+        return animationName switch
+        {
+            "human.dance.1/mixamo_com" => new Vector3(0, 0.158f, 0),
+            "human.drunkRun.1/mixamo_com" => new Vector3(0, 0.158f, 0),
+            "human.fall.1/mixamo_com" => new Vector3(0, 0.850f, 0),
+            "human.land.1/mixamo_com" => new Vector3(0, 0.16f, 0),
+            "human.reactToHit.1/mixamo_com" => new Vector3(0, 0.162f, 0),
+            "human.run.1/mixamo_com" => new Vector3(0, 0.107f, 0),
+            _ => Vector3.Zero,
+        };
+    }
 }
 
 /// <summary>
-/// Logical animation types available for human characters.
-/// Each value maps to one or more gender-specific animation clips stored in the
-/// <c>animations/</c> folder and resolved at runtime by
-/// <see cref="HumanAnimationPlayer.PlayRandom"/>.
+/// // TODO: document this.
 /// </summary>
-public enum EHumanAnimation { DrunkIdle, DrunkRun, DrunkWalk, FlyRemoval, Idle, ReactToHit, Run, Talk, Walk }
+public enum EHumanAnimation { DrunkIdle, DrunkRun, DrunkWalk, Fall, FlyRemoval, Idle, Land, ReactToHit, Run, Talk, Walk }
