@@ -9,6 +9,14 @@ namespace SaintPatrick.Entities;
 [GlobalClass]
 public sealed partial class HumanStatesMachine : StatesMachine<Human>
 {
+    /// <summary>
+    /// How long (in seconds) the human is immune to being hit again after taking a hit.
+    /// </summary>
+    [Export(PropertyHint.Range, "0,10,0.1,suffix:s,hide_slider")]
+    public float HitCooldown { get; private set; } = 10.0f;
+
+    private float _hitCooldownRemaining;
+
     public override void _Ready()
     {
         base._Ready();
@@ -20,25 +28,31 @@ public sealed partial class HumanStatesMachine : StatesMachine<Human>
     {
         base._PhysicsProcess(delta);
 
+        this._hitCooldownRemaining = Mathf.Max(0f, this._hitCooldownRemaining - (float)delta);
+
         if (!base.Owner.IsOnFloor())
         {
             base.SetState<HumanFallState, HumanFallStateParams>(new HumanFallStateParams() { }, force: true);
             return;
         }
 
-        for (var i = 0; i < base.Owner.GetSlideCollisionCount(); i++)
+        if (this._hitCooldownRemaining <= 0f)
         {
-            var collision = base.Owner.GetSlideCollision(i);
+            for (var i = 0; i < base.Owner.GetSlideCollisionCount(); i++)
+            {
+                var collision = base.Owner.GetSlideCollision(i);
 
-            var collider = collision.GetCollider();
-            if (collider is not Human)
-                continue;
+                var collider = collision.GetCollider();
+                if (collider is not Human)
+                    continue;
 
-            if ((collision.GetColliderVelocity() - base.Owner.Velocity).Length() < 2)
-                continue;
+                if ((collision.GetColliderVelocity() - base.Owner.Velocity).Length() < 2)
+                    continue;
 
-            base.SetState<HumanReactToHitState, HumanReactToHitStateParams>(new HumanReactToHitStateParams() { }, force: true);
-            return;
+                this._hitCooldownRemaining = this.HitCooldown;
+                base.SetState<HumanReactToHitState, HumanReactToHitStateParams>(new HumanReactToHitStateParams() { }, force: true);
+                return;
+            }
         }
     }
 
