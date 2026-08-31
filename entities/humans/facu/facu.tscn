@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://facu001"]
 
 [ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_facu"]
-[ext_resource type="Script" path="res://entities/humans/human/humanNpcController/HumanNpcController.cs" id="3_0tia7"]
 [ext_resource type="PackedScene" uid="uid://dde801duwkng8" path="res://entities/humans/facu/facu.fbx" id="3_facu"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_facu"]
@@ -20,16 +19,11 @@ root_node = NodePath("../Model")
 [node name="HumanMovement" parent="." index="3" unique_id=1683391686]
 RunAcceleration = 12.0
 RunAccelerationDrunkFactor = 0.5
-RunMaxAcceleration = 16.0
 RunMaxSpeed = 4.0
 WalkAcceleration = 7.0
 WalkAccelerationDrunkFactor = 0.6
-WalkMaxAcceleration = 11.0
 WalkMaxSpeed = 1.45
 Deceleration = 17.0
 DecelerationDrunkFactor = 0.65
 
 [node name="Model" parent="." index="5" unique_id=1938991891 instance=ExtResource("3_facu")]
-
-[node name="HumanNpcController" type="Node3D" parent="." index="6" unique_id=1667661308]
-script = ExtResource("3_0tia7")

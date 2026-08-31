@@ -32,7 +32,7 @@ public abstract partial class CorrectedAnimationPlayer : AnimationPlayer
     }
 
     /// <summary>
-    /// // TODO:
+    /// // TODO: document this.
     /// </summary>
     protected abstract Vector3 GetTargetPosition(string animationName);
 

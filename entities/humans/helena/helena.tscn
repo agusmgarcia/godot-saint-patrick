@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dqkrs6t6jrndy"]
 
 [ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_7abgk"]
+[ext_resource type="Script" uid="uid://kqidoo1w8kn5" path="res://components/main/Main.cs" id="2_s44hm"]
 [ext_resource type="PackedScene" uid="uid://8mqqy0e3bst0" path="res://entities/humans/helena/helena.fbx" id="3_helena"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_helena"]
@@ -21,14 +22,16 @@ root_node = NodePath("../Model")
 [node name="HumanMovement" parent="." index="3" unique_id=1683391686]
 RunAcceleration = 14.0
 RunAccelerationDrunkFactor = 0.5
-RunMaxAcceleration = 18.0
 RunMaxSpeed = 4.0
 WalkAcceleration = 8.0
 WalkAccelerationDrunkFactor = 0.6
-WalkMaxAcceleration = 12.0
 WalkMaxSpeed = 1.5
 Deceleration = 20.0
 DecelerationDrunkFactor = 0.65
 
-[node name="Model" parent="." index="5" unique_id=1938991891 instance=ExtResource("3_helena")]
+[node name="Main" type="Node" parent="." index="5" unique_id=1565420777]
+script = ExtResource("2_s44hm")
+metadata/_custom_type_script = "uid://kqidoo1w8kn5"
+
+[node name="Model" parent="." index="6" unique_id=1938991891 instance=ExtResource("3_helena")]
 transform = Transform3D(0.9294, 0, 0, 0, 0.9294, 0, 0, 0, 0.9294, 0, 0, 0)

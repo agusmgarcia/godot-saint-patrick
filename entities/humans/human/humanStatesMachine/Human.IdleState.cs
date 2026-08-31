@@ -90,7 +90,7 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
 
     private void OnFlyRemovalTimeout()
     {
-        if (GD.Randf() < 0.15f && !base.Owner.Main && !base.Owner.Drunk)
+        if (GD.Randf() < 0.15f && base.Owner.MainTracker.Node == null && !base.Owner.Drunk)
             base.Owner.HumanAnimationPlayerTracker.Node?.PlayRandom(EHumanAnimation.FlyRemoval, customBlend: 0.5);
 
         this._flyRemovalTimer.Start(GD.RandRange(5, 60));

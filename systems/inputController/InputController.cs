@@ -1,4 +1,5 @@
 using Godot;
+using SaintPatrick.Components;
 using SaintPatrick.Entities;
 using SaintPatrick.Utils;
 
@@ -10,7 +11,7 @@ namespace SaintPatrick.Systems;
 [GlobalClass]
 public sealed partial class InputController : Node
 {
-    private readonly NodesTracker<MainCharacterSelector> _mainCharacterSelectorTracker = new();
+    private readonly NodesTracker<Main> _mainTracker = new();
     private readonly NodesTracker<MainCameraSelector> _mainCameraSelectorTracker = new();
 
     private Human? _lastMainHuman;
@@ -25,7 +26,7 @@ public sealed partial class InputController : Node
         this._cameraForward = null;
         this._cameraRight = null;
 
-        this._mainCharacterSelectorTracker.Track(base.GetTree().Root);
+        this._mainTracker.Track(base.GetTree().Root);
         this._mainCameraSelectorTracker.Track(base.GetTree().Root);
     }
 
@@ -33,7 +34,7 @@ public sealed partial class InputController : Node
     {
         base._PhysicsProcess(delta);
 
-        var mainHuman = this._mainCharacterSelectorTracker.Node?.MainHuman;
+        var mainHuman = this._mainTracker.Node?.GetOwner<Human>();
         if (mainHuman == null || mainHuman != this._lastMainHuman)
         {
             this._lastMainHuman?.HumanStatesMachineTracker.Node?.Idle();
@@ -81,7 +82,7 @@ public sealed partial class InputController : Node
     public override void _ExitTree()
     {
         this._mainCameraSelectorTracker.Untrack();
-        this._mainCharacterSelectorTracker.Untrack();
+        this._mainTracker.Untrack();
 
         this._cameraRight = null;
         this._cameraForward = null;

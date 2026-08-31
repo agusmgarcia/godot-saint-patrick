@@ -1,4 +1,5 @@
 using Godot;
+using SaintPatrick.Components;
 using SaintPatrick.Utils;
 
 namespace SaintPatrick.Systems;
@@ -9,7 +10,7 @@ namespace SaintPatrick.Systems;
 [GlobalClass]
 public sealed partial class MainCameraSelector : Node
 {
-    private readonly NodesTracker<MainCharacterSelector> _mainCharacterSelectorTracker = new();
+    private readonly NodesTracker<Main> _mainTracker = new();
     private readonly NodesTracker<Camera3D> _camera3DsTracker = new();
 
     /// <summary>
@@ -27,7 +28,7 @@ public sealed partial class MainCameraSelector : Node
     {
         base._EnterTree();
 
-        this._mainCharacterSelectorTracker.Track(base.GetTree().Root);
+        this._mainTracker.Track(base.GetTree().Root);
         this._camera3DsTracker.Track(base.GetTree().Root);
     }
 
@@ -35,7 +36,7 @@ public sealed partial class MainCameraSelector : Node
     {
         base._PhysicsProcess(delta);
 
-        var mainCharacter = this._mainCharacterSelectorTracker.Node?.MainHuman;
+        var mainCharacter = this._mainTracker.Node?.GetOwner<Node3D>();
         if (mainCharacter == null)
             return;
 
@@ -69,7 +70,7 @@ public sealed partial class MainCameraSelector : Node
     public override void _ExitTree()
     {
         this._camera3DsTracker.Untrack();
-        this._mainCharacterSelectorTracker.Untrack();
+        this._mainTracker.Untrack();
 
         base._ExitTree();
     }

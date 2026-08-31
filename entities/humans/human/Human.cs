@@ -1,5 +1,6 @@
 using System;
 using Godot;
+using GodotPlugins.Game;
 using SaintPatrick.Utils;
 
 namespace SaintPatrick.Entities;
@@ -9,15 +10,6 @@ namespace SaintPatrick.Entities;
 /// </summary>
 public partial class Human : CharacterBody3D
 {
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
-    public event Action<bool> MainChanged
-    {
-        add => this._mainObservableProperty.Changed += value;
-        remove => this._mainObservableProperty.Changed -= value;
-    }
-
     /// <summary>
     /// // TODO: document this.
     /// </summary>
@@ -34,16 +26,6 @@ public partial class Human : CharacterBody3D
     {
         add => this._drunkObservableProperty.Changed += value;
         remove => this._drunkObservableProperty.Changed -= value;
-    }
-
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
-    [Export]
-    public bool Main
-    {
-        get => this._mainObservableProperty.Value;
-        set => this._mainObservableProperty.Value = value;
     }
 
     /// <summary>
@@ -84,10 +66,14 @@ public partial class Human : CharacterBody3D
     /// <summary>
     /// // TODO: document this.
     /// </summary>
+    public NodesTracker<SaintPatrick.Components.Main> MainTracker { get; } = new() { Name = "Main" };
+
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
     public NodesTracker<Area3D> SocialZoneArea3DTracker { get; } = new() { Name = "SocialZoneArea3D" };
 
     private readonly ObservableProperty<EGender> _genderObservableProperty = new() { Value = EGender.Male };
-    private readonly ObservableProperty<bool> _mainObservableProperty = new() { Value = false };
     private readonly ObservableProperty<bool> _drunkObservableProperty = new() { Value = false };
 
     public override void _EnterTree()
