@@ -46,7 +46,7 @@ public sealed partial class HumanStatesMachine : StatesMachine<Human>
                 if (collider is not Human)
                     continue;
 
-                if ((collision.GetColliderVelocity() - base.Owner.Velocity).Length() < 2)
+                if ((collision.GetColliderVelocity() - base.Owner.Velocity).LengthSquared() <= 4)
                     continue;
 
                 this._hitCooldownRemaining = this.HitCooldown;

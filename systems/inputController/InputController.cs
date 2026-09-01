@@ -45,7 +45,7 @@ public sealed partial class InputController : Node
         }
 
         var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
-        if (input.Length() <= 0)
+        if (input.IsZeroApprox())
         {
             this._cameraForward = null;
             this._cameraRight = null;

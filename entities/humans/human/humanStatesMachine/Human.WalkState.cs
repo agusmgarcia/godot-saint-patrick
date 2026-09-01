@@ -35,7 +35,7 @@ public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams
         base.OnUpdate(delta);
 
         var toTarget = base.StateParams.Destination - base.Owner.GlobalPosition;
-        if (toTarget.Length() <= 1.0f)
+        if (toTarget.LengthSquared() <= 1.0f)
         {
             base.Owner.HumanStatesMachineTracker.Node?.Idle();
             return;
