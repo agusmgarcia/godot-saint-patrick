@@ -9,14 +9,13 @@ radius = 0.279
 height = 1.58
 
 [node name="Helena" unique_id=1598348195 instance=ExtResource("1_7abgk")]
-Main = true
 Gender = 1
 
 [node name="CollisionShape3D" parent="." index="0" unique_id=2035372996]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79, 0)
 shape = SubResource("CapsuleShape3D_helena")
 
-[node name="HumanAnimationPlayer" parent="." index="1" unique_id=658435941]
+[node name="HumanAnimationPlayer" parent="." index="2" unique_id=658435941]
 root_node = NodePath("../Model")
 
 [node name="HumanMovement" parent="." index="3" unique_id=1683391686]

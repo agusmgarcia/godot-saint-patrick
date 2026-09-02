@@ -13,17 +13,15 @@ height = 1.85
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925, 0)
 shape = SubResource("CapsuleShape3D_mascot")
 
-[node name="HumanAnimationPlayer" parent="." index="1" unique_id=658435941]
+[node name="HumanAnimationPlayer" parent="." index="2" unique_id=658435941]
 root_node = NodePath("../Model")
 
 [node name="HumanMovement" parent="." index="3" unique_id=1683391686]
 RunAcceleration = 8.0
 RunAccelerationDrunkFactor = 0.6
-RunMaxAcceleration = 13.0
 RunMaxSpeed = 3.0
 WalkAcceleration = 5.0
 WalkAccelerationDrunkFactor = 0.7
-WalkMaxAcceleration = 9.0
 WalkMaxSpeed = 1.2
 Deceleration = 13.0
 DecelerationDrunkFactor = 0.7
