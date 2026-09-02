@@ -14,11 +14,12 @@ public abstract partial class CorrectedAnimationPlayer : AnimationPlayer
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
     public float LerpSpeed { get; private set; } = 5.0f;
 
+    protected Node3D? Model { get; private set; }
+
     private readonly NodesTracker<Node3D> _modelTracker = new() { Name = "Model" };
 
     private Vector3 _targetPosition;
     private Vector3 _targetRotation;
-    private Node3D? _model;
 
     public override void _EnterTree()
     {
@@ -26,7 +27,7 @@ public abstract partial class CorrectedAnimationPlayer : AnimationPlayer
 
         this._targetPosition = Vector3.Zero;
         this._targetRotation = Vector3.Zero;
-        this._model = null;
+        this.Model = null;
 
         base.AnimationStarted += this.OnAnimationStarted;
         this.OnAnimationStarted(base.CurrentAnimation);
@@ -51,34 +52,40 @@ public abstract partial class CorrectedAnimationPlayer : AnimationPlayer
         if (string.IsNullOrEmpty(animationName))
             return;
 
-        if (this._model == null)
+        if (this.Model == null)
             return;
 
-        this._targetPosition = this.GetTargetPosition(animationName);
+        this._targetPosition = this.GetTargetPosition(animationName) * this.Model.Scale;
         this._targetRotation = this.GetTargetRotation(animationName);
     }
 
-    private void OnModelTracked(Node3D maybeModel) =>
-        this._model = maybeModel;
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    protected virtual void OnModelTracked(Node3D model) =>
+        this.Model = model;
 
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
 
-        if (this._model == null)
+        if (this.Model == null)
             return;
 
-        this._model.Position = this._model.Position.Lerp(
+        this.Model.Position = this.Model.Position.Lerp(
             this._targetPosition,
             (float)delta * this.LerpSpeed);
 
-        this._model.Rotation = this._model.Rotation.Lerp(
+        this.Model.Rotation = this.Model.Rotation.Lerp(
             this._targetRotation,
             (float)delta * this.LerpSpeed);
     }
 
-    private void OnModelUntracked(Node3D maybeModel) =>
-        this._model = this._model == maybeModel ? null : this._model;
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    protected virtual void OnModelUntracked(Node3D model) =>
+        this.Model = this.Model == model ? null : this.Model;
 
     public override void _ExitTree()
     {
@@ -88,7 +95,7 @@ public abstract partial class CorrectedAnimationPlayer : AnimationPlayer
 
         base.AnimationStarted -= this.OnAnimationStarted;
 
-        this._model = null;
+        this.Model = null;
         this._targetRotation = Vector3.Zero;
         this._targetPosition = Vector3.Zero;
 

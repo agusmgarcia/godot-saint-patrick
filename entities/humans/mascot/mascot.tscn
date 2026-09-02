@@ -4,19 +4,21 @@
 [ext_resource type="PackedScene" uid="uid://dytcowcai7nvi" path="res://entities/humans/mascot/mascot.fbx" id="3_mascot"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mascot"]
-radius = 0.326
-height = 1.85
+radius = 0.3
+height = 1.7
 
 [node name="Mascot" unique_id=1598348195 instance=ExtResource("1_mascot")]
 
-[node name="CollisionShape3D" parent="." index="0" unique_id=2035372996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925, 0)
+[node name="HumanCollisionShape3D" parent="." index="0" unique_id=2035372996]
 shape = SubResource("CapsuleShape3D_mascot")
 
-[node name="HumanAnimationPlayer" parent="." index="2" unique_id=658435941]
+[node name="Height" parent="." index="2" unique_id=312847650]
+Value = 1.85
+
+[node name="HumanAnimationPlayer" parent="." index="3" unique_id=658435941]
 root_node = NodePath("../Model")
 
-[node name="HumanMovement" parent="." index="3" unique_id=1683391686]
+[node name="HumanMovement" parent="." index="4" unique_id=1683391686]
 RunAcceleration = 8.0
 RunAccelerationDrunkFactor = 0.6
 RunMaxSpeed = 3.0
@@ -27,4 +29,3 @@ Deceleration = 13.0
 DecelerationDrunkFactor = 0.7
 
 [node name="Model" parent="." index="5" unique_id=1938991891 instance=ExtResource("3_mascot")]
-transform = Transform3D(1.0882, 0, 0, 0, 1.0882, 0, 0, 0, 1.0882, 0, 0, 0)

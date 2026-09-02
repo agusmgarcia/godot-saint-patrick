@@ -77,6 +77,11 @@ public partial class Human : CharacterBody3D
     /// <summary>
     /// // TODO: document this.
     /// </summary>
+    public NodesTracker<HumanCollisionShape3D> HumanCollisionShape3DTracker { get; } = new() { Name = "HumanCollisionShape3D" };
+
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
     public NodesTracker<Area3D> SocialZoneArea3DTracker { get; } = new() { Name = "SocialZoneArea3D" };
 
     private readonly ObservableProperty<EGender> _genderObservableProperty = new() { Value = EGender.Male };
@@ -90,6 +95,7 @@ public partial class Human : CharacterBody3D
         this.HumanAnimationPlayerTracker.Track(this);
         this.HumanMovementTracker.Track(this);
         this.HumanStatesMachineTracker.Track(this);
+        this.HumanCollisionShape3DTracker.Track(this);
         this.SocialZoneArea3DTracker.Track(this);
     }
 
@@ -110,6 +116,7 @@ public partial class Human : CharacterBody3D
     public override void _ExitTree()
     {
         this.SocialZoneArea3DTracker.Untrack();
+        this.HumanCollisionShape3DTracker.Untrack();
         this.HumanStatesMachineTracker.Untrack();
         this.HumanMovementTracker.Untrack();
         this.HumanAnimationPlayerTracker.Untrack();

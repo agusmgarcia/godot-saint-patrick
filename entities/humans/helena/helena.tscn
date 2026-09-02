@@ -5,20 +5,22 @@
 [ext_resource type="PackedScene" uid="uid://8mqqy0e3bst0" path="res://entities/humans/helena/helena.fbx" id="3_helena"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_helena"]
-radius = 0.279
-height = 1.58
+radius = 0.3
+height = 1.7
 
 [node name="Helena" unique_id=1598348195 instance=ExtResource("1_7abgk")]
 Gender = 1
 
-[node name="CollisionShape3D" parent="." index="0" unique_id=2035372996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79, 0)
+[node name="HumanCollisionShape3D" parent="." index="0" unique_id=2035372996]
 shape = SubResource("CapsuleShape3D_helena")
 
-[node name="HumanAnimationPlayer" parent="." index="2" unique_id=658435941]
+[node name="Height" parent="." index="2" unique_id=312847650]
+Value = 1.58
+
+[node name="HumanAnimationPlayer" parent="." index="3" unique_id=658435941]
 root_node = NodePath("../Model")
 
-[node name="HumanMovement" parent="." index="3" unique_id=1683391686]
+[node name="HumanMovement" parent="." index="4" unique_id=1683391686]
 RunAcceleration = 14.0
 RunAccelerationDrunkFactor = 0.5
 RunMaxSpeed = 4.0
@@ -33,4 +35,3 @@ script = ExtResource("2_s44hm")
 metadata/_custom_type_script = "uid://kqidoo1w8kn5"
 
 [node name="Model" parent="." index="6" unique_id=1938991891 instance=ExtResource("3_helena")]
-transform = Transform3D(0.9294, 0, 0, 0, 0.9294, 0, 0, 0, 0.9294, 0, 0, 0)

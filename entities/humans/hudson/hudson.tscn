@@ -4,19 +4,21 @@
 [ext_resource type="PackedScene" uid="uid://ko0djwoxpfl1" path="res://entities/humans/hudson/hudson.fbx" id="3_hudson"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hudson"]
-radius = 0.321
-height = 1.82
+radius = 0.3
+height = 1.7
 
 [node name="Hudson" unique_id=1598348195 instance=ExtResource("1_hudson")]
 
-[node name="CollisionShape3D" parent="." index="0" unique_id=2035372996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91, 0)
+[node name="HumanCollisionShape3D" parent="." index="0" unique_id=2035372996]
 shape = SubResource("CapsuleShape3D_hudson")
 
-[node name="HumanAnimationPlayer" parent="." index="2" unique_id=658435941]
+[node name="Height" parent="." index="2" unique_id=312847650]
+Value = 1.82
+
+[node name="HumanAnimationPlayer" parent="." index="3" unique_id=658435941]
 root_node = NodePath("../Model")
 
-[node name="HumanMovement" parent="." index="3" unique_id=1683391686]
+[node name="HumanMovement" parent="." index="4" unique_id=1683391686]
 RunAcceleration = 10.5
 RunAccelerationDrunkFactor = 0.5
 RunMaxSpeed = 4.2
@@ -27,4 +29,3 @@ Deceleration = 15.5
 DecelerationDrunkFactor = 0.65
 
 [node name="Model" parent="." index="5" unique_id=1938991891 instance=ExtResource("3_hudson")]
-transform = Transform3D(1.0706, 0, 0, 0, 1.0706, 0, 0, 0, 1.0706, 0, 0, 0)

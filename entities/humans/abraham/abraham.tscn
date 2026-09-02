@@ -4,19 +4,21 @@
 [ext_resource type="PackedScene" uid="uid://cfoy8faaagxm2" path="res://entities/humans/abraham/abraham.fbx" id="3_abraham"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_abraham"]
-radius = 0.311
-height = 1.76
+radius = 0.3
+height = 1.7
 
 [node name="Abraham" unique_id=1598348195 instance=ExtResource("1_abraham")]
 
-[node name="CollisionShape3D" parent="." index="0" unique_id=2035372996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, 0)
+[node name="HumanCollisionShape3D" parent="." index="0" unique_id=2035372996]
 shape = SubResource("CapsuleShape3D_abraham")
 
-[node name="HumanAnimationPlayer" parent="." index="2" unique_id=658435941]
+[node name="Height" parent="." index="2" unique_id=312847650]
+Value = 1.76
+
+[node name="HumanAnimationPlayer" parent="." index="3" unique_id=658435941]
 root_node = NodePath("../Model")
 
-[node name="HumanMovement" parent="." index="3" unique_id=1683391686]
+[node name="HumanMovement" parent="." index="4" unique_id=1683391686]
 RunAcceleration = 11.5
 RunAccelerationDrunkFactor = 0.5
 RunMaxSpeed = 4.0
@@ -27,4 +29,3 @@ Deceleration = 16.5
 DecelerationDrunkFactor = 0.65
 
 [node name="Model" parent="." index="5" unique_id=1938991891 instance=ExtResource("3_abraham")]
-transform = Transform3D(1.0353, 0, 0, 0, 1.0353, 0, 0, 0, 1.0353, 0, 0, 0)

@@ -4,20 +4,22 @@
 [ext_resource type="PackedScene" uid="uid://4nbm8pb7rxmp" path="res://entities/humans/cinthia/cinthia.fbx" id="3_cinthia"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cinthia"]
-radius = 0.282
-height = 1.6
+radius = 0.3
+height = 1.7
 
 [node name="Cinthia" unique_id=1598348195 instance=ExtResource("1_cinthia")]
 Gender = 1
 
-[node name="CollisionShape3D" parent="." index="0" unique_id=2035372996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+[node name="HumanCollisionShape3D" parent="." index="0" unique_id=2035372996]
 shape = SubResource("CapsuleShape3D_cinthia")
 
-[node name="HumanAnimationPlayer" parent="." index="2" unique_id=658435941]
+[node name="Height" parent="." index="2" unique_id=312847650]
+Value = 1.6
+
+[node name="HumanAnimationPlayer" parent="." index="3" unique_id=658435941]
 root_node = NodePath("../Model")
 
-[node name="HumanMovement" parent="." index="3" unique_id=1683391686]
+[node name="HumanMovement" parent="." index="4" unique_id=1683391686]
 RunAcceleration = 13.0
 RunAccelerationDrunkFactor = 0.5
 RunMaxSpeed = 3.8
@@ -28,4 +30,3 @@ Deceleration = 18.0
 DecelerationDrunkFactor = 0.65
 
 [node name="Model" parent="." index="5" unique_id=1938991891 instance=ExtResource("3_cinthia")]
-transform = Transform3D(0.9412, 0, 0, 0, 0.9412, 0, 0, 0, 0.9412, 0, 0, 0)

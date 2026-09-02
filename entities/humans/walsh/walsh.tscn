@@ -4,20 +4,22 @@
 [ext_resource type="PackedScene" uid="uid://5ap1cffo50m6" path="res://entities/humans/walsh/walsh.fbx" id="3_walsh"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_walsh"]
-radius = 0.286
-height = 1.62
+radius = 0.3
+height = 1.7
 
 [node name="Walsh" unique_id=1598348195 instance=ExtResource("1_walsh")]
 Gender = 1
 
-[node name="CollisionShape3D" parent="." index="0" unique_id=2035372996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.81, 0)
+[node name="HumanCollisionShape3D" parent="." index="0" unique_id=2035372996]
 shape = SubResource("CapsuleShape3D_walsh")
 
-[node name="HumanAnimationPlayer" parent="." index="2" unique_id=658435941]
+[node name="Height" parent="." index="2" unique_id=312847650]
+Value = 1.62
+
+[node name="HumanAnimationPlayer" parent="." index="3" unique_id=658435941]
 root_node = NodePath("../Model")
 
-[node name="HumanMovement" parent="." index="3" unique_id=1683391686]
+[node name="HumanMovement" parent="." index="4" unique_id=1683391686]
 RunAcceleration = 12.5
 RunAccelerationDrunkFactor = 0.5
 RunMaxSpeed = 3.7
@@ -28,4 +30,3 @@ Deceleration = 17.5
 DecelerationDrunkFactor = 0.6
 
 [node name="Model" parent="." index="5" unique_id=1938991891 instance=ExtResource("3_walsh")]
-transform = Transform3D(0.9529, 0, 0, 0, 0.9529, 0, 0, 0, 0.9529, 0, 0, 0)

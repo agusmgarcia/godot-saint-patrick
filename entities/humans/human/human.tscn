@@ -23,8 +23,12 @@
 [ext_resource type="AnimationLibrary" uid="uid://brn3jkov0cagr" path="res://entities/humans/human/humanAnimationPlayer/human.talk.2.fbx" id="16_7m1so"]
 [ext_resource type="AnimationLibrary" uid="uid://dqbvekp16pgpg" path="res://entities/humans/human/humanAnimationPlayer/human.talk.3.fbx" id="17_yocrs"]
 [ext_resource type="Script" uid="uid://s02i6q81k7rc" path="res://entities/humans/human/humanMovement/HumanMovement.cs" id="20_hqa5r"]
+[ext_resource type="Script" uid="uid://cafy20ojbvlb3" path="res://components/height/Height.cs" id="21_height"]
+[ext_resource type="Script" uid="uid://cpkngpptewmue" path="res://entities/humans/human/humanCollisionShape3D/HumanCollisionShape3D.cs" id="22_hcs3d"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_45isd"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_reference"]
+radius = 0.3
+height = 1.7
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_45isd"]
 height = 0.1
@@ -35,12 +39,18 @@ collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_human")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2035372996]
-shape = SubResource("SphereShape3D_45isd")
+[node name="HumanCollisionShape3D" type="CollisionShape3D" parent="." unique_id=2035372996]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("CapsuleShape3D_reference")
+script = ExtResource("22_hcs3d")
 
 [node name="Dialogue" type="Node" parent="." unique_id=446930260]
 script = ExtResource("2_sykna")
 metadata/_custom_type_script = "uid://bqp3aqampcjla"
+
+[node name="Height" type="Node" parent="." unique_id=312847650]
+script = ExtResource("21_height")
+Value = 1.7
 
 [node name="HumanAnimationPlayer" type="AnimationPlayer" parent="." unique_id=658435941]
 libraries/human.argue.1 = ExtResource("3_4ps2d")
