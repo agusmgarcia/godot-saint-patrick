@@ -10,9 +10,6 @@ namespace SaintPatrick.Systems;
 [GlobalClass]
 public sealed partial class MainCameraSelector : Node
 {
-    private readonly NodesTracker<Main> _mainTracker = new();
-    private readonly NodesTracker<Camera3D> _camera3DsTracker = new();
-
     /// <summary>
     /// // TODO: document this.
     /// </summary>
@@ -23,6 +20,9 @@ public sealed partial class MainCameraSelector : Node
     /// // TODO: document this.
     /// </summary>
     public Camera3D? ActiveCamera { get; private set; }
+
+    private readonly NodesTracker<Main> _mainTracker = new();
+    private readonly NodesTracker<Camera3D> _camera3DsTracker = new();
 
     public override void _EnterTree()
     {

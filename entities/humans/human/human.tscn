@@ -59,13 +59,13 @@ libraries/human.walk.1 = ExtResource("13_yocrs")
 script = ExtResource("3_ncc1u")
 metadata/_custom_type_script = "uid://gy1gs6s1xgyf"
 
-[node name="HumanStatesMachine" type="Node" parent="." unique_id=446732591]
-script = ExtResource("4_ffwvl")
-metadata/_custom_type_script = "uid://d1nrnrhsxfwqc"
-
 [node name="HumanMovement" type="Node" parent="." unique_id=1683391686]
 script = ExtResource("20_hqa5r")
 metadata/_custom_type_script = "uid://s02i6q81k7rc"
+
+[node name="HumanStatesMachine" type="Node" parent="." unique_id=446732591]
+script = ExtResource("4_ffwvl")
+metadata/_custom_type_script = "uid://d1nrnrhsxfwqc"
 
 [node name="SocialZoneArea3D" type="Area3D" parent="." unique_id=151741501]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
