@@ -13,7 +13,7 @@ public sealed partial class HumanAnimationPlayer : CorrectedAnimationPlayer
 {
     private const float _INITIAL_HEIGHT = 1.7f;
 
-    private readonly NodesTracker<Height> _heightTracker = new() { Name = "Height" };
+    private readonly NodesTracker<Height> _heightTracker = new();
 
     public override void _EnterTree()
     {

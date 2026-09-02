@@ -47,45 +47,9 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
 
         base.Owner.HumanMovementTracker.Node?.Decelerate();
 
-        var overlappingBodies = base.Owner.SocialZoneArea3DTracker.Node?.GetOverlappingBodies();
-        if (overlappingBodies != null)
-        {
-            var minDistanceBody = default(Human);
-            var minDistanceSquared = float.MaxValue;
-
-            foreach (var body in overlappingBodies)
-            {
-                if (body == base.Owner)
-                    continue;
-
-                if (body is not Human other)
-                    continue;
-
-                var raycast = PhysicsRayQueryParameters3D.Create(other.GlobalPosition, base.Owner.GlobalPosition);
-                raycast.Exclude = [other.GetRid(), base.Owner.GetRid()];
-
-                var spaceState = base.Owner.GetWorld3D().DirectSpaceState;
-                if (spaceState.IntersectRay(raycast).Count > 0)
-                    continue;
-
-                const float COS_HALF_FOV_50 = 0.906307787f;
-
-                var toTarget = other.GlobalPosition - base.Owner.GlobalPosition;
-                if ((-base.Owner.GlobalTransform.Basis.Z).Dot(toTarget.Normalized()) >= COS_HALF_FOV_50)
-                    continue;
-
-                var lengthSquared = toTarget.LengthSquared();
-                if (minDistanceSquared <= lengthSquared)
-                    continue;
-
-                minDistanceSquared = lengthSquared;
-                minDistanceBody = other;
-            }
-
-            if (minDistanceBody != null)
-                // TODO: instead use the rotation component.
-                base.Owner.LookAt(minDistanceBody.GlobalPosition, delta, 2.0f);
-        }
+        if (base.Owner.SocialZoneArea3DTracker.Node?.NearestCharacter is Human nearestHuman)
+            // TODO: instead use the rotation component.
+            base.Owner.LookAt(nearestHuman.GlobalPosition, delta, 2.0f);
     }
 
     private void OnFlyRemovalTimeout()

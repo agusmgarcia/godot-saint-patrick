@@ -9,11 +9,11 @@ height = 1.7
 
 [node name="Vahid" unique_id=1598348195 instance=ExtResource("1_vahid")]
 
-[node name="HumanCollisionShape3D" parent="." index="0" unique_id=2035372996]
-shape = SubResource("CapsuleShape3D_vahid")
-
-[node name="HumanAnimationPlayer" parent="." index="3" unique_id=658435941]
+[node name="HumanAnimationPlayer" parent="." index="2" unique_id=658435941]
 root_node = NodePath("../Model")
+
+[node name="HumanCollisionShape3D" parent="." index="3" unique_id=2035372996]
+shape = SubResource("CapsuleShape3D_vahid")
 
 [node name="HumanMovement" parent="." index="4" unique_id=1683391686]
 RunAcceleration = 12.0
@@ -25,4 +25,7 @@ WalkMaxSpeed = 1.45
 Deceleration = 17.0
 DecelerationDrunkFactor = 0.65
 
-[node name="Model" parent="." index="5" unique_id=1938991891 instance=ExtResource("3_vahid")]
+[node name="Model" parent="." index="6" unique_id=1938991891 instance=ExtResource("3_vahid")]
+
+[node name="SocialZoneArea3D" parent="." index="7" unique_id=151741501]
+FieldOfView = 132.0

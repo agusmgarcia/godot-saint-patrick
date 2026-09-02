@@ -11,14 +11,14 @@ height = 1.7
 [node name="Helena" unique_id=1598348195 instance=ExtResource("1_7abgk")]
 Gender = 1
 
-[node name="HumanCollisionShape3D" parent="." index="0" unique_id=2035372996]
-shape = SubResource("CapsuleShape3D_helena")
-
-[node name="Height" parent="." index="2" unique_id=312847650]
+[node name="Height" parent="." index="1" unique_id=312847650]
 Value = 1.58
 
-[node name="HumanAnimationPlayer" parent="." index="3" unique_id=658435941]
+[node name="HumanAnimationPlayer" parent="." index="2" unique_id=658435941]
 root_node = NodePath("../Model")
+
+[node name="HumanCollisionShape3D" parent="." index="3" unique_id=2035372996]
+shape = SubResource("CapsuleShape3D_helena")
 
 [node name="HumanMovement" parent="." index="4" unique_id=1683391686]
 RunAcceleration = 14.0
@@ -35,3 +35,6 @@ script = ExtResource("2_s44hm")
 metadata/_custom_type_script = "uid://kqidoo1w8kn5"
 
 [node name="Model" parent="." index="6" unique_id=1938991891 instance=ExtResource("3_helena")]
+
+[node name="SocialZoneArea3D" parent="." index="8" unique_id=151741501]
+FieldOfView = 135.0

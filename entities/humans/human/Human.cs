@@ -62,6 +62,11 @@ public partial class Human : CharacterBody3D
     /// <summary>
     /// // TODO: document this.
     /// </summary>
+    public NodesTracker<HumanCollisionShape3D> HumanCollisionShape3DTracker { get; } = new() { Name = "HumanCollisionShape3D" };
+
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
     public NodesTracker<HumanStatesMachine> HumanStatesMachineTracker { get; } = new() { Name = "HumanStatesMachine" };
 
     /// <summary>
@@ -77,12 +82,7 @@ public partial class Human : CharacterBody3D
     /// <summary>
     /// // TODO: document this.
     /// </summary>
-    public NodesTracker<HumanCollisionShape3D> HumanCollisionShape3DTracker { get; } = new() { Name = "HumanCollisionShape3D" };
-
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
-    public NodesTracker<Area3D> SocialZoneArea3DTracker { get; } = new() { Name = "SocialZoneArea3D" };
+    public NodesTracker<SocialZoneArea3D> SocialZoneArea3DTracker { get; } = new() { Name = "SocialZoneArea3D" };
 
     private readonly ObservableProperty<EGender> _genderObservableProperty = new() { Value = EGender.Male };
     private readonly ObservableProperty<bool> _drunkObservableProperty = new() { Value = false };

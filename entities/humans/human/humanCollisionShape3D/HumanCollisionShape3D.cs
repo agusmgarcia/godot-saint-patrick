@@ -10,10 +10,10 @@ namespace SaintPatrick.Entities;
 [GlobalClass]
 public sealed partial class HumanCollisionShape3D : CollisionShape3D
 {
-    private const float _INITIAL_HEIGHT = 1.7f;
-    private const float _INITIAL_RADIUS = 0.3f;
+    private readonly NodesTracker<Height> _heightTracker = new();
 
-    private readonly NodesTracker<Height> _heightTracker = new() { Name = "Height" };
+    private float _initialHeight;
+    private float _initialRadius;
 
     public override void _EnterTree()
     {
@@ -28,8 +28,11 @@ public sealed partial class HumanCollisionShape3D : CollisionShape3D
     {
         if (base.Shape is CapsuleShape3D capsule)
         {
+            this._initialHeight = capsule.Height;
             capsule.Height = height.Value;
-            capsule.Radius = HumanCollisionShape3D._INITIAL_RADIUS * (height.Value / HumanCollisionShape3D._INITIAL_HEIGHT);
+
+            this._initialRadius = capsule.Radius;
+            capsule.Radius = this._initialRadius * (height.Value / this._initialHeight);
         }
 
         base.Position = new Vector3(0f, height.Value / 2f, 0f);
@@ -41,8 +44,11 @@ public sealed partial class HumanCollisionShape3D : CollisionShape3D
 
         if (base.Shape is CapsuleShape3D capsule)
         {
-            capsule.Radius = HumanCollisionShape3D._INITIAL_RADIUS;
-            capsule.Height = HumanCollisionShape3D._INITIAL_HEIGHT;
+            capsule.Radius = this._initialRadius;
+            this._initialRadius = 0;
+
+            capsule.Height = this._initialHeight;
+            this._initialHeight = 0;
         }
     }
 

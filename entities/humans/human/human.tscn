@@ -24,6 +24,7 @@
 [ext_resource type="AnimationLibrary" uid="uid://dqbvekp16pgpg" path="res://entities/humans/human/humanAnimationPlayer/human.talk.3.fbx" id="17_yocrs"]
 [ext_resource type="Script" uid="uid://s02i6q81k7rc" path="res://entities/humans/human/humanMovement/HumanMovement.cs" id="20_hqa5r"]
 [ext_resource type="Script" uid="uid://cafy20ojbvlb3" path="res://components/height/Height.cs" id="21_height"]
+[ext_resource type="Script" uid="uid://dj7q0ojieeeeh" path="res://components/socialZoneArea3D/SocialZoneArea3D.cs" id="21_sozn"]
 [ext_resource type="Script" uid="uid://cpkngpptewmue" path="res://entities/humans/human/humanCollisionShape3D/HumanCollisionShape3D.cs" id="22_hcs3d"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_reference"]
@@ -31,18 +32,13 @@ radius = 0.3
 height = 1.7
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_45isd"]
-height = 0.1
+height = 1.7
 radius = 2.0
 
 [node name="Human" type="CharacterBody3D" unique_id=1598348195]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_human")
-
-[node name="HumanCollisionShape3D" type="CollisionShape3D" parent="." unique_id=2035372996]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
-shape = SubResource("CapsuleShape3D_reference")
-script = ExtResource("22_hcs3d")
 
 [node name="Dialogue" type="Node" parent="." unique_id=446930260]
 script = ExtResource("2_sykna")
@@ -74,6 +70,11 @@ libraries/human.walk.1 = ExtResource("13_yocrs")
 script = ExtResource("3_ncc1u")
 metadata/_custom_type_script = "uid://gy1gs6s1xgyf"
 
+[node name="HumanCollisionShape3D" type="CollisionShape3D" parent="." unique_id=2035372996]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("CapsuleShape3D_reference")
+script = ExtResource("22_hcs3d")
+
 [node name="HumanMovement" type="Node" parent="." unique_id=1683391686]
 script = ExtResource("20_hqa5r")
 metadata/_custom_type_script = "uid://s02i6q81k7rc"
@@ -83,9 +84,11 @@ script = ExtResource("4_ffwvl")
 metadata/_custom_type_script = "uid://d1nrnrhsxfwqc"
 
 [node name="SocialZoneArea3D" type="Area3D" parent="." unique_id=151741501]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
 collision_layer = 0
 collision_mask = 2
+script = ExtResource("21_sozn")
+metadata/_custom_type_script = "uid://dj7q0ojieeeeh"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SocialZoneArea3D" unique_id=629376581]
 shape = SubResource("CylinderShape3D_45isd")
