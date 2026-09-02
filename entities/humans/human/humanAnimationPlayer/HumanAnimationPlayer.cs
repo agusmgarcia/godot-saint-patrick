@@ -35,6 +35,16 @@ public sealed partial class HumanAnimationPlayer : CorrectedAnimationPlayer
             _ => Vector3.Zero,
         };
     }
+
+    protected override Vector3 GetTargetRotation(string animationName)
+    {
+        return animationName switch
+        {
+            "human.talk.1/mixamo_com" => new Vector3(0, -0.349066f, 0),
+            "human.talk.3/mixamo_com" => new Vector3(0, -0.349066f, 0),
+            _ => Vector3.Zero,
+        };
+    }
 }
 
 /// <summary>
