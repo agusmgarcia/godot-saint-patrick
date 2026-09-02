@@ -46,13 +46,13 @@ border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="Theme" id="Theme_qq3yp"]
-default_font_size = 20
+default_font_size = 30
 Button/styles/disabled = SubResource("StyleBoxFlat_spyqn")
 Button/styles/focus = SubResource("StyleBoxFlat_ri4m3")
 Button/styles/hover = SubResource("StyleBoxFlat_e0njw")
@@ -133,6 +133,13 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer" unique_id=1428277592]
 layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Portrait" type="TextureRect" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=924294161]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+custom_maximum_size = Vector2(150, 150)
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1624289611]
 layout_mode = 2
@@ -143,7 +150,6 @@ unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.501961)
 layout_mode = 2
 mouse_filter = 1
-theme_override_font_sizes/normal_font_size = 25
 bbcode_enabled = true
 text = "Character"
 fit_content = true
@@ -153,7 +159,6 @@ scroll_active = false
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 30
 text = "Dialogue..."
 
 [node name="Control" type="Control" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1162966119]
@@ -191,7 +196,6 @@ response_template = NodePath("ResponseExample")
 
 [node name="ResponseExample" type="Button" parent="Balloon/ResponsesMenu" unique_id=914537232]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
 text = "Response example"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1116280512]

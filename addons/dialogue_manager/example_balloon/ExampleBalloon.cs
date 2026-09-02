@@ -17,6 +17,7 @@ namespace DialogueManagerRuntime
     RichTextLabel dialogueLabel = null!;
     VBoxContainer responsesMenu = null!;
     Polygon2D progress = null!;
+    TextureRect portrait = null!;
 
     Array<Variant> temporaryGameStates = new Array<Variant>();
     bool isWaitingForInput = false;
@@ -57,6 +58,7 @@ namespace DialogueManagerRuntime
       dialogueLabel = GetNode<RichTextLabel>("%DialogueLabel");
       responsesMenu = GetNode<VBoxContainer>("%ResponsesMenu");
       progress = GetNode<Polygon2D>("%Progress");
+      portrait = GetNode<TextureRect>("%Portrait");
 
       balloon.Hide();
 
@@ -201,6 +203,15 @@ namespace DialogueManagerRuntime
       // Set up the character name
       characterLabel.Visible = !string.IsNullOrEmpty(dialogueLine.Character);
       characterLabel.Text = Tr(dialogueLine.Character, "dialogue");
+
+      var portraitPath = "res://entities/humans/helena/helena.portrait.jpeg";
+      if (ResourceLoader.Exists(portraitPath))
+      {
+        GD.Print("Exists");
+        portrait.Texture = ResourceLoader.Load<Texture2D>(portraitPath);
+      }
+      else
+        portrait.Texture = null;
 
       // Set up the dialogue
       dialogueLabel.Hide();
