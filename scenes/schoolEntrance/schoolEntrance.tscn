@@ -74,11 +74,11 @@ shadow_enabled = true
 [node name="Cameras" type="Node" parent="." unique_id=2107464903]
 
 [node name="Access" type="Camera3D" parent="Cameras" unique_id=899676698]
-transform = Transform3D(0.96792036, 0.10346657, -0.2289648, 0, 0.91127634, 0.41179532, 0.25125727, -0.39858508, 0.88204294, 0.48687077, 5.551695, 22.58215)
+transform = Transform3D(0.9501958, -0.028852971, 0.31031513, 0, 0.99570525, 0.09258027, -0.31165358, -0.08796938, 0.94611496, 2.6669118, 2.4145517, 18.966413)
 fov = 60.0
 
 [node name="Bridge" type="Camera3D" parent="Cameras" unique_id=533416551]
-transform = Transform3D(0.95380247, 0.09895885, -0.28366882, 0, 0.9441954, 0.32938585, 0.30043444, -0.31416902, 0.9005759, -1.7837934, 3.3499527, 36.291992)
+transform = Transform3D(0.68559444, 0.2397875, -0.6873589, 0, 0.94419545, 0.32938582, 0.7279837, -0.22582509, 0.6473352, -3.317162, 3.3499527, 34.820663)
 fov = 60.0
 
 [node name="Entrance" type="Camera3D" parent="Cameras" unique_id=47935763]

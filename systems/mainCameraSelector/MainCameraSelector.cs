@@ -13,12 +13,6 @@ public sealed partial class MainCameraSelector : Node
     /// <summary>
     /// // TODO: document this.
     /// </summary>
-    [Export(PropertyHint.Range, "0,10,or_greater,hide_control,suffix:m")]
-    public float Hysteresis { get; private set; } = 1.0f;
-
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
     public Camera3D? ActiveCamera { get; private set; }
 
     private readonly NodesTracker<Main> _mainTracker = new();
@@ -42,23 +36,21 @@ public sealed partial class MainCameraSelector : Node
 
         var nearestCamera = default(Camera3D);
         var nearestDistance = float.MaxValue;
-        var doubleHysteresis = this.Hysteresis * this.Hysteresis;
 
         foreach (var camera in _camera3DsTracker.Nodes)
         {
+            if (!camera.IsPositionInFrustum(mainCharacter.GlobalPosition))
+                continue;
+
             var distance = camera.GlobalPosition.DistanceSquaredTo(mainCharacter.GlobalPosition);
+            if (distance >= nearestDistance)
+                continue;
 
-            if (camera != this.ActiveCamera)
-                distance += doubleHysteresis;
-
-            if (distance < nearestDistance)
-            {
-                nearestDistance = distance;
-                nearestCamera = camera;
-            }
+            nearestDistance = distance;
+            nearestCamera = camera;
         }
 
-        if (this.ActiveCamera != nearestCamera)
+        if (nearestCamera != null && this.ActiveCamera != nearestCamera)
         {
             this.ActiveCamera = nearestCamera;
 
