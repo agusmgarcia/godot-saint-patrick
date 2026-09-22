@@ -1,0 +1,17 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://gyc6kejeuaut"]
+
+[ext_resource type="Texture2D" uid="uid://cfw8nln7yv0qa" path="res://materials/asphalt/asphalt.ambientOcclusion.jpg" id="AmbientOcclusion"]
+[ext_resource type="Texture2D" uid="uid://wixi7oqmg55y" path="res://materials/asphalt/asphalt.color.jpg" id="Color"]
+[ext_resource type="Texture2D" uid="uid://ury2mkwy1sdo" path="res://materials/asphalt/asphalt.normalGL.jpg" id="NormalGL"]
+[ext_resource type="Texture2D" uid="uid://by5auld1pnt2h" path="res://materials/asphalt/asphalt.roughness.jpg" id="Roughness"]
+
+[resource]
+albedo_texture = ExtResource("Color")
+roughness_texture = ExtResource("Roughness")
+roughness_texture_channel = 4
+normal_enabled = true
+normal_texture = ExtResource("NormalGL")
+ao_enabled = true
+ao_texture = ExtResource("AmbientOcclusion")
+ao_texture_channel = 4
+uv1_triplanar = true
