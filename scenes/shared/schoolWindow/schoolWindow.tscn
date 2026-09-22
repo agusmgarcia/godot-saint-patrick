@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://bfjfpjdb8d5pc"]
+
+[ext_resource type="Material" uid="uid://c5hhgfn8ttm77" path="res://materials/whitePaint/whitePaint.tres" id="2_frame"]
+[ext_resource type="Material" uid="uid://darkglass001" path="res://materials/darkGlass/darkGlass.tres" id="3_glass"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_frame_top"]
+size = Vector3(2.5, 0.08, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_frame_bottom"]
+size = Vector3(2.5, 0.08, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_frame_left"]
+size = Vector3(0.08, 1.34, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_frame_right"]
+size = Vector3(0.08, 1.34, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mullion"]
+size = Vector3(0.06, 1.34, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_glass"]
+size = Vector3(2.34, 1.34, 0.05)
+
+[node name="SchoolWindow" type="Node3D" unique_id=585093603]
+
+[node name="Frame" type="Node3D" parent="." unique_id=446889253]
+
+[node name="Top" type="MeshInstance3D" parent="Frame" unique_id=324987900]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.71, 0)
+mesh = SubResource("BoxMesh_frame_top")
+surface_material_override/0 = ExtResource("2_frame")
+
+[node name="Bottom" type="MeshInstance3D" parent="Frame" unique_id=198569134]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.71, 0)
+mesh = SubResource("BoxMesh_frame_bottom")
+surface_material_override/0 = ExtResource("2_frame")
+
+[node name="Left" type="MeshInstance3D" parent="Frame" unique_id=1155774727]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.21, 0, 0)
+mesh = SubResource("BoxMesh_frame_left")
+surface_material_override/0 = ExtResource("2_frame")
+
+[node name="Right" type="MeshInstance3D" parent="Frame" unique_id=1825251217]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.21, 0, 0)
+mesh = SubResource("BoxMesh_frame_right")
+surface_material_override/0 = ExtResource("2_frame")
+
+[node name="Mullion" type="MeshInstance3D" parent="Frame" unique_id=129045961]
+mesh = SubResource("BoxMesh_mullion")
+surface_material_override/0 = ExtResource("2_frame")
+
+[node name="Glass" type="MeshInstance3D" parent="." unique_id=778208069]
+mesh = SubResource("BoxMesh_glass")
+surface_material_override/0 = ExtResource("3_glass")

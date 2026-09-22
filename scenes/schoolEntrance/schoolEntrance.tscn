@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://b5k7x2qr8dnme"]
+
+[ext_resource type="PackedScene" uid="uid://bmljoluxik5wr" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.tscn" id="7_5jtxm"]
+[ext_resource type="PackedScene" uid="uid://kf1kuq4u5fid" path="res://scenes/schoolEntrance/bridge/bridge.tscn" id="8_bridge"]
+[ext_resource type="PackedScene" uid="uid://dkh0siy1yckv0" path="res://scenes/schoolEntrance/parkingLot/parkingLot.tscn" id="9_parking"]
+[ext_resource type="PackedScene" uid="uid://c3ilcm6imfur6" path="res://scenes/schoolEntrance/streetBlock/streetBlock.tscn" id="10_streetblock"]
+[ext_resource type="PackedScene" uid="uid://b18wfsc1jivmc" path="res://scenes/schoolEntrance/river/river.tscn" id="11_river"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_night"]
+sky_top_color = Color(0.078766845, 0.0787035, 0.16751745, 1)
+sky_horizon_color = Color(0.050980393, 0.050980393, 0.11764706, 1)
+sky_curve = 0.1
+ground_bottom_color = Color(0.01, 0.01, 0.02, 1)
+ground_horizon_color = Color(0.04, 0.04, 0.08, 1)
+ground_curve = 0.1
+
+[sub_resource type="Sky" id="Sky_night"]
+sky_material = SubResource("ProceduralSkyMaterial_night")
+
+[sub_resource type="Environment" id="Environment_night"]
+background_mode = 2
+sky = SubResource("Sky_night")
+ambient_light_source = 2
+ambient_light_color = Color(0.5, 0.5, 0.65, 1)
+ambient_light_energy = 0.3
+fog_enabled = true
+fog_light_color = Color(0.05, 0.05, 0.1, 1)
+fog_light_energy = 2.0
+fog_density = 0.0
+fog_aerial_perspective = 0.5
+
+[node name="SchoolEntrance" type="Node3D" unique_id=517855459]
+
+[node name="Bridge" parent="." unique_id=986381520 instance=ExtResource("8_bridge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20.171587)
+
+[node name="ParkingLot" parent="." unique_id=2104304287 instance=ExtResource("9_parking")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 21.960794)
+
+[node name="SchoolBuilding" parent="." unique_id=1032568515 instance=ExtResource("7_5jtxm")]
+
+[node name="StreetBlock" parent="." unique_id=1230306427 instance=ExtResource("10_streetblock")]
+
+[node name="River" parent="." unique_id=382900447 instance=ExtResource("11_river")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.95, 27)
+
+[node name="Environment" type="Node3D" parent="." unique_id=198896989]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment" unique_id=175692185]
+environment = SubResource("Environment_night")
+
+[node name="DirectionalLight" type="DirectionalLight3D" parent="Environment" unique_id=1999757063]
+transform = Transform3D(0.8660254, 0, 0.50000006, -0.35355338, 0.70710677, 0.61237246, -0.35355335, -0.7071068, 0.61237246, 0, 0, 0)
+light_color = Color(0.7529412, 0.8156863, 1, 1)
+light_energy = 0.3
+shadow_enabled = true
+
+[node name="Cameras" type="Node" parent="." unique_id=2107464903]
+
+[node name="Access" type="Camera3D" parent="Cameras" unique_id=899676698]
+transform = Transform3D(0.9501958, -0.028852971, 0.31031513, 0, 0.99570525, 0.09258027, -0.31165358, -0.08796938, 0.94611496, 2.6669118, 2.4145517, 18.966413)
+fov = 60.0
+
+[node name="Bridge" type="Camera3D" parent="Cameras" unique_id=533416551]
+transform = Transform3D(0.68559444, 0.2397875, -0.6873589, 0, 0.94419545, 0.32938582, 0.7279837, -0.22582509, 0.6473352, -3.317162, 3.3499527, 34.820663)
+fov = 60.0
+
+[node name="Entrance" type="Camera3D" parent="Cameras" unique_id=47935763]
+transform = Transform3D(0.926614, -0.11442702, 0.35818017, 0, 0.9525712, 0.3043158, -0.37601405, -0.2819833, 0.8826658, 7.010169, 2.8091545, 39.693356)
+fov = 60.0
