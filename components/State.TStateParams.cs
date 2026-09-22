@@ -1,0 +1,17 @@
+namespace SaintPatrick.Components;
+
+/// <summary>
+/// Base class for states that carry a <typeparamref name="TStateParams"/> struct passed on each transition.
+/// </summary>
+public abstract partial class State<TStateParams> : State
+    where TStateParams : struct
+{
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public TStateParams StateParams { get; internal set; } = default;
+
+    /// <inheritdoc/>
+    public sealed override void _CopyStateParams(ValueType stateParams) =>
+        this.StateParams = (TStateParams)stateParams;
+}
