@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://dy7e2cqkxm4aa"]
+
+[ext_resource type="Script" uid="uid://nkrsck7ca5h" path="res://entities/humans/human/Human.cs" id="1_human"]
+[ext_resource type="AnimationLibrary" uid="uid://duv7bilmq1jw8" path="res://entities/humans/human/animations/human.drunkIdle.1.fbx" id="2_2rbr1"]
+[ext_resource type="Script" uid="uid://chihexamhc5et" path="res://components/Height.cs" id="2_7q7s5"]
+[ext_resource type="AnimationLibrary" uid="uid://b0pueu60y8snb" path="res://entities/humans/human/animations/human.idle.1.fbx" id="2_ffwvl"]
+[ext_resource type="Script" uid="uid://bp44bcrt20ir3" path="res://components/AutoTransformCollisionShape3D.cs" id="2_j3wvj"]
+[ext_resource type="AnimationLibrary" uid="uid://cek0ojprlf881" path="res://entities/humans/human/animations/human.argue.1.fbx" id="3_4ps2d"]
+[ext_resource type="AnimationLibrary" uid="uid://mltoawrfcdh3" path="res://entities/humans/human/animations/human.drunkRun.1.fbx" id="3_evr87"]
+[ext_resource type="AnimationLibrary" uid="uid://btqcmki0i08d2" path="res://entities/humans/human/animations/human.argue.2.fbx" id="4_7q7s5"]
+[ext_resource type="Script" uid="uid://d1nrnrhsxfwqc" path="res://entities/humans/human/components/HumanStateMachine.cs" id="4_ffwvl"]
+[ext_resource type="AnimationLibrary" uid="uid://doleeyb52ev5n" path="res://entities/humans/human/animations/human.drunkWalk.1.fbx" id="4_u0kdo"]
+[ext_resource type="AnimationLibrary" uid="uid://dp68xt7714vvt" path="res://entities/humans/human/animations/human.flyRemoval.1.fbx" id="5_l4cms"]
+[ext_resource type="AnimationLibrary" uid="uid://caqyc3l4fau0a" path="res://entities/humans/human/animations/human.dance.1.fbx" id="5_sykna"]
+[ext_resource type="AnimationLibrary" uid="uid://ctb670d2287eu" path="res://entities/humans/human/animations/human.idle.2.fbx" id="7_hqa5r"]
+[ext_resource type="AnimationLibrary" uid="uid://bbmcf4ps6nwue" path="res://entities/humans/human/animations/human.idle.3.fbx" id="8_4ps2d"]
+[ext_resource type="AnimationLibrary" uid="uid://dtcvweajfwruw" path="res://entities/humans/human/animations/human.fall.1.fbx" id="8_7q7s5"]
+[ext_resource type="AnimationLibrary" uid="uid://dprf6pfciuhs2" path="res://entities/humans/human/animations/human.run.1.fbx" id="9_7q7s5"]
+[ext_resource type="AnimationLibrary" uid="uid://jhakstccpihf" path="res://entities/humans/human/animations/human.reactToHit.1.fbx" id="11_2rbr1"]
+[ext_resource type="AnimationLibrary" uid="uid://dy7ne3qi7nxwt" path="res://entities/humans/human/animations/human.land.1.fbx" id="13_sykna"]
+[ext_resource type="AnimationLibrary" uid="uid://cs6bn3rv5fh8t" path="res://entities/humans/human/animations/human.walk.1.fbx" id="13_yocrs"]
+[ext_resource type="AnimationLibrary" uid="uid://dyirnyykq8ltf" path="res://entities/humans/human/animations/human.talk.1.fbx" id="15_j3wvj"]
+[ext_resource type="AnimationLibrary" uid="uid://brn3jkov0cagr" path="res://entities/humans/human/animations/human.talk.2.fbx" id="16_7m1so"]
+[ext_resource type="AnimationLibrary" uid="uid://dqbvekp16pgpg" path="res://entities/humans/human/animations/human.talk.3.fbx" id="17_yocrs"]
+[ext_resource type="Script" uid="uid://s02i6q81k7rc" path="res://entities/humans/human/components/HumanVelocity.cs" id="20_hqa5r"]
+[ext_resource type="Script" uid="uid://dxs7iaqw05ci2" path="res://entities/humans/human/components/HumanAnimationPlayer.cs" id="21_sykna"]
+[ext_resource type="Script" uid="uid://by5bl25advd14" path="res://entities/humans/human/components/HumanDrunk.cs" id="23_yocrs"]
+[ext_resource type="Script" uid="uid://dmrt6q16jkcda" path="res://entities/humans/human/components/HumanGender.cs" id="24_w6qrs"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_45isd"]
+radius = 0.3
+height = 1.7
+
+[node name="Human" type="CharacterBody3D" unique_id=1598348195]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_human")
+
+[node name="AutoTransformCollisionShape3D" type="CollisionShape3D" parent="." unique_id=451022087]
+shape = SubResource("CapsuleShape3D_45isd")
+script = ExtResource("2_j3wvj")
+metadata/_custom_type_script = "uid://bp44bcrt20ir3"
+
+[node name="Height" type="Node" parent="." unique_id=1612580561]
+script = ExtResource("2_7q7s5")
+Value = 1.7
+metadata/_custom_type_script = "uid://chihexamhc5et"
+
+[node name="HumanAnimationPlayer" type="AnimationPlayer" parent="." unique_id=1170262070]
+libraries/human.argue.1 = ExtResource("3_4ps2d")
+libraries/human.argue.2 = ExtResource("4_7q7s5")
+libraries/human.dance.1 = ExtResource("5_sykna")
+libraries/human.drunkIdle.1 = ExtResource("2_2rbr1")
+libraries/human.drunkRun.1 = ExtResource("3_evr87")
+libraries/human.drunkWalk.1 = ExtResource("4_u0kdo")
+libraries/human.fall.1 = ExtResource("8_7q7s5")
+libraries/human.flyRemoval.1 = ExtResource("5_l4cms")
+libraries/human.idle.1 = ExtResource("2_ffwvl")
+libraries/human.idle.2 = ExtResource("7_hqa5r")
+libraries/human.idle.3 = ExtResource("8_4ps2d")
+libraries/human.land.1 = ExtResource("13_sykna")
+libraries/human.reactToHit.1 = ExtResource("11_2rbr1")
+libraries/human.run.1 = ExtResource("9_7q7s5")
+libraries/human.talk.1 = ExtResource("15_j3wvj")
+libraries/human.talk.2 = ExtResource("16_7m1so")
+libraries/human.talk.3 = ExtResource("17_yocrs")
+libraries/human.walk.1 = ExtResource("13_yocrs")
+script = ExtResource("21_sykna")
+metadata/_custom_type_script = "uid://dxs7iaqw05ci2"
+
+[node name="HumanDrunk" type="Node" parent="." unique_id=1364940294]
+script = ExtResource("23_yocrs")
+metadata/_custom_type_script = "uid://by5bl25advd14"
+
+[node name="HumanGender" type="Node" parent="." unique_id=1399690896]
+script = ExtResource("24_w6qrs")
+metadata/_custom_type_script = "uid://dmrt6q16jkcda"
+
+[node name="HumanStateMachine" type="Node" parent="." unique_id=446732591]
+script = ExtResource("4_ffwvl")
+metadata/_custom_type_script = "uid://d1nrnrhsxfwqc"
+
+[node name="HumanVelocity" type="Node" parent="." unique_id=234766889]
+script = ExtResource("20_hqa5r")
+metadata/_custom_type_script = "uid://s02i6q81k7rc"
