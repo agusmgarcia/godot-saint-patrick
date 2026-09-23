@@ -19,6 +19,15 @@ public sealed partial class HumanStateMachine : StateMachine
 	/// <summary>
 	/// // TODO: document this.
 	/// </summary>
+	public void Run(in Vector3 destination) =>
+		base.SetState<HumanRunState, HumanRunStateParams>(new HumanRunStateParams
+		{
+			Destination = destination,
+		});
+
+	/// <summary>
+	/// // TODO: document this.
+	/// </summary>
 	public void Walk(in Vector3 destination) =>
 		base.SetState<HumanWalkState, HumanWalkStateParams>(new HumanWalkStateParams
 		{
