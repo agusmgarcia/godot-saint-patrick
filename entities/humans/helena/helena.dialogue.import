@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://da04tg3eh66ft"
+path="res://.godot/imported/helena.dialogue-fd9a12a3f4cf6fbb9eef3a7b0739fdda.tres"
+
+[deps]
+
+source_file="res://entities/humans/helena/helena.dialogue"
+dest_files=["res://.godot/imported/helena.dialogue-fd9a12a3f4cf6fbb9eef3a7b0739fdda.tres"]
+
+[params]
+
+defaults=true

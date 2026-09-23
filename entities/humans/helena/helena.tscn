@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://dqkrs6t6jrndy"]
+
+[ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_7abgk"]
+[ext_resource type="Script" uid="uid://8tq6dsduly5p" path="res://components/Main.cs" id="2_s44hm"]
+[ext_resource type="PackedScene" uid="uid://8mqqy0e3bst0" path="res://entities/humans/helena/helena.fbx" id="3_helena"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s44hm"]
+radius = 0.3
+height = 1.7
+
+[node name="Helena" unique_id=1598348195 instance=ExtResource("1_7abgk")]
+
+[node name="AutoTransformCollisionShape3D" parent="." index="0" unique_id=451022087]
+shape = SubResource("CapsuleShape3D_s44hm")
+
+[node name="Height" parent="." index="1" unique_id=1612580561]
+Value = 1.58
+
+[node name="HumanAnimationPlayer" parent="." index="2" unique_id=1170262070]
+root_node = NodePath("../Model")
+
+[node name="HumanGender" parent="." index="4" unique_id=1399690896]
+Value = 1
+
+[node name="HumanVelocity" parent="." index="6" unique_id=234766889]
+RunAcceleration = 14.0
+RunAccelerationDrunkFactor = 0.5
+RunMaxSpeed = 4.0
+WalkAcceleration = 8.0
+WalkAccelerationDrunkFactor = 0.6
+WalkMaxSpeed = 1.5
+Deceleration = 20.0
+DecelerationDrunkFactor = 0.65
+
+[node name="Main" type="Node" parent="." index="7" unique_id=2113831465]
+script = ExtResource("2_s44hm")
+metadata/_custom_type_script = "uid://8tq6dsduly5p"
+
+[node name="Model" parent="." index="8" unique_id=1938991891 instance=ExtResource("3_helena")]
