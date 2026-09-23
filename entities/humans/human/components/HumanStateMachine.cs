@@ -1,5 +1,6 @@
 using Godot;
 using SaintPatrick.Components;
+using SaintPatrick.Entities.Humans.Human.States;
 
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
@@ -9,6 +10,12 @@ namespace SaintPatrick.Entities.Humans.Human.Components;
 [GlobalClass]
 public sealed partial class HumanStateMachine : StateMachine
 {
+	/// <summary>
+	/// // TODO: document this.
+	/// </summary>
+	public void Idle() =>
+		base.SetState<HumanIdleState, HumanIdleStateParams>(new HumanIdleStateParams() { });
+
 	/// <inheritdoc/>
 	public new void ClearState(bool force = false) =>
 		base.ClearState(force);
