@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://walsh001"]
+
+[ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_walsh"]
+[ext_resource type="PackedScene" uid="uid://5ap1cffo50m6" path="res://entities/humans/walsh/walsh.fbx" id="3_walsh"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_walsh"]
+radius = 0.3
+height = 1.7
+
+[node name="Walsh" unique_id=1598348195 instance=ExtResource("1_walsh")]
+
+[node name="AutoTransformCollisionShape3D" parent="." index="0" unique_id=451022087]
+shape = SubResource("CapsuleShape3D_walsh")
+
+[node name="Height" parent="." index="1" unique_id=1612580561]
+Value = 1.62
+
+[node name="HumanAnimationPlayer" parent="." index="2" unique_id=1170262070]
+root_node = NodePath("../Model")
+
+[node name="HumanGender" parent="." index="4" unique_id=1399690896]
+Value = 1
+
+[node name="HumanVelocity" parent="." index="6" unique_id=234766889]
+RunAcceleration = 12.5
+RunAccelerationDrunkFactor = 0.5
+RunMaxSpeed = 3.7
+WalkAcceleration = 7.5
+WalkAccelerationDrunkFactor = 0.55
+WalkMaxSpeed = 1.4
+Deceleration = 17.5
+DecelerationDrunkFactor = 0.6
+
+[node name="Model" parent="." index="7" unique_id=1938991891 instance=ExtResource("3_walsh")]
