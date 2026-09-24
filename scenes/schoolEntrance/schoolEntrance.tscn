@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://b5k7x2qr8dnme"]
 
+[ext_resource type="PackedScene" uid="uid://dqkrs6t6jrndy" path="res://entities/humans/helena/helena.tscn" id="6_21yb8"]
 [ext_resource type="PackedScene" uid="uid://bmljoluxik5wr" path="res://scenes/schoolEntrance/schoolBuilding/schoolBuilding.tscn" id="7_5jtxm"]
 [ext_resource type="PackedScene" uid="uid://kf1kuq4u5fid" path="res://scenes/schoolEntrance/bridge/bridge.tscn" id="8_bridge"]
 [ext_resource type="PackedScene" uid="uid://dkh0siy1yckv0" path="res://scenes/schoolEntrance/parkingLot/parkingLot.tscn" id="9_parking"]
@@ -68,3 +69,8 @@ fov = 60.0
 [node name="Entrance" type="Camera3D" parent="Cameras" unique_id=47935763]
 transform = Transform3D(0.926614, -0.11442702, 0.35818017, 0, 0.9525712, 0.3043158, -0.37601405, -0.2819833, 0.8826658, 7.010169, 2.8091545, 39.693356)
 fov = 60.0
+
+[node name="Entities" type="Node" parent="." unique_id=2057811107]
+
+[node name="Helena" parent="Entities" unique_id=1598348195 instance=ExtResource("6_21yb8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1271346, 1.05, 10.935621)
