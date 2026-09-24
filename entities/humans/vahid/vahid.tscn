@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://vahid001"]
+
+[ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_vahid"]
+[ext_resource type="PackedScene" uid="uid://i00h3nrapacc" path="res://entities/humans/vahid/vahid.fbx" id="3_vahid"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vahid"]
+radius = 0.3
+height = 1.7
+
+[node name="Vahid" unique_id=1598348195 instance=ExtResource("1_vahid")]
+
+[node name="AutoTransformCollisionShape3D" parent="." index="0" unique_id=451022087]
+shape = SubResource("CapsuleShape3D_vahid")
+
+[node name="HumanAnimationPlayer" parent="." index="2" unique_id=1170262070]
+root_node = NodePath("../Model")
+
+[node name="HumanVelocity" parent="." index="6" unique_id=234766889]
+RunAcceleration = 12.0
+RunAccelerationDrunkFactor = 0.5
+RunMaxSpeed = 3.9
+WalkAcceleration = 7.0
+WalkAccelerationDrunkFactor = 0.6
+WalkMaxSpeed = 1.45
+Deceleration = 17.0
+DecelerationDrunkFactor = 0.65
+
+[node name="Model" parent="." index="7" unique_id=1938991891 instance=ExtResource("3_vahid")]
