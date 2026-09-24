@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://christian001"]
+
+[ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_christian"]
+[ext_resource type="PackedScene" uid="uid://oo03px4yol87" path="res://entities/humans/christian/christian.fbx" id="3_christian"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_christian"]
+radius = 0.3
+height = 1.7
+
+[node name="Christian" unique_id=1598348195 instance=ExtResource("1_christian")]
+
+[node name="AutoTransformCollisionShape3D" parent="." index="0" unique_id=451022087]
+shape = SubResource("CapsuleShape3D_christian")
+
+[node name="Height" parent="." index="1" unique_id=1612580561]
+Value = 1.78
+
+[node name="HumanAnimationPlayer" parent="." index="2" unique_id=1170262070]
+root_node = NodePath("../Model")
+
+[node name="HumanVelocity" parent="." index="6" unique_id=234766889]
+RunAcceleration = 11.0
+RunAccelerationDrunkFactor = 0.5
+RunMaxSpeed = 4.1
+WalkAcceleration = 6.5
+WalkAccelerationDrunkFactor = 0.6
+WalkMaxSpeed = 1.5
+Deceleration = 16.0
+DecelerationDrunkFactor = 0.65
+
+[node name="Model" parent="." index="7" unique_id=1938991891 instance=ExtResource("3_christian")]
