@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://philippe001"]
+
+[ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_philippe"]
+[ext_resource type="PackedScene" uid="uid://cb6wfm5pvgy67" path="res://entities/humans/philippe/philippe.fbx" id="3_philippe"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_philippe"]
+radius = 0.3
+height = 1.7
+
+[node name="Philippe" unique_id=1598348195 instance=ExtResource("1_philippe")]
+
+[node name="AutoTransformCollisionShape3D" parent="." index="0" unique_id=451022087]
+shape = SubResource("CapsuleShape3D_philippe")
+
+[node name="Height" parent="." index="1" unique_id=1612580561]
+Value = 1.75
+
+[node name="HumanAnimationPlayer" parent="." index="2" unique_id=1170262070]
+root_node = NodePath("../Model")
+
+[node name="HumanVelocity" parent="." index="6" unique_id=234766889]
+RunAcceleration = 12.0
+RunAccelerationDrunkFactor = 0.5
+RunMaxSpeed = 4.0
+WalkAcceleration = 7.0
+WalkAccelerationDrunkFactor = 0.6
+WalkMaxSpeed = 1.5
+Deceleration = 17.0
+DecelerationDrunkFactor = 0.65
+
+[node name="Model" parent="." index="7" unique_id=1938991891 instance=ExtResource("3_philippe")]
