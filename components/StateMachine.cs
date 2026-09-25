@@ -7,7 +7,7 @@ namespace SaintPatrick.Components;
 /// Component that acts as a pooled finite state machine; manages a single active <see cref="SaintPatrick.Components.State"/> child component and transitions between states each physics frame.
 /// </summary>
 [GlobalClass]
-public partial class StateMachine : Component
+public partial class StateMachine : Node
 {
     /// <summary>
     /// // TODO: document this.

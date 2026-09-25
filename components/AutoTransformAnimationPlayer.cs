@@ -14,11 +14,6 @@ public abstract partial class AutoTransformAnimationPlayer(float initialHeight) 
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
     public float LerpSpeed { get; private set; } = 5.0f;
 
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
-    public new Node? Owner { get; private set; }
-
     private readonly float _initialHeight = initialHeight;
 
     private Node3D? _model;
@@ -40,8 +35,6 @@ public abstract partial class AutoTransformAnimationPlayer(float initialHeight) 
     public override void _EnterTree()
     {
         base._EnterTree();
-
-        this.Owner = this.FindOwner<Node>();
 
         this.TrackNodes<Node3D>(
             this.OnModelTracked,
@@ -133,8 +126,6 @@ public abstract partial class AutoTransformAnimationPlayer(float initialHeight) 
         this.OnAnimationFinished(base.CurrentAnimation);
         base.AnimationFinished -= this.OnAnimationFinished;
         base.AnimationStarted -= this.OnAnimationStarted;
-
-        this.Owner = null;
 
         base._ExitTree();
     }

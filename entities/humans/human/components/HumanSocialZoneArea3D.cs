@@ -18,13 +18,9 @@ public sealed partial class HumanSocialZoneArea3D : Area3D
     /// <summary>
     /// // TODO: document this.
     /// </summary>
-    public new CollisionObject3D? Owner { get; private set; }
-
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
     public Human? NearestHuman { get; private set; }
 
+    private CollisionObject3D? _owner;
     private float _cosHalfFov;
 
     /// <inheritdoc/>
@@ -32,8 +28,7 @@ public sealed partial class HumanSocialZoneArea3D : Area3D
     {
         base._EnterTree();
 
-        this.Owner = this.FindOwner<CollisionObject3D>();
-
+        this._owner = this.FindOwnerOrNull<CollisionObject3D>();
         this._cosHalfFov = Mathf.Cos(Mathf.DegToRad(this.FieldOfView * 0.5f));
     }
 
@@ -48,21 +43,21 @@ public sealed partial class HumanSocialZoneArea3D : Area3D
 
         foreach (var body in overlappingBodies)
         {
-            if (body == base.Owner)
+            if (body == this._owner)
                 continue;
 
             if (body is not Human other)
                 continue;
 
-            var raycast = PhysicsRayQueryParameters3D.Create(other.Position, this.Owner!.Position, base.CollisionLayer);
-            raycast.Exclude = [other.GetRid(), this.Owner.GetRid()];
+            var raycast = PhysicsRayQueryParameters3D.Create(other.Position, this._owner!.Position, base.CollisionLayer);
+            raycast.Exclude = [other.GetRid(), this._owner.GetRid()];
 
-            var spaceState = this.Owner.GetWorld3D().DirectSpaceState;
+            var spaceState = this._owner.GetWorld3D().DirectSpaceState;
             if (spaceState.IntersectRay(raycast).Count > 0)
                 continue;
 
-            var toTarget = other.Position - this.Owner.Position;
-            if (this.Owner.Basis.Z.Dot(toTarget.Normalized()) < this._cosHalfFov)
+            var toTarget = other.Position - this._owner.Position;
+            if (this._owner.Basis.Z.Dot(toTarget.Normalized()) < this._cosHalfFov)
                 continue;
 
             var lengthSquared = toTarget.LengthSquared();
@@ -78,8 +73,7 @@ public sealed partial class HumanSocialZoneArea3D : Area3D
     public override void _ExitTree()
     {
         this._cosHalfFov = 0;
-
-        this.Owner = null;
+        this._owner = null;
 
         base._ExitTree();
     }

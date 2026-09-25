@@ -6,7 +6,7 @@ namespace SaintPatrick.Components;
 /// Component that stores the entity's height in metres as an inspector-editable value.
 /// </summary>
 [GlobalClass]
-public sealed partial class Height : Component
+public sealed partial class Height : Node
 {
     /// <summary>
     /// The entity's height in metres.

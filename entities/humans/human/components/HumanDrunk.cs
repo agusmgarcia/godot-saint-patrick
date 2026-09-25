@@ -1,5 +1,4 @@
 using Godot;
-using SaintPatrick.Components;
 
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
@@ -7,7 +6,7 @@ namespace SaintPatrick.Entities.Humans.Human.Components;
 /// // TODO: document this.
 /// </summary>
 [GlobalClass]
-public sealed partial class HumanDrunk : Component
+public sealed partial class HumanDrunk : Node
 {
     /// <summary>
     /// // TODO: document this.

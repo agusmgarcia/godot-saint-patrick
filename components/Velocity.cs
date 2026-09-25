@@ -6,7 +6,7 @@ namespace SaintPatrick.Components;
 /// // TODO: document this.
 /// </summary>
 [GlobalClass]
-public partial class Velocity : Component
+public partial class Velocity : Node
 {
     /// <summary>
     /// // TODO: document this.

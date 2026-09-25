@@ -9,11 +9,6 @@ namespace SaintPatrick.Components;
 [GlobalClass]
 public sealed partial class AutoTransformCollisionShape3D : CollisionShape3D
 {
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
-    public new Node? Owner { get; private set; }
-
     private Height? _height;
 
     private float _initialHeight;
@@ -23,8 +18,6 @@ public sealed partial class AutoTransformCollisionShape3D : CollisionShape3D
     public override void _EnterTree()
     {
         base._EnterTree();
-
-        this.Owner = this.FindOwner<Node>();
 
         this.TrackNodes<Height>(this.OnHeightTracked, this.OnHeightUntracked, unique: true);
 
@@ -105,8 +98,6 @@ public sealed partial class AutoTransformCollisionShape3D : CollisionShape3D
         {
             throw new NotImplementedException($"Shape of type '{base.Shape.GetType().Name}' is not supported");
         }
-
-        this.Owner = null;
 
         base._ExitTree();
     }

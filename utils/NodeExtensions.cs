@@ -10,7 +10,7 @@ public static class NodeExtensions
     /// <summary>
     /// // TODO: document this.
     /// </summary>
-    public static TOwner? FindOwner<TOwner>(this Node self)
+    public static TOwner? FindOwnerOrNull<TOwner>(this Node self)
         where TOwner : Node
     {
         var node = self;
@@ -41,7 +41,7 @@ public static class NodeExtensions
     )
         where TSibling : Node
     {
-        root ??= NodeExtensions.FindOwner<Node>(self);
+        root ??= NodeExtensions.FindOwnerOrNull<Node>(self);
         if (root == null)
             return;
 

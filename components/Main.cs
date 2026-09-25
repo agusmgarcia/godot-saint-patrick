@@ -6,6 +6,6 @@ namespace SaintPatrick.Components;
 /// // TODO: document this.
 /// </summary>
 [GlobalClass]
-public sealed partial class Main : Component
+public sealed partial class Main : Node
 {
 }
