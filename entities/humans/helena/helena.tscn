@@ -8,6 +8,10 @@
 radius = 0.3
 height = 1.7
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_s44hm"]
+height = 1.7
+radius = 2.0
+
 [node name="Helena" unique_id=1598348195 instance=ExtResource("1_7abgk")]
 
 [node name="AutoTransformCollisionShape3D" parent="." index="0" unique_id=451022087]
@@ -22,7 +26,19 @@ root_node = NodePath("../Model")
 [node name="HumanGender" parent="." index="4" unique_id=1399690896]
 Value = 1
 
-[node name="HumanVelocity" parent="." index="6" unique_id=234766889]
+[node name="HumanSocialZoneArea3D" parent="." index="6" unique_id=1801808588]
+FieldOfView = 135.0
+
+[node name="AutoTransformCollisionShape3D" parent="HumanSocialZoneArea3D" index="0" unique_id=1625032941]
+shape = SubResource("CylinderShape3D_s44hm")
+
+[node name="Main" type="Node" parent="." index="7" unique_id=2113831465]
+script = ExtResource("2_s44hm")
+metadata/_custom_type_script = "uid://8tq6dsduly5p"
+
+[node name="Model" parent="." index="8" unique_id=1938991891 instance=ExtResource("3_helena")]
+
+[node name="HumanVelocity" parent="." index="9" unique_id=234766889]
 RunAcceleration = 14.0
 RunAccelerationDrunkFactor = 0.5
 RunMaxSpeed = 4.0
@@ -31,9 +47,3 @@ WalkAccelerationDrunkFactor = 0.6
 WalkMaxSpeed = 1.5
 Deceleration = 20.0
 DecelerationDrunkFactor = 0.65
-
-[node name="Main" type="Node" parent="." index="7" unique_id=2113831465]
-script = ExtResource("2_s44hm")
-metadata/_custom_type_script = "uid://8tq6dsduly5p"
-
-[node name="Model" parent="." index="8" unique_id=1938991891 instance=ExtResource("3_helena")]

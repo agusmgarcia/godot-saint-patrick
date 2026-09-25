@@ -7,6 +7,10 @@
 radius = 0.3
 height = 1.7
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0kftt"]
+height = 1.7
+radius = 2.0
+
 [node name="Mascot" unique_id=1598348195 instance=ExtResource("1_mascot")]
 
 [node name="AutoTransformCollisionShape3D" parent="." index="0" unique_id=451022087]
@@ -18,7 +22,15 @@ Value = 1.85
 [node name="HumanAnimationPlayer" parent="." index="2" unique_id=1170262070]
 root_node = NodePath("../Model")
 
-[node name="HumanVelocity" parent="." index="6" unique_id=234766889]
+[node name="HumanSocialZoneArea3D" parent="." index="6" unique_id=1801808588]
+FieldOfView = 100.0
+
+[node name="AutoTransformCollisionShape3D" parent="HumanSocialZoneArea3D" index="0" unique_id=1625032941]
+shape = SubResource("CylinderShape3D_0kftt")
+
+[node name="Model" parent="." index="7" unique_id=1938991891 instance=ExtResource("3_mascot")]
+
+[node name="HumanVelocity" parent="." index="8" unique_id=234766889]
 RunAcceleration = 8.0
 RunAccelerationDrunkFactor = 0.6
 RunMaxSpeed = 3.0
@@ -27,5 +39,3 @@ WalkAccelerationDrunkFactor = 0.7
 WalkMaxSpeed = 1.2
 Deceleration = 13.0
 DecelerationDrunkFactor = 0.7
-
-[node name="Model" parent="." index="7" unique_id=1938991891 instance=ExtResource("3_mascot")]

@@ -33,6 +33,11 @@ public sealed partial class AutoTransformCollisionShape3D : CollisionShape3D
             this._initialHeight = capsule.Height;
             this._initialRadius = capsule.Radius;
         }
+        else if (base.Shape is CylinderShape3D cylinder)
+        {
+            this._initialHeight = cylinder.Height;
+            this._initialRadius = cylinder.Radius;
+        }
         else
         {
             throw new NotImplementedException($"Shape of type '{base.Shape.GetType().Name}' is not supported");
@@ -47,6 +52,11 @@ public sealed partial class AutoTransformCollisionShape3D : CollisionShape3D
         {
             capsule.Height = this._height.Value;
             capsule.Radius = this._initialRadius * (this._height.Value / this._initialHeight);
+        }
+        else if (base.Shape is CylinderShape3D cylinder)
+        {
+            cylinder.Height = this._height.Value;
+            cylinder.Radius = this._initialRadius * (this._height.Value / this._initialHeight);
         }
         else
         {
@@ -65,6 +75,11 @@ public sealed partial class AutoTransformCollisionShape3D : CollisionShape3D
             capsule.Radius = this._initialRadius;
             capsule.Height = this._initialHeight;
         }
+        else if (base.Shape is CylinderShape3D cylinder)
+        {
+            cylinder.Radius = this._initialRadius;
+            cylinder.Height = this._initialHeight;
+        }
         else
         {
             throw new NotImplementedException($"Shape of type '{base.Shape.GetType().Name}' is not supported");
@@ -80,6 +95,11 @@ public sealed partial class AutoTransformCollisionShape3D : CollisionShape3D
         {
             this._initialHeight = capsule.Height;
             this._initialRadius = capsule.Radius;
+        }
+        else if (base.Shape is CylinderShape3D cylinder)
+        {
+            this._initialHeight = cylinder.Height;
+            this._initialRadius = cylinder.Radius;
         }
         else
         {
