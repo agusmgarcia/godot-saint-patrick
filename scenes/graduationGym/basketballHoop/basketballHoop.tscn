@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://b6o20v6tmeham"]
+
+[ext_resource type="Material" uid="uid://blackmetal027" path="res://materials/blackMetal/blackMetal.tres" id="2_blackmetal"]
+
+[sub_resource type="BoxMesh" id="Backboard"]
+size = Vector3(1.8, 1.05, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="BackboardMat"]
+albedo_color = Color(0.95, 0.95, 0.95, 1)
+roughness = 0.3
+
+[sub_resource type="TorusMesh" id="Rim"]
+inner_radius = 0.2
+outer_radius = 0.23
+rings = 16
+ring_segments = 12
+
+[sub_resource type="StandardMaterial3D" id="RimMat"]
+albedo_color = Color(0.8, 0.3, 0, 1)
+metallic = 0.7
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="SquareHorizontal"]
+size = Vector3(0.59, 0.02, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="SquareLineMat"]
+albedo_color = Color(0.05, 0.05, 0.05, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="SquareVertical"]
+size = Vector3(0.02, 0.45, 0.02)
+
+[sub_resource type="BoxMesh" id="BracketArm"]
+size = Vector3(0.08, 1.2, 0.08)
+
+[sub_resource type="BoxMesh" id="Bracket"]
+size = Vector3(0.08, 0.08, 0.6)
+
+[node name="BasketballHoop" type="Node3D" unique_id=1504071857]
+
+[node name="Backboard" type="MeshInstance3D" parent="." unique_id=1428640021]
+mesh = SubResource("Backboard")
+surface_material_override/0 = SubResource("BackboardMat")
+
+[node name="Rim" type="MeshInstance3D" parent="." unique_id=232876299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0.25)
+mesh = SubResource("Rim")
+surface_material_override/0 = SubResource("RimMat")
+
+[node name="Square" type="Node3D" parent="." unique_id=1564155105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, 0.025)
+
+[node name="Top" type="MeshInstance3D" parent="Square" unique_id=198866098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.225, 0)
+mesh = SubResource("SquareHorizontal")
+surface_material_override/0 = SubResource("SquareLineMat")
+
+[node name="Bottom" type="MeshInstance3D" parent="Square" unique_id=137743396]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.225, 0)
+mesh = SubResource("SquareHorizontal")
+surface_material_override/0 = SubResource("SquareLineMat")
+
+[node name="Left" type="MeshInstance3D" parent="Square" unique_id=1571764071]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.285, 0, 0)
+mesh = SubResource("SquareVertical")
+surface_material_override/0 = SubResource("SquareLineMat")
+
+[node name="Right" type="MeshInstance3D" parent="Square" unique_id=1927964373]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.285, 0, 0)
+mesh = SubResource("SquareVertical")
+surface_material_override/0 = SubResource("SquareLineMat")
+
+[node name="ArmLeft" type="Node3D" parent="." unique_id=1913055375]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.275, -0.43)
+
+[node name="Arm" type="MeshInstance3D" parent="ArmLeft" unique_id=1347572742]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.275, -0.13)
+mesh = SubResource("BracketArm")
+surface_material_override/0 = ExtResource("2_blackmetal")
+
+[node name="Bracket" type="MeshInstance3D" parent="ArmLeft" unique_id=1830843711]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.275, 0.13)
+mesh = SubResource("Bracket")
+surface_material_override/0 = ExtResource("2_blackmetal")
+
+[node name="ArmRight" type="Node3D" parent="." unique_id=525730757]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0.275, -0.43)
+
+[node name="Arm" type="MeshInstance3D" parent="ArmRight" unique_id=743033444]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.275, -0.13)
+mesh = SubResource("BracketArm")
+surface_material_override/0 = ExtResource("2_blackmetal")
+
+[node name="Bracket" type="MeshInstance3D" parent="ArmRight" unique_id=1737386285]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.275, 0.13)
+mesh = SubResource("Bracket")
+surface_material_override/0 = ExtResource("2_blackmetal")

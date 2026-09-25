@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://bo7k1erokrfc"]
+
+[sub_resource type="BoxMesh" id="Tabletop"]
+size = Vector3(3, 0.04, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="GreyCloth"]
+albedo_color = Color(0.55, 0.55, 0.55, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="Leg"]
+size = Vector3(0.04, 0.72, 0.04)
+
+[sub_resource type="StandardMaterial3D" id="MetalLeg"]
+albedo_color = Color(0.2, 0.2, 0.2, 1)
+metallic = 0.6
+roughness = 0.35
+
+[sub_resource type="BoxMesh" id="Skirt"]
+size = Vector3(3, 0.6, 0.02)
+
+[sub_resource type="BoxMesh" id="SkirtSide"]
+size = Vector3(0.02, 0.6, 0.8)
+
+[sub_resource type="BoxShape3D" id="CollisionBox"]
+size = Vector3(3.04, 0.76, 0.84)
+
+[node name="BuffetTable" type="Node3D" unique_id=1861777013]
+
+[node name="Table" type="Node3D" parent="." unique_id=1346318899]
+
+[node name="Top" type="MeshInstance3D" parent="Table" unique_id=865614975]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74, 0)
+mesh = SubResource("Tabletop")
+surface_material_override/0 = SubResource("GreyCloth")
+
+[node name="FrontLeft" type="MeshInstance3D" parent="Table" unique_id=1198344698]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0.36, 0.35)
+mesh = SubResource("Leg")
+surface_material_override/0 = SubResource("MetalLeg")
+
+[node name="FrontRight" type="MeshInstance3D" parent="Table" unique_id=1405013290]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0.36, 0.35)
+mesh = SubResource("Leg")
+surface_material_override/0 = SubResource("MetalLeg")
+
+[node name="BottomLeft" type="MeshInstance3D" parent="Table" unique_id=1516870567]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0.36, -0.35)
+mesh = SubResource("Leg")
+surface_material_override/0 = SubResource("MetalLeg")
+
+[node name="BottomRight" type="MeshInstance3D" parent="Table" unique_id=483305344]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0.36, -0.35)
+mesh = SubResource("Leg")
+surface_material_override/0 = SubResource("MetalLeg")
+
+[node name="Skirt" type="Node3D" parent="." unique_id=61127560]
+
+[node name="Front" type="MeshInstance3D" parent="Skirt" unique_id=2042855932]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0.39)
+mesh = SubResource("Skirt")
+surface_material_override/0 = SubResource("GreyCloth")
+
+[node name="Back" type="MeshInstance3D" parent="Skirt" unique_id=149690098]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, -0.39)
+mesh = SubResource("Skirt")
+surface_material_override/0 = SubResource("GreyCloth")
+
+[node name="Left" type="MeshInstance3D" parent="Skirt" unique_id=1091404537]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.49, 0.42, 0)
+mesh = SubResource("SkirtSide")
+surface_material_override/0 = SubResource("GreyCloth")
+
+[node name="Right" type="MeshInstance3D" parent="Skirt" unique_id=1226451223]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.49, 0.42, 0)
+mesh = SubResource("SkirtSide")
+surface_material_override/0 = SubResource("GreyCloth")
+
+[node name="Collider" type="StaticBody3D" parent="." unique_id=649060866]
+
+[node name="Shape" type="CollisionShape3D" parent="Collider" unique_id=1002782330]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.38, 0)
+shape = SubResource("CollisionBox")

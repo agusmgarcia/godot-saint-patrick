@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://cvuho7qetk5aa"]
+
+[sub_resource type="BoxMesh" id="BannerMain"]
+size = Vector3(5, 0.9, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="GreenBanner"]
+albedo_color = Color(0.1, 0.5, 0.2, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="WhiteBorder"]
+size = Vector3(5.1, 0.05, 0.025)
+
+[sub_resource type="StandardMaterial3D" id="WhiteMat"]
+albedo_color = Color(0.95, 0.95, 0.95, 1)
+metallic = 0.3
+roughness = 0.5
+
+[sub_resource type="BoxMesh" id="TextBlock"]
+size = Vector3(4, 0.3, 0.025)
+
+[sub_resource type="StandardMaterial3D" id="WhiteText"]
+albedo_color = Color(0.95, 0.95, 0.95, 1)
+metallic = 0.2
+roughness = 0.6
+
+[sub_resource type="BoxMesh" id="SubtitleBlock"]
+size = Vector3(3, 0.2, 0.025)
+
+[node name="GradBanner" type="Node3D" unique_id=1639528614]
+
+[node name="Banner" type="MeshInstance3D" parent="." unique_id=1370681742]
+mesh = SubResource("BannerMain")
+surface_material_override/0 = SubResource("GreenBanner")
+
+[node name="BorderTop" type="MeshInstance3D" parent="." unique_id=1102010640]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475, 0.005)
+mesh = SubResource("WhiteBorder")
+surface_material_override/0 = SubResource("WhiteMat")
+
+[node name="BorderBottom" type="MeshInstance3D" parent="." unique_id=816276270]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.475, 0.005)
+mesh = SubResource("WhiteBorder")
+surface_material_override/0 = SubResource("WhiteMat")
+
+[node name="TitleText" type="MeshInstance3D" parent="." unique_id=1044077893]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0.015)
+mesh = SubResource("TextBlock")
+surface_material_override/0 = SubResource("WhiteText")
+
+[node name="SubtitleText" type="MeshInstance3D" parent="." unique_id=896808896]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0.015)
+mesh = SubResource("SubtitleBlock")
+surface_material_override/0 = SubResource("WhiteText")
