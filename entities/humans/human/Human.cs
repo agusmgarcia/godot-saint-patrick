@@ -9,21 +9,32 @@ namespace SaintPatrick.Entities.Humans.Human;
 /// </summary>
 public sealed partial class Human : CharacterBody3D
 {
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public HumanStateMachine? HumanStateMachine { get; private set; }
+
     /// <inheritdoc/>
     public override void _EnterTree()
     {
         base._EnterTree();
 
         this.TrackNodes<HumanStateMachine>(
-            Human.OnHumanStateMachineTracked,
-            Human.OnHumanStateMachineUntracked,
+            this.OnHumanStateMachineTracked,
+            this.OnHumanStateMachineUntracked,
             unique: true,
             root: this);
     }
 
-    private static void OnHumanStateMachineTracked(HumanStateMachine humanStateMachine) =>
-        humanStateMachine.Idle();
+    private void OnHumanStateMachineTracked(HumanStateMachine humanStateMachine)
+    {
+        this.HumanStateMachine = humanStateMachine;
+        this.HumanStateMachine.Idle();
+    }
 
-    private static void OnHumanStateMachineUntracked(HumanStateMachine humanStateMachine) =>
+    private void OnHumanStateMachineUntracked(HumanStateMachine humanStateMachine)
+    {
         humanStateMachine.ClearState();
+        this.HumanStateMachine = null;
+    }
 }
