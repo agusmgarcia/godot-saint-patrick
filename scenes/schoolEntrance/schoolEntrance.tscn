@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://thomas001" path="res://entities/humans/thomas/thomas.tscn" id="17_k1vrd"]
 [ext_resource type="PackedScene" uid="uid://facu001" path="res://entities/humans/facu/facu.tscn" id="17_wldd3"]
 [ext_resource type="PackedScene" uid="uid://vahid001" path="res://entities/humans/vahid/vahid.tscn" id="19_b7l1m"]
+[ext_resource type="Script" uid="uid://b01f28x2kghrn" path="res://systems/MainCameraSelector.cs" id="20_wldd3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_night"]
 sky_top_color = Color(0.078766845, 0.0787035, 0.16751745, 1)
@@ -126,3 +127,9 @@ transform = Transform3D(0.013112364, 0, -0.99991405, 0, 1, 0, 0.99991405, 0, 0.0
 
 [node name="Vahid" parent="Entities" unique_id=1079668891 instance=ExtResource("19_b7l1m")]
 transform = Transform3D(0.3111363, 0, 0.95036536, 0, 1, 0, -0.95036536, 0, 0.3111363, -1.4848197, 0.19999999, 27.87868)
+
+[node name="Systems" type="Node" parent="." unique_id=2012524522]
+
+[node name="MainCameraSelector" type="Node" parent="Systems" unique_id=1946986339]
+script = ExtResource("20_wldd3")
+metadata/_custom_type_script = "uid://b01f28x2kghrn"
