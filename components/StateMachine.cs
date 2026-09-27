@@ -72,6 +72,7 @@ public partial class StateMachine : Node
         }
 
         var newState = ElementsPool.GetOrCreate<TNewState>();
+        newState.Name = typeof(TNewState).Name;
         newState.StateParams = stateParams;
         base.AddChild(newState);
     }
