@@ -99,4 +99,5 @@ metadata/_custom_type_script = "uid://bp44bcrt20ir3"
 
 [node name="HumanVelocity" type="Node" parent="." unique_id=234766889]
 script = ExtResource("20_hqa5r")
+Gravity = true
 metadata/_custom_type_script = "uid://s02i6q81k7rc"
