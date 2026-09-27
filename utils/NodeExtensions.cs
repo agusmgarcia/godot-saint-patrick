@@ -10,30 +10,10 @@ public static class NodeExtensions
     /// <summary>
     /// // TODO: document this.
     /// </summary>
-    public static TOwner? FindOwnerOrNull<TOwner>(this Node self)
-        where TOwner : Node
-    {
-        var node = self;
-        do
-        {
-            var ownerOrNull = node.GetOwnerOrNull<TOwner>();
-            if (ownerOrNull != null)
-                return ownerOrNull;
-
-            node = node.GetParent();
-        }
-        while (node != null);
-
-        throw new InvalidOperationException($"The node '{self.Name}' should contain an owner whose type is '{typeof(TOwner).Name}'");
-    }
-
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
     public static void TrackNodes<TSibling>(
         this Node self,
-        Action<TSibling> onFound,
-        Action<TSibling> onLost,
+        Action<TSibling> onTracked,
+        Action<TSibling> onUntracked,
         Node? root = null,
         bool recursive = false,
         string? name = null,
@@ -41,77 +21,90 @@ public static class NodeExtensions
     )
         where TSibling : Node
     {
-        root ??= NodeExtensions.FindOwnerOrNull<Node>(self);
+        root ??= self.Owner;
         if (root == null)
-            return;
+            throw new InvalidOperationException($"An owner cannot be found for the element '{self.Name}'");
 
         var found = default(TSibling);
+        var tree = self.GetTree();
 
-        void OnSelfExiting()
+        void LastScan(Node current)
         {
-            self.TreeExiting -= OnSelfExiting;
+            foreach (var child in current.GetChildren())
+                LastScan(child);
 
-            foreach (var child in root.GetChildren())
-                if (child.IsInsideTree())
-                    OnChildExitingTree(child);
-
-            root.ChildEnteredTree -= OnChildEnteredTree;
-            root.ChildExitingTree -= OnChildExitingTree;
+            OnNodeRemoved(current);
         }
 
-        self.TreeExiting += OnSelfExiting;
-
-        void OnChildEnteredTree(Node child)
+        void OnTreeExiting()
         {
-            if (child is TSibling sibling)
-                if (name == null || sibling.Name == name)
-                {
-                    if (unique && found != null)
-                        throw new InvalidOperationException($"The node '{root.Name}' already contains a component of type '{typeof(TSibling).Name}'");
+            self.TreeExiting -= OnTreeExiting;
 
-                    found = sibling;
-                    onFound(sibling);
-                }
-
-            if (recursive)
-            {
-                child.ChildExitingTree += OnChildExitingTree;
-                child.ChildEnteredTree += OnChildEnteredTree;
-
-                foreach (var grandChild in child.GetChildren())
-                    if (grandChild.IsInsideTree())
-                        OnChildEnteredTree(grandChild);
-            }
+            LastScan(root);
+            tree.NodeRemoved -= OnNodeRemoved;
+            tree.NodeAdded -= OnNodeAdded;
         }
 
-        void OnChildExitingTree(Node child)
+        self.TreeExiting += OnTreeExiting;
+
+        void OnNodeAdded(Node node)
         {
-            if (recursive)
-            {
-                foreach (var grandChild in child.GetChildren())
-                    if (grandChild.IsInsideTree())
-                        OnChildExitingTree(grandChild);
+            if (!node.IsInsideTree())
+                return;
 
-                child.ChildEnteredTree -= OnChildEnteredTree;
-                child.ChildExitingTree -= OnChildExitingTree;
-            }
+            if (recursive && !root.IsAncestorOf(node))
+                return;
 
-            if (child is TSibling sibling)
-                if (name == null || sibling.Name == name)
-                {
-                    if (unique && found != sibling)
-                        throw new InvalidOperationException($"The node '{root.Name}' already contains a component of type '{typeof(TSibling).Name}'");
+            if (!recursive && root != node.GetParent())
+                return;
 
-                    onLost(sibling);
-                    found = null;
-                }
+            if (node is not TSibling sibling)
+                return;
+
+            if (name != null && sibling.Name != name)
+                return;
+
+            if (unique && found != null)
+                throw new InvalidOperationException($"The node '{root.Name}' already contains a component of type '{typeof(TSibling).Name}'");
+
+            found = sibling;
+            onTracked(sibling);
         }
 
-        root.ChildEnteredTree += OnChildEnteredTree;
-        root.ChildExitingTree += OnChildExitingTree;
+        void OnNodeRemoved(Node node)
+        {
+            if (!node.IsInsideTree())
+                return;
 
-        foreach (var child in root.GetChildren())
-            if (child.IsInsideTree())
-                OnChildEnteredTree(child);
+            if (recursive && !root.IsAncestorOf(node))
+                return;
+
+            if (!recursive && root != node.GetParent())
+                return;
+
+            if (node is not TSibling sibling)
+                return;
+
+            if (name != null && sibling.Name != name)
+                return;
+
+            if (unique && found != sibling)
+                throw new InvalidOperationException($"The node '{root.Name}' already contains a component of type '{typeof(TSibling).Name}'");
+
+            found = null;
+            onUntracked(sibling);
+        }
+
+        void InitialScan(Node current)
+        {
+            OnNodeAdded(current);
+
+            foreach (var child in current.GetChildren())
+                InitialScan(child);
+        }
+
+        tree.NodeRemoved += OnNodeRemoved;
+        tree.NodeAdded += OnNodeAdded;
+        InitialScan(root);
     }
 }
