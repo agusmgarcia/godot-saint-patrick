@@ -43,7 +43,7 @@ public sealed partial class HumanInputController : Node
         this._mainCameraSelector = mainCameraSelector;
 
     private void OnMainTracked(Main main) =>
-        this._mainHuman = main.FindOwnerOrNull<Human>();
+        this._mainHuman = main.GetOwnerOrNull<Human>();
 
     /// <inheritdoc/>
     public override void _PhysicsProcess(double delta)

@@ -33,7 +33,7 @@ public sealed partial class MainCameraSelector : Node
         this._cameras.Add(camera);
 
     private void OnMainTracked(Main main) =>
-        this._mainOwner = main.FindOwnerOrNull<Node3D>();
+        this._mainOwner = main.GetOwnerOrNull<Node3D>();
 
     /// <inheritdoc/>
     public override void _PhysicsProcess(double delta)

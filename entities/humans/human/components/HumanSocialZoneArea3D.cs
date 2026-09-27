@@ -28,7 +28,7 @@ public sealed partial class HumanSocialZoneArea3D : Area3D
     {
         base._EnterTree();
 
-        this._owner = this.FindOwnerOrNull<CollisionObject3D>();
+        this._owner = base.GetOwnerOrNull<CollisionObject3D>();
         this._cosHalfFov = Mathf.Cos(Mathf.DegToRad(this.FieldOfView * 0.5f));
     }
 

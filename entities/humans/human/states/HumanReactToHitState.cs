@@ -54,7 +54,7 @@ public sealed partial class HumanReactToHitState : HumanBaseState<HumanReactToHi
 
             case EPhase.BeingHit:
                 this._phase = EPhase.ReadyToTransition;
-                base.Parent?.Idle();
+                base.StateMachine!.Idle();
                 break;
         }
     }
@@ -82,7 +82,7 @@ public sealed partial class HumanReactToHitState : HumanBaseState<HumanReactToHi
 
             case EPhase.BeingHit:
                 this._phase = EPhase.ReadyToTransition;
-                base.Parent?.Idle();
+                base.StateMachine!.Idle();
                 break;
         }
     }

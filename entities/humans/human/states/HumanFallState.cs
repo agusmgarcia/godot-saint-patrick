@@ -40,7 +40,7 @@ public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams
         switch (this._phase)
         {
             case EPhase.Initialize:
-                if (base.Owner?.IsOnFloor() ?? false)
+                if (base.Human!.IsOnFloor())
                 {
                     this._phase = EPhase.Landing;
                     this._humanAnimationPlayer?.PlayRandomIfNotPlaying(EHumanAnimation.Land, customBlend: 0.1f);
@@ -54,7 +54,7 @@ public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams
                 }
 
             case EPhase.Falling:
-                if (base.Owner?.IsOnFloor() ?? false)
+                if (base.Human!.IsOnFloor())
                 {
                     this._phase = EPhase.Landing;
                     this._humanAnimationPlayer?.PlayRandomIfNotPlaying(EHumanAnimation.Land, customBlend: 0.1f);
@@ -63,7 +63,7 @@ public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams
                 break;
 
             case EPhase.Landing:
-                if (base.Owner?.IsOnFloor() ?? false)
+                if (base.Human!.IsOnFloor())
                 {
                     this._phase = EPhase.Falling;
                     this._humanAnimationPlayer?.PlayRandomIfNotPlaying(EHumanAnimation.Fall, customBlend: 0.1f);
@@ -82,7 +82,7 @@ public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams
         if (this._phase == EPhase.Landing)
         {
             this._phase = EPhase.Landed;
-            base.Parent?.Idle();
+            base.StateMachine!.Idle();
         }
     }
 
