@@ -9,31 +9,16 @@ namespace SaintPatrick.Components;
 public partial class Velocity : Node
 {
     /// <summary>
-    /// // TODO: document this.
-    /// </summary>
-    public event Action<Vector3>? ValueChanged;
-
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
-    public Vector3 Value
-    {
-        get;
-        private set
-        {
-            if (EqualityComparer<Vector3>.Default.Equals(field, value))
-                return;
-
-            field = value;
-            this.ValueChanged?.Invoke(value);
-        }
-    }
-
-    /// <summary>
     /// Maximum horizontal speed the entity can reach (m/s).
     /// </summary>
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
     public float MaxSpeed { get; protected set; }
+
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:°/s")]
+    public float AngularSpeed { get; private set; }
 
     /// <summary>
     /// // TODO:
@@ -72,15 +57,6 @@ public partial class Velocity : Node
         this._direction = Vector3.Zero;
         this._pendingSpeedDelta = 0;
         this._speed = 0;
-
-        this.ValueChanged += this.OnVelocityChanged;
-        this.OnVelocityChanged(this.Value);
-    }
-
-    private void OnVelocityChanged(Vector3 velocity)
-    {
-        this._owner?.Velocity = velocity;
-        this._owner?.MoveAndSlide();
     }
 
     /// <inheritdoc/>
@@ -98,18 +74,19 @@ public partial class Velocity : Node
             ? (velocity.Y <= 0 ? 0 : velocity.Y)
             : (this._owner.Velocity.Y - this._gravity * (float)delta);
 
-        this.Value = velocity;
+        this._owner.Velocity = velocity;
+        this._owner.MoveAndSlide();
 
-        // TODO: do it in a rotation component.
-        // this._rotationTracker.Node?.SetTarget(this._owner.GlobalPosition + velocity);
+        if (velocity.X != 0f || velocity.Z != 0f)
+            this._owner.GlobalRotation = new Vector3(
+                this._owner.GlobalRotation.X,
+                Mathf.LerpAngle(this._owner.GlobalRotation.Y, Mathf.Atan2(velocity.X, velocity.Z), (float)delta * this.AngularSpeed),
+                this._owner.GlobalRotation.Z);
     }
 
     /// <inheritdoc/>
     public override void _ExitTree()
     {
-        this.OnVelocityChanged(Vector3.Zero);
-        this.ValueChanged -= this.OnVelocityChanged;
-
         this._speed = 0;
         this._pendingSpeedDelta = 0;
         this._direction = Vector3.Zero;

@@ -67,7 +67,7 @@ public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams
     {
         base._PhysicsProcess(delta);
 
-        var toTarget = base.StateParams.Destination - base.Human!.Position;
+        var toTarget = base.StateParams.Destination - base.Human!.GlobalPosition;
         if (toTarget.LengthSquared() <= 1.0f)
         {
             base.StateMachine!.Idle();

@@ -67,8 +67,8 @@ public sealed partial class HumanInputController : Node
                 var camera = this._mainCameraSelector?.ActiveCamera;
                 if (camera != null)
                 {
-                    this._cameraForward = new Vector3(-camera.Basis.Z.X, 0, -camera.Basis.Z.Z).Normalized();
-                    this._cameraRight = new Vector3(camera.Basis.X.X, 0, camera.Basis.X.Z).Normalized();
+                    this._cameraForward = new Vector3(-camera.GlobalBasis.Z.X, 0, -camera.GlobalBasis.Z.Z).Normalized();
+                    this._cameraRight = new Vector3(camera.GlobalBasis.X.X, 0, camera.GlobalBasis.X.Z).Normalized();
                 }
                 else
                 {
@@ -77,7 +77,7 @@ public sealed partial class HumanInputController : Node
                 }
             }
 
-            var destination = this._mainHuman.Position
+            var destination = this._mainHuman.GlobalPosition
                 + (this._cameraForward.Value * -input.Y + this._cameraRight.Value * input.X)
                 * 10f;
 

@@ -39,6 +39,7 @@ metadata/_custom_type_script = "uid://8tq6dsduly5p"
 [node name="Model" parent="." index="8" unique_id=1938991891 instance=ExtResource("3_helena")]
 
 [node name="HumanVelocity" parent="." index="9" unique_id=234766889]
+AngularSpeed = 10.0
 RunAcceleration = 14.0
 RunAccelerationDrunkFactor = 0.5
 RunMaxSpeed = 4.0

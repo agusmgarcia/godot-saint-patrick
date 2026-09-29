@@ -34,6 +34,7 @@ shape = SubResource("CylinderShape3D_55yqf")
 [node name="Model" parent="." index="7" unique_id=1938991891 instance=ExtResource("3_stephanie")]
 
 [node name="HumanVelocity" parent="." index="8" unique_id=234766889]
+AngularSpeed = 10.0
 RunAcceleration = 13.0
 RunAccelerationDrunkFactor = 0.5
 RunMaxSpeed = 3.9

@@ -48,10 +48,10 @@ public sealed partial class MainCameraSelector : Node
 
         foreach (var camera in this._cameras)
         {
-            if (!camera.IsPositionInFrustum(this._mainOwner.Position))
+            if (!camera.IsPositionInFrustum(this._mainOwner.GlobalPosition))
                 continue;
 
-            var distance = camera.Position.DistanceSquaredTo(this._mainOwner.Position);
+            var distance = camera.GlobalPosition.DistanceSquaredTo(this._mainOwner.GlobalPosition);
             if (distance >= nearestDistance)
                 continue;
 

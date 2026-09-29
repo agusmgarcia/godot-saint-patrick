@@ -49,15 +49,15 @@ public sealed partial class HumanSocialZoneArea3D : Area3D
             if (body is not Human other)
                 continue;
 
-            var raycast = PhysicsRayQueryParameters3D.Create(other.Position, this._owner!.Position, base.CollisionLayer);
+            var raycast = PhysicsRayQueryParameters3D.Create(other.GlobalPosition, this._owner!.GlobalPosition, base.CollisionLayer);
             raycast.Exclude = [other.GetRid(), this._owner.GetRid()];
 
             var spaceState = this._owner.GetWorld3D().DirectSpaceState;
             if (spaceState.IntersectRay(raycast).Count > 0)
                 continue;
 
-            var toTarget = other.Position - this._owner.Position;
-            if (this._owner.Basis.Z.Dot(toTarget.Normalized()) < this._cosHalfFov)
+            var toTarget = other.GlobalPosition - this._owner.GlobalPosition;
+            if (this._owner.GlobalBasis.Z.Dot(toTarget.Normalized()) < this._cosHalfFov)
                 continue;
 
             var lengthSquared = toTarget.LengthSquared();
