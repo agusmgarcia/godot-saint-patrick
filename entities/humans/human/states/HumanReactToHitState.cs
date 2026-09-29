@@ -49,7 +49,7 @@ public sealed partial class HumanReactToHitState : HumanBaseState<HumanReactToHi
         {
             case EPhase.Initialize:
                 this._phase = EPhase.BeingHit;
-                this._humanAnimationPlayer?.PlayRandomIfNotPlaying(EHumanAnimation.ReactToHit, customBlend: 2);
+                this._humanAnimationPlayer?.PlayRandomIfNotPlaying(EHumanAnimation.ReactToHit, customBlend: 0.5);
                 break;
 
             case EPhase.BeingHit:
@@ -77,7 +77,7 @@ public sealed partial class HumanReactToHitState : HumanBaseState<HumanReactToHi
         {
             case EPhase.Initialize:
                 this._phase = EPhase.BeingHit;
-                this._humanAnimationPlayer?.PlayRandomIfNotPlaying(EHumanAnimation.ReactToHit, customBlend: 2);
+                this._humanAnimationPlayer?.PlayRandomIfNotPlaying(EHumanAnimation.ReactToHit, customBlend: 0.5);
                 break;
 
             case EPhase.BeingHit:

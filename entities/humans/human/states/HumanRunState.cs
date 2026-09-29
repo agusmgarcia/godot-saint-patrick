@@ -55,12 +55,12 @@ public sealed partial class HumanRunState : HumanBaseState<HumanRunStateParams>
     private void OnAnimationStarted(StringName animationName) =>
         this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
             (this._humanDrunk?.Value ?? false) ? EHumanAnimation.DrunkRun : EHumanAnimation.Run,
-            customBlend: 2);
+            customBlend: 0.5);
 
     private void OnDrunkChanged(bool drunk) =>
        this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
            drunk ? EHumanAnimation.DrunkRun : EHumanAnimation.Run,
-           customBlend: 2);
+           customBlend: 0.5);
 
     /// <inheritdoc/>
     public override void _PhysicsProcess(double delta)
@@ -80,7 +80,7 @@ public sealed partial class HumanRunState : HumanBaseState<HumanRunStateParams>
     private void OnAnimationFinished(StringName animationName) =>
        this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
             (this._humanDrunk?.Value ?? false) ? EHumanAnimation.DrunkRun : EHumanAnimation.Run,
-            customBlend: 2);
+            customBlend: 0.5);
 
     private void OnHumanVelocityUntracked(HumanVelocity humanVelocity) =>
         this._humanVelocity = null;

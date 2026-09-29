@@ -55,12 +55,12 @@ public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams
     private void OnAnimationStarted(StringName animationName) =>
         this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
             (this._humanDrunk?.Value ?? false) ? EHumanAnimation.DrunkWalk : EHumanAnimation.Walk,
-            customBlend: 2);
+            customBlend: 0.5);
 
     private void OnDrunkChanged(bool drunk) =>
        this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
            drunk ? EHumanAnimation.DrunkWalk : EHumanAnimation.Walk,
-           customBlend: 2);
+           customBlend: 0.5);
 
     /// <inheritdoc/>
     public override void _PhysicsProcess(double delta)

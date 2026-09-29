@@ -83,12 +83,12 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
     private void OnAnimationStarted(StringName animationName) =>
         this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
             (this._humanDrunk?.Value ?? false) ? EHumanAnimation.DrunkIdle : EHumanAnimation.Idle,
-            customBlend: 0.5f);
+            customBlend: 0.5);
 
     private void OnDrunkChanged(bool drunk) =>
         this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
             drunk ? EHumanAnimation.DrunkIdle : EHumanAnimation.Idle,
-            customBlend: 2);
+            customBlend: 0.5);
 
     private void OnFlyRemovalTimerTimeout()
     {
