@@ -13,6 +13,7 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
     private Main? _main;
     private HumanAnimationPlayer? _humanAnimationPlayer;
     private HumanDrunk? _humanDrunk;
+    private HumanSocialZoneArea3D? _humanSocialZoneArea;
     private HumanVelocity? _humanVelocity;
     private Godot.Timer? _flyRemovalTimer;
 
@@ -34,6 +35,11 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
         this.TrackNodes<HumanDrunk>(
             this.OnHumanDrunkTracked,
             this.OnHumanDrunkUntracked,
+            unique: true);
+
+        this.TrackNodes<HumanSocialZoneArea3D>(
+            this.OnHumanSocialZoneAreaTracked,
+            this.OnHumanSocialZoneAreaUntracked,
             unique: true);
 
         this.TrackNodes<HumanVelocity>(
@@ -70,6 +76,9 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
         this.OnDrunkChanged(this._humanDrunk.Value);
     }
 
+    private void OnHumanSocialZoneAreaTracked(HumanSocialZoneArea3D humanSocialZoneArea) =>
+        this._humanSocialZoneArea = humanSocialZoneArea;
+
     private void OnHumanVelocityTracked(HumanVelocity humanVelocity) =>
         this._humanVelocity = humanVelocity;
 
@@ -104,6 +113,11 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
         base._PhysicsProcess(delta);
 
         this._humanVelocity?.Decelerate();
+
+        if (this._humanSocialZoneArea?.NearestHuman != null)
+        {
+            // TODO: look at the NearestHuman.
+        }
     }
 
     private void OnAnimationFinished(StringName animationName) =>
@@ -120,6 +134,9 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
 
     private void OnHumanVelocityUntracked(HumanVelocity humanVelocity) =>
         this._humanVelocity = null;
+
+    private void OnHumanSocialZoneAreaUntracked(HumanSocialZoneArea3D humanSocialZoneArea) =>
+        this._humanSocialZoneArea = null;
 
     private void OnHumanDrunkUntracked(HumanDrunk humanDrunk)
     {
