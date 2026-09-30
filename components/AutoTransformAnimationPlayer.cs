@@ -6,7 +6,7 @@ namespace SaintPatrick.Components;
 /// <summary>
 /// // TODO: document this.
 /// </summary>
-public abstract partial class AutoTransformAnimationPlayer(float initialHeight) : AnimationPlayer
+public abstract partial class AutoTransformAnimationPlayer : AnimationPlayer
 {
     /// <summary>
     /// // TODO: document this.
@@ -14,12 +14,33 @@ public abstract partial class AutoTransformAnimationPlayer(float initialHeight) 
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
     public float LerpSpeed { get; private set; } = 5.0f;
 
-    private readonly float _initialHeight = initialHeight;
+    private readonly float _initialHeight;
 
     private Node3D? _model;
     private Height? _height;
     private Vector3 _targetPosition;
     private Vector3 _targetRotation;
+
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    protected AutoTransformAnimationPlayer(float initialHeight)
+    {
+        this._initialHeight = initialHeight;
+
+        this.TrackSiblings<Node3D>(
+            this.OnModelTracked,
+            this.OnModelUntracked,
+            name: "Model",
+            unique: true
+        );
+
+        this.TrackSiblings<Height>(
+            this.OnHeightTracked,
+            this.OnHeightUntracked,
+            unique: true
+        );
+    }
 
     /// <summary>
     /// // TODO: document this.
@@ -35,19 +56,6 @@ public abstract partial class AutoTransformAnimationPlayer(float initialHeight) 
     public override void _EnterTree()
     {
         base._EnterTree();
-
-        this.TrackNodes<Node3D>(
-            this.OnModelTracked,
-            this.OnModelUntracked,
-            name: "Model",
-            unique: true
-        );
-
-        this.TrackNodes<Height>(
-            this.OnHeightTracked,
-            this.OnHeightUntracked,
-            unique: true
-        );
 
         base.AnimationFinished += this.OnAnimationFinished;
         base.AnimationStarted += this.OnAnimationStarted;

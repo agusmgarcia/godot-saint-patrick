@@ -20,8 +20,8 @@ public sealed partial class HumanVelocity : Velocity
     /// <summary>
     /// // TODO: document this.
     /// </summary>
-    [Export(PropertyHint.Range, "0,1")]
     [ExportGroup("Run", "Run")]
+    [Export(PropertyHint.Range, "0,1")]
     public float RunAccelerationDrunkFactor { get; private set; }
 
     /// <summary>
@@ -71,6 +71,17 @@ public sealed partial class HumanVelocity : Velocity
     /// <summary>
     /// // TODO: document this.
     /// </summary>
+    public HumanVelocity()
+    {
+        this.TrackSiblings<HumanDrunk>(
+            this.OnHumanDrunkTracked,
+            this.OnHumanDrunkUntracked,
+            unique: true);
+    }
+
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
     public void Run(in Vector3 direction)
     {
         base.MaxSpeed = this.RunMaxSpeed;
@@ -95,14 +106,6 @@ public sealed partial class HumanVelocity : Velocity
     /// </summary>
     public void Decelerate() =>
         base.Decelerate(this.Deceleration * ((this._humanDrunk?.Value ?? false) ? this.DecelerationDrunkFactor : 1));
-
-    /// <inheritdoc/>
-    public override void _EnterTree()
-    {
-        base._EnterTree();
-
-        this.TrackNodes<HumanDrunk>(this.OnHumanDrunkTracked, this.OnHumanDrunkUntracked, unique: true);
-    }
 
     private void OnHumanDrunkTracked(HumanDrunk humanDrunk) =>
         this._humanDrunk = humanDrunk;

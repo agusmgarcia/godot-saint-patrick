@@ -17,42 +17,47 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
     private HumanVelocity? _humanVelocity;
     private Godot.Timer? _flyRemovalTimer;
 
-    /// <inheritdoc/>
-    public override void _EnterTree()
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public HumanIdleState()
     {
-        base._EnterTree();
-
-        this.TrackNodes<Main>(
+        this.TrackSiblings<Main>(
             this.OnMainTracked,
             this.OnMainUntracked,
             unique: true);
 
-        this.TrackNodes<HumanAnimationPlayer>(
+        this.TrackSiblings<HumanAnimationPlayer>(
             this.OnHumanAnimationPlayerTracked,
             this.OnHumanAnimationPlayerUntracked,
             unique: true);
 
-        this.TrackNodes<HumanDrunk>(
+        this.TrackSiblings<HumanDrunk>(
             this.OnHumanDrunkTracked,
             this.OnHumanDrunkUntracked,
             unique: true);
 
-        this.TrackNodes<HumanSocialZoneArea3D>(
+        this.TrackSiblings<HumanSocialZoneArea3D>(
             this.OnHumanSocialZoneAreaTracked,
             this.OnHumanSocialZoneAreaUntracked,
             unique: true);
 
-        this.TrackNodes<HumanVelocity>(
+        this.TrackSiblings<HumanVelocity>(
             this.OnHumanVelocityTracked,
             this.OnHumanVelocityUntracked,
             unique: true);
 
-        this.TrackNodes<Godot.Timer>(
+        this.TrackChildren<Godot.Timer>(
             this.OnFlyRemovalTimerTracked,
             this.OnFlyRemovalTimerUntracked,
-            root: this,
             name: "FlyRemovalTimer",
             unique: true);
+    }
+
+    /// <inheritdoc/>
+    public override void _EnterTree()
+    {
+        base._EnterTree();
 
         if (this.GetNodeOrNull("FlyRemovalTimer") == null)
             base.AddChild(new Godot.Timer() { Name = "FlyRemovalTimer" });
@@ -127,7 +132,6 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
 
     private void OnFlyRemovalTimerUntracked(Godot.Timer flyRemovalTimer)
     {
-        flyRemovalTimer.Stop();
         flyRemovalTimer.Timeout -= this.OnFlyRemovalTimerTimeout;
         this._flyRemovalTimer = null;
     }

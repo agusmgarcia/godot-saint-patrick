@@ -14,12 +14,21 @@ public sealed partial class AutoTransformCollisionShape3D : CollisionShape3D
     private float _initialHeight;
     private float _initialRadius;
 
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public AutoTransformCollisionShape3D()
+    {
+        this.TrackSiblings<Height>(
+            this.OnHeightTracked,
+            this.OnHeightUntracked,
+            unique: true);
+    }
+
     /// <inheritdoc/>
     public override void _EnterTree()
     {
         base._EnterTree();
-
-        this.TrackNodes<Height>(this.OnHeightTracked, this.OnHeightUntracked, unique: true);
 
         if (base.Shape is CapsuleShape3D capsule)
         {

@@ -19,14 +19,19 @@ public sealed partial class MainCameraSelector : Node
 
     private Node3D? _mainOwner;
 
-    /// <inheritdoc/>
-    public override void _EnterTree()
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public MainCameraSelector()
     {
-        base._EnterTree();
+        this.TrackSiblings<Camera3D>(
+            this.OnCameraTracked,
+            this.OnCameraUntracked);
 
-        this.TrackNodes<Camera3D>(this.OnCameraTracked, this.OnCameraUntracked, recursive: true);
-
-        this.TrackNodes<Main>(this.OnMainTracked, this.OnMainUntracked, recursive: true, unique: true);
+        this.TrackSiblings<Main>(
+            this.OnMainTracked,
+            this.OnMainUntracked,
+            unique: true);
     }
 
     private void OnCameraTracked(Camera3D camera) =>

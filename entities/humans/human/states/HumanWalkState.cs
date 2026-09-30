@@ -13,22 +13,22 @@ public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams
     private HumanDrunk? _humanDrunk;
     private HumanVelocity? _humanVelocity;
 
-    /// <inheritdoc/>
-    public override void _EnterTree()
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public HumanWalkState()
     {
-        base._EnterTree();
-
-        this.TrackNodes<HumanAnimationPlayer>(
+        this.TrackSiblings<HumanAnimationPlayer>(
             this.OnHumanAnimationPlayerTracked,
             this.OnHumanAnimationPlayerUntracked,
             unique: true);
 
-        this.TrackNodes<HumanDrunk>(
+        this.TrackSiblings<HumanDrunk>(
             this.OnHumanDrunkTracked,
             this.OnHumanDrunkUntracked,
             unique: true);
 
-        this.TrackNodes<HumanVelocity>(
+        this.TrackSiblings<HumanVelocity>(
             this.OnHumanVelocityTracked,
             this.OnHumanVelocityUntracked,
             unique: true);

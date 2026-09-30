@@ -14,16 +14,15 @@ public sealed partial class Human : CharacterBody3D
     /// </summary>
     public HumanStateMachine? HumanStateMachine { get; private set; }
 
-    /// <inheritdoc/>
-    public override void _EnterTree()
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public Human()
     {
-        base._EnterTree();
-
-        this.TrackNodes<HumanStateMachine>(
+        this.TrackChildren<HumanStateMachine>(
             this.OnHumanStateMachineTracked,
             this.OnHumanStateMachineUntracked,
-            unique: true,
-            root: this);
+            unique: true);
     }
 
     private void OnHumanStateMachineTracked(HumanStateMachine humanStateMachine)

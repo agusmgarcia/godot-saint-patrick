@@ -17,23 +17,26 @@ public sealed partial class HumanInputController : Node
     private Vector3? _cameraForward;
     private Vector3? _cameraRight;
 
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public HumanInputController()
+    {
+        this.TrackSiblings<MainCameraSelector>(
+            this.OnMainCameraSelectorTracked,
+            this.OnMainCameraSelectorUntracked,
+            unique: true);
+
+        this.TrackSiblings<Main>(
+            this.OnMainTracked,
+            this.OnMainUntracked,
+            unique: true);
+    }
+
     /// <inheritdoc/>
     public override void _EnterTree()
     {
         base._EnterTree();
-
-        this.TrackNodes<MainCameraSelector>(
-            this.OnMainCameraSelectorTracked,
-            this.OnMainCameraSelectorUntracked,
-            unique: true,
-            recursive: true
-        );
-
-        this.TrackNodes<Main>(
-            this.OnMainTracked,
-            this.OnMainUntracked,
-            unique: true,
-            recursive: true);
 
         this._cameraForward = null;
         this._cameraRight = null;

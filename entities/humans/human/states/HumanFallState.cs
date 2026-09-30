@@ -13,15 +13,21 @@ public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams
 
     private EPhase _phase = EPhase.Initialize;
 
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public HumanFallState()
+    {
+        this.TrackSiblings<HumanAnimationPlayer>(
+          this.OnHumanAnimationPlayerTracked,
+          this.OnHumanAnimationPlayerUntracked,
+          unique: true);
+    }
+
     /// <inheritdoc/>
     public override void _EnterTree()
     {
         base._EnterTree();
-
-        this.TrackNodes<HumanAnimationPlayer>(
-          this.OnHumanAnimationPlayerTracked,
-          this.OnHumanAnimationPlayerUntracked,
-          unique: true);
 
         this._phase = EPhase.Initialize;
     }

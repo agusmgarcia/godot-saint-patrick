@@ -14,20 +14,26 @@ public sealed partial class HumanReactToHitState : HumanBaseState<HumanReactToHi
 
     private EPhase _phase = EPhase.Initialize;
 
-    /// <inheritdoc/>
-    public override void _EnterTree()
+    /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public HumanReactToHitState()
     {
-        base._EnterTree();
-
-        this.TrackNodes<HumanAnimationPlayer>(
+        this.TrackSiblings<HumanAnimationPlayer>(
            this.OnHumanAnimationPlayerTracked,
            this.OnHumanAnimationPlayerUntracked,
            unique: true);
 
-        this.TrackNodes<HumanVelocity>(
+        this.TrackSiblings<HumanVelocity>(
             this.OnHumanVelocityTracked,
             this.OnHumanVelocityUntracked,
             unique: true);
+    }
+
+    /// <inheritdoc/>
+    public override void _EnterTree()
+    {
+        base._EnterTree();
 
         this._phase = EPhase.Initialize;
     }
