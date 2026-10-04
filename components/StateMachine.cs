@@ -12,23 +12,7 @@ public partial class StateMachine : Node
     /// <summary>
     /// // TODO: document this.
     /// </summary>
-    public event Action<State?>? StateChanged;
-
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
-    public State? State
-    {
-        get;
-        private set
-        {
-            if (EqualityComparer<State?>.Default.Equals(field, value))
-                return;
-
-            field = value;
-            this.StateChanged?.Invoke(value);
-        }
-    }
+    public State? State { get; private set; }
 
     /// <inheritdoc/>
     public override void _EnterTree()
