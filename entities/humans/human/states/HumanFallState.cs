@@ -19,9 +19,9 @@ public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams
     public HumanFallState()
     {
         this.TrackSiblings<HumanAnimationPlayer>(
-          this.OnHumanAnimationPlayerTracked,
-          this.OnHumanAnimationPlayerUntracked,
-          unique: true);
+            this.OnHumanAnimationPlayerTracked,
+            this.OnHumanAnimationPlayerUntracked,
+            unique: true);
     }
 
     /// <inheritdoc/>
@@ -69,7 +69,7 @@ public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams
                 break;
 
             case EPhase.Landing:
-                if (base.Human!.IsOnFloor())
+                if (!base.Human!.IsOnFloor())
                 {
                     this._phase = EPhase.Falling;
                     this._humanAnimationPlayer?.PlayRandomIfNotPlaying(EHumanAnimation.Fall, customBlend: 0.1f);
