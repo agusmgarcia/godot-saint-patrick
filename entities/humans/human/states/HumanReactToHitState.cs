@@ -70,7 +70,7 @@ public sealed partial class HumanReactToHitState : HumanBaseState<HumanReactToHi
     {
         base._PhysicsProcess(delta);
 
-        this._humanVelocity?.Decelerate();
+        this._humanVelocity?.Decelerate(base.Human!.GlobalBasis.Z);
     }
 
     /// <inheritdoc/>

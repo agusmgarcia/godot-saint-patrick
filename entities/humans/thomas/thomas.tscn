@@ -31,12 +31,18 @@ shape = SubResource("CylinderShape3D_k2fxq")
 [node name="Model" parent="." index="7" unique_id=1938991891 instance=ExtResource("3_thomas")]
 
 [node name="HumanVelocity" parent="." index="8" unique_id=234766889]
-AngularSpeed = 8.0
+RotationAcceleration = 120.0
 RunAcceleration = 12.0
 RunAccelerationDrunkFactor = 0.5
+RunAngularAcceleration = 624.0
+RunMaxAngularSpeed = 1200.0
 RunMaxSpeed = 4.0
 WalkAcceleration = 7.0
 WalkAccelerationDrunkFactor = 0.6
+WalkAngularAcceleration = 324.0
+WalkMaxAngularSpeed = 600.0
 WalkMaxSpeed = 1.45
 Deceleration = 17.0
 DecelerationDrunkFactor = 0.65
+DecelerationAngularAcceleration = 60.0
+DecelerationMaxAngularSpeed = 120.0

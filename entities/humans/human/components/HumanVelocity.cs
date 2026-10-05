@@ -25,7 +25,21 @@ public sealed partial class HumanVelocity : Velocity
     public float RunAccelerationDrunkFactor { get; private set; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Angular acceleration used when rotating toward a target while running (°/s²).
+    /// </summary>
+    [ExportGroup("Run", "Run")]
+    [Export(PropertyHint.Range, "0,1000,or_greater,hide_control,suffix:°/s²")]
+    public float RunAngularAcceleration { get; private set; }
+
+    /// <summary>
+    /// Maximum angular speed allowed while running (°/s).
+    /// </summary>
+    [ExportGroup("Run", "Run")]
+    [Export(PropertyHint.Range, "0,1000,or_greater,hide_control,suffix:°/s")]
+    public float RunMaxAngularSpeed { get; private set; }
+
+    /// <summary>
+    /// Top speed the human can reach while running (m/s).
     /// </summary>
     [ExportGroup("Run", "Run")]
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
@@ -46,14 +60,28 @@ public sealed partial class HumanVelocity : Velocity
     public float WalkAccelerationDrunkFactor { get; private set; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Angular acceleration used when rotating toward a target while walking (°/s²).
+    /// </summary>
+    [ExportGroup("Walk", "Walk")]
+    [Export(PropertyHint.Range, "0,1000,or_greater,hide_control,suffix:°/s²")]
+    public float WalkAngularAcceleration { get; private set; }
+
+    /// <summary>
+    /// Maximum angular speed allowed while walking (°/s).
+    /// </summary>
+    [ExportGroup("Walk", "Walk")]
+    [Export(PropertyHint.Range, "0,1000,or_greater,hide_control,suffix:°/s")]
+    public float WalkMaxAngularSpeed { get; private set; }
+
+    /// <summary>
+    /// Top speed the human can reach while walking (m/s).
     /// </summary>
     [ExportGroup("Walk", "Walk")]
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
     public float WalkMaxSpeed { get; private set; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Deceleration applied to the human when no movement input is given (m/s²).
     /// </summary>
     [ExportGroup("Deceleration")]
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s²")]
@@ -65,6 +93,20 @@ public sealed partial class HumanVelocity : Velocity
     [ExportGroup("Deceleration", "Deceleration")]
     [Export(PropertyHint.Range, "0,1")]
     public float DecelerationDrunkFactor { get; private set; }
+
+    /// <summary>
+    /// Angular acceleration used when rotating toward a target while decelerating (°/s²).
+    /// </summary>
+    [ExportGroup("Deceleration", "Deceleration")]
+    [Export(PropertyHint.Range, "0,1000,or_greater,hide_control,suffix:°/s²")]
+    public float DecelerationAngularAcceleration { get; private set; }
+
+    /// <summary>
+    /// Maximum angular speed allowed while decelerating (°/s).
+    /// </summary>
+    [ExportGroup("Deceleration", "Deceleration")]
+    [Export(PropertyHint.Range, "0,1000,or_greater,hide_control,suffix:°/s")]
+    public float DecelerationMaxAngularSpeed { get; private set; }
 
     private HumanDrunk? _humanDrunk;
 
@@ -85,9 +127,11 @@ public sealed partial class HumanVelocity : Velocity
     public void Run(in Vector3 direction)
     {
         base.MaxSpeed = this.RunMaxSpeed;
+        base.MaxAngularSpeed = this.RunMaxAngularSpeed;
         base.Accelerate(
             new Vector3(direction.X, 0f, direction.Z),
-            this.RunAcceleration * ((this._humanDrunk?.Value ?? false) ? this.RunAccelerationDrunkFactor : 1));
+            this.RunAcceleration * ((this._humanDrunk?.Value ?? false) ? this.RunAccelerationDrunkFactor : 1),
+            this.RunAngularAcceleration * ((this._humanDrunk?.Value ?? false) ? this.RunAccelerationDrunkFactor : 1));
     }
 
     /// <summary>
@@ -96,16 +140,25 @@ public sealed partial class HumanVelocity : Velocity
     public void Walk(in Vector3 direction)
     {
         base.MaxSpeed = this.WalkMaxSpeed;
+        base.MaxAngularSpeed = this.WalkMaxAngularSpeed;
         base.Accelerate(
             new Vector3(direction.X, 0f, direction.Z),
-            this.WalkAcceleration * ((this._humanDrunk?.Value ?? false) ? this.WalkAccelerationDrunkFactor : 1));
+            this.WalkAcceleration * ((this._humanDrunk?.Value ?? false) ? this.WalkAccelerationDrunkFactor : 1),
+            this.WalkAngularAcceleration * ((this._humanDrunk?.Value ?? false) ? this.WalkAccelerationDrunkFactor : 1));
     }
 
     /// <summary>
     /// // TODO: document this.
     /// </summary>
-    public void Decelerate() =>
-        base.Decelerate(this.Deceleration * ((this._humanDrunk?.Value ?? false) ? this.DecelerationDrunkFactor : 1));
+    public void Decelerate(in Vector3 lookAt)
+    {
+        base.MaxSpeed = Math.Max(this.RunMaxSpeed, this.WalkMaxSpeed);
+        base.MaxAngularSpeed = this.DecelerationMaxAngularSpeed;
+        base.Decelerate(
+            this.Deceleration * ((this._humanDrunk?.Value ?? false) ? this.DecelerationDrunkFactor : 1),
+            lookAt,
+            this.DecelerationAngularAcceleration * ((this._humanDrunk?.Value ?? false) ? this.DecelerationDrunkFactor : 1));
+    }
 
     private void OnHumanDrunkTracked(HumanDrunk humanDrunk) =>
         this._humanDrunk = humanDrunk;

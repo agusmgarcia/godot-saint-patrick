@@ -39,12 +39,18 @@ metadata/_custom_type_script = "uid://8tq6dsduly5p"
 [node name="Model" parent="." index="8" unique_id=1938991891 instance=ExtResource("3_helena")]
 
 [node name="HumanVelocity" parent="." index="9" unique_id=234766889]
-AngularSpeed = 10.0
+RotationAcceleration = 160.0
 RunAcceleration = 14.0
 RunAccelerationDrunkFactor = 0.5
+RunAngularAcceleration = 832.0
+RunMaxAngularSpeed = 1200.0
 RunMaxSpeed = 4.0
 WalkAcceleration = 8.0
 WalkAccelerationDrunkFactor = 0.6
+WalkAngularAcceleration = 432.0
+WalkMaxAngularSpeed = 600.0
 WalkMaxSpeed = 1.5
 Deceleration = 20.0
 DecelerationDrunkFactor = 0.65
+DecelerationAngularAcceleration = 80.0
+DecelerationMaxAngularSpeed = 120.0

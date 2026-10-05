@@ -117,12 +117,9 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
     {
         base._PhysicsProcess(delta);
 
-        this._humanVelocity?.Decelerate();
-
-        if (this._humanSocialZoneArea?.NearestHuman != null)
-        {
-            // TODO: look at the NearestHuman.
-        }
+        this._humanVelocity?.Decelerate(this._humanSocialZoneArea?.NearestHuman != null
+            ? this._humanSocialZoneArea.NearestHuman.GlobalPosition - base.Human!.GlobalPosition
+            : base.Human!.GlobalBasis.Z);
     }
 
     private void OnAnimationFinished(StringName animationName) =>
