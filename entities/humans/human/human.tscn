@@ -27,6 +27,7 @@
 [ext_resource type="Script" uid="uid://by5bl25advd14" path="res://entities/humans/human/components/HumanDrunk.cs" id="23_yocrs"]
 [ext_resource type="Script" uid="uid://dmrt6q16jkcda" path="res://entities/humans/human/components/HumanGender.cs" id="24_w6qrs"]
 [ext_resource type="Script" uid="uid://njgv87641rmm" path="res://entities/humans/human/components/HumanSocialZoneArea3D.cs" id="26_w6qrs"]
+[ext_resource type="Script" uid="uid://b6icl0gao2f23" path="res://components/Weight.cs" id="27_xkre3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_45isd"]
 radius = 0.3
@@ -103,3 +104,8 @@ metadata/_custom_type_script = "uid://bp44bcrt20ir3"
 script = ExtResource("20_hqa5r")
 Gravity = true
 metadata/_custom_type_script = "uid://s02i6q81k7rc"
+
+[node name="Weight" type="Node" parent="." unique_id=312984756]
+script = ExtResource("27_xkre3")
+Value = 70.0
+metadata/_custom_type_script = "uid://b6icl0gao2f23"
