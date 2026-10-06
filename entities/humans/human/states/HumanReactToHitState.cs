@@ -5,7 +5,7 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Entities.Humans.Human.States;
 
 /// <summary>
-/// // TODO: document this.
+/// State that plays a hit-reaction animation and decelerates the human.
 /// </summary>
 public sealed partial class HumanReactToHitState : HumanBaseState<HumanReactToHitStateParams>
 {
@@ -15,7 +15,7 @@ public sealed partial class HumanReactToHitState : HumanBaseState<HumanReactToHi
     private EPhase _phase = EPhase.Initialize;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Registers trackers for animation and velocity sibling components.
     /// </summary>
     public HumanReactToHitState()
     {
@@ -116,6 +116,6 @@ public sealed partial class HumanReactToHitState : HumanBaseState<HumanReactToHi
 }
 
 /// <summary>
-/// // TODO: document this.
+/// Empty params struct passed to HumanReactToHitState on each hit transition.
 /// </summary>
 public readonly record struct HumanReactToHitStateParams { }

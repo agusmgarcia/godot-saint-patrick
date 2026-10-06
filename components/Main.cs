@@ -3,7 +3,7 @@ using Godot;
 namespace SaintPatrick.Components;
 
 /// <summary>
-/// // TODO: document this.
+/// Marker component that identifies the player-controlled entity.
 /// </summary>
 [GlobalClass]
 public sealed partial class Main : Node

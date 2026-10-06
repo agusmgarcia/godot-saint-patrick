@@ -5,20 +5,20 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
 /// <summary>
-/// // TODO: document this.
+/// Velocity component with human-specific run, walk, and deceleration params.
 /// </summary>
 [GlobalClass]
 public sealed partial class HumanVelocity : Velocity
 {
     /// <summary>
-    /// // TODO: document this.
+    /// Horizontal acceleration applied each frame while running (m/s²).
     /// </summary>
     [ExportGroup("Run", "Run")]
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s²")]
     public float RunAcceleration { get; private set; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Multiplier applied to RunAcceleration when the human is drunk (0–1).
     /// </summary>
     [ExportGroup("Run", "Run")]
     [Export(PropertyHint.Range, "0,1")]
@@ -46,14 +46,14 @@ public sealed partial class HumanVelocity : Velocity
     public float RunMaxSpeed { get; private set; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Horizontal acceleration applied each frame while walking (m/s²).
     /// </summary>
     [ExportGroup("Walk", "Walk")]
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s²")]
     public float WalkAcceleration { get; private set; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Multiplier applied to WalkAcceleration when the human is drunk (0–1).
     /// </summary>
     [ExportGroup("Walk", "Walk")]
     [Export(PropertyHint.Range, "0,1")]
@@ -88,7 +88,7 @@ public sealed partial class HumanVelocity : Velocity
     public float Deceleration { get; private set; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Multiplier applied to Deceleration when the human is drunk (0–1).
     /// </summary>
     [ExportGroup("Deceleration", "Deceleration")]
     [Export(PropertyHint.Range, "0,1")]
@@ -111,7 +111,7 @@ public sealed partial class HumanVelocity : Velocity
     private HumanDrunk? _humanDrunk;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Registers the sibling HumanDrunk tracker.
     /// </summary>
     public HumanVelocity()
     {
@@ -122,7 +122,7 @@ public sealed partial class HumanVelocity : Velocity
     }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Accelerates the human in direction at run speed, applying drunk factor.
     /// </summary>
     public void Run(in Vector3 direction)
     {
@@ -135,7 +135,7 @@ public sealed partial class HumanVelocity : Velocity
     }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Accelerates the human in direction at walk speed, applying drunk factor.
     /// </summary>
     public void Walk(in Vector3 direction)
     {
@@ -148,7 +148,7 @@ public sealed partial class HumanVelocity : Velocity
     }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Decelerates the human using Deceleration, applying the drunk factor.
     /// </summary>
     public void Decelerate(in Vector3 lookAt)
     {

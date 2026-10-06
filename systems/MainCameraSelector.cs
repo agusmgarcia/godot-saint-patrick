@@ -5,13 +5,13 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Systems;
 
 /// <summary>
-/// // TODO: document this.
+/// Picks the nearest in-frustum Camera3D that sees the Main entity each frame.
 /// </summary>
 [GlobalClass]
 public sealed partial class MainCameraSelector : Node
 {
     /// <summary>
-    /// // TODO: document this.
+    /// The camera currently made active; null until the first selection occurs.
     /// </summary>
     public Camera3D? ActiveCamera { get; private set; }
 
@@ -20,7 +20,7 @@ public sealed partial class MainCameraSelector : Node
     private Node3D? _mainOwner;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Registers trackers for sibling Camera3D and Main components.
     /// </summary>
     public MainCameraSelector()
     {

@@ -6,7 +6,7 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Entities.Humans.Human.States;
 
 /// <summary>
-/// // TODO: document this.
+/// Idle state; decelerates the human and rotates toward the nearest peer.
 /// </summary>
 public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams>
 {
@@ -18,7 +18,7 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
     private Godot.Timer? _flyRemovalTimer;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Registers trackers for all sibling and child components needed in idle.
     /// </summary>
     public HumanIdleState()
     {
@@ -159,6 +159,6 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
 }
 
 /// <summary>
-/// // TODO: document this.
+/// Empty params struct passed to HumanIdleState on each idle transition.
 /// </summary>
 public readonly record struct HumanIdleStateParams { }

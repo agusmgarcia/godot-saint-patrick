@@ -3,7 +3,7 @@ using Godot;
 namespace SaintPatrick.Components;
 
 /// <summary>
-/// // TODO: document this.
+/// Component that drives CharacterBody3D translation and rotation each physics frame.
 /// </summary>
 [GlobalClass]
 public partial class Velocity : Node
@@ -15,13 +15,13 @@ public partial class Velocity : Node
     public float MaxSpeed { get; protected set; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Maximum angular speed the entity can reach while rotating (°/s).
     /// </summary>
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:°/s")]
     public float MaxAngularSpeed { get; protected set; }
 
     /// <summary>
-    /// // TODO:
+    /// When true, gravity is applied to the owner each physics frame.
     /// </summary>
     [Export]
     public bool Gravity { get; private set; }
@@ -37,8 +37,6 @@ public partial class Velocity : Node
 
     /// <summary>
     /// Applies an acceleration impulse in the given direction this physics frame.
-    /// Progressively increases speed toward <see cref="MaxSpeed"/> and rotates the owner
-    /// toward the velocity direction using <paramref name="angularAcceleration"/>.
     /// </summary>
     public void Accelerate(in Vector3 direction, float acceleration, float angularAcceleration)
     {
@@ -49,9 +47,7 @@ public partial class Velocity : Node
     }
 
     /// <summary>
-    /// Applies a deceleration impulse this physics frame, reducing speed toward zero
-    /// and rotating the owner toward <paramref name="lookAt"/> using
-    /// <paramref name="angularAcceleration"/>.
+    /// Applies a deceleration impulse this physics frame, reducing speed toward zero and rotating the owner toward <paramref name="lookAt"/>.
     /// </summary>
     public void Decelerate(float deceleration, in Vector3 lookAt, float angularAcceleration)
     {

@@ -5,7 +5,7 @@ using SaintPatrick.Entities.Humans.Human.States;
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
 /// <summary>
-/// // TODO: document this.
+/// StateMachine for a Human; auto-falls and reacts to collision impacts.
 /// </summary>
 [GlobalClass]
 public sealed partial class HumanStateMachine : StateMachine
@@ -13,13 +13,13 @@ public sealed partial class HumanStateMachine : StateMachine
 	private Human? _owner;
 
 	/// <summary>
-	/// // TODO: document this.
+	/// Transitions the human to the idle state.
 	/// </summary>
 	public void Idle() =>
 		base.SetState<HumanIdleState, HumanIdleStateParams>(new HumanIdleStateParams { });
 
 	/// <summary>
-	/// // TODO: document this.
+	/// Transitions the human to the run state toward the given destination.
 	/// </summary>
 	public void Run(in Vector3 destination) =>
 		base.SetState<HumanRunState, HumanRunStateParams>(new HumanRunStateParams
@@ -28,7 +28,7 @@ public sealed partial class HumanStateMachine : StateMachine
 		});
 
 	/// <summary>
-	/// // TODO: document this.
+	/// Transitions the human to the walk state toward the given destination.
 	/// </summary>
 	public void Walk(in Vector3 destination) =>
 		base.SetState<HumanWalkState, HumanWalkStateParams>(new HumanWalkStateParams

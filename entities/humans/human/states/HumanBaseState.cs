@@ -4,18 +4,18 @@ using SaintPatrick.Entities.Humans.Human.Components;
 namespace SaintPatrick.Entities.Humans.Human.States;
 
 /// <summary>
-/// // TODO: document this.
+/// Base state for all human states; exposes the owning Human and StateMachine.
 /// </summary>
 public abstract partial class HumanBaseState<TStateParams> : State<TStateParams>
     where TStateParams : struct
 {
     /// <summary>
-    /// // TODO: document this.
+    /// The HumanStateMachine parent; null while outside the scene tree.
     /// </summary>
     protected HumanStateMachine? StateMachine { get; private set; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// The Human scene-tree owner; null while outside the scene tree.
     /// </summary>
     protected Human? Human { get; private set; }
 

@@ -10,7 +10,7 @@ namespace SaintPatrick.Components;
 public partial class StateMachine : Node
 {
     /// <summary>
-    /// // TODO: document this.
+    /// The currently active state child, or null when no state is set.
     /// </summary>
     public State? State { get; private set; }
 

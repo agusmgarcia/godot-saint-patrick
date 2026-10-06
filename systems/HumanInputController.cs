@@ -6,7 +6,7 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Systems;
 
 /// <summary>
-/// // TODO: document this.
+/// Reads player input and forwards move/run/idle commands to the Main human.
 /// </summary>
 [GlobalClass]
 public sealed partial class HumanInputController : Node
@@ -18,7 +18,7 @@ public sealed partial class HumanInputController : Node
     private Vector3? _cameraRight;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Registers trackers for sibling MainCameraSelector and Main components.
     /// </summary>
     public HumanInputController()
     {

@@ -4,7 +4,7 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Components;
 
 /// <summary>
-/// // TODO: document this.
+/// CollisionShape3D that scales its capsule/cylinder to match a sibling Height.
 /// </summary>
 [GlobalClass]
 public sealed partial class AutoTransformCollisionShape3D : CollisionShape3D
@@ -15,7 +15,7 @@ public sealed partial class AutoTransformCollisionShape3D : CollisionShape3D
     private float _initialRadius;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Registers the sibling Height tracker to auto-scale this shape.
     /// </summary>
     public AutoTransformCollisionShape3D()
     {

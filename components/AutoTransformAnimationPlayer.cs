@@ -4,12 +4,12 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Components;
 
 /// <summary>
-/// // TODO: document this.
+/// AnimationPlayer that lerps a sibling Model's position/rotation per animation.
 /// </summary>
 public abstract partial class AutoTransformAnimationPlayer : AnimationPlayer
 {
     /// <summary>
-    /// // TODO: document this.
+    /// Speed at which the model lerps toward the target position/rotation (m/s).
     /// </summary>
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
     public float LerpSpeed { get; private set; } = 5.0f;
@@ -22,7 +22,7 @@ public abstract partial class AutoTransformAnimationPlayer : AnimationPlayer
     private Vector3 _targetRotation;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Initialises the player with the entity's design-time height in metres.
     /// </summary>
     protected AutoTransformAnimationPlayer(float initialHeight)
     {
@@ -43,12 +43,12 @@ public abstract partial class AutoTransformAnimationPlayer : AnimationPlayer
     }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Returns the target model position offset for the given animation name.
     /// </summary>
     protected abstract Vector3 GetTargetPosition(string animationName);
 
     /// <summary>
-    /// // TODO: document this.
+    /// Returns the target model rotation (radians) for the given animation name.
     /// </summary>
     protected abstract Vector3 GetTargetRotation(string animationName);
 

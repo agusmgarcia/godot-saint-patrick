@@ -5,7 +5,7 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Entities.Humans.Human.States;
 
 /// <summary>
-/// // TODO: document this.
+/// State that handles the human falling and landing sequence.
 /// </summary>
 public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams>
 {
@@ -14,7 +14,7 @@ public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams
     private EPhase _phase = EPhase.Initialize;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Registers the sibling HumanAnimationPlayer tracker.
     /// </summary>
     public HumanFallState()
     {
@@ -111,6 +111,6 @@ public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams
 }
 
 /// <summary>
-/// // TODO: document this.
+/// Empty params struct passed to HumanFallState on each fall transition.
 /// </summary>
 public readonly record struct HumanFallStateParams { }

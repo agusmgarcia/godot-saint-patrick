@@ -3,18 +3,18 @@ using Godot;
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
 /// <summary>
-/// // TODO: document this.
+/// Component that tracks whether a human is currently in a drunk state.
 /// </summary>
 [GlobalClass]
 public sealed partial class HumanDrunk : Node
 {
     /// <summary>
-    /// // TODO: document this.
+    /// Raised whenever Value changes, passing the new drunk state.
     /// </summary>
     public event Action<bool>? ValueChanged;
 
     /// <summary>
-    /// // TODO: document this.
+    /// True while the human is drunk; fires ValueChanged on every change.
     /// </summary>
     [Export]
     public bool Value

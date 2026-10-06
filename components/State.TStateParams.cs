@@ -7,7 +7,7 @@ public abstract partial class State<TStateParams> : State
     where TStateParams : struct
 {
     /// <summary>
-    /// // TODO: document this.
+    /// Holds the params struct passed to this state on the last transition.
     /// </summary>
     public TStateParams StateParams { get; internal set; } = default;
 

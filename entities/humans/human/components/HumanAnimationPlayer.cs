@@ -4,19 +4,19 @@ using SaintPatrick.Components;
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
 /// <summary>
-/// // TODO: document this.
+/// AutoTransformAnimationPlayer wired to the standard human rig (1.7 m).
 /// </summary>
 [GlobalClass]
 public sealed partial class HumanAnimationPlayer : AutoTransformAnimationPlayer
 {
     /// <summary>
-    /// // TODO: document this.
+    /// Initialises the player with the default human height of 1.7 m.
     /// </summary>
     public HumanAnimationPlayer()
         : base(1.7f) { }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Plays a random clip for animation unless one is already playing.
     /// </summary>
     public void PlayRandomIfNotPlaying(EHumanAnimation animation, double customBlend = -1)
     {
@@ -58,52 +58,30 @@ public sealed partial class HumanAnimationPlayer : AutoTransformAnimationPlayer
 }
 
 /// <summary>
-/// // TODO: document this.
+/// Identifies the logical animation group played by HumanAnimationPlayer.
 /// </summary>
 public enum EHumanAnimation
 {
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
+    /// <summary>Idle animation played while drunk.</summary>
     DrunkIdle,
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
+    /// <summary>Run animation played while drunk.</summary>
     DrunkRun,
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
+    /// <summary>Walk animation played while drunk.</summary>
     DrunkWalk,
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
+    /// <summary>Airborne fall animation.</summary>
     Fall,
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
+    /// <summary>Brief animation of the human swatting away a fly.</summary>
     FlyRemoval,
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
+    /// <summary>Standard idle stand animation.</summary>
     Idle,
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
+    /// <summary>Landing animation played on touching the floor after a fall.</summary>
     Land,
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
+    /// <summary>Hit-reaction animation triggered by a collision impulse.</summary>
     ReactToHit,
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
+    /// <summary>Standard run animation.</summary>
     Run,
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
+    /// <summary>Conversation/talk animation.</summary>
     Talk,
-    /// <summary>
-    /// // TODO: document this.
-    /// </summary>
+    /// <summary>Standard walk animation.</summary>
     Walk
 }

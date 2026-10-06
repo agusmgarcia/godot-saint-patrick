@@ -5,7 +5,7 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Entities.Humans.Human.States;
 
 /// <summary>
-/// // TODO: document this.
+/// State that moves the human at walk speed toward a destination.
 /// </summary>
 public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams>
 {
@@ -14,7 +14,7 @@ public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams
     private HumanVelocity? _humanVelocity;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Registers trackers for animation, drunk state, and velocity siblings.
     /// </summary>
     public HumanWalkState()
     {
@@ -102,12 +102,12 @@ public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams
 }
 
 /// <summary>
-/// // TODO: document this.
+/// Params passed to HumanWalkState specifying the world-space destination.
 /// </summary>
 public readonly record struct HumanWalkStateParams
 {
     /// <summary>
-    /// // TODO: document this.
+    /// World-space position the human should walk toward.
     /// </summary>
     public required Vector3 Destination { get; init; }
 }

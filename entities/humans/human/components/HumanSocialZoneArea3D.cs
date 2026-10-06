@@ -4,19 +4,19 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
 /// <summary>
-/// // TODO: document this.
+/// Area3D that finds the nearest visible Human within the field of view.
 /// </summary>
 [GlobalClass]
 public sealed partial class HumanSocialZoneArea3D : Area3D
 {
     /// <summary>
-    /// // TODO: document this.
+    /// Cone half-angle (degrees) in which other humans are considered visible.
     /// </summary>
     [Export(PropertyHint.Range, "0,360,1,suffix:°")]
     public float FieldOfView { get; private set; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// The nearest line-of-sight Human inside the FOV, or null if none found.
     /// </summary>
     public Human? NearestHuman { get; private set; }
 

@@ -3,12 +3,12 @@ using Godot;
 namespace SaintPatrick.Utils;
 
 /// <summary>
-/// // TODO: document this.
+/// Extension methods for Godot Node.
 /// </summary>
 public static class NodeExtensions
 {
     /// <summary>
-    /// // TODO: document this.
+    /// Subscribes to sibling nodes of type TSibling entering/leaving the scene.
     /// </summary>
     public static void TrackSiblings<TSibling>(
         this Node self,
@@ -21,7 +21,7 @@ public static class NodeExtensions
             NodeExtensions.TrackNodes<TSibling>(self, onTracked, onUntracked, name, unique, (node) => node.Owner);
 
     /// <summary>
-    /// // TODO: document this.
+    /// Subscribes to child nodes of type TChild entering/leaving the scene.
     /// </summary>
     public static void TrackChildren<TChild>(
         this Node self,

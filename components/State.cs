@@ -3,7 +3,7 @@ using Godot;
 namespace SaintPatrick.Components;
 
 /// <summary>
-/// // TODO: document this.
+/// Abstract base node for all pooled states managed by StateMachine.
 /// </summary>
 public abstract partial class State : Node
 {
@@ -21,7 +21,7 @@ public abstract partial class State : Node
     public virtual bool _ReadyToTransition() => true;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Copies the given params struct into the state without a full transition.
     /// </summary>
     public virtual void _CopyStateParams(ValueType stateParams) { }
 
