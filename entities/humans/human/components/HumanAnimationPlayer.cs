@@ -76,8 +76,6 @@ public enum EHumanAnimation
     Idle,
     /// <summary>Landing animation played on touching the floor after a fall.</summary>
     Land,
-    /// <summary>Hit-reaction animation triggered by a collision impulse.</summary>
-    ReactToHit,
     /// <summary>Standard run animation.</summary>
     Run,
     /// <summary>Conversation/talk animation.</summary>
