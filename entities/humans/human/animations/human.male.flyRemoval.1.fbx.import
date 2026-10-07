@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://jhakstccpihf"
-path="res://.godot/imported/human.reactToHit.1.fbx-e3eb8b423ece531584fa468d67bf5180.res"
+uid="uid://dp68xt7714vvt"
+path="res://.godot/imported/human.male.flyRemoval.1.fbx-9c15ee600a987645b7ba4bac5fd0016c.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.reactToHit.1.fbx"
-dest_files=["res://.godot/imported/human.reactToHit.1.fbx-e3eb8b423ece531584fa468d67bf5180.res"]
+source_file="res://entities/humans/human/animations/human.male.flyRemoval.1.fbx"
+dest_files=["res://.godot/imported/human.male.flyRemoval.1.fbx-9c15ee600a987645b7ba4bac5fd0016c.res"]
 
 [params]
 

@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://mltoawrfcdh3"
-path="res://.godot/imported/human.drunkRun.1.fbx-e252d5f1bc4ac0da728c9b8630b850d8.res"
+uid="uid://cs6bn3rv5fh8t"
+path="res://.godot/imported/human.female.walk.1.fbx-c46e3ac89b6bbf74d8e3b712fed3c9d6.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.drunkRun.1.fbx"
-dest_files=["res://.godot/imported/human.drunkRun.1.fbx-e252d5f1bc4ac0da728c9b8630b850d8.res"]
+source_file="res://entities/humans/human/animations/human.female.walk.1.fbx"
+dest_files=["res://.godot/imported/human.female.walk.1.fbx-c46e3ac89b6bbf74d8e3b712fed3c9d6.res"]
 
 [params]
 

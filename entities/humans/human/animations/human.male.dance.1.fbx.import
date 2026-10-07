@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://dy7ne3qi7nxwt"
-path="res://.godot/imported/human.land.1.fbx-fe87d55624b1d4d33509f79ce9acb235.res"
+uid="uid://caqyc3l4fau0a"
+path="res://.godot/imported/human.male.dance.1.fbx-8fcdb2869f0da723ecf799ef30c11a10.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.land.1.fbx"
-dest_files=["res://.godot/imported/human.land.1.fbx-fe87d55624b1d4d33509f79ce9acb235.res"]
+source_file="res://entities/humans/human/animations/human.male.dance.1.fbx"
+dest_files=["res://.godot/imported/human.male.dance.1.fbx-8fcdb2869f0da723ecf799ef30c11a10.res"]
 
 [params]
 

@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://doleeyb52ev5n"
-path="res://.godot/imported/human.drunkWalk.1.fbx-bf5fc79f9d60b1ef07c1d847d64f7710.res"
+uid="uid://bbmcf4ps6nwue"
+path="res://.godot/imported/human.male.idle.1.fbx-94044c1d8e1ca6e95b58d64a7f381b19.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.drunkWalk.1.fbx"
-dest_files=["res://.godot/imported/human.drunkWalk.1.fbx-bf5fc79f9d60b1ef07c1d847d64f7710.res"]
+source_file="res://entities/humans/human/animations/human.male.idle.1.fbx"
+dest_files=["res://.godot/imported/human.male.idle.1.fbx-94044c1d8e1ca6e95b58d64a7f381b19.res"]
 
 [params]
 
@@ -46,7 +46,7 @@ _subresources={
 "save_to_file/fallback_path": "",
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "",
-"settings/loop_mode": 1,
+"settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",

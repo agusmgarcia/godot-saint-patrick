@@ -1,5 +1,6 @@
 using Godot;
 using SaintPatrick.Components;
+using SaintPatrick.Utils;
 
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
@@ -9,18 +10,32 @@ namespace SaintPatrick.Entities.Humans.Human.Components;
 [GlobalClass]
 public sealed partial class HumanAnimationPlayer : AutoTransformAnimationPlayer
 {
+    private HumanGender? _humanGender;
+
     /// <summary>
     /// Initialises the player with the default human height of 1.7 m.
     /// </summary>
     public HumanAnimationPlayer()
-        : base(1.7f) { }
+        : base(1.7f)
+    {
+        this.TrackSiblings<HumanGender>(
+            this.OnHumanGenderTracked,
+            this.OnHumanGenderUntracked,
+            unique: true);
+    }
+
+    private void OnHumanGenderTracked(HumanGender humanGender) =>
+        this._humanGender = humanGender;
 
     /// <summary>
     /// Plays a random clip for animation unless one is already playing.
     /// </summary>
     public void PlayRandomIfNotPlaying(EHumanAnimation animation, double customBlend = -1)
     {
-        var animationRegexp = $"human.{animation.ToString().ToCamelCase()}.";
+        if (this._humanGender == null)
+            return;
+
+        var animationRegexp = $"human.{this._humanGender.Value.ToString().ToCamelCase()}.{animation.ToString().ToCamelCase()}.";
         var animationList = base.GetAnimationList().Where(x => x.Contains(animationRegexp));
 
         if (animationList.SingleOrDefault(x => x == base.CurrentAnimation) != null)
@@ -55,6 +70,9 @@ public sealed partial class HumanAnimationPlayer : AutoTransformAnimationPlayer
             _ => Vector3.Zero,
         };
     }
+
+    private void OnHumanGenderUntracked(HumanGender humanGender) =>
+        this._humanGender = null;
 }
 
 /// <summary>
