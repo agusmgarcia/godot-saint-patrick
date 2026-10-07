@@ -10,6 +10,7 @@ namespace SaintPatrick.Entities.Humans.Human.States;
 public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams>
 {
     private HumanAnimationPlayer? _humanAnimationPlayer;
+    private HumanVelocity? _humanVelocity;
 
     private EPhase _phase = EPhase.Initialize;
 
@@ -21,6 +22,11 @@ public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams
         this.TrackSiblings<HumanAnimationPlayer>(
             this.OnHumanAnimationPlayerTracked,
             this.OnHumanAnimationPlayerUntracked,
+            unique: true);
+
+        this.TrackSiblings<HumanVelocity>(
+            this.OnHumanVelocityTracked,
+            this.OnHumanVelocityUntracked,
             unique: true);
     }
 
@@ -38,10 +44,15 @@ public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams
         this._humanAnimationPlayer.AnimationFinished += this.OnAnimationFinished;
     }
 
+    private void OnHumanVelocityTracked(HumanVelocity humanVelocity) =>
+        this._humanVelocity = humanVelocity;
+
     /// <inheritdoc/>
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
+
+        this._humanVelocity?.Decelerate(base.Human!.GlobalBasis.Z);
 
         switch (this._phase)
         {
@@ -91,6 +102,9 @@ public sealed partial class HumanFallState : HumanBaseState<HumanFallStateParams
             base.StateMachine!.Idle();
         }
     }
+
+    private void OnHumanVelocityUntracked(HumanVelocity humanVelocity) =>
+        this._humanVelocity = null;
 
     private void OnHumanAnimationPlayerUntracked(HumanAnimationPlayer humanAnimationPlayer)
     {
