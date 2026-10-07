@@ -31,7 +31,7 @@ public partial class Velocity : Node
     private Vector3 _direction;
     private float _speed;
     private float _acceleration;
-    private Vector3 _rotationTarget;
+    private Vector3 _rotationDirection;
     private float _angularSpeed;
     private float _angularAcceleration;
 
@@ -42,17 +42,17 @@ public partial class Velocity : Node
     {
         this._direction = direction.Normalized();
         this._acceleration = acceleration;
-        this._rotationTarget = this._direction;
+        this._rotationDirection = this._direction;
         this._angularAcceleration = Mathf.DegToRad(angularAcceleration);
     }
 
     /// <summary>
-    /// Applies a deceleration impulse this physics frame, reducing speed toward zero and rotating the owner toward <paramref name="lookAt"/>.
+    /// Applies a deceleration impulse this physics frame, reducing speed toward zero and rotating the owner toward <paramref name="lookAtDirection"/>.
     /// </summary>
-    public void Decelerate(float deceleration, in Vector3 lookAt, float angularAcceleration)
+    public void Decelerate(float deceleration, in Vector3 lookAtDirection, float angularAcceleration)
     {
         this._acceleration = -deceleration;
-        this._rotationTarget = lookAt.Normalized();
+        this._rotationDirection = lookAtDirection.Normalized();
         this._angularAcceleration = Mathf.DegToRad(angularAcceleration);
     }
 
@@ -67,7 +67,7 @@ public partial class Velocity : Node
         this._direction = Vector3.Zero;
         this._speed = 0f;
         this._acceleration = 0f;
-        this._rotationTarget = this._owner?.GlobalBasis.Z ?? Vector3.Forward;
+        this._rotationDirection = this._owner!.GlobalBasis.Z;
         this._angularSpeed = 0f;
         this._angularAcceleration = 0f;
     }
@@ -79,6 +79,8 @@ public partial class Velocity : Node
 
         this.HandleTranslation((float)delta);
         this.HandleRotation((float)delta);
+
+        this._owner!.MoveAndSlide();
     }
 
     private void HandleTranslation(float delta)
@@ -94,7 +96,6 @@ public partial class Velocity : Node
             : (this._owner.Velocity.Y - this._gravity * delta);
 
         this._owner.Velocity = velocity;
-        this._owner.MoveAndSlide();
     }
 
     private void HandleRotation(float delta)
@@ -103,32 +104,41 @@ public partial class Velocity : Node
         this._angularSpeed = Mathf.Clamp(this._angularSpeed, 0f, Mathf.DegToRad(this.MaxAngularSpeed));
         this._angularAcceleration = 0f;
 
-        var targetDir = this._rotationTarget;
-        if (targetDir.IsZeroApprox())
+        if (this._rotationDirection.IsZeroApprox())
             return;
-        targetDir = targetDir.Normalized();
 
         var currentForward = this._owner!.GlobalBasis.Z;
-        var angle = currentForward.AngleTo(targetDir);
+        var angle = currentForward.AngleTo(this._rotationDirection);
 
-        if (angle < 1e-4f)
+        if (Mathf.IsZeroApprox(angle))
             return;
 
-        var cross = currentForward.Cross(targetDir);
+        var cross = currentForward.Cross(this._rotationDirection);
         var axis = !cross.IsZeroApprox()
             ? cross.Normalized()
-            : this._owner!.GlobalBasis.Y;
+            : !this._owner.AxisLockAngularX
+                ? this._owner.GlobalBasis.X
+                : !this._owner.AxisLockAngularY
+                    ? this._owner.GlobalBasis.Y
+                    : this._owner.AxisLockAngularZ
+                        ? this._owner.GlobalBasis.Z
+                        : Vector3.Zero;
 
-        if (this._owner!.AxisLockAngularX) axis.X = 0f;
-        if (this._owner!.AxisLockAngularY) axis.Y = 0f;
-        if (this._owner!.AxisLockAngularZ) axis.Z = 0f;
+        if (this._owner.AxisLockAngularX)
+            axis.X = 0f;
+
+        if (this._owner.AxisLockAngularY)
+            axis.Y = 0f;
+
+        if (this._owner.AxisLockAngularZ)
+            axis.Z = 0f;
 
         if (axis.IsZeroApprox())
             return;
 
         axis = axis.Normalized();
-
         var step = Mathf.Min(this._angularSpeed * delta, angle);
+
         this._owner.GlobalRotate(axis, step);
     }
 
@@ -138,7 +148,7 @@ public partial class Velocity : Node
         this._direction = Vector3.Zero;
         this._speed = 0f;
         this._acceleration = 0f;
-        this._rotationTarget = Vector3.Zero;
+        this._rotationDirection = Vector3.Zero;
         this._angularSpeed = 0f;
         this._angularAcceleration = 0f;
 
