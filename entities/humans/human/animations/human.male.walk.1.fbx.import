@@ -3,13 +3,13 @@
 importer="animation_library"
 importer_version=1
 type="AnimationLibrary"
-uid="uid://dprf6pfciuhs2"
-path="res://.godot/imported/human.run.1.fbx-1bc579ebba2785be8fd8a0f9f23bf19a.res"
+uid="uid://bk86i6qdw7lne"
+path="res://.godot/imported/human.male.walk.1.fbx-00aaa0a31b4e171da405738c22c71ff0.res"
 
 [deps]
 
-source_file="res://entities/humans/human/animations/human.run.1.fbx"
-dest_files=["res://.godot/imported/human.run.1.fbx-1bc579ebba2785be8fd8a0f9f23bf19a.res"]
+source_file="res://entities/humans/human/animations/human.male.walk.1.fbx"
+dest_files=["res://.godot/imported/human.male.walk.1.fbx-00aaa0a31b4e171da405738c22c71ff0.res"]
 
 [params]
 
