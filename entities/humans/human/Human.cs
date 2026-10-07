@@ -16,11 +16,6 @@ public sealed partial class Human : CharacterBody3D
     public HumanStateMachine? HumanStateMachine { get; private set; }
 
     /// <summary>
-    /// The weight component of this human; null until added.
-    /// </summary>
-    public Weight? Weight { get; private set; }
-
-    /// <summary>
     /// Registers trackers for the child HumanStateMachine and Weight components.
     /// </summary>
     public Human()
@@ -28,11 +23,6 @@ public sealed partial class Human : CharacterBody3D
         this.TrackChildren<HumanStateMachine>(
             this.OnHumanStateMachineTracked,
             this.OnHumanStateMachineUntracked,
-            unique: true);
-
-        this.TrackChildren<Weight>(
-            this.OnWeightTracked,
-            this.OnWeightUntracked,
             unique: true);
     }
 
@@ -47,10 +37,4 @@ public sealed partial class Human : CharacterBody3D
         humanStateMachine.ClearState();
         this.HumanStateMachine = null;
     }
-
-    private void OnWeightTracked(Weight weight) =>
-        this.Weight = weight;
-
-    private void OnWeightUntracked(Weight weight) =>
-        this.Weight = null;
 }
