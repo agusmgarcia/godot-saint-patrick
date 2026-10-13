@@ -1,3 +1,4 @@
+#pragma warning disable CS1734
 using Godot;
 using Godot.Collections;
 using System;
@@ -1161,4 +1162,4 @@ namespace DialogueManagerRuntime
         }
     }
 }
-
+#pragma warning restore CS1734

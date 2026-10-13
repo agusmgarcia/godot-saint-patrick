@@ -1,3 +1,4 @@
+#pragma warning disable CS8625
 using Godot;
 
 namespace DialogueManagerRuntime
@@ -80,3 +81,4 @@ namespace DialogueManagerRuntime
         }
     }
 }
+#pragma warning restore CS8625

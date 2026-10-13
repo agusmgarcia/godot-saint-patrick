@@ -1,3 +1,7 @@
+#pragma warning disable CS8601
+#pragma warning disable CS8602
+#pragma warning disable CS8618
+#pragma warning disable CS8625
 using Godot;
 using Godot.Collections;
 
@@ -47,7 +51,7 @@ namespace DialogueManagerRuntime
       }
     }
 
-    Timer MutationCooldown = new Timer();
+    Godot.Timer MutationCooldown = new();
 
 
     public override void _Ready()
@@ -244,7 +248,7 @@ namespace DialogueManagerRuntime
         {
           time = dialogueLine.Text.Length * 0.02f;
         }
-        await ToSignal(GetTree().CreateTimer(time), Timer.SignalName.Timeout);
+        await ToSignal(GetTree().CreateTimer(time), Godot.Timer.SignalName.Timeout);
         Next(dialogueLine.NextId);
       }
       else
@@ -276,3 +280,7 @@ namespace DialogueManagerRuntime
     #endregion
   }
 }
+#pragma warning restore CS8625
+#pragma warning restore CS8618
+#pragma warning restore CS8602
+#pragma warning restore CS8601

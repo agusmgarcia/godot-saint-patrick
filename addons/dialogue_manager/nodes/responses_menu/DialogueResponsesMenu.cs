@@ -1,3 +1,6 @@
+#pragma warning disable CS8603
+#pragma warning disable CS8618
+#pragma warning disable CS8625
 using Godot;
 using Godot.Collections;
 
@@ -301,3 +304,6 @@ namespace DialogueManagerRuntime
         #endregion
     }
 }
+#pragma warning disable CS8625
+#pragma warning disable CS8618
+#pragma warning disable CS8603
