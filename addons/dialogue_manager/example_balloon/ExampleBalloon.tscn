@@ -145,6 +145,12 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer" unique_id=587923225]
 layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="PortraitLeft" type="TextureRect" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=256569982]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=141270408]
 layout_mode = 2
@@ -178,6 +184,13 @@ polygon = PackedVector2Array(0, 0, 10, 10, 20, 0)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer/Control" unique_id=473539640]
 libraries/ = SubResource("AnimationLibrary_1337t")
 autoplay = &"progress"
+
+[node name="PortraitRight" type="TextureRect" parent="Balloon/MarginContainer/PanelContainer/MarginContainer/HBoxContainer" unique_id=1007034748]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+flip_h = true
 
 [node name="CenterContainer" type="CenterContainer" parent="Balloon" unique_id=473552711]
 layout_mode = 1

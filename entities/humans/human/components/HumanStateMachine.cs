@@ -1,6 +1,7 @@
 using Godot;
 using SaintPatrick.Components;
 using SaintPatrick.Entities.Humans.Human.States;
+using SaintPatrick.Entities.Humans.Human.Utils;
 
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
@@ -34,6 +35,24 @@ public sealed partial class HumanStateMachine : StateMachine
 		base.SetState<HumanWalkState, HumanWalkStateParams>(new HumanWalkStateParams
 		{
 			Destination = destination,
+		});
+
+	/// <summary>
+	/// Transitions the human to the talk state for the given conversation. Partner is derived from the conversation itself.
+	/// </summary>
+	public void Talk(IHumanConversation conversation) =>
+		base.SetState<HumanTalkState, HumanTalkStateParams>(new HumanTalkStateParams
+		{
+			Conversation = conversation,
+		});
+
+	/// <summary>
+	/// Transitions the human to the listen state for the given conversation. Partner is derived from the conversation itself.
+	/// </summary>
+	public void Listen(IHumanConversation conversation) =>
+		base.SetState<HumanListenState, HumanListenStateParams>(new HumanListenStateParams
+		{
+			Conversation = conversation,
 		});
 
 	/// <inheritdoc/>

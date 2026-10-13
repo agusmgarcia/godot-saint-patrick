@@ -10,9 +10,22 @@ namespace SaintPatrick.Components;
 public partial class StateMachine : Node
 {
     /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public event Action<State?>? StateChanged;
+
+    /// <summary>
     /// The currently active state child, or null when no state is set.
     /// </summary>
-    public State? State { get; private set; }
+    public State? State
+    {
+        get;
+        private set
+        {
+            field = value;
+            this.StateChanged?.Invoke(field);
+        }
+    }
 
     /// <inheritdoc/>
     public override void _EnterTree()

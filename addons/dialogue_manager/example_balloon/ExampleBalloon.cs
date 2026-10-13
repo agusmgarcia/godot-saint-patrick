@@ -21,6 +21,8 @@ namespace DialogueManagerRuntime
     DialogueLabel dialogueLabel;
     DialogueResponsesMenu responsesMenu;
     Polygon2D progress;
+    TextureRect portraitLeft;
+    TextureRect portraitRight;
 
     Array<Variant> temporaryGameStates = new Array<Variant>();
     bool isWaitingForInput = false;
@@ -61,6 +63,8 @@ namespace DialogueManagerRuntime
       dialogueLabel = GetNode<DialogueLabel>("%DialogueLabel");
       responsesMenu = GetNode<DialogueResponsesMenu>("%ResponsesMenu");
       progress = GetNode<Polygon2D>("%Progress");
+      portraitLeft = GetNode<TextureRect>("%PortraitLeft");
+      portraitRight = GetNode<TextureRect>("%PortraitRight");
 
       balloon.Hide();
 
@@ -124,17 +128,6 @@ namespace DialogueManagerRuntime
         }
         Start();
       }
-
-      // EXAMPLE MESSAGE
-      var warning = new Button
-      {
-        Text = DialogueManager.Translate("This is an example balloon. Create your own balloon in 'Project > Tools > Dialogue > Create Balloon...'"),
-        Disabled = true
-      };
-      warning.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.TopWide);
-      balloon.AddChild(warning);
-      balloon.MoveChild(warning, 0);
-      // END EXAMPLE MESSAGE
     }
 
 

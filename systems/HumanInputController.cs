@@ -7,6 +7,9 @@ namespace SaintPatrick.Systems;
 
 /// <summary>
 /// Reads player input and forwards move/run/idle commands to the Main human.
+/// Delegates "talk" input to <see cref="HumanDialogue"/>; the state machine's
+/// own <c>_ReadyToTransition</c> guard on Talk/Listen states naturally blocks
+/// movement transitions while a conversation is active.
 /// </summary>
 [GlobalClass]
 public sealed partial class HumanInputController : Node
@@ -17,8 +20,10 @@ public sealed partial class HumanInputController : Node
     private Vector3? _cameraForward;
     private Vector3? _cameraRight;
 
+    private HumanDialogue? _humanDialogue;
+
     /// <summary>
-    /// Registers trackers for sibling MainCameraSelector and Main components.
+    /// Registers trackers for sibling MainCameraSelector, Main and HumanDialogue components.
     /// </summary>
     public HumanInputController()
     {
@@ -30,6 +35,11 @@ public sealed partial class HumanInputController : Node
         this.TrackSiblings<Main>(
             this.OnMainTracked,
             this.OnMainUntracked,
+            unique: true);
+
+        this.TrackSiblings<HumanDialogue>(
+            this.OnHumanDialogueTracked,
+            this.OnHumanDialogueUntracked,
             unique: true);
     }
 
@@ -48,6 +58,9 @@ public sealed partial class HumanInputController : Node
     private void OnMainTracked(Main main) =>
         this._mainHuman = main.GetOwnerOrNull<Human>();
 
+    private void OnHumanDialogueTracked(HumanDialogue humanDialogue) =>
+        this._humanDialogue = humanDialogue;
+
     /// <inheritdoc/>
     public override void _PhysicsProcess(double delta)
     {
@@ -58,7 +71,8 @@ public sealed partial class HumanInputController : Node
 
         if (Input.IsActionJustPressed("talk"))
         {
-            // TODO: this._mainHuman.HumanStateMachine.Talk("start");
+            var nearest = this._mainHuman.HumanSocialZoneArea?.NearestHuman;
+            this._humanDialogue?.StartConversation(this._mainHuman, nearest);
             return;
         }
 
@@ -103,6 +117,9 @@ public sealed partial class HumanInputController : Node
 
     private void OnMainCameraSelectorUntracked(MainCameraSelector mainCameraSelector) =>
         this._mainCameraSelector = null;
+
+    private void OnHumanDialogueUntracked(HumanDialogue humanDialogue) =>
+        this._humanDialogue = null;
 
     /// <inheritdoc/>
     public override void _ExitTree()
