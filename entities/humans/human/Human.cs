@@ -16,6 +16,11 @@ public sealed partial class Human : CharacterBody3D
     public HumanDialogueContext? HumanDialogueContext { get; private set; }
 
     /// <summary>
+    /// // TODO: document this.
+    /// </summary>
+    public HumanPortrait? HumanPortrait { get; private set; }
+
+    /// <summary>
     /// Social zone used to detect nearby humans within field of view.
     /// </summary>
     public HumanSocialZoneArea3D? HumanSocialZoneArea { get; private set; }
@@ -40,6 +45,11 @@ public sealed partial class Human : CharacterBody3D
             this.OnHumanDialogueContextUntracked,
             unique: true);
 
+        this.TrackChildren<HumanPortrait>(
+            this.OnHumanPortraitTracked,
+            this.OnHumanPortraitUntracked,
+            unique: true);
+
         this.TrackChildren<HumanSocialZoneArea3D>(
             this.OnHumanSocialZoneAreaTracked,
             this.OnHumanSocialZoneAreaUntracked,
@@ -58,6 +68,9 @@ public sealed partial class Human : CharacterBody3D
 
     private void OnHumanDialogueContextTracked(HumanDialogueContext humanDialogueContext) =>
         this.HumanDialogueContext = humanDialogueContext;
+
+    private void OnHumanPortraitTracked(HumanPortrait humanPortrait) =>
+        this.HumanPortrait = humanPortrait;
 
     private void OnHumanSocialZoneAreaTracked(HumanSocialZoneArea3D humanSocialZoneArea) =>
         this.HumanSocialZoneArea = humanSocialZoneArea;
@@ -82,6 +95,9 @@ public sealed partial class Human : CharacterBody3D
 
     private void OnHumanSocialZoneAreaUntracked(HumanSocialZoneArea3D humanSocialZoneArea) =>
         this.HumanSocialZoneArea = null;
+
+    private void OnHumanPortraitUntracked(HumanPortrait humanPortrait) =>
+        this.HumanPortrait = null;
 
     private void OnHumanDialogueContextUntracked(HumanDialogueContext humanDialogueContext) =>
         this.HumanDialogueContext = null;

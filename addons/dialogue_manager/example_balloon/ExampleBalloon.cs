@@ -4,6 +4,7 @@
 #pragma warning disable CS8625
 using Godot;
 using Godot.Collections;
+using SaintPatrick.Entities.Humans.Human.Components;
 
 namespace DialogueManagerRuntime
 {
@@ -209,6 +210,31 @@ namespace DialogueManagerRuntime
       // Set up the character name
       characterLabel.Visible = !string.IsNullOrEmpty(dialogueLine.Character);
       characterLabel.Text = Tr(dialogueLine.Character, "dialogue");
+
+      // Setup portrait.
+      var context = dialogueLine.ExtraGameStates[2].As<HumanDialogueContext>();
+
+      portraitLeft.Visible = false;
+      portraitLeft.Texture = null;
+      portraitRight.Visible = false;
+      portraitRight.Texture = null;
+
+      if (context.Initiator.Name == dialogueLine.Character)
+      {
+        if (context.Initiator.HumanPortrait?.Value != null)
+        {
+          portraitLeft.Visible = true;
+          portraitLeft.Texture = context.Initiator.HumanPortrait.Value;
+        }
+      }
+      else
+      {
+        if (context.Target?.HumanPortrait?.Value != null)
+        {
+          portraitRight.Visible = true;
+          portraitRight.Texture = context.Target.HumanPortrait.Value;
+        }
+      }
 
       // Set up the dialogue
       dialogueLabel.Hide();

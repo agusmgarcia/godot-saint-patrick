@@ -10,12 +10,12 @@ public abstract partial class HumanDialogueContext : Node
 	/// <summary>
 	/// // TODO: document this.
 	/// </summary>
-	public Human Speaker { get; private set; } = null!;
+	public Human? Initiator { get; private set; }
 
 	/// <summary>
 	/// // TODO: document this.
 	/// </summary>
-	public Human? Listener { get; private set; }
+	public Human? Target { get; private set; }
 
 	/// <summary>
 	/// Identifiers of dialogues completed naturally, i.e. not interrupted.
@@ -24,6 +24,15 @@ public abstract partial class HumanDialogueContext : Node
 		this._completedDialogues;
 
 	private readonly HashSet<string> _completedDialogues = [];
+
+	/// <inheritdoc/>
+	public override void _EnterTree()
+	{
+		base._EnterTree();
+
+		this.Initiator = base.GetOwnerOrNull<Human>();
+		this.Target = null;
+	}
 
 	/// <summary>
 	/// Extracts the dialogue id from the resource path and marks it as completed.
@@ -53,6 +62,7 @@ public abstract partial class HumanDialogueContext : Node
 		if (target == null)
 			return null;
 
+		this.Target = listener;
 		return GD.Load<Resource>(string.Join("/", target.SceneFilePath.GetBaseDir(), "dialogues", $"{target.Name.ToString().ToLower()}_{id}.dialogue"));
 	}
 
@@ -60,4 +70,13 @@ public abstract partial class HumanDialogueContext : Node
 	/// Returns the dialogue identifier for a conversation with listener, or null when there is nothing to say.
 	/// </summary>
 	protected virtual string? GetDialogueId(Human? listener) => null;
+
+	/// <inheritdoc/>
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+
+		this.Target = null;
+		this.Initiator = null;
+	}
 }
