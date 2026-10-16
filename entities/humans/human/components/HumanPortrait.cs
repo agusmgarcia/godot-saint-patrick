@@ -6,7 +6,7 @@ namespace SaintPatrick.Entities.Humans.Human.Components;
 public sealed partial class HumanPortrait : Node
 {
     /// <summary>
-    /// // TODO: document this.
+    /// The loaded portrait texture, or null when no portrait file exists for this human.
     /// </summary>
     public Texture2D? Value { get; private set; }
 

@@ -1,27 +1,27 @@
 namespace SaintPatrick.Entities.Humans.Human.Utils;
 
 /// <summary>
-/// // TODO: document this.
+/// Contract for a single active dialogue session between an initiator and zero or more targets.
 /// </summary>
 public interface IHumanConversation
 {
     /// <summary>
-    /// // TODO: document this.
+    /// Fired each time the current line changes, including Started, Valid dialogue lines, and Ended.
     /// </summary>
     event Action<Line>? LineChanged;
 
     /// <summary>
-    /// // TODO: document this.
+    /// The human who initiated the conversation.
     /// </summary>
     Human Initiator { get; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// The humans being spoken to; empty for monologues.
     /// </summary>
-    Human? Target { get; }
+    IReadOnlyCollection<Human> Targets { get; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// The most recently emitted line, including its type and speaker.
     /// </summary>
     Line CurrentLine { get; }
 
@@ -31,12 +31,12 @@ public interface IHumanConversation
     public readonly record struct Line
     {
         /// <summary>
-        /// // TODO: document this.
+        /// Classifies whether this line marks the start, a valid dialogue entry, or the end of the conversation.
         /// </summary>
         public required EType Type { get; init; }
 
         /// <summary>
-        /// The human speaking this line.
+        /// The human speaking this line, always set for Valid lines.
         /// </summary>
         public required Human Speaker { get; init; }
 
@@ -46,15 +46,15 @@ public interface IHumanConversation
         public required string Text { get; init; }
 
         /// <summary>
-        /// // TODO: document this.
+        /// Classifies the lifecycle stage of a conversation line.
         /// </summary>
         public enum EType
         {
-            /// <summary>// TODO: document this.</summary>
+            /// <summary>Emitted once when the conversation begins, before any dialogue lines are shown.</summary>
             Started,
-            /// <summary>// TODO: document this.</summary>
+            /// <summary>Emitted for each printable line of dialogue.</summary>
             Valid,
-            /// <summary>// TODO: document this.</summary>
+            /// <summary>Emitted once when the conversation finishes, either naturally or via End.</summary>
             Ended,
         }
     }

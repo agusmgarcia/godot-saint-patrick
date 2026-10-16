@@ -1,4 +1,4 @@
 ~ start
 {{Initiator.Name}}: Hello this is a simple test
-{{Target.Name}}: And this is the answer
+{{Targets[0].Name}}: And this is the answer
 => END

@@ -7,76 +7,76 @@ namespace SaintPatrick.Entities.Humans.Human.Components;
 /// </summary>
 public abstract partial class HumanDialogueContext : Node
 {
-	/// <summary>
-	/// // TODO: document this.
-	/// </summary>
-	public Human? Initiator { get; private set; }
+    /// <summary>
+    /// The human who owns this context and initiates conversations; set from the scene owner on _EnterTree.
+    /// </summary>
+    public Human? Initiator { get; private set; }
 
-	/// <summary>
-	/// // TODO: document this.
-	/// </summary>
-	public Human? Target { get; private set; }
+    /// <summary>
+    /// The humans being spoken to in the active conversation; empty for monologues.
+    /// </summary>
+    public IReadOnlyCollection<Human> Targets { get; private set; } = [];
 
-	/// <summary>
-	/// Identifiers of dialogues completed naturally, i.e. not interrupted.
-	/// </summary>
-	protected IReadOnlySet<string> CompletedDialogues =>
-		this._completedDialogues;
+    /// <summary>
+    /// Identifiers of dialogues completed naturally, i.e. not interrupted.
+    /// </summary>
+    protected IReadOnlySet<string> CompletedDialogues =>
+        this._completedDialogues;
 
-	private readonly HashSet<string> _completedDialogues = [];
+    private readonly HashSet<string> _completedDialogues = [];
 
-	/// <inheritdoc/>
-	public override void _EnterTree()
-	{
-		base._EnterTree();
+    /// <inheritdoc/>
+    public override void _EnterTree()
+    {
+        base._EnterTree();
 
-		this.Initiator = base.GetOwnerOrNull<Human>();
-		this.Target = null;
-	}
+        this.Initiator = base.GetOwnerOrNull<Human>();
+        this.Targets = [];
+    }
 
-	/// <summary>
-	/// Extracts the dialogue id from the resource path and marks it as completed.
-	/// </summary>
-	public void CompleteDialogue(Resource resource)
-	{
-		var baseName = resource.ResourcePath.GetFile().GetBaseName();
+    /// <summary>
+    /// Extracts the dialogue id from the resource path and marks it as completed.
+    /// </summary>
+    public void CompleteDialogue(Resource resource)
+    {
+        var baseName = resource.ResourcePath.GetFile().GetBaseName();
 
-		var separatorIndex = baseName.Find("_");
-		if (separatorIndex < 0)
-			return;
+        var separatorIndex = baseName.Find("_");
+        if (separatorIndex < 0)
+            return;
 
-		var id = baseName[(separatorIndex + 1)..];
-		this._completedDialogues.Add(id);
-	}
+        var id = baseName.Substring(separatorIndex + 1);
+        this._completedDialogues.Add(id);
+    }
 
-	/// <summary>
-	/// Resolves the dialogue resource for a conversation with listener, or null when there is nothing to say.
-	/// </summary>
-	public Resource? ResolveDialogue(Human? listener)
-	{
-		var id = this.GetDialogueId(listener);
-		if (id == null)
-			return null;
+    /// <summary>
+    /// Resolves the dialogue resource for a conversation with the given listeners, or null when there is nothing to say.
+    /// </summary>
+    public Resource? ResolveDialogue(IReadOnlyCollection<Human> listeners)
+    {
+        var id = this.GetDialogueId(listeners);
+        if (id == null)
+            return null;
 
-		var target = listener ?? base.GetOwnerOrNull<Human>();
-		if (target == null)
-			return null;
+        var target = listeners.Count == 1 ? listeners.ElementAt(0) : this.Initiator;
+        if (target == null)
+            return null;
 
-		this.Target = listener;
-		return GD.Load<Resource>(string.Join("/", target.SceneFilePath.GetBaseDir(), "dialogues", $"{target.Name.ToString().ToLower()}_{id}.dialogue"));
-	}
+        this.Targets = listeners;
+        return GD.Load<Resource>(string.Join("/", target.SceneFilePath.GetBaseDir(), "dialogues", $"{target.Name.ToString().ToLower()}_{id}.dialogue"));
+    }
 
-	/// <summary>
-	/// Returns the dialogue identifier for a conversation with listener, or null when there is nothing to say.
-	/// </summary>
-	protected virtual string? GetDialogueId(Human? listener) => null;
+    /// <summary>
+    /// Returns the dialogue identifier for a conversation with the given listeners, or null when there is nothing to say.
+    /// </summary>
+    protected virtual string? GetDialogueId(IReadOnlyCollection<Human> listeners) => null;
 
-	/// <inheritdoc/>
-	public override void _ExitTree()
-	{
-		base._ExitTree();
+    /// <inheritdoc/>
+    public override void _ExitTree()
+    {
+        this.Targets = [];
+        this.Initiator = null;
 
-		this.Target = null;
-		this.Initiator = null;
-	}
+        base._ExitTree();
+    }
 }

@@ -10,9 +10,9 @@ namespace SaintPatrick.Entities.Humans.Helena.Components;
 public sealed partial class HelenaDialogueContext : HumanDialogueContext
 {
     /// <inheritdoc/>
-    protected override string? GetDialogueId(Human.Human? listener)
+    protected override string? GetDialogueId(IReadOnlyCollection<Human.Human> listeners)
     {
-        if (listener?.Name == "Sarah")
+        if (listeners.Count > 0 && listeners.ElementAt(0).Name == "Sarah")
             return "01";
 
         return null;

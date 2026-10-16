@@ -10,7 +10,7 @@ namespace SaintPatrick.Components;
 public partial class StateMachine : Node
 {
     /// <summary>
-    /// // TODO: document this.
+    /// Fired whenever the active state changes, passing the newly active state or null when cleared.
     /// </summary>
     public event Action<State?>? StateChanged;
 

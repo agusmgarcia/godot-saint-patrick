@@ -6,7 +6,7 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Entities.Humans.Human.States;
 
 /// <summary>
-/// State for the human who is currently speaking; plays the Talk animation, faces the partner, and blocks non-forced transitions until the turn switches or the conversation ends.
+/// State for the human who is currently speaking; plays the Talk animation, faces the primary target, and blocks non-forced transitions until the turn switches or the conversation ends.
 /// </summary>
 public sealed partial class HumanTalkState : HumanBaseState<HumanTalkStateParams>
 {
@@ -18,7 +18,7 @@ public sealed partial class HumanTalkState : HumanBaseState<HumanTalkStateParams
     private Human? _partner;
 
     /// <summary>
-    /// Registers trackers for sibling animation player and velocity components.
+    /// Registers trackers for sibling animation player, drunk, and velocity components.
     /// </summary>
     public HumanTalkState()
     {
@@ -44,9 +44,9 @@ public sealed partial class HumanTalkState : HumanBaseState<HumanTalkStateParams
         base._EnterTree();
 
         this._readyToTransition = false;
-        this._partner = base.StateParams.Conversation.Initiator == base.Human
-            ? base.StateParams.Conversation.Target
-            : base.StateParams.Conversation.Initiator;
+        this._partner = base.StateParams.Conversation.Targets.Count == 1
+            ? base.StateParams.Conversation.Targets.ElementAt(0)
+            : null;
 
         base.StateParams.Conversation.LineChanged += this.OnConversationLineChanged;
         this.OnConversationLineChanged(base.StateParams.Conversation.CurrentLine);

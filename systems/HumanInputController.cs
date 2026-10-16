@@ -72,8 +72,11 @@ public sealed partial class HumanInputController : Node
         if (Input.IsActionJustPressed("talk"))
         {
             var nearest = this._mainHuman.HumanSocialZoneArea?.NearestHuman;
-            this._humanDialogue?.StartConversation(this._mainHuman, nearest);
-            return;
+            if (nearest != null)
+            {
+                this._humanDialogue?.StartConversation(this._mainHuman, nearest);
+                return;
+            }
         }
 
         var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");

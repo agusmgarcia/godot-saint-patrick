@@ -16,7 +16,7 @@ public sealed partial class Human : CharacterBody3D
     public HumanDialogueContext? HumanDialogueContext { get; private set; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Portrait texture for this human, loaded from the entity's folder on _EnterTree.
     /// </summary>
     public HumanPortrait? HumanPortrait { get; private set; }
 

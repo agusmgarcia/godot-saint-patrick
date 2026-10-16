@@ -6,7 +6,7 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Entities.Humans.Human.States;
 
 /// <summary>
-/// State for the human who is currently listening; plays the Idle animation, faces the partner, and blocks non-forced transitions until it becomes this human's turn or the conversation ends.
+/// State for the human who is currently listening; plays the Idle animation, faces the current speaker, and blocks non-forced transitions until it becomes this human's turn or the conversation ends.
 /// </summary>
 public sealed partial class HumanListenState : HumanBaseState<HumanListenStateParams>
 {
@@ -18,7 +18,7 @@ public sealed partial class HumanListenState : HumanBaseState<HumanListenStatePa
     private Human? _partner;
 
     /// <summary>
-    /// Registers trackers for sibling animation player and velocity components.
+    /// Registers trackers for sibling animation player, drunk, and velocity components.
     /// </summary>
     public HumanListenState()
     {
@@ -44,9 +44,7 @@ public sealed partial class HumanListenState : HumanBaseState<HumanListenStatePa
         base._EnterTree();
 
         this._readyToTransition = false;
-        this._partner = base.StateParams.Conversation.Initiator == base.Human
-            ? base.StateParams.Conversation.Target
-            : base.StateParams.Conversation.Initiator;
+        this._partner = base.StateParams.Conversation.Initiator;
 
         base.StateParams.Conversation.LineChanged += this.OnConversationLineChanged;
         this.OnConversationLineChanged(base.StateParams.Conversation.CurrentLine);
