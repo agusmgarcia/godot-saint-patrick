@@ -62,7 +62,7 @@ public abstract partial class HumanDialogueContext : Node
         if (target == null)
             return null;
 
-        this.Targets = listeners;
+        this.Targets = new Godot.Collections.Array<Human>(listeners);
         return GD.Load<Resource>(string.Join("/", target.SceneFilePath.GetBaseDir(), "dialogues", $"{target.Name.ToString().ToLower()}_{id}.dialogue"));
     }
 
