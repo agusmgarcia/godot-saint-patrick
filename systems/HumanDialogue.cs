@@ -16,12 +16,12 @@ namespace SaintPatrick.Systems;
 [GlobalClass]
 public sealed partial class HumanDialogue : Node
 {
-    private readonly System.Collections.Generic.Dictionary<IHumanConversation, Action<IHumanConversation.Line>> _conversations = [];
+    private readonly System.Collections.Generic.Dictionary<Conversation, Action<IHumanConversation.Line>> _conversations = [];
 
     /// <summary>
     /// Attempts to start a conversation between initiator and targets; returns when either participant is busy or there is nothing to say.
     /// </summary>
-    public void StartConversation(Human initiator, params Human[] targets)
+    public void StartConversation(Human initiator, params IReadOnlyCollection<Human> targets)
     {
         if (initiator.HumanStateMachine?.State is HumanTalkState or HumanListenState)
             return;
@@ -38,28 +38,15 @@ public sealed partial class HumanDialogue : Node
         if (resource == null)
             return;
 
-        IHumanConversation conversation;
+        Conversation conversation = (initiator.Main != null || targets.Any(t => t.Main != null))
+            ? ElementsPool.GetOrCreate<InteractiveConversation>()
+            : ElementsPool.GetOrCreate<SilentConversation>();
 
-        if (initiator.Main != null || targets.Any(t => t.Main != null))
-        {
-            var interactive = ElementsPool.GetOrCreate<InteractiveConversation>();
-            interactive.Initiator = initiator;
-            interactive.Targets = targets;
-            interactive.Resource = resource;
-            interactive.Context = context;
-            conversation = interactive;
-            interactive.Start();
-        }
-        else
-        {
-            var silent = ElementsPool.GetOrCreate<SilentConversation>();
-            silent.Initiator = initiator;
-            silent.Targets = targets;
-            silent.Resource = resource;
-            silent.Context = context;
-            conversation = silent;
-            silent.Start();
-        }
+        conversation.Initiator = initiator;
+        conversation.Targets = targets;
+        conversation.Resource = resource;
+        conversation.Context = context;
+        conversation.Start();
 
         this._conversations.Add(conversation, (line) =>
         {
@@ -100,16 +87,10 @@ public sealed partial class HumanDialogue : Node
         if (state is HumanTalkState or HumanListenState)
             return;
 
-        var conversation = this._conversations.Keys.SingleOrDefault(
+        this._conversations.Keys.SingleOrDefault(
             x => x.Initiator == state.Owner ||
-            x.Targets.Contains(state.Owner));
-        if (conversation == null)
-            return;
-
-        if (conversation is SilentConversation silent)
-            silent.End();
-        else if (conversation is InteractiveConversation interactive)
-            interactive.End();
+            x.Targets.Contains(state.Owner))
+                ?.End();
     }
 
     private static IHumanConversation.Line ToLine(IHumanConversation.Line.EType type, Human initiator) =>
@@ -131,33 +112,29 @@ public sealed partial class HumanDialogue : Node
             Text = line.Text,
         };
 
-    private sealed class InteractiveConversation : IHumanConversation
+    private abstract class Conversation : IHumanConversation
     {
         public event Action<IHumanConversation.Line>? LineChanged;
 
         public Human Initiator { get; set; } = null!;
         public IReadOnlyCollection<Human> Targets { get; set; } = null!;
+        public IHumanConversation.Line CurrentLine { get; protected set; }
         public Resource Resource { get; set; } = null!;
         public HumanDialogueContext Context { get; set; } = null!;
-        public IHumanConversation.Line CurrentLine { get; private set; }
 
-        private bool _started;
-        private Node? _balloon;
+        protected bool Started { get; private set; }
 
         public void Start()
         {
-            if (this._started)
+            if (this.Started)
                 return;
 
-            this._started = true;
+            this.Started = true;
             this.OnDialogueStarted();
-
-            DialogueManager.GotDialogue += this.OnGotDialogue;
-            DialogueManager.DialogueEnded += this.OnDialogueEnded;
-            this._balloon = DialogueManager.ShowDialogueBalloon(this.Resource, "", [Variant.From(this.Context)]);
+            this.OnStart();
         }
 
-        private void OnDialogueStarted()
+        protected void OnDialogueStarted()
         {
             if (this.CurrentLine.Type == IHumanConversation.Line.EType.Started)
                 return;
@@ -166,13 +143,17 @@ public sealed partial class HumanDialogue : Node
             this.LineChanged?.Invoke(this.CurrentLine);
         }
 
-        private void OnGotDialogue(DialogueLine line)
+        protected abstract void OnStart();
+
+        protected void EmitLineChanged(IHumanConversation.Line line)
         {
-            this.CurrentLine = HumanDialogue.ToLine(line, this.Initiator, this.Targets);
+            this.CurrentLine = line;
             this.LineChanged?.Invoke(this.CurrentLine);
         }
 
-        private void OnDialogueEnded(Resource resource)
+        protected abstract void OnEnd();
+
+        protected void OnDialogueEnded(Resource resource)
         {
             if (this.CurrentLine.Type == IHumanConversation.Line.EType.Ended)
                 return;
@@ -184,69 +165,56 @@ public sealed partial class HumanDialogue : Node
 
         public void End()
         {
-            if (!this._started)
+            if (!this.Started)
                 return;
 
-            this._started = false;
+            this.Started = false;
             this.OnDialogueEnded(this.Resource);
-
-            this._balloon?.QueueFree();
-            this._balloon = null;
-            DialogueManager.DialogueEnded -= this.OnDialogueEnded;
-            DialogueManager.GotDialogue -= this.OnGotDialogue;
+            this.OnEnd();
 
             ElementsPool.Set(this);
         }
     }
 
-    private sealed class SilentConversation : IHumanConversation
+    private sealed class InteractiveConversation : Conversation
     {
-        public event Action<IHumanConversation.Line>? LineChanged;
+        private Node? _balloon;
 
-        public Human Initiator { get; set; } = null!;
-        public IReadOnlyCollection<Human> Targets { get; set; } = null!;
-        public Resource Resource { get; set; } = null!;
-        public HumanDialogueContext Context { get; set; } = null!;
-        public IHumanConversation.Line CurrentLine { get; private set; }
-
-        private bool _started = false;
-
-        public void Start()
+        protected override void OnStart()
         {
-            if (this._started)
-                return;
-
-            this._started = true;
-            this.OnDialogueStarted();
-
-            this.RunSilent();
+            DialogueManager.GotDialogue += this.OnGotDialogue;
+            DialogueManager.DialogueEnded += base.OnDialogueEnded;
+            this._balloon = DialogueManager.ShowDialogueBalloon(this.Resource, "", [Variant.From(this.Context)]);
         }
 
-        private void OnDialogueStarted()
+        private void OnGotDialogue(DialogueLine line) =>
+            base.EmitLineChanged(HumanDialogue.ToLine(line, this.Initiator, this.Targets));
+
+        protected override void OnEnd()
         {
-            if (this.CurrentLine.Type == IHumanConversation.Line.EType.Started)
-                return;
-
-            this.CurrentLine = HumanDialogue.ToLine(IHumanConversation.Line.EType.Started, this.Initiator);
-            this.LineChanged?.Invoke(this.CurrentLine);
+            this._balloon?.QueueFree();
+            DialogueManager.DialogueEnded -= this.OnDialogueEnded;
+            DialogueManager.GotDialogue -= this.OnGotDialogue;
         }
+    }
 
-        private async void RunSilent()
+    private sealed class SilentConversation : Conversation
+    {
+        protected override async void OnStart()
         {
             var extraGameStates = new Array<Variant> { Variant.From(this.Context) };
             var line = await DialogueManager.GetNextDialogueLine(this.Resource, "", extraGameStates);
 
-            while (line != null && this._started)
+            while (line != null && base.Started)
             {
-                this.CurrentLine = HumanDialogue.ToLine(line, this.Initiator, this.Targets);
-                this.LineChanged?.Invoke(this.CurrentLine);
+                base.EmitLineChanged(HumanDialogue.ToLine(line, this.Initiator, this.Targets));
 
                 var delay = (line.Text.Length * 0.05f) + GD.RandRange(0.2, 0.8);
                 await Engine.GetMainLoop().ToSignal(
                     ((SceneTree)Engine.GetMainLoop()).CreateTimer(delay),
                     SceneTreeTimer.SignalName.Timeout);
 
-                if (!this._started)
+                if (!base.Started)
                     break;
 
                 string nextId;
@@ -266,25 +234,6 @@ public sealed partial class HumanDialogue : Node
             this.OnDialogueEnded(this.Resource);
         }
 
-        private void OnDialogueEnded(Resource resource)
-        {
-            if (this.CurrentLine.Type == IHumanConversation.Line.EType.Ended)
-                return;
-
-            this.CurrentLine = HumanDialogue.ToLine(IHumanConversation.Line.EType.Ended, this.Initiator);
-            this.Context.CompleteDialogue(resource);
-            this.LineChanged?.Invoke(this.CurrentLine);
-        }
-
-        public void End()
-        {
-            if (!this._started)
-                return;
-
-            this._started = false;
-            this.OnDialogueEnded(this.Resource);
-
-            ElementsPool.Set(this);
-        }
+        protected override void OnEnd() { }
     }
 }
