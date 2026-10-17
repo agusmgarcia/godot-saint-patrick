@@ -27,6 +27,10 @@ public partial class StateMachine : Node
         }
     }
 
+    private readonly Queue<ValueTuple<State?, ValueType, bool>> _pendingStates = new();
+
+    private bool _isTransitioning;
+
     /// <inheritdoc/>
     public override void _EnterTree()
     {
@@ -52,26 +56,51 @@ public partial class StateMachine : Node
         where TNewState : State<TStateParams>, new()
         where TStateParams : struct
     {
-        var currentState = base.GetChildOrNull<State>(0);
-        if (!force && currentState != null && !currentState._ReadyToTransition())
-            return;
-
-        if (currentState != null && currentState.GetType() == typeof(TNewState))
-        {
-            currentState._CopyStateParams(stateParams);
-            return;
-        }
-
-        if (currentState != null)
-        {
-            base.RemoveChild(currentState);
-            ElementsPool.Set(currentState);
-        }
-
         var newState = ElementsPool.GetOrCreate<TNewState>();
         newState.Name = typeof(TNewState).Name;
         newState.StateParams = stateParams;
-        base.AddChild(newState);
+        this._pendingStates.Enqueue((newState, stateParams, force));
+
+        if (this._isTransitioning)
+            return;
+
+        this._isTransitioning = true;
+
+        this.FlushPendingStates();
+
+        this._isTransitioning = false;
+    }
+
+    private void FlushPendingStates()
+    {
+        while (this._pendingStates.TryDequeue(out var nextStateTuple))
+        {
+            var (nextState, nextStateParams, nextStateForce) = nextStateTuple;
+
+            if (!nextStateForce && this.State != null && !this.State._ReadyToTransition())
+            {
+                if (nextState != null)
+                    ElementsPool.Set(nextState);
+                continue;
+            }
+
+            if (this.State != null && this.State.GetType() == nextState?.GetType())
+            {
+                this.State._CopyStateParams(nextStateParams);
+                ElementsPool.Set(nextState);
+                continue;
+            }
+
+            if (this.State != null)
+            {
+                var currentState = this.State;
+                base.RemoveChild(currentState);
+                ElementsPool.Set(currentState);
+            }
+
+            if (nextState != null)
+                base.AddChild(nextState);
+        }
     }
 
     /// <summary>
@@ -79,15 +108,16 @@ public partial class StateMachine : Node
     /// </summary>
     protected void ClearState(bool force = false)
     {
-        var currentState = base.GetChildOrNull<State>(0);
-        if (!force && currentState != null && !currentState._ReadyToTransition())
+        this._pendingStates.Enqueue((null, 0, force));
+
+        if (this._isTransitioning)
             return;
 
-        if (currentState != null)
-        {
-            base.RemoveChild(currentState);
-            ElementsPool.Set(currentState);
-        }
+        this._isTransitioning = true;
+
+        this.FlushPendingStates();
+
+        this._isTransitioning = false;
     }
 
     private void OnStateRemoved(Node? node)
