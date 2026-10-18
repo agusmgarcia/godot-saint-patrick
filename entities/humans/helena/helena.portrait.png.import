@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1io0yvenul3u"
-path="res://.godot/imported/helena.portrait.jpeg-dbd092ccd3061cf67f0160ce74e0e750.ctex"
+uid="uid://ba0th043hc5gr"
+path="res://.godot/imported/helena.portrait.png-df34e704d361d174f88f603ddc9533a4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://entities/humans/helena/helena.portrait.jpeg"
-dest_files=["res://.godot/imported/helena.portrait.jpeg-dbd092ccd3061cf67f0160ce74e0e750.ctex"]
+source_file="res://entities/humans/helena/helena.portrait.png"
+dest_files=["res://.godot/imported/helena.portrait.png-df34e704d361d174f88f603ddc9533a4.ctex"]
 
 [params]
 

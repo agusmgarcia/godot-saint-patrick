@@ -11,6 +11,11 @@ namespace SaintPatrick.Entities.Humans.Human;
 public sealed partial class Human : CharacterBody3D
 {
     /// <summary>
+    /// Portrait texture for this human, loaded from the entity's folder on _EnterTree.
+    /// </summary>
+    public HumanPortrait? HumanPortrait { get; private set; }
+
+    /// <summary>
     /// The state machine driving this human's behaviour; null until added.
     /// </summary>
     public HumanStateMachine? HumanStateMachine { get; private set; }
@@ -20,11 +25,19 @@ public sealed partial class Human : CharacterBody3D
     /// </summary>
     public Human()
     {
+        this.TrackChildren<HumanPortrait>(
+            this.OnHumanPortraitTracked,
+            this.OnHumanPortraitUntracked,
+            unique: true);
+
         this.TrackChildren<HumanStateMachine>(
             this.OnHumanStateMachineTracked,
             this.OnHumanStateMachineUntracked,
             unique: true);
     }
+
+    private void OnHumanPortraitTracked(HumanPortrait humanPortrait) =>
+        this.HumanPortrait = humanPortrait;
 
     private void OnHumanStateMachineTracked(HumanStateMachine humanStateMachine)
     {
@@ -37,4 +50,7 @@ public sealed partial class Human : CharacterBody3D
         humanStateMachine.ClearState();
         this.HumanStateMachine = null;
     }
+
+    private void OnHumanPortraitUntracked(HumanPortrait humanPortrait) =>
+        this.HumanPortrait = null;
 }
