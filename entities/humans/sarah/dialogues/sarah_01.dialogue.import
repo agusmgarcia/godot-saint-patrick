@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=18
+type="Resource"
+uid="uid://daq6rchdprgaa"
+path="res://.godot/imported/sarah_01.dialogue-d1d971b39c50bd9288dbf9e9172c798d.tres"
+
+[deps]
+
+source_file="res://entities/humans/sarah/dialogues/sarah_01.dialogue"
+dest_files=["res://.godot/imported/sarah_01.dialogue-d1d971b39c50bd9288dbf9e9172c798d.tres"]
+
+[params]
+
+defaults=true
