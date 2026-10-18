@@ -141,7 +141,7 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
 
     private void OnHumanDrunkUntracked(HumanDrunk humanDrunk)
     {
-        this.OnDrunkChanged(false);
+        this.OnDrunkChanged(humanDrunk.Value);
         humanDrunk.ValueChanged -= this.OnDrunkChanged;
         this._humanDrunk = null;
     }
