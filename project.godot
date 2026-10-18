@@ -22,6 +22,7 @@ DialogueManager="*uid://c3rodes2l3gxb"
 [dialogue_manager]
 
 runtime/advanced/uses_dotnet=true
+runtime/balloon_path="res://ui/dialogueBallon/dialogueBallon.tscn"
 
 [display]
 
