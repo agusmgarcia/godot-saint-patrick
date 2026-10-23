@@ -15,10 +15,11 @@ public static class NodeExtensions
         Action<TSibling> onTracked,
         Action<TSibling> onUntracked,
         string? name = null,
+        bool direct = false,
         bool unique = false
     )
         where TSibling : Node =>
-            NodeExtensions.TrackNodes<TSibling>(self, onTracked, onUntracked, name, unique, (node) => node.Owner);
+            NodeExtensions.TrackNodes<TSibling>(self, onTracked, onUntracked, name, direct, unique, (node) => node.Owner);
 
     /// <summary>
     /// Subscribes to child nodes of type TChild entering/leaving the scene.
@@ -28,16 +29,18 @@ public static class NodeExtensions
         Action<TChild> onTracked,
         Action<TChild> onUntracked,
         string? name = null,
+        bool direct = false,
         bool unique = false
     )
         where TChild : Node =>
-            NodeExtensions.TrackNodes<TChild>(self, onTracked, onUntracked, name, unique, (node) => node);
+            NodeExtensions.TrackNodes<TChild>(self, onTracked, onUntracked, name, direct, unique, (node) => node);
 
     private static void TrackNodes<TNode>(
         Node self,
         Action<TNode> onTracked,
         Action<TNode> onUntracked,
         string? name,
+        bool direct,
         bool unique,
         Func<Node, Node?> getRoot
     )
@@ -60,6 +63,9 @@ public static class NodeExtensions
 
         void TrackNode(Node node)
         {
+            if (direct && node.GetParent() != root)
+                return;
+
             if (node is not TNode sibling)
                 return;
 
@@ -109,6 +115,9 @@ public static class NodeExtensions
 
         void UntrackNode(Node node)
         {
+            if (direct && node.GetParent() != root)
+                return;
+
             if (node is not TNode sibling)
                 return;
 
