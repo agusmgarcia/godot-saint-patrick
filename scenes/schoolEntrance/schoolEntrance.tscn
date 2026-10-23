@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://thomas001" path="res://entities/humans/thomas/thomas.tscn" id="17_k1vrd"]
 [ext_resource type="PackedScene" uid="uid://facu001" path="res://entities/humans/facu/facu.tscn" id="17_wldd3"]
 [ext_resource type="PackedScene" uid="uid://vahid001" path="res://entities/humans/vahid/vahid.tscn" id="19_b7l1m"]
+[ext_resource type="Script" uid="uid://firg55r2q2hl" path="res://systems/AutoFocusOnSpeaker.cs" id="20_2j75a"]
 [ext_resource type="Script" uid="uid://b3ol3hhc7ihv2" path="res://systems/HumanDialogue.cs" id="20_b7l1m"]
 [ext_resource type="Script" uid="uid://y4kbjbak1kv" path="res://systems/HumanInputController.cs" id="20_k1vrd"]
 [ext_resource type="Script" uid="uid://b01f28x2kghrn" path="res://systems/MainCameraSelector.cs" id="20_wldd3"]
@@ -74,16 +75,8 @@ shadow_enabled = true
 
 [node name="Cameras" type="Node" parent="." unique_id=2107464903]
 
-[node name="Access" type="Camera3D" parent="Cameras" unique_id=899676698]
-transform = Transform3D(0.9501958, -0.028852971, 0.31031513, 0, 0.99570525, 0.09258027, -0.31165358, -0.08796938, 0.94611496, 2.6669118, 2.4145517, 18.966413)
-fov = 60.0
-
 [node name="Bridge" type="Camera3D" parent="Cameras" unique_id=533416551]
 transform = Transform3D(0.68559444, 0.2397875, -0.6873589, 0, 0.94419545, 0.32938582, 0.7279837, -0.22582509, 0.6473352, -3.317162, 3.3499527, 34.820663)
-fov = 60.0
-
-[node name="Entrance" type="Camera3D" parent="Cameras" unique_id=47935763]
-transform = Transform3D(0.926614, -0.11442702, 0.35818017, 0, 0.9525712, 0.3043158, -0.37601405, -0.2819833, 0.8826658, 7.010169, 2.8091545, 39.693356)
 fov = 60.0
 
 [node name="Entities" type="Node" parent="." unique_id=2093508666]
@@ -131,6 +124,11 @@ transform = Transform3D(0.3111363, 0, 0.95036536, 0, 1, 0, -0.95036536, 0, 0.311
 transform = Transform3D(0.013112364, 0, -0.99991405, 0, 1, 0, 0.99991405, 0, 0.013112364, 2.1718392, 1.15, 25.60256)
 
 [node name="Systems" type="Node" parent="." unique_id=2012524522]
+
+[node name="AutoFocusOnSpeaker" type="Node" parent="Systems" unique_id=774521990]
+script = ExtResource("20_2j75a")
+Duration = 0.66
+metadata/_custom_type_script = "uid://firg55r2q2hl"
 
 [node name="HumanDialogue" type="Node" parent="Systems" unique_id=132122512]
 script = ExtResource("20_b7l1m")
