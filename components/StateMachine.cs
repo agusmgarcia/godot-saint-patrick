@@ -38,7 +38,7 @@ public partial class StateMachine : Node
 
         base.ChildExitingTree += this.OnStateRemoved;
         base.ChildEnteredTree += this.OnStateAdded;
-        this.OnStateAdded(base.GetChildOrNull<Node>(0));
+        this.OnStateAdded(base.GetChildOrNull<State>(0));
     }
 
     private void OnStateAdded(Node? node)
@@ -131,7 +131,7 @@ public partial class StateMachine : Node
     /// <inheritdoc/>
     public override void _ExitTree()
     {
-        this.OnStateRemoved(base.GetChildOrNull<Node>(0));
+        this.OnStateRemoved(base.GetChildOrNull<State>(0));
         base.ChildExitingTree -= this.OnStateRemoved;
         base.ChildEnteredTree -= this.OnStateAdded;
 

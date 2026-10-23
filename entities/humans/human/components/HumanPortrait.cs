@@ -2,6 +2,9 @@ using Godot;
 
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
+/// <summary>
+/// Loads the portrait texture (<c>{name}.portrait.png</c>) from the human's scene folder on entering the tree; <see cref="Value"/> is <c>null</c> if the file does not exist.
+/// </summary>
 [GlobalClass]
 public sealed partial class HumanPortrait : Node
 {
@@ -15,7 +18,7 @@ public sealed partial class HumanPortrait : Node
     {
         base._EnterTree();
 
-        var owner = base.GetOwnerOrNull<Human>();
+        var owner = base.GetOwner<Human>();
         var path = string.Join("/", owner.SceneFilePath.GetBaseDir(), $"{owner.Name.ToString().ToLower()}.portrait.png");
         this.Value = ResourceLoader.Exists(path)
             ? GD.Load<Texture2D>(path)
@@ -25,8 +28,8 @@ public sealed partial class HumanPortrait : Node
     /// <inheritdoc/>
     public override void _ExitTree()
     {
-        base._ExitTree();
-
         this.Value = null;
+
+        base._ExitTree();
     }
 }

@@ -67,7 +67,7 @@ public sealed partial class HumanStateMachine : StateMachine
 	{
 		base._EnterTree();
 
-		this._owner = base.GetOwnerOrNull<Human>();
+		this._owner = base.GetOwner<Human>();
 	}
 
 	/// <inheritdoc/>

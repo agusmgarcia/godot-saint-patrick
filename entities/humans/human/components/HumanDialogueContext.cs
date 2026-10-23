@@ -30,7 +30,7 @@ public abstract partial class HumanDialogueContext : Node
     {
         base._EnterTree();
 
-        this.Initiator = base.GetOwnerOrNull<Human>();
+        this.Initiator = base.GetOwner<Human>();
         this.Targets = [];
     }
 

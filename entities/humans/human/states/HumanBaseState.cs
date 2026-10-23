@@ -24,8 +24,8 @@ public abstract partial class HumanBaseState<TStateParams> : State<TStateParams>
     {
         base._EnterTree();
 
-        this.StateMachine = base.GetParentOrNull<HumanStateMachine>();
-        this.Human = base.GetOwnerOrNull<Human>();
+        this.StateMachine = base.GetParent<HumanStateMachine>();
+        this.Human = base.GetOwner<Human>();
     }
 
     /// <inheritdoc/>
