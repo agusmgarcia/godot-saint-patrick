@@ -15,7 +15,7 @@ public sealed partial class HumanPortrait : Node
     {
         base._EnterTree();
 
-        var owner = base.GetOwnerOrNull<Human>();
+        var owner = base.GetOwner<Human>();
         var path = string.Join("/", owner.SceneFilePath.GetBaseDir(), $"{owner.Name.ToString().ToLower()}.portrait.png");
         this.Value = ResourceLoader.Exists(path)
             ? GD.Load<Texture2D>(path)

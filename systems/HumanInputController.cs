@@ -56,7 +56,7 @@ public sealed partial class HumanInputController : Node
         this._mainCameraSelector = mainCameraSelector;
 
     private void OnMainTracked(Main main) =>
-        this._mainHuman = main.GetOwnerOrNull<Human>();
+        this._mainHuman = main.GetOwner<Human>();
 
     private void OnHumanDialogueTracked(HumanDialogue humanDialogue) =>
         this._humanDialogue = humanDialogue;

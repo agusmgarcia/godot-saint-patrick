@@ -61,13 +61,13 @@ public partial class Velocity : Node
     {
         base._EnterTree();
 
-        this._owner = base.GetOwnerOrNull<CharacterBody3D>();
+        this._owner = base.GetOwner<CharacterBody3D>();
         this._gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
 
         this._direction = Vector3.Zero;
         this._speed = 0f;
         this._acceleration = 0f;
-        this._rotationDirection = this._owner!.GlobalBasis.Z;
+        this._rotationDirection = this._owner.GlobalBasis.Z;
         this._angularSpeed = 0f;
         this._angularAcceleration = 0f;
     }
@@ -96,7 +96,7 @@ public partial class Velocity : Node
                 ? (velocity.Y <= 0 ? 0 : velocity.Y)
                 : (this._owner.Velocity.Y - this._gravity * delta);
 
-        this._owner?.Velocity = velocity;
+        this._owner!.Velocity = velocity;
     }
 
     private void HandleRotation(float delta)
