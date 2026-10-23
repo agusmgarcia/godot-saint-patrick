@@ -89,46 +89,46 @@ fov = 60.0
 [node name="Entities" type="Node" parent="." unique_id=2093508666]
 
 [node name="Abraham" parent="Entities" unique_id=1598348195 instance=ExtResource("6_it7ve")]
-transform = Transform3D(0.91385406, 0, 0.40604264, 0, 1, 0, -0.40604264, 0, 0.91385406, 4.445913, 0.90000004, 34.187828)
+transform = Transform3D(0.91385406, 0, 0.40604264, 0, 1, 0, -0.40604264, 0, 0.91385406, 4.445913, 1, 34.187828)
 
 [node name="Christian" parent="Entities" unique_id=766300279 instance=ExtResource("15_wkpsa")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9676118, 1.05, 22.433268)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9676118, 1.1500001, 22.433268)
 
 [node name="Cinthia" parent="Entities" unique_id=748690275 instance=ExtResource("6_vcxv5")]
-transform = Transform3D(0.41963428, 0, 0.90769327, 0, 1, 0, -0.90769327, 0, 0.41963428, -1.9768443, 1.05, 26.48127)
+transform = Transform3D(0.41963428, 0, 0.90769327, 0, 1, 0, -0.90769327, 0, 0.41963428, -1.9768443, 1.15, 26.48127)
 
 [node name="Elijah" parent="Entities" unique_id=201960951 instance=ExtResource("16_qehib")]
-transform = Transform3D(-0.4197222, 0, -0.9076526, 0, 1, 0, 0.9076526, 0, -0.4197222, 1.474935, 1.05, 28.929203)
+transform = Transform3D(-0.4197222, 0, -0.9076526, 0, 1, 0, 0.9076526, 0, -0.4197222, 1.474935, 1.15, 28.929203)
 
 [node name="Facu" parent="Entities" unique_id=644963861 instance=ExtResource("17_wldd3")]
-transform = Transform3D(0.33111942, 0, -0.9435888, 0, 1, 0, 0.9435888, 0, 0.33111942, 1.4338167, 1.05, 19.35318)
+transform = Transform3D(0.33111942, 0, -0.9435888, 0, 1, 0, 0.9435888, 0, 0.33111942, 1.4338167, 1.1500001, 19.35318)
 
 [node name="Helena" parent="Entities" unique_id=1974297223 instance=ExtResource("6_21yb8")]
-transform = Transform3D(-0.99753714, 0, -0.07014069, 0, 1, 0, 0.07014069, 0, -0.99753714, 1.4466689, 1.05, 31.18816)
+transform = Transform3D(-0.99753714, 0, -0.07014069, 0, 1, 0, 0.07014069, 0, -0.99753714, 1.4466689, 1.15, 31.18816)
 
 [node name="Hudson" parent="Entities" unique_id=1370968598 instance=ExtResource("12_wldd3")]
-transform = Transform3D(0.836996, 0, -0.5472089, 0, 1, 0, 0.5472089, 0, 0.836996, 1.4987799, 1.05, 12.420773)
+transform = Transform3D(0.836996, 0, -0.5472089, 0, 1, 0, 0.5472089, 0, 0.836996, 1.4987799, 1.15, 12.420773)
 
 [node name="Mascot" parent="Entities" unique_id=698164916 instance=ExtResource("13_k1vrd")]
-transform = Transform3D(0.08688242, 0, 0.99621856, 0, 1, 0, -0.99621856, 0, 0.08688242, -2.36517, 1.05, 32.271618)
+transform = Transform3D(0.08688242, 0, 0.99621856, 0, 1, 0, -0.99621856, 0, 0.08688242, -2.36517, 1.15, 32.271618)
 
 [node name="Philippe" parent="Entities" unique_id=1853240756 instance=ExtResource("14_b7l1m")]
-transform = Transform3D(0.86516595, 0, -0.5014856, 0, 1, 0, 0.5014856, 0, 0.86516595, -0.8245078, 1.05, 30.635223)
+transform = Transform3D(0.86516595, 0, -0.5014856, 0, 1, 0, 0.5014856, 0, 0.86516595, -0.8245078, 1.15, 30.635223)
 
 [node name="Sarah" parent="Entities" unique_id=917011000 instance=ExtResource("7_2dlmy")]
-transform = Transform3D(0.5699837, 0, -0.821656, 0, 1, 0, 0.821656, 0, 0.5699837, 2.0352652, 1.05, 30.024977)
+transform = Transform3D(0.5699837, 0, -0.821656, 0, 1, 0, 0.821656, 0, 0.5699837, 2.0352652, 1.15, 30.024977)
 
 [node name="Stephanie" parent="Entities" unique_id=128916389 instance=ExtResource("8_mffhs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1752048, 1.05, 21.720827)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1752048, 1.15, 21.720827)
 
 [node name="Thomas" parent="Entities" unique_id=1637689403 instance=ExtResource("17_k1vrd")]
-transform = Transform3D(-0.63247323, 0, -0.77458215, 0, 1, 0, 0.77458215, 0, -0.63247323, -0.3943627, 1.05, 33.589012)
+transform = Transform3D(-0.63247323, 0, -0.77458215, 0, 1, 0, 0.77458215, 0, -0.63247323, -0.3943627, 1.15, 33.589012)
 
 [node name="Vahid" parent="Entities" unique_id=1079668891 instance=ExtResource("19_b7l1m")]
-transform = Transform3D(0.3111363, 0, 0.95036536, 0, 1, 0, -0.95036536, 0, 0.3111363, -1.4848197, 1.05, 27.87868)
+transform = Transform3D(0.3111363, 0, 0.95036536, 0, 1, 0, -0.95036536, 0, 0.3111363, -1.4848197, 1.15, 27.87868)
 
 [node name="Walsh" parent="Entities" unique_id=264393845 instance=ExtResource("9_kq0po")]
-transform = Transform3D(0.013112364, 0, -0.99991405, 0, 1, 0, 0.99991405, 0, 0.013112364, 2.1718392, 1.05, 25.60256)
+transform = Transform3D(0.013112364, 0, -0.99991405, 0, 1, 0, 0.99991405, 0, 0.013112364, 2.1718392, 1.15, 25.60256)
 
 [node name="Systems" type="Node" parent="." unique_id=2012524522]
 

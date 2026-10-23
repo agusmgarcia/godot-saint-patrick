@@ -5,7 +5,7 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
 /// <summary>
-/// AutoTransformAnimationPlayer wired to the standard human rig (1.7 m).
+/// // TODO: document this.
 /// </summary>
 [GlobalClass]
 public sealed partial class HumanAnimationPlayer : AutoTransformAnimationPlayer
@@ -13,7 +13,7 @@ public sealed partial class HumanAnimationPlayer : AutoTransformAnimationPlayer
     private HumanGender? _humanGender;
 
     /// <summary>
-    /// Initialises the player with the default human height of 1.7 m.
+    /// // TODO: document this.
     /// </summary>
     public HumanAnimationPlayer()
     {
