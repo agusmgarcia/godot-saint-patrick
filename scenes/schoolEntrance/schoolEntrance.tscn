@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://thomas001" path="res://entities/humans/thomas/thomas.tscn" id="17_k1vrd"]
 [ext_resource type="PackedScene" uid="uid://facu001" path="res://entities/humans/facu/facu.tscn" id="17_wldd3"]
 [ext_resource type="PackedScene" uid="uid://vahid001" path="res://entities/humans/vahid/vahid.tscn" id="19_b7l1m"]
+[ext_resource type="Script" uid="uid://firg55r2q2hl" path="res://systems/AutoFocusOnSpeaker.cs" id="20_2j75a"]
 [ext_resource type="Script" uid="uid://b3ol3hhc7ihv2" path="res://systems/HumanDialogue.cs" id="20_b7l1m"]
 [ext_resource type="Script" uid="uid://y4kbjbak1kv" path="res://systems/HumanInputController.cs" id="20_k1vrd"]
 [ext_resource type="Script" uid="uid://b01f28x2kghrn" path="res://systems/MainCameraSelector.cs" id="20_wldd3"]
@@ -131,6 +132,11 @@ transform = Transform3D(0.3111363, 0, 0.95036536, 0, 1, 0, -0.95036536, 0, 0.311
 transform = Transform3D(0.013112364, 0, -0.99991405, 0, 1, 0, 0.99991405, 0, 0.013112364, 2.1718392, 1.15, 25.60256)
 
 [node name="Systems" type="Node" parent="." unique_id=2012524522]
+
+[node name="AutoFocusOnSpeaker" type="Node" parent="Systems" unique_id=774521990]
+script = ExtResource("20_2j75a")
+Duration = 0.66
+metadata/_custom_type_script = "uid://firg55r2q2hl"
 
 [node name="HumanDialogue" type="Node" parent="Systems" unique_id=132122512]
 script = ExtResource("20_b7l1m")
