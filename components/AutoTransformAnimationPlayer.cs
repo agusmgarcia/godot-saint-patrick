@@ -14,32 +14,21 @@ public abstract partial class AutoTransformAnimationPlayer : AnimationPlayer
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
     public float LerpSpeed { get; private set; } = 5.0f;
 
-    private readonly float _initialHeight;
+    private ModelHandler? _modelHandler;
 
     private Node3D? _model;
-    private Height? _height;
     private Vector3 _targetPosition;
     private Vector3 _targetRotation;
 
     /// <summary>
     /// Initialises the player with the entity's design-time height in metres.
     /// </summary>
-    protected AutoTransformAnimationPlayer(float initialHeight)
+    protected AutoTransformAnimationPlayer()
     {
-        this._initialHeight = initialHeight;
-
-        this.TrackSiblings<Node3D>(
-            this.OnModelTracked,
-            this.OnModelUntracked,
-            name: "Model",
-            unique: true
-        );
-
-        this.TrackSiblings<Height>(
-            this.OnHeightTracked,
-            this.OnHeightUntracked,
-            unique: true
-        );
+        this.TrackSiblings<ModelHandler>(
+            this.OnModelHandlerTracked,
+            this.OnModelHandlerUntracked,
+            unique: true);
     }
 
     /// <summary>
@@ -62,32 +51,29 @@ public abstract partial class AutoTransformAnimationPlayer : AnimationPlayer
         this.OnAnimationStarted(base.CurrentAnimation);
     }
 
-    private void OnModelTracked(Node3D model)
+    private void OnModelHandlerTracked(ModelHandler modelHandler)
     {
-        this._model = model;
-        this._model.Scale = Vector3.One * ((this._height?.Value ?? this._initialHeight) / this._initialHeight);
-    }
-
-    private void OnHeightTracked(Height height)
-    {
-        this._height = height;
-
-        this._model?.Scale = Vector3.One * (this._height.Value / this._initialHeight);
-
-        this._targetPosition = base.CurrentAnimation != null
-            ? (this.GetTargetPosition(base.CurrentAnimation) * this._height.Value)
-            : Vector3.Zero;
+        this._modelHandler = modelHandler;
+        this._modelHandler.ModelChanged += this.OnModelChanged;
+        this.OnModelChanged(this._modelHandler.Model);
     }
 
     private void OnAnimationStarted(StringName animationName)
     {
         this._targetPosition = !string.IsNullOrEmpty(animationName)
-            ? (this.GetTargetPosition(animationName) * (this._height?.Value ?? 1))
+            ? this.GetTargetPosition(animationName)
             : Vector3.Zero;
 
         this._targetRotation = !string.IsNullOrEmpty(animationName)
             ? this.GetTargetRotation(animationName)
             : Vector3.Zero;
+    }
+
+    private void OnModelChanged(Node3D? model)
+    {
+        this._model = model;
+        if (this._model != null)
+            base.RootNode = base.GetPathTo(this._model);
     }
 
     /// <inheritdoc/>
@@ -111,21 +97,11 @@ public abstract partial class AutoTransformAnimationPlayer : AnimationPlayer
         this._targetPosition = Vector3.Zero;
     }
 
-    private void OnHeightUntracked(Height height)
+    private void OnModelHandlerUntracked(ModelHandler modelHandler)
     {
-        this._targetPosition = base.CurrentAnimation != null
-            ? (this.GetTargetPosition(base.CurrentAnimation) * this._initialHeight)
-            : Vector3.Zero;
-
-        this._model?.Scale = Vector3.One;
-
-        this._height = null;
-    }
-
-    private void OnModelUntracked(Node3D model)
-    {
-        model.Scale = Vector3.One;
-        this._model = null;
+        this.OnModelChanged(modelHandler.Model);
+        modelHandler.ModelChanged -= this.OnModelChanged;
+        this._modelHandler = null;
     }
 
     /// <inheritdoc/>

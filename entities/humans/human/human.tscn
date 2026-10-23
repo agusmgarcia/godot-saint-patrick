@@ -32,6 +32,7 @@
 [ext_resource type="Script" uid="uid://njgv87641rmm" path="res://entities/humans/human/components/HumanSocialZoneArea3D.cs" id="26_w6qrs"]
 [ext_resource type="Script" uid="uid://b6icl0gao2f23" path="res://components/Weight.cs" id="27_xkre3"]
 [ext_resource type="Script" uid="uid://vr68kl7pj6g6" path="res://entities/humans/human/components/HumanPortrait.cs" id="28_f8cro"]
+[ext_resource type="Script" uid="uid://b3mx76mcmjwp0" path="res://entities/humans/human/components/HumanModelHandler.cs" id="28_v6hvj"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_45isd"]
 radius = 0.3
@@ -90,6 +91,11 @@ metadata/_custom_type_script = "uid://by5bl25advd14"
 [node name="HumanGender" type="Node" parent="." unique_id=1399690896]
 script = ExtResource("24_w6qrs")
 metadata/_custom_type_script = "uid://dmrt6q16jkcda"
+
+[node name="HumanModelHandler" type="Node3D" parent="." unique_id=1356493947]
+script = ExtResource("28_v6hvj")
+HeightDefaultValue = 1.7
+metadata/_custom_type_script = "uid://b3mx76mcmjwp0"
 
 [node name="HumanPortrait" type="Node" parent="." unique_id=1614786537]
 script = ExtResource("28_f8cro")

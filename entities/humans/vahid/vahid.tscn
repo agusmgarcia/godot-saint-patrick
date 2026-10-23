@@ -16,18 +16,18 @@ radius = 2.0
 [node name="AutoTransformCollisionShape3D" parent="." index="0" unique_id=451022087]
 shape = SubResource("CapsuleShape3D_vahid")
 
-[node name="HumanAnimationPlayer" parent="." index="2" unique_id=1170262070]
-root_node = NodePath("../Model")
+[node name="HumanModelHandler" parent="." index="5" unique_id=1356493947]
+ModelType = "Uniform"
 
-[node name="HumanSocialZoneArea3D" parent="." index="6" unique_id=1801808588]
+[node name="UniformModel" parent="HumanModelHandler" index="0" unique_id=1938991891 instance=ExtResource("3_vahid")]
+
+[node name="HumanSocialZoneArea3D" parent="." index="8" unique_id=1801808588]
 FieldOfView = 132.0
 
 [node name="AutoTransformCollisionShape3D" parent="HumanSocialZoneArea3D" index="0" unique_id=1625032941]
 shape = SubResource("CylinderShape3D_ld0i0")
 
-[node name="Model" parent="." index="7" unique_id=1938991891 instance=ExtResource("3_vahid")]
-
-[node name="HumanVelocity" parent="." index="8" unique_id=234766889]
+[node name="HumanVelocity" parent="." index="9" unique_id=234766889]
 RunAcceleration = 12.0
 RunAccelerationDrunkFactor = 0.5
 RunAngularAcceleration = 748.8

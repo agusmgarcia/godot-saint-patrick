@@ -19,18 +19,18 @@ shape = SubResource("CapsuleShape3D_hudson")
 [node name="Height" parent="." index="1" unique_id=1612580561]
 Value = 1.82
 
-[node name="HumanAnimationPlayer" parent="." index="2" unique_id=1170262070]
-root_node = NodePath("../Model")
+[node name="HumanModelHandler" parent="." index="5" unique_id=1356493947]
+ModelType = "Uniform"
 
-[node name="HumanSocialZoneArea3D" parent="." index="6" unique_id=1801808588]
+[node name="UniformModel" parent="HumanModelHandler" index="0" unique_id=1938991891 instance=ExtResource("3_hudson")]
+
+[node name="HumanSocialZoneArea3D" parent="." index="8" unique_id=1801808588]
 FieldOfView = 105.0
 
 [node name="AutoTransformCollisionShape3D" parent="HumanSocialZoneArea3D" index="0" unique_id=1625032941]
 shape = SubResource("CylinderShape3D_ayaim")
 
-[node name="Model" parent="." index="7" unique_id=1938991891 instance=ExtResource("3_hudson")]
-
-[node name="HumanVelocity" parent="." index="8" unique_id=234766889]
+[node name="HumanVelocity" parent="." index="9" unique_id=234766889]
 RunAcceleration = 10.5
 RunAccelerationDrunkFactor = 0.5
 RunAngularAcceleration = 561.6
@@ -46,5 +46,5 @@ DecelerationDrunkFactor = 0.65
 DecelerationAngularAcceleration = 54.0
 DecelerationMaxAngularSpeed = 120.0
 
-[node name="Weight" parent="." index="9" unique_id=312984756]
+[node name="Weight" parent="." index="10" unique_id=312984756]
 Value = 82.0

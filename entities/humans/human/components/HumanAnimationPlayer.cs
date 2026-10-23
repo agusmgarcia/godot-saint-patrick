@@ -16,7 +16,6 @@ public sealed partial class HumanAnimationPlayer : AutoTransformAnimationPlayer
     /// Initialises the player with the default human height of 1.7 m.
     /// </summary>
     public HumanAnimationPlayer()
-        : base(1.7f)
     {
         this.TrackSiblings<HumanGender>(
             this.OnHumanGenderTracked,
