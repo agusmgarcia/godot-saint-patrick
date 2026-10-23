@@ -91,11 +91,12 @@ public partial class Velocity : Node
 
         var velocity = this._direction * this._speed;
 
-        velocity.Y = this._owner!.IsOnFloor()
-            ? (velocity.Y <= 0 ? 0 : velocity.Y)
-            : (this._owner.Velocity.Y - this._gravity * delta);
+        if (this.Gravity)
+            velocity.Y = this._owner!.IsOnFloor()
+                ? (velocity.Y <= 0 ? 0 : velocity.Y)
+                : (this._owner.Velocity.Y - this._gravity * delta);
 
-        this._owner.Velocity = velocity;
+        this._owner?.Velocity = velocity;
     }
 
     private void HandleRotation(float delta)
