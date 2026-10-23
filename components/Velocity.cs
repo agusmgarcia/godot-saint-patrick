@@ -108,13 +108,36 @@ public partial class Velocity : Node
         if (this._rotationDirection.IsZeroApprox())
             return;
 
-        var currentForward = this._owner!.GlobalBasis.Z;
-        var angle = currentForward.AngleTo(this._rotationDirection);
+        var projectedForward = this._owner!.GlobalBasis.Z;
+        var projectedRotationDirection = this._rotationDirection;
+
+        if (!this._owner.AxisLockAngularX)
+        {
+            projectedForward.X = 0f;
+            projectedRotationDirection.X = 0f;
+        }
+
+        if (!this._owner.AxisLockAngularY)
+        {
+            projectedForward.Y = 0f;
+            projectedRotationDirection.Y = 0f;
+        }
+
+        if (!this._owner.AxisLockAngularZ)
+        {
+            projectedForward.Z = 0f;
+            projectedRotationDirection.Z = 0f;
+        }
+
+        if (projectedForward.IsZeroApprox() || projectedRotationDirection.IsZeroApprox())
+            return;
+
+        var angle = projectedForward.AngleTo(projectedRotationDirection);
 
         if (Mathf.IsZeroApprox(angle))
             return;
 
-        var cross = currentForward.Cross(this._rotationDirection);
+        var cross = projectedForward.Cross(projectedRotationDirection);
         var axis = !cross.IsZeroApprox()
             ? cross.Normalized()
             : !this._owner.AxisLockAngularX
