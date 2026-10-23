@@ -5,7 +5,7 @@ using SaintPatrick.Utils;
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
 /// <summary>
-/// AutoTransformAnimationPlayer wired to the standard human rig (1.7 m).
+/// Concrete <see cref="SaintPatrick.Components.AutoTransformAnimationPlayer"/> for humans; selects gender-appropriate clips via a sibling <see cref="HumanGender"/> and an <see cref="EHumanAnimation"/> group.
 /// </summary>
 [GlobalClass]
 public sealed partial class HumanAnimationPlayer : AutoTransformAnimationPlayer
@@ -13,7 +13,7 @@ public sealed partial class HumanAnimationPlayer : AutoTransformAnimationPlayer
     private HumanGender? _humanGender;
 
     /// <summary>
-    /// Initialises the player with the default human height of 1.7 m.
+    /// Registers the tracker for the sibling <see cref="HumanGender"/> used to select gender-specific animation clips.
     /// </summary>
     public HumanAnimationPlayer()
     {
