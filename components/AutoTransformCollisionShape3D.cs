@@ -64,14 +64,10 @@ public sealed partial class AutoTransformCollisionShape3D : CollisionShape3D
         {
             throw new NotImplementedException($"Shape of type '{base.Shape.GetType().Name}' is not supported");
         }
-
-        base.Position = new Vector3(0f, this._height.Value / 2f, 0f);
     }
 
     private void OnHeightUntracked(Height height)
     {
-        base.Position = Vector3.Zero;
-
         if (base.Shape is CapsuleShape3D capsule)
         {
             capsule.Radius = this._initialRadius;
