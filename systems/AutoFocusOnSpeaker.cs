@@ -177,8 +177,8 @@ public sealed partial class AutoFocusOnSpeaker : Node
         private static Vector3 CalculateTargetPosition(IHumanConversation conversation)
         {
             return conversation.Initiator.GlobalTransform * ((conversation.Targets.Count == 1)
-                ? new Vector3(0, 0, -1.5f)
-                : new Vector3(0, 0, 2)); // TODO:
+                ? new Vector3(-1, 0.75f, -0.5f)
+                : Vector3.Zero); // TODO:
         }
 
         private static Basis CalculateTargetBasis(IHumanConversation conversation, Camera3D camera, in Vector3 targetPosition)
