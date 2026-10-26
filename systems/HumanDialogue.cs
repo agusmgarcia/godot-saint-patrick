@@ -17,22 +17,32 @@ namespace SaintPatrick.Systems;
 public sealed partial class HumanDialogue : Node
 {
     /// <summary>
-    /// // TODO: document this.
+    /// Fired when a new conversation is successfully created and started; passes the newly active <see cref="IHumanConversation"/>.
     /// </summary>
     public event Action<IHumanConversation>? ConversationStarted;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Fired when an active conversation finishes naturally or is ended early, passing the completed <see cref="IHumanConversation"/>.
     /// </summary>
     public event Action<IHumanConversation>? ConversationEnded;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Snapshot of all currently active conversations; the set is rebuilt on each read from the internal dictionary keys.
     /// </summary>
     public IReadOnlySet<IHumanConversation> Conversations =>
         this._conversations.Keys.ToHashSet<IHumanConversation>();
 
     private readonly System.Collections.Generic.Dictionary<Conversation, Action<IHumanConversation.Line>> _conversations = [];
+
+    /// <inheritdoc/>
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+
+        var conversations = this._conversations.Keys.ToList();
+        foreach (var conversation in conversations)
+            conversation.End();
+    }
 
     /// <summary>
     /// Attempts to start a conversation between initiator and targets; returns when either participant is busy or there is nothing to say.
@@ -108,6 +118,7 @@ public sealed partial class HumanDialogue : Node
                 ?.End();
     }
 
+    /// <inheritdoc/>
     public override void _ExitTree()
     {
         var conversations = this._conversations.Keys.ToList();
