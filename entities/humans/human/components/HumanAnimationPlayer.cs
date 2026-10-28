@@ -49,12 +49,13 @@ public sealed partial class HumanAnimationPlayer : AutoTransformAnimationPlayer
     {
         return animationName switch
         {
-            "human.dance.1/mixamo_com" => new Vector3(0, 0.158f, 0),
-            "human.drunkRun.1/mixamo_com" => new Vector3(0, 0.158f, 0),
-            "human.fall.1/mixamo_com" => new Vector3(0, 0.850f, 0),
-            "human.land.1/mixamo_com" => new Vector3(0, 0.16f, 0),
-            "human.reactToHit.1/mixamo_com" => new Vector3(0, 0.162f, 0),
-            "human.run.1/mixamo_com" => new Vector3(0, 0.107f, 0),
+            "human.female.drunkRun.1/mixamo_com" => new Vector3(0, 0.158f, 0),
+            "human.female.fall.1/mixamo_com" => new Vector3(0, 0.850f, 0),
+            "human.female.land.1/mixamo_com" => new Vector3(0, 0.16f, 0),
+            "human.female.run.1/mixamo_com" => new Vector3(0, 0.107f, 0),
+            "human.male.dance.1/mixamo_com" => new Vector3(0, 0.158f, 0),
+            "human.male.fall.1/mixamo_com" => new Vector3(0, 0.850f, 0),
+            "human.male.land.1/mixamo_com" => new Vector3(0, 0.16f, 0),
             _ => Vector3.Zero,
         };
     }
@@ -64,8 +65,8 @@ public sealed partial class HumanAnimationPlayer : AutoTransformAnimationPlayer
     {
         return animationName switch
         {
-            "human.talk.1/mixamo_com" => new Vector3(0, -0.349066f, 0),
-            "human.talk.3/mixamo_com" => new Vector3(0, -0.349066f, 0),
+            "human.female.talk.1/mixamo_com" => new Vector3(0, -0.349066f, 0),
+            "human.female.talk.3/mixamo_com" => new Vector3(0, -0.349066f, 0),
             _ => Vector3.Zero,
         };
     }
