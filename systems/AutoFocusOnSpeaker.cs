@@ -134,14 +134,7 @@ public sealed partial class AutoFocusOnSpeaker : Node
                 return;
 
             if (this._phase == EPhase.Idle)
-            {
-                var input = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
-                var goUp = Input.IsActionPressed("run");
-                this._owner.GlobalPosition += new Vector3(input.X, goUp ? -input.Y : 0, !goUp ? input.Y : 0) * (float)delta;
-                this._owner.GlobalBasis = CameraHandler.CalculateTargetBasis(this._conversation, this._owner, this._owner.GlobalPosition);
-                GD.Print(this._owner.GlobalPosition - CameraHandler.CalculateTargetPosition(this._conversation));
                 return;
-            }
 
             float fDelta = (float)delta;
             this._elapsedTime += fDelta;
