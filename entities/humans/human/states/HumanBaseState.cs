@@ -1,4 +1,4 @@
-using SaintPatrick.Components;
+using ECS.Components;
 using SaintPatrick.Entities.Humans.Human.Components;
 
 namespace SaintPatrick.Entities.Humans.Human.States;

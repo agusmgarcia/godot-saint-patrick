@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://nkrsck7ca5h" path="res://entities/humans/human/Human.cs" id="1_human"]
 [ext_resource type="AnimationLibrary" uid="uid://duv7bilmq1jw8" path="res://entities/humans/human/animations/human.female.drunkIdle.1.fbx" id="2_2rbr1"]
-[ext_resource type="Script" uid="uid://chihexamhc5et" path="res://components/Height.cs" id="2_7q7s5"]
+[ext_resource type="Script" uid="uid://chihexamhc5et" path="res://addons/ECS/Components/Height.cs" id="2_7q7s5"]
 [ext_resource type="AnimationLibrary" uid="uid://b0pueu60y8snb" path="res://entities/humans/human/animations/human.female.idle.1.fbx" id="2_ffwvl"]
-[ext_resource type="Script" uid="uid://bp44bcrt20ir3" path="res://components/AutoTransformCollisionShape3D.cs" id="2_j3wvj"]
+[ext_resource type="Script" uid="uid://bp44bcrt20ir3" path="res://addons/ECS/Components/AutoTransformCollisionShape3D.cs" id="2_j3wvj"]
 [ext_resource type="AnimationLibrary" uid="uid://cek0ojprlf881" path="res://entities/humans/human/animations/human.female.argue.1.fbx" id="3_4ps2d"]
 [ext_resource type="AnimationLibrary" uid="uid://mltoawrfcdh3" path="res://entities/humans/human/animations/human.female.drunkRun.1.fbx" id="3_evr87"]
 [ext_resource type="AnimationLibrary" uid="uid://btqcmki0i08d2" path="res://entities/humans/human/animations/human.male.argue.1.fbx" id="4_7q7s5"]
@@ -30,9 +30,9 @@
 [ext_resource type="AnimationLibrary" uid="uid://bk86i6qdw7lne" path="res://entities/humans/human/animations/human.male.walk.1.fbx" id="24_fsuwg"]
 [ext_resource type="Script" uid="uid://dmrt6q16jkcda" path="res://entities/humans/human/components/HumanGender.cs" id="24_w6qrs"]
 [ext_resource type="Script" uid="uid://njgv87641rmm" path="res://entities/humans/human/components/HumanSocialZoneArea3D.cs" id="26_w6qrs"]
-[ext_resource type="Script" uid="uid://b6icl0gao2f23" path="res://components/Weight.cs" id="27_xkre3"]
+[ext_resource type="Script" uid="uid://b6icl0gao2f23" path="res://addons/ECS/Components/Weight.cs" id="27_xkre3"]
 [ext_resource type="Script" uid="uid://vr68kl7pj6g6" path="res://entities/humans/human/components/HumanPortrait.cs" id="28_f8cro"]
-[ext_resource type="Script" uid="uid://b3mx76mcmjwp0" path="res://entities/humans/human/components/HumanModelHandler.cs" id="28_v6hvj"]
+[ext_resource type="Script" uid="uid://bgmuo33gpdiiu" path="res://addons/ECS/Components/ModelHandler.cs" id="28_v6hvj"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_45isd"]
 radius = 0.3
@@ -92,10 +92,11 @@ metadata/_custom_type_script = "uid://by5bl25advd14"
 script = ExtResource("24_w6qrs")
 metadata/_custom_type_script = "uid://dmrt6q16jkcda"
 
-[node name="HumanModelHandler" type="Node3D" parent="." unique_id=1356493947]
+[node name="HumanModelHandler" type="Node3D" parent="." unique_id=325381079]
 script = ExtResource("28_v6hvj")
+ModelType = "Uniform"
 HeightDefaultValue = 1.9
-metadata/_custom_type_script = "uid://b3mx76mcmjwp0"
+metadata/_custom_type_script = "uid://bgmuo33gpdiiu"
 
 [node name="HumanPortrait" type="Node" parent="." unique_id=1614786537]
 script = ExtResource("28_f8cro")
@@ -119,7 +120,7 @@ metadata/_custom_type_script = "uid://bp44bcrt20ir3"
 
 [node name="HumanVelocity" type="Node" parent="." unique_id=234766889]
 script = ExtResource("20_hqa5r")
-Gravity = true
+GravityMaxSpeed = 800.0
 metadata/_custom_type_script = "uid://s02i6q81k7rc"
 
 [node name="Weight" type="Node" parent="." unique_id=312984756]

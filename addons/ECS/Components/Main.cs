@@ -1,11 +1,11 @@
 using Godot;
 
-namespace SaintPatrick.Components;
+namespace ECS.Components;
 
 /// <summary>
 /// Marker component that identifies the player-controlled entity.
 /// </summary>
 [GlobalClass]
-public sealed partial class Main : Node
+public partial class Main : Node
 {
 }

@@ -1,12 +1,13 @@
+using ECS.Utils;
 using Godot;
-using SaintPatrick.Utils;
 
-namespace SaintPatrick.Components;
+namespace ECS.Components;
 
 /// <summary>
-/// Abstract Node3D that manages swappable 3D model children, keeping exactly one visible; auto-adjusts position and scale via a sibling <see cref="SaintPatrick.Components.Height"/> component.
+/// Abstract Node3D that manages swappable 3D model children, keeping exactly one visible; auto-adjusts position and scale via a sibling <see cref="ECS.Components.Height"/> component.
 /// </summary>
-public abstract partial class ModelHandler : Node3D
+[GlobalClass]
+public partial class ModelHandler : Node3D
 {
     /// <summary>
     /// Fired whenever the active model changes, passing the newly visible <see cref="Node3D"/> or <c>null</c> when no model is selected.
@@ -22,10 +23,11 @@ public abstract partial class ModelHandler : Node3D
     /// <summary>
     /// Key identifying the active child model; setting it switches visibility and fires <see cref="ModelChanged"/>. Defaults to <see cref="string.Empty"/> (no model selected).
     /// </summary>
+    [Export]
     public string ModelType
     {
         get;
-        protected set
+        private set
         {
             field = value;
             this.ModelChanged?.Invoke(this.Model);
@@ -33,21 +35,21 @@ public abstract partial class ModelHandler : Node3D
     } = string.Empty;
 
     /// <summary>
-    /// When <c>true</c>, the node's vertical position is not adjusted relative to the sibling <see cref="SaintPatrick.Components.Height"/>.
+    /// When <c>true</c>, the node's vertical position is not adjusted relative to the sibling <see cref="ECS.Components.Height"/>.
     /// </summary>
     [ExportGroup("Position", "Position")]
     [Export]
     public bool PositionDisabled { get; private set; }
 
     /// <summary>
-    /// When <c>true</c>, the node's scale is not adjusted to match the sibling <see cref="SaintPatrick.Components.Height"/>.
+    /// When <c>true</c>, the node's scale is not adjusted to match the sibling <see cref="ECS.Components.Height"/>.
     /// </summary>
     [ExportGroup("Height", "Height")]
     [Export]
     public bool HeightDisabled { get; private set; }
 
     /// <summary>
-    /// Design-time height (metres) used as the scale denominator against the sibling <see cref="SaintPatrick.Components.Height"/>; set it to the height at which the model was authored.
+    /// Design-time height (metres) used as the scale denominator against the sibling <see cref="ECS.Components.Height"/>; set it to the height at which the model was authored.
     /// </summary>
     [ExportGroup("Height", "Height")]
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m")]
@@ -61,9 +63,9 @@ public abstract partial class ModelHandler : Node3D
     private Height? _height;
 
     /// <summary>
-    /// Registers trackers for the sibling <see cref="SaintPatrick.Components.Height"/> and for direct <see cref="Node3D"/> children that represent swappable models.
+    /// Registers trackers for the sibling <see cref="ECS.Components.Height"/> and for direct <see cref="Node3D"/> children that represent swappable models.
     /// </summary>
-    protected ModelHandler()
+    public ModelHandler()
     {
         this.TrackSiblings<Height>(
             this.OnHeightTracked,
@@ -98,12 +100,15 @@ public abstract partial class ModelHandler : Node3D
 
     private void OnModelTracked(Node3D model)
     {
-        var modelType = ModelHandler.GetModelType(model);
+        var modelType = this.GetModelType(model);
         this._models.Add(modelType, model);
         this.ModelType = modelType;
     }
 
-    private static string GetModelType(Node3D model) =>
+    /// <summary>
+    /// Returns the string key for the given model node; defaults to the node name with the "Model" suffix stripped.
+    /// </summary>
+    protected virtual string GetModelType(Node3D model) =>
         model.Name.ToString().Replace("Model", "");
 
     private void OnModelChanged(Node3D? model)
@@ -114,7 +119,7 @@ public abstract partial class ModelHandler : Node3D
 
     private void OnModelUntracked(Node3D model)
     {
-        var modelType = ModelHandler.GetModelType(model);
+        var modelType = this.GetModelType(model);
         this.ModelType = string.Empty;
         this._models.Remove(modelType);
     }

@@ -1,5 +1,5 @@
 using Godot;
-using SaintPatrick.Components;
+using ECS.Components;
 using SaintPatrick.Entities.Humans.Human.States;
 using SaintPatrick.Entities.Humans.Human.Utils;
 

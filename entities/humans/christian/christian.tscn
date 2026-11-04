@@ -19,10 +19,7 @@ shape = SubResource("CapsuleShape3D_christian")
 [node name="Height" parent="." index="1" unique_id=1612580561]
 Value = 1.78
 
-[node name="HumanModelHandler" parent="." index="5" unique_id=1356493947]
-ModelType = "Uniform"
-
-[node name="UniformModel" parent="HumanModelHandler" index="0" unique_id=1938991891 instance=ExtResource("3_christian")]
+[node name="UniformModel" parent="HumanModelHandler" parent_id_path=PackedInt32Array(325381079) index="0" unique_id=1938991891 instance=ExtResource("3_christian")]
 
 [node name="HumanSocialZoneArea3D" parent="." index="8" unique_id=1801808588]
 FieldOfView = 125.0

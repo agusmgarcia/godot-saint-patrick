@@ -1,12 +1,12 @@
 using DialogueManagerRuntime;
 using Godot;
 using Godot.Collections;
-using SaintPatrick.Components;
+using ECS.Components;
 using SaintPatrick.Entities.Humans.Human;
 using SaintPatrick.Entities.Humans.Human.Components;
 using SaintPatrick.Entities.Humans.Human.States;
 using SaintPatrick.Entities.Humans.Human.Utils;
-using SaintPatrick.Utils;
+using ECS.Utils;
 
 namespace SaintPatrick.Systems;
 

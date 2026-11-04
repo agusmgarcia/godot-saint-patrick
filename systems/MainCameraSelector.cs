@@ -1,6 +1,6 @@
 using Godot;
-using SaintPatrick.Components;
-using SaintPatrick.Utils;
+using ECS.Components;
+using ECS.Utils;
 
 namespace SaintPatrick.Systems;
 

@@ -1,5 +1,5 @@
 using Godot;
-using SaintPatrick.Utils;
+using ECS.Utils;
 
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
@@ -49,14 +49,14 @@ public sealed partial class HumanSocialZoneArea3D : Area3D
             if (body is not Human other)
                 continue;
 
-            var raycast = PhysicsRayQueryParameters3D.Create(other.GlobalPosition, this._owner!.GlobalPosition, base.CollisionLayer);
-            raycast.Exclude = [other.GetRid(), this._owner.GetRid()];
-
-            var spaceState = this._owner.GetWorld3D().DirectSpaceState;
-            if (spaceState.IntersectRay(raycast).Count > 0)
+            if (this._owner?.IntersectRay(
+                other.GlobalPosition,
+                base.CollisionLayer,
+                false,
+                other) != null)
                 continue;
 
-            var toTarget = other.GlobalPosition - this._owner.GlobalPosition;
+            var toTarget = other.GlobalPosition - this._owner!.GlobalPosition;
             if (this._owner.GlobalBasis.Z.Dot(toTarget.Normalized()) < this._cosHalfFov)
                 continue;
 

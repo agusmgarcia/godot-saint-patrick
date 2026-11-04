@@ -22,10 +22,7 @@ Value = 1.65
 [node name="HumanGender" parent="." index="4" unique_id=1399690896]
 Value = 1
 
-[node name="HumanModelHandler" parent="." index="5" unique_id=1356493947]
-ModelType = "Uniform"
-
-[node name="UniformModel" parent="HumanModelHandler" index="0" unique_id=1938991891 instance=ExtResource("3_stephanie")]
+[node name="UniformModel" parent="HumanModelHandler" parent_id_path=PackedInt32Array(325381079) index="0" unique_id=1938991891 instance=ExtResource("3_stephanie")]
 
 [node name="HumanSocialZoneArea3D" parent="." index="8" unique_id=1801808588]
 FieldOfView = 112.0

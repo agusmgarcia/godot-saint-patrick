@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dqkrs6t6jrndy"]
 
 [ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_7abgk"]
-[ext_resource type="Script" uid="uid://8tq6dsduly5p" path="res://components/Main.cs" id="2_s44hm"]
+[ext_resource type="Script" uid="uid://8tq6dsduly5p" path="res://addons/ECS/Components/Main.cs" id="2_s44hm"]
 [ext_resource type="PackedScene" uid="uid://8mqqy0e3bst0" path="res://entities/humans/helena/helena.fbx" id="3_helena"]
 [ext_resource type="Script" uid="uid://8fdsxutceka5" path="res://entities/humans/helena/components/HelenaDialogueContext.cs" id="4_jnrcq"]
 
@@ -24,10 +24,7 @@ Value = 1.58
 [node name="HumanGender" parent="." index="4" unique_id=1399690896]
 Value = 1
 
-[node name="HumanModelHandler" parent="." index="5" unique_id=1356493947]
-ModelType = "Uniform"
-
-[node name="UniformModel" parent="HumanModelHandler" index="0" unique_id=1938991891 instance=ExtResource("3_helena")]
+[node name="UniformModel" parent="HumanModelHandler" parent_id_path=PackedInt32Array(325381079) index="0" unique_id=1938991891 instance=ExtResource("3_helena")]
 
 [node name="Main" type="Node" parent="." index="7" unique_id=2113831465]
 script = ExtResource("2_s44hm")
