@@ -1,4 +1,4 @@
-namespace SaintPatrick.Utils;
+namespace ECS.Utils;
 
 /// <summary>
 /// A static type-keyed object pool that reuses instances to avoid repeated heap allocations.

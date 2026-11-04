@@ -1,6 +1,6 @@
 using Godot;
 
-namespace SaintPatrick.Components;
+namespace ECS.Components;
 
 /// <summary>
 /// Component that drives CharacterBody3D translation and rotation each physics frame.
@@ -12,22 +12,23 @@ public partial class Velocity : Node
     /// Maximum horizontal speed the entity can reach (m/s).
     /// </summary>
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
-    public float MaxSpeed { get; protected set; }
+    public float MaxSpeed { get; private set; }
 
     /// <summary>
     /// Maximum angular speed the entity can reach while rotating (°/s).
     /// </summary>
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:°/s")]
-    public float MaxAngularSpeed { get; protected set; }
+    public float MaxAngularSpeed { get; private set; }
 
     /// <summary>
-    /// When true, gravity is applied to the owner each physics frame.
+    /// Maximum downward speed the entity can reach while falling due to gravity (m/s). Set to 0 to disable gravity.
     /// </summary>
-    [Export]
-    public bool Gravity { get; private set; }
+    [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
+    public float GravityMaxSpeed { get; private set; }
 
     private CharacterBody3D? _owner;
-    private float _gravity;
+    private float _gravitySpeed;
+    private float _gravityAcceleration;
     private Vector3 _direction;
     private float _speed;
     private float _acceleration;
@@ -38,12 +39,19 @@ public partial class Velocity : Node
     /// <summary>
     /// Applies an acceleration impulse in the given direction this physics frame.
     /// </summary>
-    public void Accelerate(in Vector3 direction, float acceleration, float angularAcceleration)
+    public void Accelerate(
+        in Vector3 direction,
+        float acceleration,
+        float angularAcceleration,
+        float maxSpeed = -1,
+        float maxAngularSpeed = -1)
     {
         this._direction = direction.Normalized();
         this._acceleration = acceleration;
         this._rotationDirection = this._direction;
         this._angularAcceleration = Mathf.DegToRad(angularAcceleration);
+        this.MaxSpeed = maxSpeed >= 0 ? maxSpeed : this.MaxSpeed;
+        this.MaxAngularSpeed = maxAngularSpeed >= 0 ? maxAngularSpeed : this.MaxAngularSpeed;
     }
 
     /// <summary>
@@ -62,8 +70,8 @@ public partial class Velocity : Node
         base._EnterTree();
 
         this._owner = base.GetOwner<CharacterBody3D>();
-        this._gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
-
+        this._gravitySpeed = 0f;
+        this._gravityAcceleration = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
         this._direction = Vector3.Zero;
         this._speed = 0f;
         this._acceleration = 0f;
@@ -79,8 +87,6 @@ public partial class Velocity : Node
 
         this.HandleTranslation((float)delta);
         this.HandleRotation((float)delta);
-
-        this._owner!.MoveAndSlide();
     }
 
     private void HandleTranslation(float delta)
@@ -89,14 +95,15 @@ public partial class Velocity : Node
         this._speed = Mathf.Clamp(this._speed, 0f, this.MaxSpeed);
         this._acceleration = 0f;
 
-        var velocity = this._direction * this._speed;
+        if (this._owner == null)
+            return;
 
-        if (this.Gravity)
-            velocity.Y = this._owner!.IsOnFloor()
-                ? (velocity.Y <= 0 ? 0 : velocity.Y)
-                : (this._owner.Velocity.Y - this._gravity * delta);
+        this._gravitySpeed = Mathf.Clamp(!this._owner.IsOnFloor()
+            ? this._gravitySpeed + this._gravityAcceleration * delta
+            : 1f, 0, this.GravityMaxSpeed);
 
-        this._owner!.Velocity = velocity;
+        this._owner.Velocity = this._direction * this._speed + Vector3.Down * this._gravitySpeed;
+        this._owner.MoveAndSlide();
     }
 
     private void HandleRotation(float delta)
@@ -108,7 +115,10 @@ public partial class Velocity : Node
         if (this._rotationDirection.IsZeroApprox())
             return;
 
-        var projectedForward = this._owner!.GlobalBasis.Z;
+        if (this._owner == null)
+            return;
+
+        var projectedForward = this._owner.GlobalBasis.Z;
         var projectedRotationDirection = this._rotationDirection;
 
         if (!this._owner.AxisLockAngularX)
@@ -160,10 +170,7 @@ public partial class Velocity : Node
         if (axis.IsZeroApprox())
             return;
 
-        axis = axis.Normalized();
-        var step = Mathf.Min(this._angularSpeed * delta, angle);
-
-        this._owner.GlobalRotate(axis, step);
+        this._owner.GlobalRotate(axis.Normalized(), Mathf.Min(this._angularSpeed * delta, angle));
     }
 
     /// <inheritdoc/>
@@ -175,8 +182,8 @@ public partial class Velocity : Node
         this._rotationDirection = Vector3.Zero;
         this._angularSpeed = 0f;
         this._angularAcceleration = 0f;
-
-        this._gravity = 0f;
+        this._gravitySpeed = 0f;
+        this._gravityAcceleration = 0f;
         this._owner = null;
 
         base._ExitTree();

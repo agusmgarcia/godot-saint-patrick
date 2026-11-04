@@ -16,10 +16,7 @@ radius = 2.0
 [node name="AutoTransformCollisionShape3D" parent="." index="0" unique_id=451022087]
 shape = SubResource("CapsuleShape3D_vahid")
 
-[node name="HumanModelHandler" parent="." index="5" unique_id=1356493947]
-ModelType = "Uniform"
-
-[node name="UniformModel" parent="HumanModelHandler" index="0" unique_id=1938991891 instance=ExtResource("3_vahid")]
+[node name="UniformModel" parent="HumanModelHandler" parent_id_path=PackedInt32Array(325381079) index="0" unique_id=1938991891 instance=ExtResource("3_vahid")]
 
 [node name="HumanSocialZoneArea3D" parent="." index="8" unique_id=1801808588]
 FieldOfView = 132.0
@@ -41,4 +38,3 @@ WalkMaxSpeed = 1.45
 Deceleration = 17.0
 DecelerationDrunkFactor = 0.65
 DecelerationAngularAcceleration = 72.0
-DecelerationMaxAngularSpeed = 120.0

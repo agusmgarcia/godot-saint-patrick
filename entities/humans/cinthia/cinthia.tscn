@@ -22,10 +22,7 @@ Value = 1.6
 [node name="HumanGender" parent="." index="4" unique_id=1399690896]
 Value = 1
 
-[node name="HumanModelHandler" parent="." index="5" unique_id=1356493947]
-ModelType = "Uniform"
-
-[node name="UniformModel" parent="HumanModelHandler" index="0" unique_id=1938991891 instance=ExtResource("3_cinthia")]
+[node name="UniformModel" parent="HumanModelHandler" parent_id_path=PackedInt32Array(325381079) index="0" unique_id=1938991891 instance=ExtResource("3_cinthia")]
 
 [node name="HumanSocialZoneArea3D" parent="." index="8" unique_id=1801808588]
 FieldOfView = 110.0
@@ -47,7 +44,6 @@ WalkMaxSpeed = 1.4
 Deceleration = 18.0
 DecelerationDrunkFactor = 0.65
 DecelerationAngularAcceleration = 90.0
-DecelerationMaxAngularSpeed = 120.0
 
 [node name="Weight" parent="." index="10" unique_id=312984756]
 Value = 55.0

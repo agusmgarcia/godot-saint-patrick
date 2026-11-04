@@ -1,11 +1,11 @@
+using ECS.Utils;
+using ECS.Components;
 using Godot;
-using SaintPatrick.Components;
-using SaintPatrick.Utils;
 
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
 /// <summary>
-/// Concrete <see cref="SaintPatrick.Components.AutoTransformAnimationPlayer"/> for humans; selects gender-appropriate clips via a sibling <see cref="HumanGender"/> and an <see cref="EHumanAnimation"/> group.
+/// Concrete <see cref="ECS.Components.AutoTransformAnimationPlayer"/> for humans; selects gender-appropriate clips via a sibling <see cref="HumanGender"/> and an <see cref="EHumanAnimation"/> group.
 /// </summary>
 [GlobalClass]
 public sealed partial class HumanAnimationPlayer : AutoTransformAnimationPlayer

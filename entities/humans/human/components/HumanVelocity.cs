@@ -1,6 +1,6 @@
 using Godot;
-using SaintPatrick.Components;
-using SaintPatrick.Utils;
+using ECS.Components;
+using ECS.Utils;
 
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
@@ -101,13 +101,6 @@ public sealed partial class HumanVelocity : Velocity
     [Export(PropertyHint.Range, "0,1000,or_greater,hide_control,suffix:°/s²")]
     public float DecelerationAngularAcceleration { get; private set; }
 
-    /// <summary>
-    /// Maximum angular speed allowed while decelerating (°/s).
-    /// </summary>
-    [ExportGroup("Deceleration", "Deceleration")]
-    [Export(PropertyHint.Range, "0,1000,or_greater,hide_control,suffix:°/s")]
-    public float DecelerationMaxAngularSpeed { get; private set; }
-
     private HumanDrunk? _humanDrunk;
 
     /// <summary>
@@ -124,41 +117,33 @@ public sealed partial class HumanVelocity : Velocity
     /// <summary>
     /// Accelerates the human in direction at run speed, applying drunk factor.
     /// </summary>
-    public void Run(in Vector3 direction)
-    {
-        base.MaxSpeed = this.RunMaxSpeed;
-        base.MaxAngularSpeed = this.RunMaxAngularSpeed;
+    public void Run(in Vector3 direction) =>
         base.Accelerate(
             new Vector3(direction.X, 0f, direction.Z),
             this.RunAcceleration * ((this._humanDrunk?.Value ?? false) ? this.RunAccelerationDrunkFactor : 1),
-            this.RunAngularAcceleration * ((this._humanDrunk?.Value ?? false) ? this.RunAccelerationDrunkFactor : 1));
-    }
+            this.RunAngularAcceleration * ((this._humanDrunk?.Value ?? false) ? this.RunAccelerationDrunkFactor : 1),
+            this.RunMaxSpeed,
+            this.RunMaxAngularSpeed);
 
     /// <summary>
     /// Accelerates the human in direction at walk speed, applying drunk factor.
     /// </summary>
-    public void Walk(in Vector3 direction)
-    {
-        base.MaxSpeed = this.WalkMaxSpeed;
-        base.MaxAngularSpeed = this.WalkMaxAngularSpeed;
+    public void Walk(in Vector3 direction) =>
         base.Accelerate(
             new Vector3(direction.X, 0f, direction.Z),
             this.WalkAcceleration * ((this._humanDrunk?.Value ?? false) ? this.WalkAccelerationDrunkFactor : 1),
-            this.WalkAngularAcceleration * ((this._humanDrunk?.Value ?? false) ? this.WalkAccelerationDrunkFactor : 1));
-    }
+            this.WalkAngularAcceleration * ((this._humanDrunk?.Value ?? false) ? this.WalkAccelerationDrunkFactor : 1),
+            this.WalkMaxSpeed,
+            this.WalkMaxAngularSpeed);
 
     /// <summary>
     /// Decelerates the human using Deceleration, applying the drunk factor.
     /// </summary>
-    public void Decelerate(in Vector3 lookAt)
-    {
-        base.MaxSpeed = Math.Max(this.RunMaxSpeed, this.WalkMaxSpeed);
-        base.MaxAngularSpeed = this.DecelerationMaxAngularSpeed;
+    public void Decelerate(in Vector3 lookAt) =>
         base.Decelerate(
             this.Deceleration * ((this._humanDrunk?.Value ?? false) ? this.DecelerationDrunkFactor : 1),
             lookAt,
             this.DecelerationAngularAcceleration * ((this._humanDrunk?.Value ?? false) ? this.DecelerationDrunkFactor : 1));
-    }
 
     private void OnHumanDrunkTracked(HumanDrunk humanDrunk) =>
         this._humanDrunk = humanDrunk;

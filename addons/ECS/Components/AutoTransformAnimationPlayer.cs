@@ -1,29 +1,33 @@
+using ECS.Utils;
 using Godot;
-using SaintPatrick.Utils;
 
-namespace SaintPatrick.Components;
+namespace ECS.Components;
 
 /// <summary>
-/// AnimationPlayer that lerps a sibling Model's position/rotation per animation.
+/// AnimationPlayer that smoothly blends a sibling Model's position and rotation per animation.
 /// </summary>
-public abstract partial class AutoTransformAnimationPlayer : AnimationPlayer
+[GlobalClass]
+public partial class AutoTransformAnimationPlayer : AnimationPlayer
 {
     /// <summary>
-    /// Speed at which the model lerps toward the target position/rotation (m/s).
+    /// Time in seconds for the model to fully blend from its current to the target transform.
     /// </summary>
-    [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:m/s")]
-    public float LerpSpeed { get; private set; } = 5.0f;
+    [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:s")]
+    public float Duration { get; private set; }
 
     private ModelHandler? _modelHandler;
 
     private Node3D? _model;
+    private Vector3 _startPosition;
     private Vector3 _targetPosition;
-    private Vector3 _targetRotation;
+    private Quaternion _startRotation;
+    private Quaternion _targetRotation;
+    private float _elapsed;
 
     /// <summary>
-    /// Initialises the player with the entity's design-time height in metres.
+    /// Initialises the player and subscribes to the sibling <see cref="ModelHandler"/>.
     /// </summary>
-    protected AutoTransformAnimationPlayer()
+    public AutoTransformAnimationPlayer()
     {
         this.TrackSiblings<ModelHandler>(
             this.OnModelHandlerTracked,
@@ -34,12 +38,14 @@ public abstract partial class AutoTransformAnimationPlayer : AnimationPlayer
     /// <summary>
     /// Returns the target model position offset for the given animation name.
     /// </summary>
-    protected abstract Vector3 GetTargetPosition(string animationName);
+    protected virtual Vector3 GetTargetPosition(string animationName) =>
+        Vector3.Zero;
 
     /// <summary>
-    /// Returns the target model rotation (radians) for the given animation name.
+    /// Returns the target model rotation (as Euler angles in radians) for the given animation name.
     /// </summary>
-    protected abstract Vector3 GetTargetRotation(string animationName);
+    protected virtual Vector3 GetTargetRotation(string animationName) =>
+        Vector3.Zero;
 
     /// <inheritdoc/>
     public override void _EnterTree()
@@ -60,13 +66,17 @@ public abstract partial class AutoTransformAnimationPlayer : AnimationPlayer
 
     private void OnAnimationStarted(StringName animationName)
     {
+        this._startPosition = this._model?.Position ?? Vector3.Zero;
         this._targetPosition = !string.IsNullOrEmpty(animationName)
             ? this.GetTargetPosition(animationName)
             : Vector3.Zero;
 
+        this._startRotation = this._model?.Quaternion ?? Quaternion.Identity;
         this._targetRotation = !string.IsNullOrEmpty(animationName)
-            ? this.GetTargetRotation(animationName)
-            : Vector3.Zero;
+            ? Basis.FromEuler(this.GetTargetRotation(animationName)).GetRotationQuaternion()
+            : Quaternion.Identity;
+
+        this._elapsed = 0f;
     }
 
     private void OnModelChanged(Node3D? model)
@@ -81,20 +91,28 @@ public abstract partial class AutoTransformAnimationPlayer : AnimationPlayer
     {
         base._PhysicsProcess(delta);
 
-        this._model?.Position = this._model.Position.Lerp(
-            this._targetPosition,
-            (float)delta * this.LerpSpeed);
+        if (this._model == null)
+            return;
 
-        this._model?.Rotation = this._model.Rotation.Lerp(
-            this._targetRotation,
-            (float)delta * this.LerpSpeed);
+        this._elapsed += (float)delta;
+
+        float weight = this.Duration > 0f
+            ? Mathf.Clamp(this._elapsed / this.Duration, 0f, 1f)
+            : 1f;
+
+        this._model.Position = this._startPosition.Lerp(this._targetPosition, weight);
+        this._model.Quaternion = this._startRotation.Slerp(this._targetRotation, weight);
     }
 
     private void OnAnimationFinished(StringName animationName)
     {
-        this._targetRotation = Vector3.Zero;
+        this._elapsed = 0f;
+
+        this._targetRotation = Quaternion.Identity;
+        this._startRotation = this._model?.Quaternion ?? Quaternion.Identity;
 
         this._targetPosition = Vector3.Zero;
+        this._startPosition = this._model?.Position ?? Vector3.Zero;
     }
 
     private void OnModelHandlerUntracked(ModelHandler modelHandler)

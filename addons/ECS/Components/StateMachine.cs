@@ -1,10 +1,10 @@
+using ECS.Utils;
 using Godot;
-using SaintPatrick.Utils;
 
-namespace SaintPatrick.Components;
+namespace ECS.Components;
 
 /// <summary>
-/// Component that acts as a pooled finite state machine; manages a single active <see cref="SaintPatrick.Components.State"/> child component and transitions between states each physics frame.
+/// Component that acts as a pooled finite state machine; manages a single active <see cref="ECS.Components.State"/> child component and transitions between states each physics frame.
 /// </summary>
 [GlobalClass]
 public partial class StateMachine : Node
@@ -27,7 +27,7 @@ public partial class StateMachine : Node
         }
     }
 
-    private readonly Queue<ValueTuple<State?, ValueType, bool>> _pendingStates = new();
+    private readonly Queue<ValueTuple<State?, ValueType, bool>> _pendingStates = [];
 
     private bool _isTransitioning;
 
@@ -43,14 +43,17 @@ public partial class StateMachine : Node
 
     private void OnStateAdded(Node? node)
     {
-        if (node is not State state)
+        if (node == null)
             return;
+
+        if (node is not State state)
+            throw new InvalidOperationException($"The node '{node.Name}' should be of type '{typeof(State).Name}'");
 
         this.State = state;
     }
 
     /// <summary>
-    /// Transitions to <typeparamref name="TNewState"/>, pooling the current state and initialising the new one with <paramref name="stateParams"/>; no-ops if the current state blocks transitions via <see cref="SaintPatrick.Components.State._ReadyToTransition"/> and <paramref name="force"/> is <c>false</c>.
+    /// Transitions to <typeparamref name="TNewState"/>, pooling the current state and initialising the new one with <paramref name="stateParams"/>; no-ops if the current state blocks transitions via <see cref="ECS.Components.State._ReadyToTransition"/> and <paramref name="force"/> is <c>false</c>.
     /// </summary>
     protected void SetState<TNewState, TStateParams>(in TStateParams stateParams, bool force = false)
         where TNewState : State<TStateParams>, new()
@@ -58,29 +61,27 @@ public partial class StateMachine : Node
     {
         var newState = ElementsPool.GetOrCreate<TNewState>();
         newState.Name = typeof(TNewState).Name;
-        newState.StateParams = stateParams;
-        this._pendingStates.Enqueue((newState, stateParams, force));
+        newState._CopyStateParams(stateParams);
 
+        this._pendingStates.Enqueue((newState, stateParams, force));
+        this.FlushPendingStates();
+    }
+
+    private void FlushPendingStates()
+    {
         if (this._isTransitioning)
             return;
 
         this._isTransitioning = true;
 
-        this.FlushPendingStates();
-
-        this._isTransitioning = false;
-    }
-
-    private void FlushPendingStates()
-    {
         while (this._pendingStates.TryDequeue(out var nextStateTuple))
         {
             var (nextState, nextStateParams, nextStateForce) = nextStateTuple;
-
             if (!nextStateForce && this.State != null && !this.State._ReadyToTransition())
             {
                 if (nextState != null)
                     ElementsPool.Set(nextState);
+
                 continue;
             }
 
@@ -101,29 +102,26 @@ public partial class StateMachine : Node
             if (nextState != null)
                 base.AddChild(nextState);
         }
-    }
-
-    /// <summary>
-    /// Clears the current state; no-ops if the current state blocks transitions via <see cref="SaintPatrick.Components.State._ReadyToTransition"/> and <paramref name="force"/> is <c>false</c>.
-    /// </summary>
-    protected void ClearState(bool force = false)
-    {
-        this._pendingStates.Enqueue((null, 0, force));
-
-        if (this._isTransitioning)
-            return;
-
-        this._isTransitioning = true;
-
-        this.FlushPendingStates();
 
         this._isTransitioning = false;
     }
 
+    /// <summary>
+    /// Clears the current state; no-ops if the current state blocks transitions via <see cref="ECS.Components.State._ReadyToTransition"/> and <paramref name="force"/> is <c>false</c>.
+    /// </summary>
+    protected void ClearState(bool force = false)
+    {
+        this._pendingStates.Enqueue((null, 0, force));
+        this.FlushPendingStates();
+    }
+
     private void OnStateRemoved(Node? node)
     {
-        if (node is not State state)
+        if (node == null)
             return;
+
+        if (node is not State state)
+            throw new InvalidOperationException($"The node '{node.Name}' should be of type '{typeof(State).Name}'");
 
         this.State = this.State == state ? null : this.State;
     }

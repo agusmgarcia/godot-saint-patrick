@@ -1,12 +1,12 @@
 using Godot;
 
-namespace SaintPatrick.Components;
+namespace ECS.Components;
 
 /// <summary>
 /// Component that stores the entity's height in metres as an inspector-editable value.
 /// </summary>
 [GlobalClass]
-public sealed partial class Height : Node
+public partial class Height : Node
 {
     /// <summary>
     /// The entity's height in metres.

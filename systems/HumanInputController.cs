@@ -1,7 +1,7 @@
 using Godot;
-using SaintPatrick.Components;
+using ECS.Components;
 using SaintPatrick.Entities.Humans.Human;
-using SaintPatrick.Utils;
+using ECS.Utils;
 
 namespace SaintPatrick.Systems;
 

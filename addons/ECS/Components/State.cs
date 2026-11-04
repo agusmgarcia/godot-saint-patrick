@@ -1,6 +1,6 @@
 using Godot;
 
-namespace SaintPatrick.Components;
+namespace ECS.Components;
 
 /// <summary>
 /// Abstract base node for all pooled states managed by StateMachine.

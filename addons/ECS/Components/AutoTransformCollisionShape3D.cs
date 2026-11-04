@@ -1,13 +1,13 @@
+using ECS.Utils;
 using Godot;
-using SaintPatrick.Utils;
 
-namespace SaintPatrick.Components;
+namespace ECS.Components;
 
 /// <summary>
 /// CollisionShape3D that scales its capsule/cylinder to match a sibling Height.
 /// </summary>
 [GlobalClass]
-public sealed partial class AutoTransformCollisionShape3D : CollisionShape3D
+public partial class AutoTransformCollisionShape3D : CollisionShape3D
 {
     private Height? _height;
 
