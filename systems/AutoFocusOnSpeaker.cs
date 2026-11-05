@@ -140,25 +140,26 @@ public sealed partial class AutoFocusOnSpeaker : Node
             this._elapsedTime += fDelta;
 
             Vector3 targetPosition;
-            Basis targetBasis;
+            Vector3 targetRotation;
 
             if (this._phase == EPhase.MovingToTarget)
             {
                 targetPosition = CameraHandler.CalculateTargetPosition(this._conversation);
-                targetBasis = CameraHandler.CalculateTargetBasis(this._conversation, this._owner, targetPosition);
+                targetRotation = CameraHandler.CalculateTargetRotation(this._conversation, this._owner, targetPosition).GetEuler();
             }
             else
             {
                 targetPosition = this._initialTransform.Origin;
-                targetBasis = this._initialTransform.Basis;
+                targetRotation = this._initialTransform.Basis.GetEuler();
             }
 
-            float remainingTime = Mathf.Max(this._autoFocusOnSpeaker.Duration - this._elapsedTime, fDelta);
+            var remainingTime = Mathf.Max(this._autoFocusOnSpeaker.Duration - this._elapsedTime, fDelta);
+            var factor = Mathf.Clamp(1.0f / remainingTime * fDelta, 0.0f, 1.0f);
 
-            this._owner.GlobalPosition = this._owner.GlobalPosition.MoveToward(targetPosition, this._owner.GlobalPosition.DistanceTo(targetPosition) / remainingTime * fDelta);
-            this._owner.GlobalBasis = new Basis(new Quaternion(this._owner.GlobalBasis).Slerp(new Quaternion(targetBasis), Mathf.Clamp(new Quaternion(this._owner.GlobalBasis).AngleTo(new Quaternion(targetBasis)) / remainingTime * fDelta, 0.0f, 1.0f)));
+            this._owner.GlobalPosition = this._owner.GlobalPosition.Lerp(targetPosition, factor);
+            this._owner.GlobalRotation = this._owner.GlobalRotation.Lerp(targetRotation, factor);
 
-            if (this._elapsedTime >= this._autoFocusOnSpeaker.Duration)
+            if (this._elapsedTime >= this._autoFocusOnSpeaker.Duration || this._owner.GlobalPosition.DistanceTo(targetPosition) <= 0.005f)
             {
                 if (this._phase == EPhase.Returning)
                 {
@@ -178,7 +179,7 @@ public sealed partial class AutoFocusOnSpeaker : Node
                 : Vector3.Zero); // TODO:
         }
 
-        private static Basis CalculateTargetBasis(IHumanConversation conversation, Camera3D camera, in Vector3 targetPosition)
+        private static Basis CalculateTargetRotation(IHumanConversation conversation, Camera3D camera, in Vector3 targetPosition)
         {
             var cameraTransform = camera.GlobalTransform;
             cameraTransform.Origin = targetPosition;
