@@ -14,17 +14,13 @@
 [ext_resource type="AnimationLibrary" uid="uid://caqyc3l4fau0a" path="res://entities/humans/human/animations/human.male.dance.1.fbx" id="5_sykna"]
 [ext_resource type="AnimationLibrary" uid="uid://ctb670d2287eu" path="res://entities/humans/human/animations/human.female.idle.2.fbx" id="7_hqa5r"]
 [ext_resource type="AnimationLibrary" uid="uid://bbmcf4ps6nwue" path="res://entities/humans/human/animations/human.male.idle.1.fbx" id="8_4ps2d"]
-[ext_resource type="AnimationLibrary" uid="uid://dtcvweajfwruw" path="res://entities/humans/human/animations/human.female.fall.1.fbx" id="8_7q7s5"]
 [ext_resource type="AnimationLibrary" uid="uid://dprf6pfciuhs2" path="res://entities/humans/human/animations/human.female.run.1.fbx" id="9_7q7s5"]
 [ext_resource type="AnimationLibrary" uid="uid://cqmchewq2xfmp" path="res://entities/humans/human/animations/human.female.flyRemoval.1.fbx" id="9_nxyr5"]
-[ext_resource type="AnimationLibrary" uid="uid://bhw3euk0tcbli" path="res://entities/humans/human/animations/human.female.land.1.fbx" id="12_f8cro"]
-[ext_resource type="AnimationLibrary" uid="uid://dy7ne3qi7nxwt" path="res://entities/humans/human/animations/human.male.land.1.fbx" id="13_sykna"]
 [ext_resource type="AnimationLibrary" uid="uid://cs6bn3rv5fh8t" path="res://entities/humans/human/animations/human.female.walk.1.fbx" id="13_yocrs"]
 [ext_resource type="AnimationLibrary" uid="uid://dyirnyykq8ltf" path="res://entities/humans/human/animations/human.female.talk.1.fbx" id="15_j3wvj"]
 [ext_resource type="AnimationLibrary" uid="uid://brn3jkov0cagr" path="res://entities/humans/human/animations/human.female.talk.2.fbx" id="16_7m1so"]
 [ext_resource type="AnimationLibrary" uid="uid://dqbvekp16pgpg" path="res://entities/humans/human/animations/human.female.talk.3.fbx" id="17_yocrs"]
 [ext_resource type="Script" uid="uid://s02i6q81k7rc" path="res://entities/humans/human/components/HumanVelocity.cs" id="20_hqa5r"]
-[ext_resource type="AnimationLibrary" uid="uid://d3k5e8l624xmy" path="res://entities/humans/human/animations/human.male.fall.1.fbx" id="20_v6hvj"]
 [ext_resource type="Script" uid="uid://dxs7iaqw05ci2" path="res://entities/humans/human/components/HumanAnimationPlayer.cs" id="21_sykna"]
 [ext_resource type="Script" uid="uid://by5bl25advd14" path="res://entities/humans/human/components/HumanDrunk.cs" id="23_yocrs"]
 [ext_resource type="AnimationLibrary" uid="uid://bk86i6qdw7lne" path="res://entities/humans/human/animations/human.male.walk.1.fbx" id="24_fsuwg"]
@@ -64,11 +60,9 @@ libraries/human.female.argue.1 = ExtResource("3_4ps2d")
 libraries/human.female.drunkIdle.1 = ExtResource("2_2rbr1")
 libraries/human.female.drunkRun.1 = ExtResource("3_evr87")
 libraries/human.female.drunkWalk.1 = ExtResource("4_u0kdo")
-libraries/human.female.fall.1 = ExtResource("8_7q7s5")
 libraries/human.female.flyRemoval.1 = ExtResource("9_nxyr5")
 libraries/human.female.idle.1 = ExtResource("2_ffwvl")
 libraries/human.female.idle.2 = ExtResource("7_hqa5r")
-libraries/human.female.land.1 = ExtResource("12_f8cro")
 libraries/human.female.run.1 = ExtResource("9_7q7s5")
 libraries/human.female.talk.1 = ExtResource("15_j3wvj")
 libraries/human.female.talk.2 = ExtResource("16_7m1so")
@@ -76,10 +70,8 @@ libraries/human.female.talk.3 = ExtResource("17_yocrs")
 libraries/human.female.walk.1 = ExtResource("13_yocrs")
 libraries/human.male.argue.1 = ExtResource("4_7q7s5")
 libraries/human.male.dance.1 = ExtResource("5_sykna")
-libraries/human.male.fall.1 = ExtResource("20_v6hvj")
 libraries/human.male.flyRemoval.1 = ExtResource("5_l4cms")
 libraries/human.male.idle.1 = ExtResource("8_4ps2d")
-libraries/human.male.land.1 = ExtResource("13_sykna")
 libraries/human.male.walk.1 = ExtResource("24_fsuwg")
 script = ExtResource("21_sykna")
 metadata/_custom_type_script = "uid://dxs7iaqw05ci2"

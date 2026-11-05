@@ -11,8 +11,6 @@ namespace SaintPatrick.Entities.Humans.Human.Components;
 [GlobalClass]
 public sealed partial class HumanStateMachine : StateMachine
 {
-	private Human? _owner;
-
 	/// <summary>
 	/// Transitions the human to the idle state.
 	/// </summary>
@@ -58,35 +56,4 @@ public sealed partial class HumanStateMachine : StateMachine
 	/// <inheritdoc/>
 	public new void ClearState(bool force = false) =>
 		base.ClearState(force);
-
-	private void Fall() =>
-		base.SetState<HumanFallState, HumanFallStateParams>(new HumanFallStateParams { }, force: true);
-
-	/// <inheritdoc/>
-	public override void _EnterTree()
-	{
-		base._EnterTree();
-
-		this._owner = base.GetOwner<Human>();
-	}
-
-	/// <inheritdoc/>
-	public override void _PhysicsProcess(double delta)
-	{
-		base._PhysicsProcess(delta);
-
-		if (!this._owner!.IsOnFloor())
-		{
-			this.Fall();
-			return;
-		}
-	}
-
-	/// <inheritdoc/>
-	public override void _ExitTree()
-	{
-		this._owner = null;
-
-		base._ExitTree();
-	}
 }
