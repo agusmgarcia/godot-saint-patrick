@@ -23,13 +23,15 @@
 [ext_resource type="Script" uid="uid://b3ol3hhc7ihv2" path="res://systems/HumanDialogue.cs" id="20_b7l1m"]
 [ext_resource type="Script" uid="uid://y4kbjbak1kv" path="res://systems/HumanInputController.cs" id="20_k1vrd"]
 [ext_resource type="Script" uid="uid://b01f28x2kghrn" path="res://systems/MainCameraSelector.cs" id="20_wldd3"]
+[ext_resource type="Script" uid="uid://cjgukf8kjne3h" path="res://addons/ECS/Systems/DayNightSystem.cs" id="21_bhgey"]
+[ext_resource type="Script" uid="uid://yo6f06kb23ei" path="res://addons/ECS/Systems/TimeSystem.cs" id="25_jujwo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_night"]
 sky_top_color = Color(0.078766845, 0.0787035, 0.16751745, 1)
-sky_horizon_color = Color(0.050980393, 0.050980393, 0.11764706, 1)
+sky_horizon_color = Color(0.05, 0.05, 0.15, 1)
 sky_curve = 0.1
 ground_bottom_color = Color(0.01, 0.01, 0.02, 1)
-ground_horizon_color = Color(0.04, 0.04, 0.08, 1)
+ground_horizon_color = Color(0.05, 0.05, 0.15, 1)
 ground_curve = 0.1
 
 [sub_resource type="Sky" id="Sky_night"]
@@ -68,9 +70,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.95, 27)
 environment = SubResource("Environment_night")
 
 [node name="DirectionalLight" type="DirectionalLight3D" parent="Environment" unique_id=1999757063]
-transform = Transform3D(0.8660254, 0, 0.50000006, -0.35355338, 0.70710677, 0.61237246, -0.35355335, -0.7071068, 0.61237246, 0, 0, 0)
-light_color = Color(0.7529412, 0.8156863, 1, 1)
-light_energy = 0.3
+transform = Transform3D(1, 0, 0, 0, 1.1924881e-08, -1, 0, 1, 1.1924881e-08, 0, 0, 0)
+light_color = Color(0.2, 0.3, 0.5, 1)
+light_energy = 0.2
 shadow_enabled = true
 
 [node name="Cameras" type="Node" parent="." unique_id=2107464903]
@@ -138,6 +140,18 @@ script = ExtResource("20_2j75a")
 Duration = 0.66
 metadata/_custom_type_script = "uid://firg55r2q2hl"
 
+[node name="DayNightSystem" type="Node" parent="Systems" unique_id=2042984859]
+script = ExtResource("21_bhgey")
+SkySunriseColor = Color(0.9, 0.6, 0.4, 1)
+SkyDayColor = Color(0.55, 0.75, 0.95, 1)
+SkySunsetColor = Color(0.95, 0.45, 0.2, 1)
+SkyNightColor = Color(0.05, 0.05, 0.15, 1)
+SunSunriseColor = Color(1, 0.8, 0.6, 1)
+SunDayColor = Color(1, 0.98, 0.9, 1)
+SunSunsetColor = Color(1, 0.6, 0.3, 1)
+SunNightColor = Color(0.2, 0.3, 0.5, 1)
+metadata/_custom_type_script = "uid://cjgukf8kjne3h"
+
 [node name="HumanDialogue" type="Node" parent="Systems" unique_id=132122512]
 script = ExtResource("20_b7l1m")
 metadata/_custom_type_script = "uid://b3ol3hhc7ihv2"
@@ -149,3 +163,7 @@ metadata/_custom_type_script = "uid://y4kbjbak1kv"
 [node name="MainCameraSelector" type="Node" parent="Systems" unique_id=1946986339]
 script = ExtResource("20_wldd3")
 metadata/_custom_type_script = "uid://b01f28x2kghrn"
+
+[node name="TimeSystem" type="Node" parent="Systems" unique_id=1120698983]
+script = ExtResource("25_jujwo")
+metadata/_custom_type_script = "uid://yo6f06kb23ei"
