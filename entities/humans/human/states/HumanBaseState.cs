@@ -1,5 +1,4 @@
 using ECS.Components;
-using SaintPatrick.Entities.Humans.Human.Components;
 
 namespace SaintPatrick.Entities.Humans.Human.States;
 
@@ -10,29 +9,22 @@ public abstract partial class HumanBaseState<TStateParams> : State<TStateParams>
     where TStateParams : struct
 {
     /// <summary>
-    /// The HumanStateMachine parent; null while outside the scene tree.
-    /// </summary>
-    protected HumanStateMachine? StateMachine { get; private set; }
-
-    /// <summary>
     /// The Human scene-tree owner; null while outside the scene tree.
     /// </summary>
-    protected Human? Human { get; private set; }
+    protected new Human Owner { get; private set; } = null!;
 
     /// <inheritdoc/>
     public override void _EnterTree()
     {
         base._EnterTree();
 
-        this.StateMachine = base.GetParent<HumanStateMachine>();
-        this.Human = base.GetOwner<Human>();
+        this.Owner = base.GetOwner<Human>();
     }
 
     /// <inheritdoc/>
     public override void _ExitTree()
     {
-        this.Human = null;
-        this.StateMachine = null;
+        this.Owner = null!;
 
         base._ExitTree();
     }

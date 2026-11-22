@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dqkrs6t6jrndy"]
 
 [ext_resource type="PackedScene" uid="uid://dy7e2cqkxm4aa" path="res://entities/humans/human/human.tscn" id="1_7abgk"]
+[ext_resource type="Script" uid="uid://2woloenrqsjs" path="res://entities/humans/helena/components/HelenaDialogueResolver.cs" id="2_jnrcq"]
 [ext_resource type="Script" uid="uid://8tq6dsduly5p" path="res://addons/ECS/Components/Main.cs" id="2_s44hm"]
 [ext_resource type="PackedScene" uid="uid://8mqqy0e3bst0" path="res://entities/humans/helena/helena.fbx" id="3_helena"]
-[ext_resource type="Script" uid="uid://8fdsxutceka5" path="res://entities/humans/helena/components/HelenaDialogueContext.cs" id="4_jnrcq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s44hm"]
 radius = 0.3
@@ -21,18 +21,18 @@ shape = SubResource("CapsuleShape3D_s44hm")
 [node name="Height" parent="." index="1" unique_id=1612580561]
 Value = 1.58
 
-[node name="HumanGender" parent="." index="4" unique_id=1399690896]
+[node name="HelenaDialogueResolver" type="Node" parent="." index="2" unique_id=135262015]
+script = ExtResource("2_jnrcq")
+metadata/_custom_type_script = "uid://2woloenrqsjs"
+
+[node name="HumanGender" parent="." index="5" unique_id=1399690896]
 Value = 1
 
 [node name="UniformModel" parent="HumanModelHandler" parent_id_path=PackedInt32Array(325381079) index="0" unique_id=1938991891 instance=ExtResource("3_helena")]
 
-[node name="Main" type="Node" parent="." index="7" unique_id=2113831465]
+[node name="Main" type="Node" parent="." index="8" unique_id=2113831465]
 script = ExtResource("2_s44hm")
 metadata/_custom_type_script = "uid://8tq6dsduly5p"
-
-[node name="HelenaDialogueContext" type="Node" parent="." index="8" unique_id=653836996]
-script = ExtResource("4_jnrcq")
-metadata/_custom_type_script = "uid://8fdsxutceka5"
 
 [node name="HumanSocialZoneArea3D" parent="." index="10" unique_id=1801808588]
 FieldOfView = 135.0

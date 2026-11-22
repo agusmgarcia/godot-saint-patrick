@@ -1,5 +1,6 @@
+using ECS.Components;
+using ECS.Interfaces;
 using Godot;
-using SaintPatrick.Entities.Humans.Human.Components;
 
 namespace SaintPatrick.Entities.Humans.Helena.Components;
 
@@ -7,10 +8,10 @@ namespace SaintPatrick.Entities.Humans.Helena.Components;
 /// Dialogue context for Helena; resolves which dialogue to play based on decisions, completed dialogues, and game state.
 /// </summary>
 [GlobalClass]
-public sealed partial class HelenaDialogueContext : HumanDialogueContext
+public sealed partial class HelenaDialogueResolver : DialogueResolver
 {
     /// <inheritdoc/>
-    protected override string? GetDialogueId(IReadOnlyCollection<Human.Human> listeners)
+    protected override string? ResolveDialogueId(IReadOnlyCollection<IDialogable> listeners)
     {
         if (listeners.Count > 0 && listeners.ElementAt(0).Name == "Sarah")
             return "01";

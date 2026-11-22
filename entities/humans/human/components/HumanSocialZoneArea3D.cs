@@ -39,6 +39,10 @@ public sealed partial class HumanSocialZoneArea3D : Area3D
 
         var overlappingBodies = base.GetOverlappingBodies();
         this.NearestHuman = default;
+
+        if (this._owner == null)
+            return;
+
         var minDistanceSquared = float.MaxValue;
 
         foreach (var body in overlappingBodies)
@@ -49,14 +53,14 @@ public sealed partial class HumanSocialZoneArea3D : Area3D
             if (body is not Human other)
                 continue;
 
-            if (this._owner?.IntersectRay(
+            if (this._owner.IntersectRay(
                 other.GlobalPosition,
                 base.CollisionLayer,
                 false,
                 other) != null)
                 continue;
 
-            var toTarget = other.GlobalPosition - this._owner!.GlobalPosition;
+            var toTarget = other.GlobalPosition - this._owner.GlobalPosition;
             if (this._owner.GlobalBasis.Z.Dot(toTarget.Normalized()) < this._cosHalfFov)
                 continue;
 

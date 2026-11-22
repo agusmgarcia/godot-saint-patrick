@@ -20,10 +20,10 @@
 [ext_resource type="PackedScene" uid="uid://facu001" path="res://entities/humans/facu/facu.tscn" id="17_wldd3"]
 [ext_resource type="PackedScene" uid="uid://vahid001" path="res://entities/humans/vahid/vahid.tscn" id="19_b7l1m"]
 [ext_resource type="Script" uid="uid://firg55r2q2hl" path="res://systems/AutoFocusOnSpeaker.cs" id="20_2j75a"]
-[ext_resource type="Script" uid="uid://b3ol3hhc7ihv2" path="res://systems/HumanDialogue.cs" id="20_b7l1m"]
 [ext_resource type="Script" uid="uid://y4kbjbak1kv" path="res://systems/HumanInputController.cs" id="20_k1vrd"]
 [ext_resource type="Script" uid="uid://b01f28x2kghrn" path="res://systems/MainCameraSelector.cs" id="20_wldd3"]
 [ext_resource type="Script" uid="uid://cjgukf8kjne3h" path="res://addons/ECS/Systems/DayNightSystem.cs" id="21_bhgey"]
+[ext_resource type="Script" uid="uid://c8784v8rfr1mx" path="res://addons/ECS/Systems/DialogueSystem.cs" id="22_bhgey"]
 [ext_resource type="Script" uid="uid://yo6f06kb23ei" path="res://addons/ECS/Systems/TimeSystem.cs" id="25_jujwo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_night"]
@@ -70,7 +70,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.95, 27)
 environment = SubResource("Environment_night")
 
 [node name="DirectionalLight" type="DirectionalLight3D" parent="Environment" unique_id=1999757063]
-transform = Transform3D(1, 0, 0, 0, -0.45623127, 0.8898609, 0, -0.8898609, -0.45623127, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, -0.45623124, 0.8898609, 0, -0.8898609, -0.45623124, 0, 0, 0)
 light_color = Color(0.34176004, 0.38860005, 0.51772, 1)
 light_energy = 0.3
 shadow_enabled = true
@@ -144,9 +144,9 @@ metadata/_custom_type_script = "uid://firg55r2q2hl"
 script = ExtResource("21_bhgey")
 metadata/_custom_type_script = "uid://cjgukf8kjne3h"
 
-[node name="HumanDialogue" type="Node" parent="Systems" unique_id=132122512]
-script = ExtResource("20_b7l1m")
-metadata/_custom_type_script = "uid://b3ol3hhc7ihv2"
+[node name="DialogueSystem" type="Node" parent="Systems" unique_id=312713577]
+script = ExtResource("22_bhgey")
+metadata/_custom_type_script = "uid://c8784v8rfr1mx"
 
 [node name="HumanInputController" type="Node" parent="Systems" unique_id=2038281353]
 script = ExtResource("20_k1vrd")

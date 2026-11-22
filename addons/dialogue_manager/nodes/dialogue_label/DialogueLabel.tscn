@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b8beyexrpj6n7" path="res://addons/dialogue_manager/nodes/dialogue_label/DialogueLabel.cs" id="1_cital"]
 
-[node name="DialogueLabel" type="RichTextLabel"]
+[node name="DialogueLabel" type="RichTextLabel" unique_id=85408143]
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
@@ -16,4 +16,3 @@ hint_underlined = false
 deselect_on_focus_loss_enabled = false
 visible_characters_behavior = 1
 script = ExtResource("1_cital")
-SkipPauseAtAbbreviations = PackedStringArray("Mr", "Mrs", "Ms", "Dr", "etc", "eg", "ex")

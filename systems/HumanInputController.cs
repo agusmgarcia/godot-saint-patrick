@@ -2,12 +2,13 @@ using Godot;
 using ECS.Components;
 using SaintPatrick.Entities.Humans.Human;
 using ECS.Utils;
+using ECS.Systems;
 
 namespace SaintPatrick.Systems;
 
 /// <summary>
 /// Reads player input and forwards move/run/idle commands to the Main human.
-/// Delegates "talk" input to <see cref="HumanDialogue"/>; the state machine's
+/// Delegates "talk" input to <see cref="ECS.Systems.DialogueSystem"/>; the state machine's
 /// own <c>_ReadyToTransition</c> guard on Talk/Listen states naturally blocks
 /// movement transitions while a conversation is active.
 /// </summary>
@@ -20,10 +21,10 @@ public sealed partial class HumanInputController : Node
     private Vector3? _cameraForward;
     private Vector3? _cameraRight;
 
-    private HumanDialogue? _humanDialogue;
+    private DialogueSystem? _dialogueSystem;
 
     /// <summary>
-    /// Registers trackers for sibling MainCameraSelector, Main and HumanDialogue components.
+    /// Registers trackers for sibling MainCameraSelector, Main and DialogueSystem components.
     /// </summary>
     public HumanInputController()
     {
@@ -37,9 +38,9 @@ public sealed partial class HumanInputController : Node
             this.OnMainUntracked,
             unique: true);
 
-        this.TrackSiblings<HumanDialogue>(
-            this.OnHumanDialogueTracked,
-            this.OnHumanDialogueUntracked,
+        this.TrackSiblings<DialogueSystem>(
+            this.OnDialogueSystemTracked,
+            this.OnDialogueSystemUntracked,
             unique: true);
     }
 
@@ -58,8 +59,8 @@ public sealed partial class HumanInputController : Node
     private void OnMainTracked(Main main) =>
         this._mainHuman = main.GetOwner<Human>();
 
-    private void OnHumanDialogueTracked(HumanDialogue humanDialogue) =>
-        this._humanDialogue = humanDialogue;
+    private void OnDialogueSystemTracked(DialogueSystem humanDialogue) =>
+        this._dialogueSystem = humanDialogue;
 
     /// <inheritdoc/>
     public override void _PhysicsProcess(double delta)
@@ -71,10 +72,10 @@ public sealed partial class HumanInputController : Node
 
         if (Input.IsActionJustPressed("talk"))
         {
-            var nearest = this._mainHuman.HumanSocialZoneArea?.NearestHuman;
+            var nearest = this._mainHuman.NearestHuman;
             if (nearest != null)
             {
-                this._humanDialogue?.StartConversation(this._mainHuman, nearest);
+                this._dialogueSystem?.StartDialogue(this._mainHuman, nearest);
                 return;
             }
         }
@@ -103,16 +104,16 @@ public sealed partial class HumanInputController : Node
 
             var running = Input.IsActionPressed("run");
             if (running)
-                this._mainHuman.HumanStateMachine?.Run(destination);
+                this._mainHuman.Run(destination);
             else
-                this._mainHuman.HumanStateMachine?.Walk(destination);
+                this._mainHuman.Walk(destination);
 
             return;
         }
 
         this._cameraForward = null;
         this._cameraRight = null;
-        this._mainHuman.HumanStateMachine?.Idle();
+        this._mainHuman.Idle();
     }
 
     private void OnMainUntracked(Main main) =>
@@ -121,8 +122,8 @@ public sealed partial class HumanInputController : Node
     private void OnMainCameraSelectorUntracked(MainCameraSelector mainCameraSelector) =>
         this._mainCameraSelector = null;
 
-    private void OnHumanDialogueUntracked(HumanDialogue humanDialogue) =>
-        this._humanDialogue = null;
+    private void OnDialogueSystemUntracked(DialogueSystem humanDialogue) =>
+        this._dialogueSystem = null;
 
     /// <inheritdoc/>
     public override void _ExitTree()

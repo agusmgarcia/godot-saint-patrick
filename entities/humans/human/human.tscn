@@ -74,6 +74,7 @@ libraries/human.male.flyRemoval.1 = ExtResource("5_l4cms")
 libraries/human.male.idle.1 = ExtResource("8_4ps2d")
 libraries/human.male.walk.1 = ExtResource("24_fsuwg")
 script = ExtResource("21_sykna")
+Duration = 1.0
 metadata/_custom_type_script = "uid://dxs7iaqw05ci2"
 
 [node name="HumanDrunk" type="Node" parent="." unique_id=1364940294]

@@ -1,20 +1,21 @@
 using Godot;
 using SaintPatrick.Entities.Humans.Human.Components;
-using SaintPatrick.Entities.Humans.Human.Utils;
 using ECS.Utils;
+using ECS.Components;
+using SaintPatrick.Entities.Humans.Human.Enums;
 
 namespace SaintPatrick.Entities.Humans.Human.States;
 
 /// <summary>
-/// State for the human who is currently speaking; plays the Talk animation, faces the primary target, and blocks non-forced transitions until the turn switches or the conversation ends.
+/// State for the human who is currently speaking; plays the Talk animation, faces the primary target, and blocks non-forced transitions until the turn switches or the dialogue ends.
 /// </summary>
 public sealed partial class HumanTalkState : HumanBaseState<HumanTalkStateParams>
 {
     private HumanAnimationPlayer? _humanAnimationPlayer;
     private HumanDrunk? _humanDrunk;
+    private HumanStateMachine? _humanStateMachine;
     private HumanVelocity? _humanVelocity;
 
-    private bool _readyToTransition = false;
     private Human? _partner;
 
     /// <summary>
@@ -32,6 +33,11 @@ public sealed partial class HumanTalkState : HumanBaseState<HumanTalkStateParams
             this.OnHumanDrunkUntracked,
             unique: true);
 
+        this.TrackChildren<HumanStateMachine>(
+            this.OnHumanStateMachineTracked,
+            this.OnHumanStateMachineUntracked,
+            unique: true);
+
         this.TrackSiblings<HumanVelocity>(
             this.OnHumanVelocityTracked,
             this.OnHumanVelocityUntracked,
@@ -43,13 +49,12 @@ public sealed partial class HumanTalkState : HumanBaseState<HumanTalkStateParams
     {
         base._EnterTree();
 
-        this._readyToTransition = false;
-        this._partner = base.StateParams.Conversation.Targets.Count == 1
-            ? base.StateParams.Conversation.Targets.ElementAt(0)
+        this._partner = base.StateParams.Dialogue.Targets.Count == 1
+            ? base.StateParams.Dialogue.Targets.ElementAt(0) as Human
             : null;
 
-        base.StateParams.Conversation.LineChanged += this.OnConversationLineChanged;
-        this.OnConversationLineChanged(base.StateParams.Conversation.CurrentLine);
+        base.StateParams.Dialogue.LineChanged += this.OnDialogueLineChanged;
+        this.OnDialogueLineChanged(base.StateParams.Dialogue.CurrentLine);
     }
 
     private void OnHumanAnimationPlayerTracked(HumanAnimationPlayer humanAnimationPlayer)
@@ -67,6 +72,9 @@ public sealed partial class HumanTalkState : HumanBaseState<HumanTalkStateParams
         this.OnDrunkChanged(this._humanDrunk.Value);
     }
 
+    private void OnHumanStateMachineTracked(HumanStateMachine humanStateMachine) =>
+      this._humanStateMachine = humanStateMachine;
+
     private void OnHumanVelocityTracked(HumanVelocity humanVelocity) =>
         this._humanVelocity = humanVelocity;
 
@@ -78,22 +86,17 @@ public sealed partial class HumanTalkState : HumanBaseState<HumanTalkStateParams
         // TODO: consider whether human is drunk or not.
         this._humanAnimationPlayer?.PlayRandomIfNotPlaying(EHumanAnimation.Talk, customBlend: 0.5);
 
-    private void OnConversationLineChanged(IHumanConversation.Line line)
+    private void OnDialogueLineChanged(Dialogue.Line line)
     {
-        if (line.Type == IHumanConversation.Line.EType.Started)
-            return;
-
-        if (line.Type == IHumanConversation.Line.EType.Valid && line.Speaker != base.Human)
+        if (line.Type == Dialogue.Line.EType.Valid && line.Speaker != base.Owner)
         {
-            this._readyToTransition = true;
-            base.StateMachine!.Listen(base.StateParams.Conversation);
+            this._humanStateMachine?.Listen(base.StateParams.Dialogue);
             return;
         }
 
-        if (line.Type == IHumanConversation.Line.EType.Ended)
+        if (line.Type == Dialogue.Line.EType.Ended)
         {
-            this._readyToTransition = true;
-            base.StateMachine!.Idle();
+            this._humanStateMachine?.Idle();
             return;
         }
     }
@@ -104,16 +107,18 @@ public sealed partial class HumanTalkState : HumanBaseState<HumanTalkStateParams
         base._PhysicsProcess(delta);
 
         this._humanVelocity?.Decelerate(this._partner != null
-            ? this._partner.GlobalPosition - base.Human!.GlobalPosition
-            : base.Human!.GlobalBasis.Z);
+            ? this._partner.GlobalPosition - base.Owner.GlobalPosition
+            : base.Owner.GlobalBasis.Z);
     }
-
-    /// <inheritdoc/>
-    public override bool _ReadyToTransition() =>
-        base._ReadyToTransition() && this._readyToTransition;
 
     private void OnAnimationFinished(StringName animationName) =>
         this._humanAnimationPlayer?.PlayRandomIfNotPlaying(EHumanAnimation.Talk, customBlend: 2);
+
+    private void OnHumanVelocityUntracked(HumanVelocity humanVelocity) =>
+        this._humanVelocity = null;
+
+    private void OnHumanStateMachineUntracked(HumanStateMachine humanStateMachine) =>
+      this._humanStateMachine = null;
 
     private void OnHumanDrunkUntracked(HumanDrunk humanDrunk)
     {
@@ -121,9 +126,6 @@ public sealed partial class HumanTalkState : HumanBaseState<HumanTalkStateParams
         humanDrunk.ValueChanged -= this.OnDrunkChanged;
         this._humanDrunk = null;
     }
-
-    private void OnHumanVelocityUntracked(HumanVelocity humanVelocity) =>
-        this._humanVelocity = null;
 
     private void OnHumanAnimationPlayerUntracked(HumanAnimationPlayer humanAnimationPlayer)
     {
@@ -136,10 +138,9 @@ public sealed partial class HumanTalkState : HumanBaseState<HumanTalkStateParams
     /// <inheritdoc/>
     public override void _ExitTree()
     {
-        this.OnConversationLineChanged(base.StateParams.Conversation.CurrentLine);
-        base.StateParams.Conversation.LineChanged -= this.OnConversationLineChanged;
+        this.OnDialogueLineChanged(base.StateParams.Dialogue.CurrentLine);
+        base.StateParams.Dialogue.LineChanged -= this.OnDialogueLineChanged;
 
-        this._readyToTransition = false;
         this._partner = null;
 
         base._ExitTree();
@@ -147,12 +148,12 @@ public sealed partial class HumanTalkState : HumanBaseState<HumanTalkStateParams
 }
 
 /// <summary>
-/// Params passed to HumanTalkState carrying the active conversation.
+/// Params passed to HumanTalkState carrying the active dialogue.
 /// </summary>
 public readonly record struct HumanTalkStateParams
 {
     /// <summary>
-    /// The conversation this human is participating in as speaker.
+    /// The dialogue this human is participating in as speaker.
     /// </summary>
-    public required IHumanConversation Conversation { get; init; }
+    public required Dialogue Dialogue { get; init; }
 }

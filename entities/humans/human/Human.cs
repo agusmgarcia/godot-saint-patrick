@@ -2,49 +2,43 @@ using Godot;
 using ECS.Components;
 using SaintPatrick.Entities.Humans.Human.Components;
 using ECS.Utils;
+using ECS.Interfaces;
 
 namespace SaintPatrick.Entities.Humans.Human;
 
 /// <summary>
 /// CharacterBody3D representing a human entity in the game world.
 /// </summary>
-public sealed partial class Human : CharacterBody3D
+public sealed partial class Human : CharacterBody3D, IDialogable
 {
     /// <summary>
-    /// Dialogue context for this human; holds decision history and resolves which dialogue to play on interaction.
+    /// // TODO: document this.
     /// </summary>
-    public HumanDialogueContext? HumanDialogueContext { get; private set; }
+    public bool Main =>
+        this._main != null;
 
     /// <summary>
-    /// Portrait texture for this human, loaded from the entity's folder on _EnterTree.
+    /// // TODO: document this.
     /// </summary>
-    public HumanPortrait? HumanPortrait { get; private set; }
+    public Human? NearestHuman =>
+        this._humanSocialZoneArea?.NearestHuman;
 
     /// <summary>
-    /// Social zone used to detect nearby humans within field of view.
+    /// // TODO: document this.
     /// </summary>
-    public HumanSocialZoneArea3D? HumanSocialZoneArea { get; private set; }
+    public Texture2D? Portrait =>
+        this._humanPortrait?.Value;
+
+    private HumanPortrait? _humanPortrait;
+    private HumanSocialZoneArea3D? _humanSocialZoneArea;
+    private HumanStateMachine? _humanStateMachine;
+    private Main? _main;
 
     /// <summary>
-    /// The state machine driving this human's behaviour; null until added.
-    /// </summary>
-    public HumanStateMachine? HumanStateMachine { get; private set; }
-
-    /// <summary>
-    /// Marker component present only on the player-controlled human.
-    /// </summary>
-    public Main? Main { get; private set; }
-
-    /// <summary>
-    /// Registers trackers for the child HumanStateMachine and HumanDialogueContext components.
+    /// Registers trackers for the child HumanStateMachine and DialogueResolver components.
     /// </summary>
     public Human()
     {
-        this.TrackChildren<HumanDialogueContext>(
-            this.OnHumanDialogueContextTracked,
-            this.OnHumanDialogueContextUntracked,
-            unique: true);
-
         this.TrackChildren<HumanPortrait>(
             this.OnHumanPortraitTracked,
             this.OnHumanPortraitUntracked,
@@ -66,39 +60,60 @@ public sealed partial class Human : CharacterBody3D
             unique: true);
     }
 
-    private void OnHumanDialogueContextTracked(HumanDialogueContext humanDialogueContext) =>
-        this.HumanDialogueContext = humanDialogueContext;
+    public override void _Ready()
+    {
+        base._Ready();
+
+        this.Idle();
+    }
+
+    /// <summary>
+	/// Transitions the human to the idle state.
+	/// </summary>
+    public void Idle() =>
+        this._humanStateMachine?.Idle();
+
+    /// <summary>
+    /// Transitions the human to the run state toward the given destination.
+    /// </summary>
+    public void Run(in Vector3 destination) =>
+        this._humanStateMachine?.Run(destination);
+
+    /// <summary>
+    /// Transitions the human to the walk state toward the given destination.
+    /// </summary>
+    public void Walk(in Vector3 destination) =>
+        this._humanStateMachine?.Walk(destination);
+
+    /// <inheritdoc/>
+    public void Talk(Dialogue dialogue) =>
+        this._humanStateMachine?.Talk(dialogue);
+
+    /// <inheritdoc/>
+    public void Listen(Dialogue dialogue) =>
+        this._humanStateMachine?.Listen(dialogue);
 
     private void OnHumanPortraitTracked(HumanPortrait humanPortrait) =>
-        this.HumanPortrait = humanPortrait;
+        this._humanPortrait = humanPortrait;
 
     private void OnHumanSocialZoneAreaTracked(HumanSocialZoneArea3D humanSocialZoneArea) =>
-        this.HumanSocialZoneArea = humanSocialZoneArea;
+        this._humanSocialZoneArea = humanSocialZoneArea;
 
-    private void OnHumanStateMachineTracked(HumanStateMachine humanStateMachine)
-    {
-        this.HumanStateMachine = humanStateMachine;
-        this.HumanStateMachine.Idle();
-    }
+    private void OnHumanStateMachineTracked(HumanStateMachine humanStateMachine) =>
+        this._humanStateMachine = humanStateMachine;
 
     private void OnMainTracked(Main main) =>
-        this.Main = main;
+        this._main = main;
 
     private void OnMainUntracked(Main main) =>
-        this.Main = null;
+        this._main = null;
 
-    private void OnHumanStateMachineUntracked(HumanStateMachine humanStateMachine)
-    {
-        humanStateMachine.ClearState();
-        this.HumanStateMachine = null;
-    }
+    private void OnHumanStateMachineUntracked(HumanStateMachine humanStateMachine) =>
+        this._humanStateMachine = null;
 
     private void OnHumanSocialZoneAreaUntracked(HumanSocialZoneArea3D humanSocialZoneArea) =>
-        this.HumanSocialZoneArea = null;
+        this._humanSocialZoneArea = null;
 
     private void OnHumanPortraitUntracked(HumanPortrait humanPortrait) =>
-        this.HumanPortrait = null;
-
-    private void OnHumanDialogueContextUntracked(HumanDialogueContext humanDialogueContext) =>
-        this.HumanDialogueContext = null;
+        this._humanPortrait = null;
 }

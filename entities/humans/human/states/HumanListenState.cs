@@ -1,20 +1,21 @@
 using Godot;
 using SaintPatrick.Entities.Humans.Human.Components;
-using SaintPatrick.Entities.Humans.Human.Utils;
 using ECS.Utils;
+using ECS.Components;
+using SaintPatrick.Entities.Humans.Human.Enums;
 
 namespace SaintPatrick.Entities.Humans.Human.States;
 
 /// <summary>
-/// State for the human who is currently listening; plays the Idle animation, faces the current speaker, and blocks non-forced transitions until it becomes this human's turn or the conversation ends.
+/// State for the human who is currently listening; plays the Idle animation, faces the current speaker, and blocks non-forced transitions until it becomes this human's turn or the dialogue ends.
 /// </summary>
 public sealed partial class HumanListenState : HumanBaseState<HumanListenStateParams>
 {
     private HumanAnimationPlayer? _humanAnimationPlayer;
     private HumanDrunk? _humanDrunk;
+    private HumanStateMachine? _humanStateMachine;
     private HumanVelocity? _humanVelocity;
 
-    private bool _readyToTransition;
     private Human? _partner;
 
     /// <summary>
@@ -32,6 +33,11 @@ public sealed partial class HumanListenState : HumanBaseState<HumanListenStatePa
             this.OnHumanDrunkUntracked,
             unique: true);
 
+        this.TrackChildren<HumanStateMachine>(
+           this.OnHumanStateMachineTracked,
+           this.OnHumanStateMachineUntracked,
+           unique: true);
+
         this.TrackSiblings<HumanVelocity>(
             this.OnHumanVelocityTracked,
             this.OnHumanVelocityUntracked,
@@ -43,11 +49,10 @@ public sealed partial class HumanListenState : HumanBaseState<HumanListenStatePa
     {
         base._EnterTree();
 
-        this._readyToTransition = false;
-        this._partner = base.StateParams.Conversation.Initiator;
+        this._partner = base.StateParams.Dialogue.Initiator as Human;
 
-        base.StateParams.Conversation.LineChanged += this.OnConversationLineChanged;
-        this.OnConversationLineChanged(base.StateParams.Conversation.CurrentLine);
+        base.StateParams.Dialogue.LineChanged += this.OnDialogueLineChanged;
+        this.OnDialogueLineChanged(base.StateParams.Dialogue.CurrentLine);
     }
 
     private void OnHumanAnimationPlayerTracked(HumanAnimationPlayer humanAnimationPlayer)
@@ -65,6 +70,9 @@ public sealed partial class HumanListenState : HumanBaseState<HumanListenStatePa
         this.OnDrunkChanged(this._humanDrunk.Value);
     }
 
+    private void OnHumanStateMachineTracked(HumanStateMachine humanStateMachine) =>
+        this._humanStateMachine = humanStateMachine;
+
     private void OnHumanVelocityTracked(HumanVelocity humanVelocity) =>
         this._humanVelocity = humanVelocity;
 
@@ -78,22 +86,17 @@ public sealed partial class HumanListenState : HumanBaseState<HumanListenStatePa
            drunk ? EHumanAnimation.DrunkIdle : EHumanAnimation.Idle,
            customBlend: 0.5);
 
-    private void OnConversationLineChanged(IHumanConversation.Line line)
+    private void OnDialogueLineChanged(Dialogue.Line line)
     {
-        if (line.Type == IHumanConversation.Line.EType.Started)
-            return;
-
-        if (line.Type == IHumanConversation.Line.EType.Valid && line.Speaker == base.Human)
+        if (line.Type == Dialogue.Line.EType.Valid && line.Speaker == base.Owner)
         {
-            this._readyToTransition = true;
-            base.StateMachine!.Talk(base.StateParams.Conversation);
+            this._humanStateMachine?.Talk(base.StateParams.Dialogue);
             return;
         }
 
-        if (line.Type == IHumanConversation.Line.EType.Ended)
+        if (line.Type == Dialogue.Line.EType.Ended)
         {
-            this._readyToTransition = true;
-            base.StateMachine!.Idle();
+            this._humanStateMachine?.Idle();
             return;
         }
     }
@@ -104,13 +107,9 @@ public sealed partial class HumanListenState : HumanBaseState<HumanListenStatePa
         base._PhysicsProcess(delta);
 
         this._humanVelocity?.Decelerate(this._partner != null
-            ? this._partner.GlobalPosition - base.Human!.GlobalPosition
-            : base.Human!.GlobalBasis.Z);
+            ? this._partner.GlobalPosition - base.Owner.GlobalPosition
+            : base.Owner.GlobalBasis.Z);
     }
-
-    /// <inheritdoc/>
-    public override bool _ReadyToTransition() =>
-        base._ReadyToTransition() && this._readyToTransition;
 
     private void OnAnimationFinished(StringName animationName) =>
        this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
@@ -127,6 +126,9 @@ public sealed partial class HumanListenState : HumanBaseState<HumanListenStatePa
     private void OnHumanVelocityUntracked(HumanVelocity humanVelocity) =>
         this._humanVelocity = null;
 
+    private void OnHumanStateMachineUntracked(HumanStateMachine humanStateMachine) =>
+        this._humanStateMachine = null;
+
     private void OnHumanAnimationPlayerUntracked(HumanAnimationPlayer humanAnimationPlayer)
     {
         this.OnAnimationFinished(humanAnimationPlayer.CurrentAnimation);
@@ -138,10 +140,9 @@ public sealed partial class HumanListenState : HumanBaseState<HumanListenStatePa
     /// <inheritdoc/>
     public override void _ExitTree()
     {
-        this.OnConversationLineChanged(base.StateParams.Conversation.CurrentLine);
-        base.StateParams.Conversation.LineChanged -= this.OnConversationLineChanged;
+        this.OnDialogueLineChanged(base.StateParams.Dialogue.CurrentLine);
+        base.StateParams.Dialogue.LineChanged -= this.OnDialogueLineChanged;
 
-        this._readyToTransition = false;
         this._partner = null;
 
         base._ExitTree();
@@ -149,12 +150,12 @@ public sealed partial class HumanListenState : HumanBaseState<HumanListenStatePa
 }
 
 /// <summary>
-/// Params passed to HumanListenState carrying the active conversation.
+/// Params passed to HumanListenState carrying the active dialogue.
 /// </summary>
 public readonly record struct HumanListenStateParams
 {
     /// <summary>
-    /// The conversation this human is participating in as listener.
+    /// The dialogue this human is participating in as listener.
     /// </summary>
-    public required IHumanConversation Conversation { get; init; }
+    public required Dialogue Dialogue { get; init; }
 }

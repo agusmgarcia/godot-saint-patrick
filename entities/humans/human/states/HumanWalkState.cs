@@ -1,6 +1,7 @@
 using Godot;
 using SaintPatrick.Entities.Humans.Human.Components;
 using ECS.Utils;
+using SaintPatrick.Entities.Humans.Human.Enums;
 
 namespace SaintPatrick.Entities.Humans.Human.States;
 
@@ -11,6 +12,7 @@ public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams
 {
     private HumanAnimationPlayer? _humanAnimationPlayer;
     private HumanDrunk? _humanDrunk;
+    private HumanStateMachine? _humanStateMachine;
     private HumanVelocity? _humanVelocity;
 
     /// <summary>
@@ -26,6 +28,11 @@ public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams
         this.TrackSiblings<HumanDrunk>(
             this.OnHumanDrunkTracked,
             this.OnHumanDrunkUntracked,
+            unique: true);
+
+        this.TrackChildren<HumanStateMachine>(
+            this.OnHumanStateMachineTracked,
+            this.OnHumanStateMachineUntracked,
             unique: true);
 
         this.TrackSiblings<HumanVelocity>(
@@ -49,6 +56,9 @@ public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams
         this.OnDrunkChanged(this._humanDrunk.Value);
     }
 
+    private void OnHumanStateMachineTracked(HumanStateMachine humanStateMachine) =>
+        this._humanStateMachine = humanStateMachine;
+
     private void OnHumanVelocityTracked(HumanVelocity humanVelocity) =>
         this._humanVelocity = humanVelocity;
 
@@ -67,10 +77,10 @@ public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams
     {
         base._PhysicsProcess(delta);
 
-        var toTarget = base.StateParams.Destination - base.Human!.GlobalPosition;
+        var toTarget = base.StateParams.Destination - base.Owner.GlobalPosition;
         if (toTarget.LengthSquared() <= 1.0f)
         {
-            base.StateMachine!.Idle();
+            this._humanStateMachine?.Idle();
             return;
         }
 
@@ -84,6 +94,9 @@ public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams
 
     private void OnHumanVelocityUntracked(HumanVelocity humanVelocity) =>
         this._humanVelocity = null;
+
+    private void OnHumanStateMachineUntracked(HumanStateMachine humanStateMachine) =>
+      this._humanStateMachine = null;
 
     private void OnHumanDrunkUntracked(HumanDrunk humanDrunk)
     {

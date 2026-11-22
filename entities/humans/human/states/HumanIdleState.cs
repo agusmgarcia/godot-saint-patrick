@@ -2,6 +2,7 @@ using Godot;
 using ECS.Components;
 using SaintPatrick.Entities.Humans.Human.Components;
 using ECS.Utils;
+using SaintPatrick.Entities.Humans.Human.Enums;
 
 namespace SaintPatrick.Entities.Humans.Human.States;
 
@@ -59,8 +60,7 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
     {
         base._EnterTree();
 
-        if (this.GetNodeOrNull("FlyRemovalTimer") == null)
-            base.AddChild(new Godot.Timer() { Name = "FlyRemovalTimer" });
+        base.AddChild(new Godot.Timer() { Name = "FlyRemovalTimer" });
     }
 
     private void OnMainTracked(Main main) =>
@@ -118,8 +118,8 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
         base._PhysicsProcess(delta);
 
         this._humanVelocity?.Decelerate(this._humanSocialZoneArea?.NearestHuman != null
-            ? this._humanSocialZoneArea.NearestHuman.GlobalPosition - base.Human!.GlobalPosition
-            : base.Human!.GlobalBasis.Z);
+            ? this._humanSocialZoneArea.NearestHuman.GlobalPosition - base.Owner.GlobalPosition
+            : base.Owner.GlobalBasis.Z);
     }
 
     private void OnAnimationFinished(StringName animationName) =>
@@ -156,6 +156,14 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
 
     private void OnMainUntracked(Main main) =>
         this._main = null;
+
+    /// <inheritdoc/>
+    public override void _ExitTree()
+    {
+        base.RemoveChild(base.GetNode("FlyRemovalTimer"));
+
+        base._ExitTree();
+    }
 }
 
 /// <summary>

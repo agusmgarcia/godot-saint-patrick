@@ -1,25 +1,26 @@
 using Godot;
-using SaintPatrick.Entities.Humans.Human.Utils;
 using ECS.Utils;
+using ECS.Systems;
+using ECS.Components;
 
 namespace SaintPatrick.Systems;
 
 /// <summary>
-/// Smoothly moves the active camera toward the speakers of any <see cref="HumanDialogue"/> conversation, then returns it to its original transform when the conversation ends.
+/// Smoothly moves the active camera toward the speakers of any <see cref="DialogueSystem"/> dialogue, then returns it to its original transform when the dialogue ends.
 /// </summary>
 [GlobalClass]
 public sealed partial class AutoFocusOnSpeaker : Node
 {
     /// <summary>
-    /// Time in seconds the camera takes to travel to the conversation focal point and to return to its original position.
+    /// Time in seconds the camera takes to travel to the dialogue focal point and to return to its original position.
     /// </summary>
     [Export(PropertyHint.Range, "0,100,or_greater,hide_control,suffix:s")]
     public float Duration { get; private set; }
 
-    private readonly Dictionary<IHumanConversation, Camera3D> _conversations = [];
+    private readonly Dictionary<Dialogue, Camera3D> _dialogues = [];
 
     private MainCameraSelector? _mainCameraSelector;
-    private HumanDialogue? _humanDialogue;
+    private DialogueSystem? _dialogueSystem;
 
     public AutoFocusOnSpeaker()
     {
@@ -32,9 +33,9 @@ public sealed partial class AutoFocusOnSpeaker : Node
             this.OnMainCameraSelectorUntracked,
             unique: true);
 
-        this.TrackSiblings<HumanDialogue>(
-           this.OnHumanDialogueTracked,
-           this.OnHumanDialogueUntracked,
+        this.TrackSiblings<DialogueSystem>(
+           this.OnDialogueSystemTracked,
+           this.OnDialogueSystemUntracked,
            unique: true);
     }
 
@@ -48,18 +49,18 @@ public sealed partial class AutoFocusOnSpeaker : Node
     private void OnMainCameraSelectorTracked(MainCameraSelector mainCameraSelector) =>
        this._mainCameraSelector = mainCameraSelector;
 
-    private void OnHumanDialogueTracked(HumanDialogue humanDialogue)
+    private void OnDialogueSystemTracked(DialogueSystem dialogueSystem)
     {
-        this._humanDialogue = humanDialogue;
-        this._humanDialogue.ConversationEnded += this.OnHumanConversationEnded;
-        this._humanDialogue.ConversationStarted += this.OnHumanConversationStarted;
-        foreach (var conversation in this._humanDialogue.Conversations)
-            this.OnHumanConversationStarted(conversation);
+        this._dialogueSystem = dialogueSystem;
+        this._dialogueSystem.DialogueEnded += this.OnDialogueEnded;
+        this._dialogueSystem.DialogueStarted += this.OnDialogueStarted;
+        foreach (var dialogue in this._dialogueSystem.Dialogues)
+            this.OnDialogueStarted(dialogue);
     }
 
-    private void OnHumanConversationStarted(IHumanConversation conversation)
+    private void OnDialogueStarted(Dialogue dialogue)
     {
-        if (conversation.Initiator.Main == null && conversation.Targets.All(t => t.Main == null))
+        if (dialogue.Initiator.Main && dialogue.Targets.All(target => target.Main))
             return;
 
         var camera = this._mainCameraSelector?.ActiveCamera;
@@ -67,28 +68,31 @@ public sealed partial class AutoFocusOnSpeaker : Node
             return;
 
         var cameraHandler = camera.GetNode<CameraHandler>("CameraHandler");
-        cameraHandler.MoveToTarget(this, conversation);
-        this._conversations.Add(conversation, camera);
+        cameraHandler.MoveToTarget(this, dialogue);
+        this._dialogues.Add(dialogue, camera);
     }
 
-    private void OnHumanConversationEnded(IHumanConversation conversation)
+    private void OnDialogueEnded(Dialogue dialogue)
     {
-        if (conversation.Initiator.Main == null && conversation.Targets.All(t => t.Main == null))
+        if (dialogue.Initiator.Main && dialogue.Targets.All(target => target.Main))
             return;
 
-        var camera = this._conversations.GetValueOrDefault(conversation);
+        var camera = this._dialogues.GetValueOrDefault(dialogue);
         if (camera == null)
             return;
 
         var cameraHandler = camera.GetNode<CameraHandler>("CameraHandler");
         cameraHandler.ReturnToInitialPosition();
-        this._conversations.Remove(conversation);
+        this._dialogues.Remove(dialogue);
     }
 
-    private void OnHumanDialogueUntracked(HumanDialogue humanDialogue)
+    private void OnDialogueSystemUntracked(DialogueSystem dialogueSystem)
     {
-        humanDialogue.ConversationStarted -= this.OnHumanConversationStarted;
-        this._humanDialogue = null;
+        foreach (var dialogue in dialogueSystem.Dialogues)
+            this.OnDialogueEnded(dialogue);
+        dialogueSystem.DialogueEnded -= this.OnDialogueEnded;
+        dialogueSystem.DialogueStarted -= this.OnDialogueStarted;
+        this._dialogueSystem = null;
     }
 
     private void OnMainCameraSelectorUntracked(MainCameraSelector mainCameraSelector) =>
@@ -106,7 +110,7 @@ public sealed partial class AutoFocusOnSpeaker : Node
         private Camera3D? _owner;
         private Transform3D _initialTransform;
         private AutoFocusOnSpeaker? _autoFocusOnSpeaker;
-        private IHumanConversation? _conversation;
+        private Dialogue? _dialogue;
         private EPhase _phase;
         private float _elapsedTime;
 
@@ -114,15 +118,15 @@ public sealed partial class AutoFocusOnSpeaker : Node
         {
             base._EnterTree();
 
-            this._owner = base.GetParentOrNull<Camera3D>();
+            this._owner = base.GetParent<Camera3D>();
             this._initialTransform = this._owner.GlobalTransform;
             this._phase = EPhase.Idle;
         }
 
-        public void MoveToTarget(AutoFocusOnSpeaker autoFocusOnSpeaker, IHumanConversation conversation)
+        public void MoveToTarget(AutoFocusOnSpeaker autoFocusOnSpeaker, Dialogue dialogue)
         {
             this._autoFocusOnSpeaker = autoFocusOnSpeaker;
-            this._conversation = conversation;
+            this._dialogue = dialogue;
             this._phase = EPhase.MovingToTarget;
         }
 
@@ -130,7 +134,7 @@ public sealed partial class AutoFocusOnSpeaker : Node
         {
             base._PhysicsProcess(delta);
 
-            if (this._owner == null || this._autoFocusOnSpeaker == null || this._conversation == null)
+            if (this._owner == null || this._autoFocusOnSpeaker == null || this._dialogue == null)
                 return;
 
             if (this._phase == EPhase.Idle)
@@ -144,8 +148,8 @@ public sealed partial class AutoFocusOnSpeaker : Node
 
             if (this._phase == EPhase.MovingToTarget)
             {
-                targetPosition = CameraHandler.CalculateTargetPosition(this._conversation);
-                targetRotation = CameraHandler.CalculateTargetRotation(this._conversation, this._owner, targetPosition).GetEuler();
+                targetPosition = CameraHandler.CalculateTargetPosition(this._dialogue);
+                targetRotation = CameraHandler.CalculateTargetRotation(this._dialogue, this._owner, targetPosition).GetEuler();
             }
             else
             {
@@ -164,7 +168,7 @@ public sealed partial class AutoFocusOnSpeaker : Node
                 if (this._phase == EPhase.Returning)
                 {
                     this._autoFocusOnSpeaker = null;
-                    this._conversation = null;
+                    this._dialogue = null;
                 }
 
                 this._phase = EPhase.Idle;
@@ -172,23 +176,26 @@ public sealed partial class AutoFocusOnSpeaker : Node
             }
         }
 
-        private static Vector3 CalculateTargetPosition(IHumanConversation conversation)
-        {
-            return conversation.Initiator.GlobalTransform * ((conversation.Targets.Count == 1)
-                ? new Vector3(-1, 0.75f, -0.5f)
-                : Vector3.Zero); // TODO:
-        }
+        private static Vector3 CalculateTargetPosition(Dialogue dialogue) =>
+            dialogue.Initiator is Node3D initiatorNode
+                ? initiatorNode.GlobalTransform * ((dialogue.Targets.Count == 1)
+                    ? new Vector3(-1, 0.75f, -0.5f)
+                    : Vector3.Zero) // TODO:
+                : throw new InvalidOperationException($"Type '{dialogue.Initiator.GetType().Name}' must extend from '{typeof(Node3D).Name}'");
 
-        private static Basis CalculateTargetRotation(IHumanConversation conversation, Camera3D camera, in Vector3 targetPosition)
+        private static Basis CalculateTargetRotation(Dialogue dialogue, Camera3D camera, in Vector3 targetPosition)
         {
             var cameraTransform = camera.GlobalTransform;
             cameraTransform.Origin = targetPosition;
 
-            var target = conversation.Targets.Count == 1
-                ? conversation.Targets.ElementAt(0)
-                : conversation.Initiator;
+            var target = dialogue.Targets.Count == 1
+                ? dialogue.Targets.ElementAt(0)
+                : dialogue.Initiator;
 
-            return cameraTransform.LookingAt(target.GlobalPosition, Vector3.Up).Basis;
+            if (target is not Node3D targetNode)
+                throw new InvalidOperationException($"Type '{target.GetType().Name}' must extend from '{typeof(Node3D).Name}'");
+
+            return cameraTransform.LookingAt(targetNode.GlobalPosition, Vector3.Up).Basis;
         }
 
         public void ReturnToInitialPosition() =>

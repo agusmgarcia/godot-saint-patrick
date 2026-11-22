@@ -1,4 +1,5 @@
 using Godot;
+using SaintPatrick.Entities.Humans.Human.Enums;
 
 namespace SaintPatrick.Entities.Humans.Human.Components;
 
@@ -13,15 +14,4 @@ public sealed partial class HumanGender : Node
     /// </summary>
     [Export]
     public EHumanGender Value { get; private set; }
-}
-
-/// <summary>
-/// Possible gender values for a human entity.
-/// </summary>
-public enum EHumanGender
-{
-    /// <summary>Male gender.</summary>
-    Male,
-    /// <summary>Female gender.</summary>
-    Female
 }

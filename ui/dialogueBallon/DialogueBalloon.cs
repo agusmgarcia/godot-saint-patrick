@@ -159,30 +159,31 @@ namespace SaintPatrick.UI.DialogueBalloon
             this._characterLabel?.Visible = !string.IsNullOrEmpty(this.DialogueLine.Character);
             this._characterLabel?.Text = base.Tr(this.DialogueLine.Character, "dialogue");
 
-            var context = this.DialogueLine.ExtraGameStates[2].As<HumanDialogueContext>();
-
             this._portraitLeft?.Visible = false;
             this._portraitLeft?.Texture = null;
             this._portraitRight?.Visible = false;
             this._portraitRight?.Texture = null;
 
-            if (context?.Initiator?.Name == this.DialogueLine.Character)
-            {
-                if (context?.Initiator?.HumanPortrait?.Value != null)
-                {
-                    this._portraitLeft?.Visible = true;
-                    this._portraitLeft?.Texture = context.Initiator.HumanPortrait.Value;
-                }
-            }
-            else
-            {
-                var target = context?.Targets.SingleOrDefault(x => x.Name == this.DialogueLine.Character);
-                if (target?.HumanPortrait?.Value != null)
-                {
-                    this._portraitRight?.Visible = true;
-                    this._portraitRight?.Texture = target.HumanPortrait.Value;
-                }
-            }
+            // TODO:
+            // var context = this.DialogueLine.ExtraGameStates[2].As<HumanDialogueContext>();
+
+            // if (context?.Initiator?.Name == this.DialogueLine.Character)
+            // {
+            //     if (context?.Initiator?.HumanPortrait?.Value != null)
+            //     {
+            //         this._portraitLeft?.Visible = true;
+            //         this._portraitLeft?.Texture = context.Initiator.HumanPortrait.Value;
+            //     }
+            // }
+            // else
+            // {
+            //     var target = context?.Targets.SingleOrDefault(x => x.Name == this.DialogueLine.Character);
+            //     if (target?.HumanPortrait?.Value != null)
+            //     {
+            //         this._portraitRight?.Visible = true;
+            //         this._portraitRight?.Texture = target.HumanPortrait.Value;
+            //     }
+            // }
 
             this._dialogueLabel?.Hide();
             this._dialogueLabel?.DialogueLine = this.DialogueLine;
