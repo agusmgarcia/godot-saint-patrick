@@ -4,7 +4,7 @@ using Godot;
 namespace ECS.Interfaces;
 
 /// <summary>
-/// // TODO: document this.
+/// Contract for nodes that can participate in a Dialogue session.
 /// </summary>
 public interface IDialogable
 {
@@ -20,22 +20,27 @@ public interface IDialogable
     string SceneFilePath { get; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// True if this node is player-controlled and requires the dialogue UI.
     /// </summary>
     bool Main { get; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Optional portrait texture shown in the dialogue balloon UI.
     /// </summary>
     Texture2D? Portrait { get; }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Transitions this node back to its idle/default animation state.
+    /// </summary>
+    void Idle();
+
+    /// <summary>
+    /// Transitions this node into its talking animation for the dialogue.
     /// </summary>
     void Talk(Dialogue dialogue);
 
     /// <summary>
-    /// // TODO: document this.
+    /// Transitions this node into its listening animation for the dialogue.
     /// </summary>
     void Listen(Dialogue dialogue);
 }

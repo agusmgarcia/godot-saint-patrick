@@ -5,7 +5,7 @@ using Godot;
 namespace ECS.Components;
 
 /// <summary>
-/// // TODO: document this.
+/// Base node component that manages an active dialogue session.
 /// </summary>
 public abstract partial class Dialogue : Node
 {
@@ -14,23 +14,20 @@ public abstract partial class Dialogue : Node
     /// <summary>
     /// Fired each time the current line changes, including Started, Valid dialogue lines, and Ended.
     /// </summary>
-    public event Action<Dialogue.Line>? LineChanged;
+    public event Action<Dialogue.Line?>? LineChanged;
 
     /// <summary>
-    /// The most recently emitted line, including its type and speaker.
+    /// Fired each time a cue tag is encountered during dialogue playback.
     /// </summary>
-    public Dialogue.Line CurrentLine
-    {
-        get;
-        protected set
-        {
-            field = value;
-            this.LineChanged?.Invoke(field);
-        }
-    } = default;
+    public event Action<string>? TagPassed;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Unique identifier for this dialogue, used for completion tracking.
+    /// </summary>
+    public required string Id { get; init; }
+
+    /// <summary>
+    /// The .dialogue resource file that drives this conversation.
     /// </summary>
     public required Resource Resource { get; init; }
 
@@ -44,13 +41,34 @@ public abstract partial class Dialogue : Node
     /// </summary>
     public required IReadOnlyCollection<IDialogable> Targets { get; init; }
 
+    /// <summary>
+    /// The most recently emitted line, including its type and speaker.
+    /// </summary>
+    public Dialogue.Line? CurrentLine
+    {
+        get;
+        protected set
+        {
+            field = value;
+            this.LineChanged?.Invoke(field);
+        }
+    }
+
+    /// <summary>
+    /// All cue tags encountered so far during this dialogue session.
+    /// </summary>
+    public IReadOnlyCollection<string> PassedTags =>
+        this._passedTags;
+
+    private readonly List<string> _passedTags = [];
+
     /// <inheritdoc/>
     public override void _EnterTree()
     {
         base._EnterTree();
 
-        if (this.CurrentLine.Type != Dialogue.Line.EType.Started)
-            this.CurrentLine = new(Dialogue.Line.EType.Started, this.Initiator);
+        this._passedTags.Clear();
+        this.CurrentLine = new() { Speaker = this.Initiator, Listeners = this.Targets, Text = string.Empty };
 
         Dialogue.RegisterStateContext(this.Initiator);
 
@@ -69,6 +87,15 @@ public abstract partial class Dialogue : Node
             Dialogue._NODE_REGISTER_COUNT.Add(node, count);
             DialogueManagerWrapper.Instance.Call("register_state_context", node.Name, node);
         }
+    }
+
+    /// <summary>
+    /// Records a cue tag and fires <see cref="TagPassed"/> for subscribers.
+    /// </summary>
+    protected void PassTag(string tag)
+    {
+        this._passedTags.Add(tag);
+        this.TagPassed?.Invoke(tag);
     }
 
     private static void UnregisterStateContext(IDialogable dialogable)
@@ -92,8 +119,8 @@ public abstract partial class Dialogue : Node
 
         Dialogue.UnregisterStateContext(this.Initiator);
 
-        if (this.CurrentLine.Type != Dialogue.Line.EType.Ended)
-            this.CurrentLine = new(Dialogue.Line.EType.Ended, this.Initiator);
+        this.CurrentLine = null;
+        this._passedTags.Clear();
 
         base._ExitTree();
     }
@@ -104,67 +131,33 @@ public abstract partial class Dialogue : Node
     public readonly record struct Line
     {
         /// <summary>
-        /// Classifies whether this line marks the start, a valid dialogue entry, or the end of the conversation.
-        /// </summary>
-        public EType Type { get; }
-
-        /// <summary>
         /// The node speaking this line, always set for Valid lines.
         /// </summary>
-        public IDialogable Speaker { get; }
+        public IDialogable Speaker { get; init; }
+
+        /// <summary>
+        /// The nodes being spoken to; empty for monologues.
+        /// </summary>
+        public IReadOnlyCollection<IDialogable> Listeners { get; init; }
 
         /// <summary>
         /// The text content of the line.
         /// </summary>
-        public string Text { get; }
+        public string Text { get; init; }
 
         /// <summary>
-        /// // TODO: document this.
-        /// </summary>
-        public Line(Line.EType type, IDialogable initiator)
-        {
-            this.Type = type;
-            this.Speaker = initiator;
-            this.Text = string.Empty;
-        }
-
-        /// <summary>
-        /// // TODO: document this.
+        /// Builds a Line by resolving the speaker from the participants.
         /// </summary>
         internal Line(DialogueManagerWrapper.DialogueLineWrapper line, IDialogable initiator, IReadOnlyCollection<IDialogable> targets)
         {
-            this.Type = Line.EType.Valid;
             this.Speaker = line.Character == initiator.Name
                 ? initiator
                 : targets.SingleOrDefault(t => t.Name == line.Character)
                     ?? throw new InvalidOperationException($"Line.Character is '{line.Character}' but it doesn't belong to any envolved node");
+            this.Listeners = line.Character == initiator.Name
+                ? targets
+                : [initiator, .. targets.Where(t => t.Name != line.Character)];
             this.Text = line.Text;
-        }
-
-        /// <summary>
-        /// Classifies the lifecycle stage of a conversation line.
-        /// </summary>
-        public enum EType
-        {
-            /// <summary>
-            /// // TODO: document this.
-            /// </summary>
-            None,
-
-            /// <summary>
-            /// Emitted once when the conversation begins, before any dialogue lines are shown.
-            /// </summary>
-            Started,
-
-            /// <summary>
-            /// Emitted for each printable line of dialogue.
-            /// </summary>
-            Valid,
-
-            /// <summary>
-            /// Emitted once when the conversation finishes, either naturally or via End.
-            /// </summary>
-            Ended,
         }
     }
 }

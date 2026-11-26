@@ -32,7 +32,7 @@ public partial class StateMachine : Node
     private bool _isTransitioning;
 
     /// <summary>
-    /// // TODO: document this.
+    /// Initialises the machine and starts tracking direct child nodes.
     /// </summary>
     public StateMachine()
     {
@@ -65,15 +65,21 @@ public partial class StateMachine : Node
         {
             var (nextState, nextStateParams) = nextStateTuple;
 
-            if (this.State != null && this.State.GetType() == nextState.GetType())
-            {
-                ElementsPool.Set(nextState);
-                this.State._CopyStateParams(nextStateParams);
-                continue;
-            }
-
             if (this.State != null)
             {
+                if (!this.State._ReadyToTransition(nextState))
+                {
+                    ElementsPool.Set(nextState);
+                    continue;
+                }
+
+                if (this.State.GetType() == nextState.GetType())
+                {
+                    ElementsPool.Set(nextState);
+                    this.State._CopyStateParams(nextStateParams);
+                    continue;
+                }
+
                 ElementsPool.Set(this.State);
                 base.RemoveChild(this.State);
             }
@@ -86,9 +92,6 @@ public partial class StateMachine : Node
 
     private void OnChildTracked(Node node)
     {
-        if (node == null)
-            return;
-
         if (node is not State state)
             throw new InvalidOperationException($"The node '{node.Name}' should be of type '{typeof(State).Name}'");
 
@@ -97,9 +100,6 @@ public partial class StateMachine : Node
 
     private void OnChildUntracked(Node node)
     {
-        if (node == null)
-            return;
-
         if (node is not State state)
             throw new InvalidOperationException($"The node '{node.Name}' should be of type '{typeof(State).Name}'");
 

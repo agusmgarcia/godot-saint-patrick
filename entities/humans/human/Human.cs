@@ -67,9 +67,7 @@ public sealed partial class Human : CharacterBody3D, IDialogable
         this.Idle();
     }
 
-    /// <summary>
-	/// Transitions the human to the idle state.
-	/// </summary>
+    /// <inheritdoc/>
     public void Idle() =>
         this._humanStateMachine?.Idle();
 

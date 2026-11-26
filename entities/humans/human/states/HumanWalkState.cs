@@ -1,6 +1,4 @@
 using Godot;
-using SaintPatrick.Entities.Humans.Human.Components;
-using ECS.Utils;
 using SaintPatrick.Entities.Humans.Human.Enums;
 
 namespace SaintPatrick.Entities.Humans.Human.States;
@@ -10,65 +8,15 @@ namespace SaintPatrick.Entities.Humans.Human.States;
 /// </summary>
 public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams>
 {
-    private HumanAnimationPlayer? _humanAnimationPlayer;
-    private HumanDrunk? _humanDrunk;
-    private HumanStateMachine? _humanStateMachine;
-    private HumanVelocity? _humanVelocity;
-
-    /// <summary>
-    /// Registers trackers for animation, drunk state, and velocity siblings.
-    /// </summary>
-    public HumanWalkState()
-    {
-        this.TrackSiblings<HumanAnimationPlayer>(
-            this.OnHumanAnimationPlayerTracked,
-            this.OnHumanAnimationPlayerUntracked,
-            unique: true);
-
-        this.TrackSiblings<HumanDrunk>(
-            this.OnHumanDrunkTracked,
-            this.OnHumanDrunkUntracked,
-            unique: true);
-
-        this.TrackChildren<HumanStateMachine>(
-            this.OnHumanStateMachineTracked,
-            this.OnHumanStateMachineUntracked,
-            unique: true);
-
-        this.TrackSiblings<HumanVelocity>(
-            this.OnHumanVelocityTracked,
-            this.OnHumanVelocityUntracked,
-            unique: true);
-    }
-
-    private void OnHumanAnimationPlayerTracked(HumanAnimationPlayer humanAnimationPlayer)
-    {
-        this._humanAnimationPlayer = humanAnimationPlayer;
-        this._humanAnimationPlayer.AnimationFinished += this.OnAnimationFinished;
-        this._humanAnimationPlayer.AnimationStarted += this.OnAnimationStarted;
-        this.OnAnimationStarted(this._humanAnimationPlayer.CurrentAnimation);
-    }
-
-    private void OnHumanDrunkTracked(HumanDrunk humanDrunk)
-    {
-        this._humanDrunk = humanDrunk;
-        this._humanDrunk.ValueChanged += this.OnDrunkChanged;
-        this.OnDrunkChanged(this._humanDrunk.Value);
-    }
-
-    private void OnHumanStateMachineTracked(HumanStateMachine humanStateMachine) =>
-        this._humanStateMachine = humanStateMachine;
-
-    private void OnHumanVelocityTracked(HumanVelocity humanVelocity) =>
-        this._humanVelocity = humanVelocity;
-
-    private void OnAnimationStarted(StringName animationName) =>
-        this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
-            (this._humanDrunk?.Value ?? false) ? EHumanAnimation.DrunkWalk : EHumanAnimation.Walk,
+    /// <inheritdoc/>
+    protected override void OnAnimationStarted(StringName animationName) =>
+        base.HumanAnimationPlayer?.PlayRandomIfNotPlaying(
+            (base.HumanDrunk?.Value ?? false) ? EHumanAnimation.DrunkWalk : EHumanAnimation.Walk,
             customBlend: 0.5);
 
-    private void OnDrunkChanged(bool drunk) =>
-       this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
+    /// <inheritdoc/>
+    protected override void OnDrunkChanged(bool drunk) =>
+       base.HumanAnimationPlayer?.PlayRandomIfNotPlaying(
            drunk ? EHumanAnimation.DrunkWalk : EHumanAnimation.Walk,
            customBlend: 0.5);
 
@@ -78,40 +26,14 @@ public sealed partial class HumanWalkState : HumanBaseState<HumanWalkStateParams
         base._PhysicsProcess(delta);
 
         var toTarget = base.StateParams.Destination - base.Owner.GlobalPosition;
-        if (toTarget.LengthSquared() <= 1.0f)
-        {
-            this._humanStateMachine?.Idle();
-            return;
-        }
-
-        this._humanVelocity?.Walk(toTarget);
+        base.HumanVelocity?.Walk(toTarget);
     }
 
-    private void OnAnimationFinished(StringName animationName) =>
-       this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
-            (this._humanDrunk?.Value ?? false) ? EHumanAnimation.DrunkWalk : EHumanAnimation.Walk,
+    /// <inheritdoc/>
+    protected override void OnAnimationFinished(StringName animationName) =>
+       base.HumanAnimationPlayer?.PlayRandomIfNotPlaying(
+            (base.HumanDrunk?.Value ?? false) ? EHumanAnimation.DrunkWalk : EHumanAnimation.Walk,
             customBlend: 2);
-
-    private void OnHumanVelocityUntracked(HumanVelocity humanVelocity) =>
-        this._humanVelocity = null;
-
-    private void OnHumanStateMachineUntracked(HumanStateMachine humanStateMachine) =>
-      this._humanStateMachine = null;
-
-    private void OnHumanDrunkUntracked(HumanDrunk humanDrunk)
-    {
-        this.OnDrunkChanged(humanDrunk.Value);
-        humanDrunk.ValueChanged -= this.OnDrunkChanged;
-        this._humanDrunk = null;
-    }
-
-    private void OnHumanAnimationPlayerUntracked(HumanAnimationPlayer humanAnimationPlayer)
-    {
-        this.OnAnimationFinished(humanAnimationPlayer.CurrentAnimation);
-        humanAnimationPlayer.AnimationFinished -= this.OnAnimationFinished;
-        humanAnimationPlayer.AnimationStarted -= this.OnAnimationStarted;
-        this._humanAnimationPlayer = null;
-    }
 }
 
 /// <summary>

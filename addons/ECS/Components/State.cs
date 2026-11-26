@@ -16,6 +16,11 @@ public abstract partial class State : Node
     }
 
     /// <summary>
+    /// Returns <c>false</c> to block non-forced transitions away from this state.
+    /// </summary>
+    internal protected virtual bool _ReadyToTransition(State state) => true;
+
+    /// <summary>
     /// Copies the given params struct into the state without a full transition.
     /// </summary>
     internal virtual void _CopyStateParams(ValueType stateParams) { }

@@ -1,6 +1,4 @@
 using Godot;
-using ECS.Components;
-using SaintPatrick.Entities.Humans.Human.Components;
 using ECS.Utils;
 using SaintPatrick.Entities.Humans.Human.Enums;
 
@@ -11,11 +9,6 @@ namespace SaintPatrick.Entities.Humans.Human.States;
 /// </summary>
 public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams>
 {
-    private Main? _main;
-    private HumanAnimationPlayer? _humanAnimationPlayer;
-    private HumanDrunk? _humanDrunk;
-    private HumanSocialZoneArea3D? _humanSocialZoneArea;
-    private HumanVelocity? _humanVelocity;
     private Godot.Timer? _flyRemovalTimer;
 
     /// <summary>
@@ -23,31 +16,6 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
     /// </summary>
     public HumanIdleState()
     {
-        this.TrackSiblings<Main>(
-            this.OnMainTracked,
-            this.OnMainUntracked,
-            unique: true);
-
-        this.TrackSiblings<HumanAnimationPlayer>(
-            this.OnHumanAnimationPlayerTracked,
-            this.OnHumanAnimationPlayerUntracked,
-            unique: true);
-
-        this.TrackSiblings<HumanDrunk>(
-            this.OnHumanDrunkTracked,
-            this.OnHumanDrunkUntracked,
-            unique: true);
-
-        this.TrackSiblings<HumanSocialZoneArea3D>(
-            this.OnHumanSocialZoneAreaTracked,
-            this.OnHumanSocialZoneAreaUntracked,
-            unique: true);
-
-        this.TrackSiblings<HumanVelocity>(
-            this.OnHumanVelocityTracked,
-            this.OnHumanVelocityUntracked,
-            unique: true);
-
         this.TrackChildren<Godot.Timer>(
             this.OnFlyRemovalTimerTracked,
             this.OnFlyRemovalTimerUntracked,
@@ -63,29 +31,17 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
         base.AddChild(new Godot.Timer() { Name = "FlyRemovalTimer" });
     }
 
-    private void OnMainTracked(Main main) =>
-        this._main = main;
+    /// <inheritdoc/>
+    protected override void OnAnimationStarted(StringName animationName) =>
+        base.HumanAnimationPlayer?.PlayRandomIfNotPlaying(
+            (base.HumanDrunk?.Value ?? false) ? EHumanAnimation.DrunkIdle : EHumanAnimation.Idle,
+            customBlend: 0.5);
 
-    private void OnHumanAnimationPlayerTracked(HumanAnimationPlayer humanAnimationPlayer)
-    {
-        this._humanAnimationPlayer = humanAnimationPlayer;
-        this._humanAnimationPlayer.AnimationFinished += this.OnAnimationFinished;
-        this._humanAnimationPlayer.AnimationStarted += this.OnAnimationStarted;
-        this.OnAnimationStarted(this._humanAnimationPlayer.CurrentAnimation);
-    }
-
-    private void OnHumanDrunkTracked(HumanDrunk humanDrunk)
-    {
-        this._humanDrunk = humanDrunk;
-        this._humanDrunk.ValueChanged += this.OnDrunkChanged;
-        this.OnDrunkChanged(this._humanDrunk.Value);
-    }
-
-    private void OnHumanSocialZoneAreaTracked(HumanSocialZoneArea3D humanSocialZoneArea) =>
-        this._humanSocialZoneArea = humanSocialZoneArea;
-
-    private void OnHumanVelocityTracked(HumanVelocity humanVelocity) =>
-        this._humanVelocity = humanVelocity;
+    /// <inheritdoc/>
+    protected override void OnDrunkChanged(bool drunk) =>
+        base.HumanAnimationPlayer?.PlayRandomIfNotPlaying(
+            drunk ? EHumanAnimation.DrunkIdle : EHumanAnimation.Idle,
+            customBlend: 0.5);
 
     private void OnFlyRemovalTimerTracked(Godot.Timer flyRemovalTimer)
     {
@@ -94,20 +50,10 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
         this._flyRemovalTimer.Start(GD.RandRange(5, 60));
     }
 
-    private void OnAnimationStarted(StringName animationName) =>
-        this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
-            (this._humanDrunk?.Value ?? false) ? EHumanAnimation.DrunkIdle : EHumanAnimation.Idle,
-            customBlend: 0.5);
-
-    private void OnDrunkChanged(bool drunk) =>
-        this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
-            drunk ? EHumanAnimation.DrunkIdle : EHumanAnimation.Idle,
-            customBlend: 0.5);
-
     private void OnFlyRemovalTimerTimeout()
     {
-        if (GD.Randf() < 0.15f && this._main == null && !(this._humanDrunk?.Value ?? false))
-            this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
+        if (GD.Randf() < 0.15f && base.Main == null && !(base.HumanDrunk?.Value ?? false))
+            base.HumanAnimationPlayer?.PlayRandomIfNotPlaying(
                 EHumanAnimation.FlyRemoval,
                 customBlend: 0.5);
     }
@@ -117,14 +63,15 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
     {
         base._PhysicsProcess(delta);
 
-        this._humanVelocity?.Decelerate(this._humanSocialZoneArea?.NearestHuman != null
-            ? this._humanSocialZoneArea.NearestHuman.GlobalPosition - base.Owner.GlobalPosition
+        base.HumanVelocity?.Decelerate(base.HumanSocialZoneArea?.NearestHuman != null
+            ? base.HumanSocialZoneArea.NearestHuman.GlobalPosition - base.Owner.GlobalPosition
             : base.Owner.GlobalBasis.Z);
     }
 
-    private void OnAnimationFinished(StringName animationName) =>
-       this._humanAnimationPlayer?.PlayRandomIfNotPlaying(
-            (this._humanDrunk?.Value ?? false) ? EHumanAnimation.DrunkIdle : EHumanAnimation.Idle,
+    /// <inheritdoc/>
+    protected override void OnAnimationFinished(StringName animationName) =>
+       base.HumanAnimationPlayer?.PlayRandomIfNotPlaying(
+            (base.HumanDrunk?.Value ?? false) ? EHumanAnimation.DrunkIdle : EHumanAnimation.Idle,
             customBlend: 2);
 
     private void OnFlyRemovalTimerUntracked(Godot.Timer flyRemovalTimer)
@@ -132,30 +79,6 @@ public sealed partial class HumanIdleState : HumanBaseState<HumanIdleStateParams
         flyRemovalTimer.Timeout -= this.OnFlyRemovalTimerTimeout;
         this._flyRemovalTimer = null;
     }
-
-    private void OnHumanVelocityUntracked(HumanVelocity humanVelocity) =>
-        this._humanVelocity = null;
-
-    private void OnHumanSocialZoneAreaUntracked(HumanSocialZoneArea3D humanSocialZoneArea) =>
-        this._humanSocialZoneArea = null;
-
-    private void OnHumanDrunkUntracked(HumanDrunk humanDrunk)
-    {
-        this.OnDrunkChanged(humanDrunk.Value);
-        humanDrunk.ValueChanged -= this.OnDrunkChanged;
-        this._humanDrunk = null;
-    }
-
-    private void OnHumanAnimationPlayerUntracked(HumanAnimationPlayer humanAnimationPlayer)
-    {
-        this.OnAnimationFinished(humanAnimationPlayer.CurrentAnimation);
-        humanAnimationPlayer.AnimationFinished -= this.OnAnimationFinished;
-        humanAnimationPlayer.AnimationStarted -= this.OnAnimationStarted;
-        this._humanAnimationPlayer = null;
-    }
-
-    private void OnMainUntracked(Main main) =>
-        this._main = null;
 
     /// <inheritdoc/>
     public override void _ExitTree()

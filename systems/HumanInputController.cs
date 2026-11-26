@@ -59,8 +59,8 @@ public sealed partial class HumanInputController : Node
     private void OnMainTracked(Main main) =>
         this._mainHuman = main.GetOwner<Human>();
 
-    private void OnDialogueSystemTracked(DialogueSystem humanDialogue) =>
-        this._dialogueSystem = humanDialogue;
+    private void OnDialogueSystemTracked(DialogueSystem dialogueSystem) =>
+        this._dialogueSystem = dialogueSystem;
 
     /// <inheritdoc/>
     public override void _PhysicsProcess(double delta)

@@ -4,7 +4,7 @@ using Godot;
 namespace ECS.Utils;
 
 /// <summary>
-/// // TODO: document this.
+/// Reflection-based static wrapper around DialogueManager from the addon.
 /// </summary>
 internal static class DialogueManagerWrapper
 {
@@ -22,6 +22,23 @@ internal static class DialogueManagerWrapper
         remove => DialogueManagerWrapper.RemoveEventHandler(
             DialogueManagerWrapper._dialogueStartedEventInfo,
             DialogueManagerWrapper._dialogueStartedDelegates,
+            value);
+    }
+
+    /// <summary>
+    /// Emitted when a cue is encountered while traversing dialogue, usually when jumping from a goto line.
+    /// </summary>
+    public static event Action<string>? PassedCue
+    {
+        add => DialogueManagerWrapper.AddEventHandler(
+            DialogueManagerWrapper._passedCueEventInfo,
+            DialogueManagerWrapper._passedCueDelegates,
+            (string cue) => value?.Invoke(cue),
+            value);
+
+        remove => DialogueManagerWrapper.RemoveEventHandler(
+            DialogueManagerWrapper._passedCueEventInfo,
+            DialogueManagerWrapper._passedCueDelegates,
             value);
     }
 
@@ -60,13 +77,16 @@ internal static class DialogueManagerWrapper
     }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Gets the singleton GodotObject instance of DialogueManager.
     /// </summary>
     public static GodotObject Instance =>
         (GodotObject)DialogueManagerWrapper._instanceMethodInfo.Invoke(null, DialogueManagerWrapper._instanceParameters)!;
 
     private static readonly EventInfo _dialogueStartedEventInfo;
     private static readonly Dictionary<Action<Resource>, Delegate> _dialogueStartedDelegates = [];
+
+    private static readonly EventInfo _passedCueEventInfo;
+    private static readonly Dictionary<Action<string>, Delegate> _passedCueDelegates = [];
 
     private static readonly EventInfo _gotDialogueEventInfo;
     private static readonly Dictionary<Action<DialogueLineWrapper>, Delegate> _gotDialogueDelegates = [];
@@ -84,7 +104,7 @@ internal static class DialogueManagerWrapper
     private static readonly object?[] _instanceParameters = [];
 
     /// <summary>
-    /// // TODO:
+    /// Resolves all required members of DialogueManager via reflection.
     /// </summary>
     static DialogueManagerWrapper()
     {
@@ -96,6 +116,10 @@ internal static class DialogueManagerWrapper
         DialogueManagerWrapper._dialogueStartedEventInfo = dialogueManagerType
             .GetEvent("DialogueStarted", BindingFlags.Public | BindingFlags.Static)
                 ?? throw new InvalidOperationException("DialogueManager.DialogueStarted event not found");
+
+        DialogueManagerWrapper._passedCueEventInfo = dialogueManagerType
+            .GetEvent("PassedCue", BindingFlags.Public | BindingFlags.Static)
+                ?? throw new InvalidOperationException("DialogueManager.PassedCue event not found");
 
         DialogueManagerWrapper._gotDialogueEventInfo = dialogueManagerType
             .GetEvent("GotDialogue", BindingFlags.Public | BindingFlags.Static)
@@ -126,15 +150,17 @@ internal static class DialogueManagerWrapper
         Action<TConvertedInput>? convertedAction)
     {
         if (convertedAction == null)
-            throw new InvalidOperationException(""); // TODO:
+            throw new InvalidOperationException($"DialogueManager.{eventInfo.Name} should receive a non-null action");
 
-        if (delegates.ContainsValue(convertedAction))
-            throw new InvalidOperationException(""); // TODO:
+        if (!delegates.TryGetValue(convertedAction, out var handler))
+        {
+            if (eventInfo.EventHandlerType == null)
+                throw new InvalidOperationException($"DialogueManager.{eventInfo.Name}.{nameof(eventInfo.EventHandlerType)} shouldn't be 'null'");
 
-        if (eventInfo.EventHandlerType == null)
-            throw new InvalidOperationException(""); // TODO:
+            handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, rawAction.Target, rawAction.Method);
+        }
 
-        delegates[convertedAction] = Delegate.CreateDelegate(eventInfo.EventHandlerType, rawAction.Target, rawAction.Method);
+        delegates[convertedAction] = handler;
         eventInfo.AddEventHandler(null, delegates[convertedAction]);
     }
 
@@ -144,10 +170,10 @@ internal static class DialogueManagerWrapper
         Action<TConvertedInput>? convertedAction)
     {
         if (convertedAction == null)
-            throw new InvalidOperationException(""); // TODO:
+            throw new InvalidOperationException($"DialogueManager.{eventInfo.Name} should receive a non-null action");
 
-        if (!delegates.Remove(convertedAction, out var handler))
-            throw new InvalidOperationException(""); // TODO:
+        if (!delegates.TryGetValue(convertedAction, out var handler))
+            return;
 
         eventInfo.RemoveEventHandler(null, handler);
     }
@@ -196,7 +222,7 @@ internal static class DialogueManagerWrapper
     }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Typed snapshot of a DialogueManager dialogue line for use in ECS.
     /// </summary>
     public readonly struct DialogueLineWrapper
     {
@@ -227,7 +253,7 @@ internal static class DialogueManagerWrapper
     }
 
     /// <summary>
-    /// // TODO: document this.
+    /// Typed snapshot of a DialogueManager response option for use in ECS.
     /// </summary>
     public readonly struct DialogueResponseWrapper
     {
